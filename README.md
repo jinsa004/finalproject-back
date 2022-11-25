@@ -1,31 +1,20 @@
-# Bank 애플리케이션
+# 테이블 생성
 
-### 프로젝트팁
-- 테이블설계는 처음 부터 완벽할 수 없다.
-- 처음에는 가장 쉬운 테이블 구조를 만들기
-- 그리고 수정 보완하는 것!!
+### 추가사항
+- usr
 
-### 진행순서
-- 도메인 생성 (완)
-- ExceptionHandling (완)
-- 시큐리티 설정 (완)
-- logger 세팅 (완)
-- 회원가입 (완) - 테스트 (완)
-- 로그인 (완) - 테스트
-- DTO Validation AOP
-- JWT 로그인으로 변경
-- 서비스 기능 만들기
+### 수정사항
+1. table
+- reviews 이름 수정 > customer_review로 수정 : 누가 사용하는 리뷰인지 명시함
+- commants 이름 수정 > ceo_review로 수정 : customer_review와 사용용도가 비슷하고 누가 사용하는 테이블인지 명시함
 
-### 기능정리
-- 회원가입
-- 로그인
-- 계좌등록
-- 본인계좌목록보기 (Account, User)
-- 본인계좌상세보기
-- 본인계좌삭제 (update)
-- 입금하기
-- 출금하기
-- 이체하기
-- 입출금목록보기
-- 입금목록보기
-- 출금목록보기
+2. colume
+(추가)
+- user: createdTime 추가, photo 추가, email 추가
+- store: createdTime 추가
+- reportReview: createdTime 추가
+- 
+
+(수정)
+- 공통적: created 이름 수정 > createdTime : 시간으로 사용되는 컬럼이 두개인데 하나만 Time이 붙으면 이상하다고 판단하여 동일한 시간컬럼인 created도 수정함
+- store: ownerName 이름 수정 > ceoName

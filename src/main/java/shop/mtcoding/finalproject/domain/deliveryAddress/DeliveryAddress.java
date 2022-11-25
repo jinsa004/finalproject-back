@@ -1,4 +1,4 @@
-package shop.mtcoding.bank.domain.delivery.deliveryAddress;
+package shop.mtcoding.finalproject.domain.deliveryAddress;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shop.mtcoding.bank.domain.delivery.AudingTime;
+import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter

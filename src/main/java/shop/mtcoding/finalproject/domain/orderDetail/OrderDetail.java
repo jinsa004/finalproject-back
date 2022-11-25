@@ -1,4 +1,4 @@
-package shop.mtcoding.bank.domain.delivery.order_detail;
+package shop.mtcoding.finalproject.domain.orderDetail;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,12 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shop.mtcoding.bank.domain.delivery.AudingTime;
+import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter

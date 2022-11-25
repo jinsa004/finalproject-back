@@ -75,13 +75,13 @@ public class Store extends AudingTime {
     private boolean isAccept;
 
     @Column(nullable = false)
-    private Timestamp created;
+    private Timestamp createdTime;
 
     @Builder
     public Store(Long id, String userId, String category, String name, String phone, String thumbnail, String ceoName,
             String businessNumber, String businessAddress, String openTime, String closeTime, String minAmount,
             String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend, boolean isAccept,
-            Timestamp created) {
+            Timestamp createdTime) {
         this.id = id;
         this.userId = userId;
         this.category = category;
@@ -100,9 +100,7 @@ public class Store extends AudingTime {
         this.notice = notice;
         this.isOpend = isOpend;
         this.isAccept = isAccept;
-        this.created = created;
+        this.createdTime = createdTime;
     }
 
 }
-
-// 추가내용 : 생성시간(created)

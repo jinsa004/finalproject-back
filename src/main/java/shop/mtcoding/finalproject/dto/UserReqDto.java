@@ -29,13 +29,15 @@ public class UserReqDto {
 
         @Pattern(regexp = "^[가-힣]{4,20}", message = "비밀번호는 영문,숫자,특수문자 최소4에서 최대20까지입니다.")
         private String password;
-        private String email;
 
         public User toEntity() {
             return User.builder()
                     .username(username)
                     .password(password)
-                    .email(email)
+                    .nickname("username")
+                    .photo(null)
+                    .phone("01011112222")
+                    .email("test212@test.com")
                     .role(UserEnum.CUSTOMER)
                     .build();
         }

@@ -1,19 +1,17 @@
-package shop.mtcoding.bank.domain.delivery.order;
+package shop.mtcoding.finalproject.domain.order;
 
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shop.mtcoding.bank.domain.delivery.AudingTime;
+import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -38,7 +36,7 @@ public class Order extends AudingTime {
     private String comment;
 
     @Column(nullable = false)
-    private Timestamp created;
+    private Timestamp createdTime;
 
     @Column(nullable = false)
     private String state;
@@ -50,14 +48,14 @@ public class Order extends AudingTime {
     private boolean is_closure;
 
     @Builder
-    public Order(Long id, Long userId, Long storeId, int paymentId, String comment, Timestamp created, String state,
+    public Order(Long id, Long userId, Long storeId, int paymentId, String comment, Timestamp createdTime, String state,
             String reason, boolean is_closure) {
         this.id = id;
         this.userId = userId;
         this.storeId = storeId;
         this.paymentId = paymentId;
         this.comment = comment;
-        this.created = created;
+        this.createdTime = createdTime;
         this.state = state;
         this.reason = reason;
         this.is_closure = is_closure;

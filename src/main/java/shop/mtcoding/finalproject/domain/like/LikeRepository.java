@@ -1,4 +1,4 @@
-package shop.mtcoding.bank.domain.delivery.like;
+package shop.mtcoding.finalproject.domain.like;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

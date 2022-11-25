@@ -35,15 +35,15 @@ public class CeoReview extends AudingTime {
     private String content;
 
     @Column(nullable = false)
-    private Timestamp created;
+    private Timestamp createdTime;
 
     @Builder
-    public CeoReview(Long id, Long review_id, Long user_id, String content, Timestamp created) {
+    public CeoReview(Long id, Long review_id, Long user_id, String content, Timestamp createdTime) {
         this.id = id;
         this.review_id = review_id;
         this.user_id = user_id;
         this.content = content;
-        this.created = created;
+        this.createdTime = createdTime;
     }
 
 }

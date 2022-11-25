@@ -48,12 +48,12 @@ public class User extends AudingTime {
     @Column(unique = true, nullable = false)
     private UserEnum role; // ADMIN, CUSTOMER, CEO
 
-    @Column(nullable = false)
-    private Timestamp created;
+    // @Column(nullable = false)
+    // private Timestamp createdTime;
 
     @Builder
     public User(Long id, String username, String password, String nickname, String photo, String phone, String email,
-            UserEnum role, Timestamp created) {
+            UserEnum role, Timestamp createdTime) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -62,9 +62,7 @@ public class User extends AudingTime {
         this.phone = phone;
         this.email = email;
         this.role = role;
-        this.created = created;
+        // this.createdTime = createdTime;
     }
 
 }
-
-// 추가내용 : 생성시간(created)

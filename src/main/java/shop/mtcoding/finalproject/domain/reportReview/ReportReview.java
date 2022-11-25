@@ -1,21 +1,17 @@
-package shop.mtcoding.bank.domain.delivery.reportReview;
-
-import static org.mockito.ArgumentMatchers.nullable;
+package shop.mtcoding.finalproject.domain.reportReview;
 
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shop.mtcoding.bank.domain.delivery.AudingTime;
+import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -43,18 +39,22 @@ public class ReportReview extends AudingTime {
     private boolean isResolve;
 
     @Column(nullable = true)
-    private Timestamp resolveTime;
+    private Timestamp resolvedTime;
+
+    @Column(nullable = false)
+    private Timestamp createdTime;
 
     @Builder
     public ReportReview(Long id, Long userId, Long reviewId, String reason, String adminComment, boolean isResolve,
-            Timestamp resolveTime) {
+            Timestamp resolvedTime, Timestamp createdTime) {
         this.id = id;
         this.userId = userId;
         this.reviewId = reviewId;
         this.reason = reason;
         this.adminComment = adminComment;
         this.isResolve = isResolve;
-        this.resolveTime = resolveTime;
+        this.resolvedTime = resolvedTime;
+        this.createdTime = createdTime;
     }
 
 }
