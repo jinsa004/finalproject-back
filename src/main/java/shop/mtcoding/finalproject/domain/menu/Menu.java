@@ -6,17 +6,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name = "menus")
 @Entity
-public class Menu extends AudingTime {
+public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

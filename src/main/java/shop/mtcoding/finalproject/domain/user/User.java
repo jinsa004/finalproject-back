@@ -48,12 +48,9 @@ public class User extends AudingTime {
     @Column(unique = true, nullable = false)
     private UserEnum role; // ADMIN, CUSTOMER, CEO
 
-    // @Column(nullable = false)
-    // private Timestamp createdTime;
-
     @Builder
     public User(Long id, String username, String password, String nickname, String photo, String phone, String email,
-            UserEnum role, Timestamp createdTime) {
+            UserEnum role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -62,7 +59,6 @@ public class User extends AudingTime {
         this.phone = phone;
         this.email = email;
         this.role = role;
-        // this.createdTime = createdTime;
     }
 
 }
