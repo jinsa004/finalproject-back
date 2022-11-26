@@ -23,12 +23,12 @@ public class Payment {
     private Long id;
 
     @Column(nullable = false, length = 30)
-    private String intro;
+    private String content;
 
     @Builder
-    public Payment(Long id, String intro) {
+    public Payment(Long id, String content) {
         this.id = id;
-        this.intro = intro;
+        this.content = content;
     }
 
 }

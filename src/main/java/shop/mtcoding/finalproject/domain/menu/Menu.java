@@ -37,7 +37,7 @@ public class Menu {
     @Column(nullable = false)
     private Long storeId;
 
-    @Column(nullable = true, length = 6)
+    @Column(nullable = false, length = 6)
     private String price;
 
     @Enumerated(EnumType.STRING)
