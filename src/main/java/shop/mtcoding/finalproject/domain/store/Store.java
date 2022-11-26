@@ -27,7 +27,7 @@ public class Store extends AudingTime {
     private Long id;
 
     @Column(nullable = false)
-    private String userId;
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = true)
@@ -72,17 +72,17 @@ public class Store extends AudingTime {
     @Column(nullable = true, length = 100)
     private String notice;
 
-    @Column(nullable = true)
-    private boolean isOpend;
+    @Column(nullable = false)
+    private boolean opend;
 
-    @Column(nullable = true)
-    private boolean isAccept;
+    @Column(nullable = false)
+    private boolean accept;
 
     @Builder
-    public Store(Long id, String userId, StoreCategoryEnum category, String name, String phone, String thumbnail,
+    public Store(Long id, Long userId, StoreCategoryEnum category, String name, String phone, String thumbnail,
             String ceoName, String businessNumber, String businessAddress, String openTime, String closeTime,
-            String minAmount, String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend,
-            boolean isAccept) {
+            String minAmount, String deliveryHour, String deliveryCost, String intro, String notice, boolean opend,
+            boolean accept) {
         this.id = id;
         this.userId = userId;
         this.category = category;
@@ -99,8 +99,8 @@ public class Store extends AudingTime {
         this.deliveryCost = deliveryCost;
         this.intro = intro;
         this.notice = notice;
-        this.isOpend = isOpend;
-        this.isAccept = isAccept;
+        this.opend = opend;
+        this.accept = accept;
     }
 
 }
