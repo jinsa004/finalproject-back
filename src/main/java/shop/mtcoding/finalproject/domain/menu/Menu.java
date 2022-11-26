@@ -2,6 +2,8 @@ package shop.mtcoding.finalproject.domain.menu;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -37,15 +40,16 @@ public class Menu {
     @Column(nullable = true, length = 6)
     private String price;
 
-    @Column(nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    @Column(unique = true, nullable = false)
+    private MenuCategoryEnum category;
 
     @Column(nullable = false)
     private boolean isClosure;
 
     @Builder
-    public Menu(Long id, String name, String thumbnail, String intro, Long storeId, String price, String category,
-            boolean isClosure) {
+    public Menu(Long id, String name, String thumbnail, String intro, Long storeId, String price,
+            MenuCategoryEnum category, boolean isClosure) {
         this.id = id;
         this.name = name;
         this.thumbnail = thumbnail;

@@ -2,6 +2,8 @@ package shop.mtcoding.finalproject.domain.store;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -26,8 +29,9 @@ public class Store extends AudingTime {
     @Column(nullable = false)
     private String userId;
 
-    @Column(nullable = true)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    @Column(unique = true, nullable = true)
+    private StoreCategoryEnum category;
 
     @Column(nullable = true, length = 30)
     private String name;
@@ -75,9 +79,10 @@ public class Store extends AudingTime {
     private boolean isAccept;
 
     @Builder
-    public Store(Long id, String userId, String category, String name, String phone, String thumbnail, String ceoName,
-            String businessNumber, String businessAddress, String openTime, String closeTime, String minAmount,
-            String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend, boolean isAccept) {
+    public Store(Long id, String userId, StoreCategoryEnum category, String name, String phone, String thumbnail,
+            String ceoName, String businessNumber, String businessAddress, String openTime, String closeTime,
+            String minAmount, String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend,
+            boolean isAccept) {
         this.id = id;
         this.userId = userId;
         this.category = category;

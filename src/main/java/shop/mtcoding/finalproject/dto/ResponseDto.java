@@ -1,6 +1,5 @@
 package shop.mtcoding.finalproject.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

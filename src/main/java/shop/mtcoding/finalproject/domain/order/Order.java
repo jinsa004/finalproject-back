@@ -2,6 +2,8 @@ package shop.mtcoding.finalproject.domain.order;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -35,8 +38,9 @@ public class Order extends AudingTime {
     @Column(nullable = true, length = 30)
     private String comment;
 
-    @Column(nullable = false)
-    private String state;
+    @Enumerated(EnumType.STRING)
+    @Column(unique = true, nullable = false)
+    private OrderStateEnum state;
 
     @Column(nullable = true)
     private String reason;
@@ -45,7 +49,7 @@ public class Order extends AudingTime {
     private boolean isClosure;
 
     @Builder
-    public Order(Long id, Long userId, Long storeId, int paymentId, String comment, String state, String reason,
+    public Order(Long id, Long userId, Long storeId, int paymentId, String comment, OrderStateEnum state, String reason,
             boolean isClosure) {
         this.id = id;
         this.userId = userId;
