@@ -1,12 +1,14 @@
 package shop.mtcoding.finalproject.domain.reportReview;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,14 +41,11 @@ public class ReportReview extends AudingTime {
     private boolean isResolve;
 
     @Column(nullable = true)
-    private Timestamp resolvedTime;
-
-    @Column(nullable = false)
-    private Timestamp createdTime;
+    protected LocalDateTime resolvedTime;
 
     @Builder
     public ReportReview(Long id, Long userId, Long reviewId, String reason, String adminComment, boolean isResolve,
-            Timestamp resolvedTime, Timestamp createdTime) {
+            LocalDateTime resolvedTime) {
         this.id = id;
         this.userId = userId;
         this.reviewId = reviewId;
@@ -54,7 +53,6 @@ public class ReportReview extends AudingTime {
         this.adminComment = adminComment;
         this.isResolve = isResolve;
         this.resolvedTime = resolvedTime;
-        this.createdTime = createdTime;
     }
 
 }

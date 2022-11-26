@@ -1,7 +1,5 @@
 package shop.mtcoding.finalproject.domain.customerReview;
 
-import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,21 +39,17 @@ public class CustomerReview extends AudingTime {
     private String photo;
 
     @Column(nullable = false)
-    private Timestamp createdTime;
-
-    @Column(nullable = false)
     private boolean isClosure;
 
     @Builder
     public CustomerReview(Long id, Long userId, Long orderId, String content, String starPoint, String photo,
-            Timestamp createdTime, boolean isClosure) {
+            boolean isClosure) {
         this.id = id;
         this.userId = userId;
         this.orderId = orderId;
         this.content = content;
         this.starPoint = starPoint;
         this.photo = photo;
-        this.createdTime = createdTime;
         this.isClosure = isClosure;
     }
 

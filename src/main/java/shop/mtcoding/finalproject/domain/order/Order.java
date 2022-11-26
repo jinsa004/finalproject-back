@@ -1,12 +1,12 @@
 package shop.mtcoding.finalproject.domain.order;
 
-import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,29 +36,25 @@ public class Order extends AudingTime {
     private String comment;
 
     @Column(nullable = false)
-    private Timestamp createdTime;
-
-    @Column(nullable = false)
     private String state;
 
     @Column(nullable = true)
     private String reason;
 
     @Column(nullable = false)
-    private boolean is_closure;
+    private boolean isClosure;
 
     @Builder
-    public Order(Long id, Long userId, Long storeId, int paymentId, String comment, Timestamp createdTime, String state,
-            String reason, boolean is_closure) {
+    public Order(Long id, Long userId, Long storeId, int paymentId, String comment, String state, String reason,
+            boolean isClosure) {
         this.id = id;
         this.userId = userId;
         this.storeId = storeId;
         this.paymentId = paymentId;
         this.comment = comment;
-        this.createdTime = createdTime;
         this.state = state;
         this.reason = reason;
-        this.is_closure = is_closure;
+        this.isClosure = isClosure;
     }
 
 }

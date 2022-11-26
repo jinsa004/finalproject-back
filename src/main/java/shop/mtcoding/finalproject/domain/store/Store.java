@@ -1,12 +1,12 @@
 package shop.mtcoding.finalproject.domain.store;
 
-import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -74,14 +74,10 @@ public class Store extends AudingTime {
     @Column(nullable = true)
     private boolean isAccept;
 
-    @Column(nullable = false)
-    private Timestamp createdTime;
-
     @Builder
     public Store(Long id, String userId, String category, String name, String phone, String thumbnail, String ceoName,
             String businessNumber, String businessAddress, String openTime, String closeTime, String minAmount,
-            String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend, boolean isAccept,
-            Timestamp createdTime) {
+            String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend, boolean isAccept) {
         this.id = id;
         this.userId = userId;
         this.category = category;
@@ -100,7 +96,6 @@ public class Store extends AudingTime {
         this.notice = notice;
         this.isOpend = isOpend;
         this.isAccept = isAccept;
-        this.createdTime = createdTime;
     }
 
 }

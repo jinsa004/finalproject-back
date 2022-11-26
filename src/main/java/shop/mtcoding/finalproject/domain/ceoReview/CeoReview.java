@@ -1,7 +1,5 @@
 package shop.mtcoding.finalproject.domain.ceoReview;
 
-import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,16 +32,12 @@ public class CeoReview extends AudingTime {
     @Column(nullable = false, length = 100)
     private String content;
 
-    @Column(nullable = false)
-    private Timestamp createdTime;
-
     @Builder
-    public CeoReview(Long id, Long review_id, Long user_id, String content, Timestamp createdTime) {
+    public CeoReview(Long id, Long review_id, Long user_id, String content) {
         this.id = id;
         this.review_id = review_id;
         this.user_id = user_id;
         this.content = content;
-        this.createdTime = createdTime;
     }
 
 }
