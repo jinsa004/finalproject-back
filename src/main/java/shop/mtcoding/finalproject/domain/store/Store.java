@@ -26,7 +26,7 @@ public class Store extends AudingTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private Long userId;
 
     @Enumerated(EnumType.STRING)
