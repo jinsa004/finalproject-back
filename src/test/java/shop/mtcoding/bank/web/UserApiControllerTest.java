@@ -1,8 +1,11 @@
 package shop.mtcoding.bank.web;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,7 +57,7 @@ public class UserApiControllerTest extends DummyEntity {
         JoinReqDto joinReqDto = new JoinReqDto();
         joinReqDto.setUsername("ssar");
         joinReqDto.setPassword("1234");
-        // joinReqDto.setEmail("ssar@nate.com");
+        joinReqDto.setEmail("ssar@nate.com");
         String requestBody = om.writeValueAsString(joinReqDto);
 
         // when
