@@ -48,7 +48,7 @@ public class User extends AudingTime {
     private String photo; // 사진 포맷 무엇으로 할지?
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private UserEnum role; // ADMIN, CUSTOMER, CEO
 
     @Builder
@@ -66,15 +66,6 @@ public class User extends AudingTime {
         this.phone = phone;
         this.photo = photo;
         this.role = role;
-    }
-
-    public void update(User user) {
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.email = user.getEmail();
-        this.nickname = user.getNickname();
-        this.phone = user.getPhone();
-        this.photo = user.getPhoto();
     }
 
 }

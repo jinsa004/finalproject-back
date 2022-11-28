@@ -42,11 +42,18 @@ public class UserService {
 
     @Transactional
     public UpdateUserRespDto 회원수정(UpdateUserReqDto updateUserReqDto) {
+        // 1. 값이 있는지 검증
         Optional<User> userOP = userRepository.findById(updateUserReqDto.getId());
         if (!userOP.isPresent()) {
             userRepository.findById(updateUserReqDto.getId())
                     .orElseThrow(() -> (new CustomApiException("해당 id의 유저 정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST)));
         }
+        // 2. 비밀번호 암호화
+        String rawPassword = updateUserReqDto.getPassword();
+        String encPassword = passwordEncoder.encode(rawPassword);
+        updateUserReqDto.setPassword(encPassword);
+
+        // 3. 수정하기 핵심로직
         User userPS = userRepository.save(updateUserReqDto.toEntity());
         return new UpdateUserRespDto(userPS);
     }

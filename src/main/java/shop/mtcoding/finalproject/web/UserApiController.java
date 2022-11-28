@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +17,7 @@ import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.JoinReqDto;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
 import shop.mtcoding.finalproject.dto.user.UserRespDto.JoinRespDto;
+import shop.mtcoding.finalproject.dto.user.UserRespDto.UpdateUserRespDto;
 import shop.mtcoding.finalproject.service.UserService;
 
 @RequiredArgsConstructor
@@ -36,10 +36,10 @@ public class UserApiController {
 
     @PutMapping("/user/{id}/update")
     public ResponseEntity<?> update(@RequestBody UpdateUserReqDto updateUserReqDto,
-            @AuthenticationPrincipal @PathVariable LoginUser loginUser) {
+            @AuthenticationPrincipal LoginUser loginUser) {
         updateUserReqDto.setId(loginUser.getUser().getId());
-        userService.회원수정(updateUserReqDto);
-        return null;
+        UpdateUserRespDto UpdateUserRespDto = userService.회원수정(updateUserReqDto);
+        return new ResponseEntity<>(new ResponseDto<>("회원수정성공", UpdateUserRespDto), HttpStatus.CREATED);
     }
 
 }

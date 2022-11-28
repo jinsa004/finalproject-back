@@ -60,14 +60,17 @@ public class UserReqDto {
 
         public User toEntity() {
             return User.builder()
-                    .id(id)
+                    .deliveryAddressId(1)
                     .username(username)
                     .password(password)
-                    .email(email)
-                    .nickname(nickname)
-                    .phone(phone)
-                    .photo(photo)
+                    .nickname("jinsa")
+                    .photo(null)
+                    .phone("01071649311")
+                    .email("jinsa004@test.com")
+                    .role(UserEnum.CUSTOMER)
                     .build();
         }
+
     }
+
 }

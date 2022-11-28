@@ -40,13 +40,19 @@ public class UserRespDto {
     @Setter
     public static class UpdateUserRespDto {
         private Long id;
+        private String username;
         private String nickname;
         private String photo;
+        private String phone;
+        private String createdAt;
 
         public UpdateUserRespDto(User user) {
             this.id = user.getId();
+            this.username = user.getUsername();
             this.nickname = user.getNickname();
             this.photo = user.getPhoto();
+            this.phone = user.getPhone();
+            this.createdAt = user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
 
     }
