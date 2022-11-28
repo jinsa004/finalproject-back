@@ -65,4 +65,13 @@ public class User extends AudingTime {
         this.role = role;
     }
 
+    public void update(User user) {
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.email = user.getEmail();
+        this.nickname = user.getNickname();
+        this.phone = user.getPhone();
+        this.photo = user.getPhoto();
+    }
+
 }

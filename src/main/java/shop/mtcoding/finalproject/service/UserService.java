@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.UserReqDto.JoinReqDto;
+import shop.mtcoding.finalproject.dto.UserReqDto.UpdateUserReqDto;
 import shop.mtcoding.finalproject.dto.UserRespDto.JoinRespDto;
 
 @Transactional(readOnly = true)
@@ -33,4 +36,16 @@ public class UserService {
         // 3. DTO 응답
         return new JoinRespDto(userPS);
     }
+
+    @Transactional
+    public UpdateUserRespDto 회원수정(UpdateUserReqDto updateUserReqDto, Long id) {
+        Optional<User> userOP = userRepository.findById(id);
+        if (!userOP.isPresent()) {
+            new RuntimeException("해당 id로 업데이트할 수 없습니다.");
+        }
+        User userPS = userOP.update(updateUserReqDto.toEntity());
+        UpdateUserRespDto updateUserRespDto = userRepository.save(userPS);
+        return updateUserRespDto;
+    }
+
 }

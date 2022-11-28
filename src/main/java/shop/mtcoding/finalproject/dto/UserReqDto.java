@@ -43,4 +43,27 @@ public class UserReqDto {
                     .build();
         }
     }
+
+    @Getter
+    @Setter
+    public static class UpdateUserReqDto {
+        private Long id;
+        private String username;
+        private String password;
+        private String email;
+        private String nickname;
+        private String phone;
+        private String photo;
+
+        public User toEntity() {
+            return User.builder()
+                    .username(username)
+                    .password(password)
+                    .email(email)
+                    .nickname(nickname)
+                    .phone(phone)
+                    .photo(photo)
+                    .build();
+        }
+    }
 }
