@@ -17,7 +17,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       #'[hibernate.default_batch_fetch_size]': 100
       '[hibernate.format_sql]': true
@@ -26,16 +26,13 @@ spring:
     ansi:
       enabled: always
 
-  sql:
-    init:
-      encoding: utf-8
-      schema-locations: classpath:db/dummyData.sql
-      mode: always
+  # sql:
+  #   init:
+  #     encoding: utf-8
+  #     schema-locations: classpath:db/dummyData.sql
+  #     mode: always
 
 logging:
   level:
     '[shop.mtcoding.finalproject]': DEBUG
     
-
-    
-
