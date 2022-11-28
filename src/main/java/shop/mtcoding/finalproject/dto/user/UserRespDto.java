@@ -44,7 +44,6 @@ public class UserRespDto {
         private String nickname;
         private String photo;
         private String phone;
-        private String createdAt;
 
         public UpdateUserRespDto(User user) {
             this.id = user.getId();
@@ -52,7 +51,6 @@ public class UserRespDto {
             this.nickname = user.getNickname();
             this.photo = user.getPhoto();
             this.phone = user.getPhone();
-            this.createdAt = user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
 
     }
