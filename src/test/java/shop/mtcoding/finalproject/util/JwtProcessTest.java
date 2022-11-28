@@ -1,4 +1,4 @@
-package shop.mtcoding.bank.util;
+package shop.mtcoding.finalproject.util;
 
 import org.junit.jupiter.api.Test;
 

@@ -14,16 +14,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
+import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name = "menus")
 @Entity
-public class Menu {
+public class Menu extends AudingTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private Long storeId;
 
     @Column(nullable = false, length = 60)
     private String name;
@@ -33,9 +37,6 @@ public class Menu {
 
     @Column(nullable = true, length = 100)
     private String intro;
-
-    @Column(nullable = false)
-    private Long storeId;
 
     @Column(nullable = false, length = 6)
     private String price;

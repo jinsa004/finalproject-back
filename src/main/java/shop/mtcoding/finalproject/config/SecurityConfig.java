@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.jwt.JwtAuthenticationFilter;
 import shop.mtcoding.finalproject.config.jwt.JwtAuthorizationFilter;
+import shop.mtcoding.finalproject.util.CustomResponseUtil;
 
 @Configuration
 public class SecurityConfig {
@@ -42,14 +43,17 @@ public class SecurityConfig {
         http.headers().frameOptions().disable();
         http.csrf().disable();
 
+        http.exceptionHandling().authenticationEntryPoint(
+                (request, response, authException) -> {
+                    CustomResponseUtil.fail(response, "권한없음");
+                });
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.formLogin().disable();
         http.httpBasic().disable();
         http.apply(new MyCustomDsl());
         http.authorizeHttpRequests()
-                .antMatchers("/api/transaction/**").authenticated()
                 .antMatchers("/api/user/**").authenticated()
-                .antMatchers("/api/account/**").authenticated()
                 .antMatchers("/api/admin/**").hasRole("ROLE_" + UserEnum.ADMIN)
                 .anyRequest().permitAll();
 

@@ -1,4 +1,4 @@
-package shop.mtcoding.finalproject.dto;
+package shop.mtcoding.finalproject.dto.user;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -32,6 +32,7 @@ public class UserReqDto {
 
         public User toEntity() {
             return User.builder()
+                    .deliveryAddressId(1)
                     .username(username)
                     .password(password)
                     .nickname("username")
@@ -39,6 +40,33 @@ public class UserReqDto {
                     .phone("01011112222")
                     .email("test212@test.com")
                     .role(UserEnum.CUSTOMER)
+                    .build();
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class UpdateUserReqDto {
+        private Long id;
+        @Size(min = 2, max = 20)
+        @NotBlank(message = "유저네임은 필수입니다.")
+        private String username;
+        @Pattern(regexp = "^[가-힣]{4,20}", message = "비밀번호는 영문,숫자,특수문자 최소4에서 최대20까지입니다.")
+        private String password;
+        private String email;
+        private String nickname;
+        private String phone;
+        private String photo;
+
+        public User toEntity() {
+            return User.builder()
+                    .id(id)
+                    .username(username)
+                    .password(password)
+                    .email(email)
+                    .nickname(nickname)
+                    .phone(phone)
+                    .photo(photo)
                     .build();
         }
     }

@@ -1,4 +1,4 @@
-package shop.mtcoding.bank.config.exception;
+package shop.mtcoding.finalproject.config.exception;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
