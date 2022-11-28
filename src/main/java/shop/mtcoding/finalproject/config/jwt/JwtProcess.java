@@ -20,7 +20,7 @@ public class JwtProcess {
                 .withClaim("role", loginUser.getUser().getRole().name())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
-        return jwtToken;
+        return JwtProperties.TOKEN_PREFIX + jwtToken; // 앞에 +는 Bearer를 붙여주는 것
     }
 
     public static LoginUser verify(String token) {

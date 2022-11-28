@@ -18,9 +18,7 @@ public class UserRespDto {
         public LoginRespDto(User user) {
             this.id = user.getId();
             this.username = user.getUsername();
-            // this.createdAt =
-            // user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd
-            // HH:mm:ss"));
+            this.createdAt = user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
 
     }
