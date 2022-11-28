@@ -32,6 +32,7 @@ public class UserReqDto {
 
         public User toEntity() {
             return User.builder()
+                    .deliveryAddressId(1)
                     .username(username)
                     .password(password)
                     .nickname("username")

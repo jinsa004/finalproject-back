@@ -24,19 +24,19 @@ public class CeoReview extends AudingTime {
     private Long id;
 
     @Column(nullable = false)
-    private Long review_id;
+    private Long reviewId;
 
     @Column(nullable = false)
-    private Long user_id;
+    private Long userId;
 
     @Column(nullable = false, length = 100)
     private String content;
 
     @Builder
-    public CeoReview(Long id, Long review_id, Long user_id, String content) {
+    public CeoReview(Long id, Long reviewId, Long userId, String content) {
         this.id = id;
-        this.review_id = review_id;
-        this.user_id = user_id;
+        this.reviewId = reviewId;
+        this.userId = userId;
         this.content = content;
     }
 

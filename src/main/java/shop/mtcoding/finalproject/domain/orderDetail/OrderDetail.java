@@ -11,12 +11,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name = "order_details")
 @Entity
-public class OrderDetail {
+public class OrderDetail extends AudingTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
