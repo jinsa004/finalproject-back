@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.auth.LoginUser;
-import shop.mtcoding.finalproject.dto.UserReqDto.LoginReqDto;
-import shop.mtcoding.finalproject.dto.UserRespDto.LoginRespDto;
+import shop.mtcoding.finalproject.dto.user.UserReqDto.LoginReqDto;
+import shop.mtcoding.finalproject.dto.user.UserRespDto.LoginRespDto;
 import shop.mtcoding.finalproject.util.CustomResponseUtil;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {

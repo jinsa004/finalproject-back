@@ -1,7 +1,7 @@
 SET REFERENTIAL_INTEGRITY FALSE;
 truncate table users;
 truncate table stores;
-truncate table report_review;
+truncate table report_reviews;
 truncate table payments;
 truncate table order_details;
 truncate table orders;

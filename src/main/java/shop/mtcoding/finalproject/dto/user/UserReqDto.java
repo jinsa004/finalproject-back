@@ -1,5 +1,6 @@
-package shop.mtcoding.finalproject.dto;
+package shop.mtcoding.finalproject.dto.user;
 
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -43,4 +44,16 @@ public class UserReqDto {
                     .build();
         }
     }
+
+    @Getter
+    @Setter
+    public static class UpdateUserReqDto {
+        private Long id; // 서비스 로직
+        private String password;
+        private String email;
+        private String nickname;
+        private String phone;
+        private String photo;
+    }
+
 }

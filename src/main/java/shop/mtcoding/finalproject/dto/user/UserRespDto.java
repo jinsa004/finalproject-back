@@ -1,4 +1,4 @@
-package shop.mtcoding.finalproject.dto;
+package shop.mtcoding.finalproject.dto.user;
 
 import java.time.format.DateTimeFormatter;
 
@@ -32,6 +32,25 @@ public class UserRespDto {
         public JoinRespDto(User user) {
             this.id = user.getId();
             this.username = user.getUsername();
+        }
+
+    }
+
+    @Getter
+    @Setter
+    public static class UpdateUserRespDto {
+        private Long id;
+        private String username;
+        private String nickname;
+        private String photo;
+        private String phone;
+
+        public UpdateUserRespDto(User user) {
+            this.id = user.getId();
+            this.username = user.getUsername();
+            this.nickname = user.getNickname();
+            this.photo = user.getPhoto();
+            this.phone = user.getPhone();
         }
 
     }
