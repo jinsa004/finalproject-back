@@ -20,7 +20,7 @@ import shop.mtcoding.finalproject.domain.AudingTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Table(name = "report_review")
+@Table(name = "report_reviews")
 @Entity
 public class ReportReview extends AudingTime {
 
@@ -45,7 +45,7 @@ public class ReportReview extends AudingTime {
     private boolean isResolve;
 
     @Column(nullable = true)
-    protected LocalDateTime resolvedTime;
+    private LocalDateTime resolvedTime;
 
     @Builder
     public ReportReview(Long id, Long userId, Long reviewId, ReportReasonEnum reason, String adminComment,

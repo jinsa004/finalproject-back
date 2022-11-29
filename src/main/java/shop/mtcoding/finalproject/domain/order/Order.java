@@ -35,7 +35,7 @@ public class Order extends AudingTime {
     @Column(nullable = false)
     private int paymentId;
 
-    @Column(nullable = true, length = 30)
+    @Column(nullable = true, length = 80)
     private String comment;
 
     @Enumerated(EnumType.STRING)
