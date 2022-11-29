@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -41,7 +42,7 @@ public class User extends AudingTime {
     @Column(nullable = false, length = 20)
     private String nickname;
 
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, length = 20)
     private String phone;
 
     @Column(nullable = true)
@@ -50,6 +51,14 @@ public class User extends AudingTime {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserEnum role; // ADMIN, CUSTOMER, CEO
+
+    public void 회원수정(UpdateUserReqDto updateUserReqDto) {
+        this.password = updateUserReqDto.getPassword();
+        this.email = updateUserReqDto.getEmail();
+        this.nickname = updateUserReqDto.getNickname();
+        this.phone = updateUserReqDto.getPhone();
+        this.photo = updateUserReqDto.getPhoto();
+    }
 
     @Builder
     public User(Long id, int deliveryAddressId, String username, String password, String email, String nickname,
