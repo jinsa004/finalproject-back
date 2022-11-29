@@ -15,6 +15,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
+import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -101,6 +103,23 @@ public class Store extends AudingTime {
         this.notice = notice;
         this.opend = opend;
         this.accept = accept;
+    }
+
+    public Store update(UpdateStoreReqDto updateStoreReqDto) {
+        return Store.builder()
+                .category(CustomEnumUtil.toCategoryEnumFormat(updateStoreReqDto.getCategory()))
+                .name(updateStoreReqDto.getName())
+                .phone(updateStoreReqDto.getPhone())
+                .thumbnail(updateStoreReqDto.getThumbnail())
+                .openTime(updateStoreReqDto.getOpenTime())
+                .closeTime(updateStoreReqDto.getCloseTime())
+                .minAmount(updateStoreReqDto.getMinAmount())
+                .deliveryHour(updateStoreReqDto.getDeliveryHour())
+                .deliveryCost(updateStoreReqDto.getDeliveryCost())
+                .intro(updateStoreReqDto.getIntro())
+                .notice(updateStoreReqDto.getNotice())
+                .opend(false)
+                .build();
     }
 
 }
