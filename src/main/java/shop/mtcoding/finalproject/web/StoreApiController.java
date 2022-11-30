@@ -18,6 +18,7 @@ import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.ShowStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 import shop.mtcoding.finalproject.service.StoreService;
 
@@ -37,8 +38,8 @@ public class StoreApiController {
 
     @GetMapping("/store")
     public ResponseEntity<?> findByStoreId(@AuthenticationPrincipal LoginUser loginUser){
-        //ShowStoreRespDto showStoreRespDto = storeService.findBy
-        return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 성공", ), HttpStatus.OK);
+        ShowStoreRespDto showStoreRespDto = storeService.findByUserId(loginUser.getUser().getId());
+        return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 성공", showStoreRespDto), HttpStatus.OK);
     }
 
     @PutMapping("/store/info")

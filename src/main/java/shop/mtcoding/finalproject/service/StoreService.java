@@ -13,6 +13,7 @@ import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.ShowStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 
 @Transactional(readOnly = true)
@@ -38,6 +39,9 @@ public class StoreService {
         // 3. 해당 점포의 내용 업데이트하기
         Store storePS = storeRepository.save(store.update(updateStoreReqDto.toEntity()));
 
+        log.debug("디버그 : 업데이트된 점포값 아이디 - " + storePS.getId());
+        log.debug("디버그 : 업데이트된 점포값 유저아이디 - " + storePS.getUserId());
+
         // 4. 처리된 내용 보여주기
         return new UpdateStoreRespDto(storePS);
     }
@@ -51,6 +55,15 @@ public class StoreService {
         Store storePS = storeRepository.findByUserId(id).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
         return new ApplyRespDto(storePS);
+    }
+
+    public ShowStoreRespDto findByUserId(Long userId) {
+        Store storePS = storeRepository.findByUserId(userId).orElseThrow(
+                () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+
+        log.debug("디버그 : 상세보기 점포값 아이디 - " + storePS.getId());
+        log.debug("디버그 : 상세보기 점포값 유저아이디 - " + storePS.getUserId());
+        return new ShowStoreRespDto(storePS);
     }
 
     /* 승현 작업 종료함 */

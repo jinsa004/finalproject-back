@@ -27,6 +27,24 @@ public class StoreRespDto {
         private String deliveryCost;
         private String intro;
         private String notice;
+
+        public ShowStoreRespDto(Store store) {
+            this.category = store.getCategory();
+            this.name = store.getName();
+            this.phone = store.getPhone();
+            this.thumbnail = store.getThumbnail();
+            this.ceoName = store.getCeoName();
+            this.businessNumber = store.getBusinessNumber();
+            this.businessAddress = store.getBusinessAddress();
+            this.openTime = store.getOpenTime();
+            this.closeTime = store.getCloseTime();
+            this.minAmount = store.getMinAmount();
+            this.deliveryHour = store.getDeliveryHour();
+            this.deliveryCost = store.getDeliveryCost();
+            this.intro = store.getIntro();
+            this.notice = store.getNotice();
+        }
+
     }
 
     @Getter

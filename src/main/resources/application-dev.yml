@@ -17,7 +17,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: none #테스트 끝나고 create로 변경함
     properties:
       #'[hibernate.default_batch_fetch_size]': 100
       '[hibernate.format_sql]': true
