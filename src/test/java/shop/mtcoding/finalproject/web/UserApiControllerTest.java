@@ -55,6 +55,10 @@ public class UserApiControllerTest extends DummyEntity {
         JoinReqDto joinReqDto = new JoinReqDto();
         joinReqDto.setUsername("jinsa");
         joinReqDto.setPassword("1234");
+        joinReqDto.setAddress("부산시 진구 서면 17번 길");
+        joinReqDto.setNickname("mil");
+        joinReqDto.setPhone("01071649311");
+        joinReqDto.setPhoto(null);
 
         String requestBody = om.writeValueAsString(joinReqDto);
 
@@ -80,7 +84,6 @@ public class UserApiControllerTest extends DummyEntity {
         updateUserReqDto.setPhone("01071649311");
         updateUserReqDto.setAddress("서면 분성로 72번길");
         updateUserReqDto.setNickname("mil");
-
 
         String requestBody = om.writeValueAsString(updateUserReqDto);
         System.out.println("테스트 : " + requestBody);
