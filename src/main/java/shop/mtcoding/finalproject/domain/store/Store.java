@@ -4,9 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -15,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.user.User;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -25,9 +28,6 @@ public class Store extends AudingTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String userId;
 
     @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = true)
@@ -78,13 +78,15 @@ public class Store extends AudingTime {
     @Column(nullable = true)
     private boolean isAccept;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Builder
-    public Store(Long id, String userId, StoreCategoryEnum category, String name, String phone, String thumbnail,
+    public Store(Long id, StoreCategoryEnum category, String name, String phone, String thumbnail,
             String ceoName, String businessNumber, String businessAddress, String openTime, String closeTime,
             String minAmount, String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend,
-            boolean isAccept) {
+            boolean isAccept, User user) {
         this.id = id;
-        this.userId = userId;
         this.category = category;
         this.name = name;
         this.phone = phone;
@@ -101,6 +103,7 @@ public class Store extends AudingTime {
         this.notice = notice;
         this.isOpend = isOpend;
         this.isAccept = isAccept;
+        this.user = user;
     }
 
 }
