@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.web;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -99,4 +100,5 @@ public class UserApiControllerTest extends DummyEntity {
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.data.nickname").value("mil"));
     }
+
 }

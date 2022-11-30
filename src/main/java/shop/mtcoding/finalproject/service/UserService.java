@@ -15,6 +15,7 @@ import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.JoinReqDto;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
+import shop.mtcoding.finalproject.dto.user.UserRespDto.DetailUserRespDto;
 import shop.mtcoding.finalproject.dto.user.UserRespDto.JoinRespDto;
 import shop.mtcoding.finalproject.dto.user.UserRespDto.UpdateUserRespDto;
 
@@ -55,6 +56,15 @@ public class UserService {
         User userPS = userOP.get();
         userPS.회원수정(updateUserReqDto);
         return new UpdateUserRespDto(userPS);
+    }
+
+    public DetailUserRespDto 회원상세보기(Long userId) {
+        // 1. 값이 있는지 검증
+        User userPS = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomApiException("회원정보가 없습니다", HttpStatus.BAD_REQUEST));
+        // 2. DTO 응답
+        DetailUserRespDto detailUserRespDto = new DetailUserRespDto(userPS);
+        return detailUserRespDto;
     }
 
 }

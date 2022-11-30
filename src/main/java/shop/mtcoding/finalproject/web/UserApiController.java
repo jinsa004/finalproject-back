@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.JoinReqDto;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
+import shop.mtcoding.finalproject.dto.user.UserRespDto.DetailUserRespDto;
 import shop.mtcoding.finalproject.dto.user.UserRespDto.JoinRespDto;
 import shop.mtcoding.finalproject.dto.user.UserRespDto.UpdateUserRespDto;
 import shop.mtcoding.finalproject.service.UserService;
@@ -28,6 +30,12 @@ import shop.mtcoding.finalproject.service.UserService;
 public class UserApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final UserService userService;
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> userDetail(@PathVariable Long userId) {
+        DetailUserRespDto detailUserRespDto = userService.회원상세보기(userId);
+        return new ResponseEntity<>(new ResponseDto<>("유저 상세보기 완료", detailUserRespDto), HttpStatus.OK);
+    }
 
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody JoinReqDto joinReqDto) {
