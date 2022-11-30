@@ -1,7 +1,5 @@
 package shop.mtcoding.finalproject.dto.user;
 
-
-import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -39,9 +37,10 @@ public class UserReqDto {
             return User.builder()
                     .username(username)
                     .password(password)
-                    .nickname("username")
+                    .address(address)
+                    .nickname(nickname)
                     .photo(null)
-                    .phone("01011112222")
+                    .phone(phone)
                     .role(UserEnum.CUSTOMER)
                     .build();
         }
