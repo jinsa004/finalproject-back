@@ -13,7 +13,10 @@ public class DummyEntity {
         User user = User.builder()
                 .username(username)
                 .password(encPassword)
-                .email(username + "@nate.com")
+                .nickname(username + "님")
+                .phone("01011112222")
+                .photo(null)
+                .address("부산시 진구 서면")
                 .role(username.equals("admin") ? UserEnum.ADMIN : UserEnum.CUSTOMER)
                 .build();
         return user;

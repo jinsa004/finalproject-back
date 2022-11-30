@@ -1,16 +1,19 @@
 package shop.mtcoding.finalproject.domain.like;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.mtcoding.finalproject.domain.store.Store;
+import shop.mtcoding.finalproject.domain.user.User;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -22,17 +25,17 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
-    @Column(nullable = false)
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Store store;
 
     @Builder
-    public Like(Long id, Long userId, Long storeId) {
+    public Like(Long id, User user, Store store) {
         this.id = id;
-        this.userId = userId;
-        this.storeId = storeId;
+        this.user = user;
+        this.store = store;
     }
 
 }

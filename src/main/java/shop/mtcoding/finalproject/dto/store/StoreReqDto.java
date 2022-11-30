@@ -7,6 +7,8 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.store.Store;
+import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.UserDto;
 import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
 public class StoreReqDto {
@@ -15,9 +17,9 @@ public class StoreReqDto {
 
     @Getter
     @Setter
-    public static class UpdateStoreReqDto {
+    public static class SaveStoreReqDto {
 
-        private Long userId;
+        private UserDto userDto;
 
         @NotBlank(message = "카테고리는 필수입니다.")
         private String category;
@@ -54,21 +56,27 @@ public class StoreReqDto {
         @NotBlank(message = "배달 최소금액은 필수입니다.")
         private String notice;
 
-        public Store toEntity() {
+        public Store toEntity(Store store) {
             return Store.builder()
-                    .userId(userId)
-                    .category(CustomEnumUtil.toCategoryEnumFormat(category))
-                    .name(name)
-                    .phone(phone)
-                    .thumbnail(thumbnail)
-                    .openTime(openTime)
-                    .closeTime(closeTime)
-                    .minAmount(minAmount)
-                    .deliveryCost(deliveryCost)
-                    .deliveryCost(deliveryCost)
-                    .intro(intro)
-                    .notice(notice)
-                    .build();
+            .id(store.getId())
+            .category(CustomEnumUtil.toCategoryEnumFormat(category))
+            .name(name)
+            .phone(phone)
+            .thumbnail(thumbnail)
+            .ceoName(store.getCeoName())
+            .businessNumber(store.getBusinessNumber())
+            .businessAddress(store.getBusinessAddress())
+            .openTime(openTime)
+            .closeTime(closeTime)
+            .minAmount(minAmount)
+            .deliveryHour(deliveryHour)
+            .deliveryCost(deliveryCost)
+            .intro(intro)
+            .notice(notice)
+            .isOpend(false)
+            .isAccept(store.isAccept())
+            .user(store.getUser())
+            .build();
         }
     }
 
@@ -76,7 +84,7 @@ public class StoreReqDto {
     @Setter
     public static class ApplyReqDto {
 
-        private Long userId;
+        private UserDto userDto;
 
         @NotBlank(message = "사업자명은 필수입니다.")
         @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,20}$", message = "이름은 특수문자를 포함하지 않은 2~20자리여야 합니다.")
@@ -92,27 +100,17 @@ public class StoreReqDto {
         @Size(min = 10, max = 10)
         private String businessAddress;
 
-        public Store toEntity() {
+        public Store toEntity(ApplyReqDto applyReqDto, User user) {
             return Store.builder()
-                    .userId(userId)
-                    .category(null)
-                    .name(null)
-                    .phone(null)
-                    .thumbnail(null)
-                    .ceoName(ceoName)
-                    .businessNumber(businessNumber)
-                    .businessAddress(businessAddress)
-                    .openTime(null)
-                    .closeTime(null)
-                    .minAmount(null)
-                    .deliveryHour(null)
-                    .deliveryCost(null)
-                    .intro(null)
-                    .notice(null)
-                    .opend(false)
-                    .accept(false)
+                    .ceoName(applyReqDto.getCeoName())
+                    .businessNumber(applyReqDto.getBusinessNumber())
+                    .businessAddress(applyReqDto.getBusinessAddress())
+                    .user(user)
+                    .isOpend(false)
+                    .isAccept(false)
                     .build();
         }
+
     }
     /* 승현 작업 종료 */
 }

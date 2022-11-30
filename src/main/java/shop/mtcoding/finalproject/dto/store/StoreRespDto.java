@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.store.Store;
+import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class StoreRespDto {
@@ -49,7 +50,7 @@ public class StoreRespDto {
 
     @Getter
     @Setter
-    public static class UpdateStoreRespDto {
+    public static class SaveStoreRespDto {
         private StoreCategoryEnum category;
         private String name;
         private String phone;
@@ -65,7 +66,7 @@ public class StoreRespDto {
         private String intro;
         private String notice;
 
-        public UpdateStoreRespDto(Store store) {
+        public SaveStoreRespDto(Store store) {
             this.category = store.getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
@@ -102,6 +103,16 @@ public class StoreRespDto {
             this.accept = store.isAccept();
         }
 
+    }
+
+    @Getter
+    @Setter
+    public static class UserDto {
+        private Long id;
+
+        public UserDto(User user) {
+            this.id = user.getId();
+        }
     }
 
     /* 승현 작업 종료 */

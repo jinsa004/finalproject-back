@@ -2,9 +2,11 @@ package shop.mtcoding.finalproject.domain.ceoReview;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -12,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.store.Store;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -26,18 +29,18 @@ public class CeoReview extends AudingTime {
     @Column(nullable = false)
     private Long reviewId;
 
-    @Column(nullable = false)
-    private Long userId;
-
     @Column(nullable = false, length = 100)
     private String content;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Store store;
+
     @Builder
-    public CeoReview(Long id, Long reviewId, Long userId, String content) {
+    public CeoReview(Long id, Long reviewId, String content, Store store) {
         this.id = id;
         this.reviewId = reviewId;
-        this.userId = userId;
         this.content = content;
+        this.store = store;
     }
 
 }
