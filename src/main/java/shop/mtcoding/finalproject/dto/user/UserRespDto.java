@@ -41,6 +41,7 @@ public class UserRespDto {
     public static class UpdateUserRespDto {
         private Long id;
         private String username;
+        private String address;
         private String nickname;
         private String photo;
         private String phone;
@@ -48,6 +49,7 @@ public class UserRespDto {
         public UpdateUserRespDto(User user) {
             this.id = user.getId();
             this.username = user.getUsername();
+            this.address = user.getAddress();
             this.nickname = user.getNickname();
             this.photo = user.getPhoto();
             this.phone = user.getPhone();

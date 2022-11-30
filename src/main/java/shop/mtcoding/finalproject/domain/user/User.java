@@ -27,17 +27,14 @@ public class User extends AudingTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private int deliveryAddressId;
+    @Column(nullable = false, length = 60)
+    private String address;
 
     @Column(unique = true, nullable = false, length = 20)
     private String username;
 
     @Column(nullable = false, length = 60)
     private String password;
-
-    @Column(nullable = false, length = 50)
-    private String email;
 
     @Column(nullable = false, length = 20)
     private String nickname;
@@ -54,26 +51,22 @@ public class User extends AudingTime {
 
     public void 회원수정(UpdateUserReqDto updateUserReqDto) {
         this.password = updateUserReqDto.getPassword();
-        this.email = updateUserReqDto.getEmail();
+        this.address = updateUserReqDto.getAddress();
         this.nickname = updateUserReqDto.getNickname();
         this.phone = updateUserReqDto.getPhone();
         this.photo = updateUserReqDto.getPhoto();
     }
 
     @Builder
-    public User(Long id, int deliveryAddressId, String username, String password, String email, String nickname,
+    public User(Long id, String address, String username, String password, String nickname,
             String phone, String photo, UserEnum role) {
         this.id = id;
-        this.deliveryAddressId = deliveryAddressId;
+        this.address = address;
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.photo = photo;
         this.phone = phone;
-        this.email = email;
-        this.nickname = nickname;
-        this.phone = phone;
-        this.photo = photo;
         this.role = role;
     }
 

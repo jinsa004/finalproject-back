@@ -21,8 +21,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
-import shop.mtcoding.finalproject.domain.deliveryAddress.DeliveryAddress;
-import shop.mtcoding.finalproject.domain.deliveryAddress.DeliveryAddressRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.JoinReqDto;
@@ -46,13 +44,9 @@ public class UserApiControllerTest extends DummyEntity {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private DeliveryAddressRepository deliveryAddressRepository;
-
     @BeforeEach
     public void setUp() {
         User ssar = userRepository.save(newUser("ssar"));
-        DeliveryAddress deliveryAddress = deliveryAddressRepository.save(newDeliveryAddress("부산시 진구 서면로 17번 길", ssar));
     }
 
     @Test
@@ -84,8 +78,9 @@ public class UserApiControllerTest extends DummyEntity {
         UpdateUserReqDto updateUserReqDto = new UpdateUserReqDto();
         updateUserReqDto.setPassword("1234");
         updateUserReqDto.setPhone("01071649311");
+        updateUserReqDto.setAddress("서면 분성로 72번길");
         updateUserReqDto.setNickname("mil");
-        updateUserReqDto.setEmail("jina@nate.com");
+
 
         String requestBody = om.writeValueAsString(updateUserReqDto);
         System.out.println("테스트 : " + requestBody);

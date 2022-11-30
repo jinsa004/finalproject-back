@@ -3,7 +3,6 @@
     deliveryAddressId int NOT null,
     username VARCHAR(24) NOT NULL,
     password VARCHAR(80) NOT null,
-    email VARCHAR(40) not null,
     nickname VARCHAR(24) NOT null,
     phone VARCHAR(24) NOT null,
     photo VARCHAR(256),
@@ -110,12 +109,12 @@
     createdAt datetime
 );
 
-insert into users(deliveryAddressId, username, password, email, nickname, phone, photo, role, createdAt) 
-VALUES(1,'ssar','1234', 'ssar@nate.com', 'ssar','01011112222', null, 'CUSTOMER', now());
-insert into users(deliveryAddressId, username, password, email, nickname, phone, photo, role, createdAt) 
-VALUES(2,'cos','1234','cos@nate.com', 'cos','01011112222', null, 'CUSTOMER', now());
-insert into users(deliveryAddressId, username, password, email, nickname, phone, photo, role, createdAt) 
-VALUES(3,'jinsa','1234', 'jinsa@nate.com','jinsa','01011112222', null, 'CUSTOMER', now());
+insert into users(deliveryAddressId, username, password,  nickname, phone, photo, role, createdAt) 
+VALUES(1,'ssar','1234',  'ssar','01011112222', null, 'CUSTOMER', now());
+insert into users(deliveryAddressId, username, password, nickname, phone, photo, role, createdAt) 
+VALUES(2,'cos','1234', 'cos','01011112222', null, 'CUSTOMER', now());
+insert into users(deliveryAddressId, username, password, nickname, phone, photo, role, createdAt) 
+VALUES(3,'jinsa','1234', 'jinsa','01011112222', null, 'CUSTOMER', now());
 
 insert into delivery_address(userId, address, createdAt)
 VALUES(1,'부산시 진구 서면로 20번 길', now());

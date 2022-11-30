@@ -4,9 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -15,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.store.Store;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -25,9 +28,6 @@ public class Menu extends AudingTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private Long storeId;
 
     @Column(nullable = false, length = 60)
     private String name;
@@ -48,17 +48,20 @@ public class Menu extends AudingTime {
     @Column(nullable = false)
     private boolean isClosure;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Store store;
+
     @Builder
-    public Menu(Long id, String name, String thumbnail, String intro, Long storeId, String price,
-            MenuCategoryEnum category, boolean isClosure) {
+    public Menu(Long id, String name, String thumbnail, String intro, String price,
+            MenuCategoryEnum category, boolean isClosure, Store store) {
         this.id = id;
         this.name = name;
         this.thumbnail = thumbnail;
         this.intro = intro;
-        this.storeId = storeId;
         this.price = price;
         this.category = category;
         this.isClosure = isClosure;
+        this.store = store;
     }
 
 }

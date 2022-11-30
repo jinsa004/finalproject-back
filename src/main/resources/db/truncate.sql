@@ -7,7 +7,6 @@ truncate table order_details;
 truncate table orders;
 truncate table menus;
 truncate table likes;
-truncate table delivery_address;
 truncate table customer_reviews;
 truncate table ceo_reviews;
 SET REFERENTIAL_INTEGRITY TRUE;

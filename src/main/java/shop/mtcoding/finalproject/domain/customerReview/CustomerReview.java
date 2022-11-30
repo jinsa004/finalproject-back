@@ -2,9 +2,11 @@ package shop.mtcoding.finalproject.domain.customerReview;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -12,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.user.User;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -22,9 +25,6 @@ public class CustomerReview extends AudingTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private Long userId;
 
     @Column(nullable = false)
     private Long orderId;
@@ -41,16 +41,19 @@ public class CustomerReview extends AudingTime {
     @Column(nullable = false)
     private boolean isClosure;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Builder
-    public CustomerReview(Long id, Long userId, Long orderId, String content, int starPoint, String photo,
-            boolean isClosure) {
+    public CustomerReview(Long id, Long orderId, String content, int starPoint, String photo, boolean isClosure,
+            User user) {
         this.id = id;
-        this.userId = userId;
         this.orderId = orderId;
         this.content = content;
         this.starPoint = starPoint;
         this.photo = photo;
         this.isClosure = isClosure;
+        this.user = user;
     }
 
 }
