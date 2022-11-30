@@ -67,9 +67,6 @@ public class User extends AudingTime {
         this.nickname = nickname;
         this.photo = photo;
         this.phone = phone;
-        this.nickname = nickname;
-        this.phone = phone;
-        this.photo = photo;
         this.role = role;
     }
 

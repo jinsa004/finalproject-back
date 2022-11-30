@@ -81,6 +81,7 @@ public class UserApiControllerTest extends DummyEntity {
         updateUserReqDto.setAddress("서면 분성로 72번길");
         updateUserReqDto.setNickname("mil");
 
+
         String requestBody = om.writeValueAsString(updateUserReqDto);
         System.out.println("테스트 : " + requestBody);
 

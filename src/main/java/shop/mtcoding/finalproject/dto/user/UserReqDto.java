@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.dto.user;
 
+
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -35,7 +37,6 @@ public class UserReqDto {
 
         public User toEntity() {
             return User.builder()
-                    .address(address)
                     .username(username)
                     .password(password)
                     .nickname("username")
