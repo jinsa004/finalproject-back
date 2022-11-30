@@ -14,6 +14,77 @@ import shop.mtcoding.finalproject.util.CustomEnumUtil;
 public class StoreReqDto {
 
     /* 승현 작업 시작 */
+    @Getter
+    @Setter
+    public static class UpdateBusinessStateReqDto {
+
+        private UserDto userDto;
+        private boolean isOpend;
+
+        public Store toEntity() {
+            return Store.builder()
+                    .isOpend(this.isOpend)
+                    .build();
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class UpdateStoreReqDto {
+
+        private UserDto userDto;
+
+        @NotBlank(message = "카테고리는 필수입니다.")
+        private String category;
+
+        @NotBlank(message = "가게이름은 필수입니다.")
+        @Pattern(regexp = "^[가-힣a-zA-Z0-9]{1,30}$", message = "이름은 특수문자를 포함하지 않은 1~30자리여야 합니다.")
+        @Size(min = 2, max = 30, message = "이름을 1~30자 사이로 입력해주세요.")
+        private String name;
+
+        @NotBlank(message = "가게 연락처는 필수입니다.")
+        @Size(min = 10, max = 15, message = "전화번호를 10 ~ 15자 사이로 입력해주세요.")
+        private String phone;
+
+        private String thumbnail;
+
+        @NotBlank(message = "가게 영업시작 시간은 필수입니다.")
+        private String openTime;
+
+        @NotBlank(message = "가게 영업종료 시간은 필수입니다.")
+        private String closeTime;
+
+        @NotBlank(message = "최소 금액은 필수입니다.")
+        private String minAmount;
+
+        @NotBlank(message = "배달 평균 시간은 필수입니다.")
+        private String deliveryHour;
+
+        @NotBlank(message = "배달 최소금액은 필수입니다.")
+        private String deliveryCost;
+
+        @NotBlank(message = "가게 소개글은 필수입니다.")
+        private String intro;
+
+        @NotBlank(message = "배달 최소금액은 필수입니다.")
+        private String notice;
+
+        public Store toEntity() {
+            return Store.builder()
+                    .category(CustomEnumUtil.toCategoryEnumFormat(category))
+                    .name(name)
+                    .phone(phone)
+                    .thumbnail(thumbnail)
+                    .openTime(openTime)
+                    .closeTime(closeTime)
+                    .minAmount(minAmount)
+                    .deliveryHour(deliveryHour)
+                    .deliveryCost(deliveryCost)
+                    .intro(intro)
+                    .notice(notice)
+                    .build();
+        }
+    }
 
     @Getter
     @Setter
@@ -56,27 +127,20 @@ public class StoreReqDto {
         @NotBlank(message = "배달 최소금액은 필수입니다.")
         private String notice;
 
-        public Store toEntity(Store store) {
+        public Store toEntity() {
             return Store.builder()
-            .id(store.getId())
-            .category(CustomEnumUtil.toCategoryEnumFormat(category))
-            .name(name)
-            .phone(phone)
-            .thumbnail(thumbnail)
-            .ceoName(store.getCeoName())
-            .businessNumber(store.getBusinessNumber())
-            .businessAddress(store.getBusinessAddress())
-            .openTime(openTime)
-            .closeTime(closeTime)
-            .minAmount(minAmount)
-            .deliveryHour(deliveryHour)
-            .deliveryCost(deliveryCost)
-            .intro(intro)
-            .notice(notice)
-            .isOpend(false)
-            .isAccept(store.isAccept())
-            .user(store.getUser())
-            .build();
+                    .category(CustomEnumUtil.toCategoryEnumFormat(category))
+                    .name(name)
+                    .phone(phone)
+                    .thumbnail(thumbnail)
+                    .openTime(openTime)
+                    .closeTime(closeTime)
+                    .minAmount(minAmount)
+                    .deliveryHour(deliveryHour)
+                    .deliveryCost(deliveryCost)
+                    .intro(intro)
+                    .notice(notice)
+                    .build();
         }
     }
 

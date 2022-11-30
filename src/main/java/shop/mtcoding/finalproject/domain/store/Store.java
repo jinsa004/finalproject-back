@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.domain.store;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -87,7 +89,7 @@ public class Store extends AudingTime {
     public Store(Long id, StoreCategoryEnum category, String name, String phone, String thumbnail,
             String ceoName, String businessNumber, String businessAddress, String openTime, String closeTime,
             String minAmount, String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend,
-            boolean isAccept, User user) {
+            boolean isAccept, User user, LocalDateTime createdAt) {
         this.id = id;
         this.category = category;
         this.name = name;
@@ -106,28 +108,30 @@ public class Store extends AudingTime {
         this.isOpend = isOpend;
         this.isAccept = isAccept;
         this.user = user;
+        this.createdAt = createdAt;
     }
-    
-    public Store update(SaveStoreReqDto SaveStoreReqDto) {
+
+    public Store update(Store store) {
         return Store.builder()
                 .id(id)
-                .category(CustomEnumUtil.toCategoryEnumFormat(SaveStoreReqDto.getCategory()))
-                .name(SaveStoreReqDto.getName())
-                .phone(SaveStoreReqDto.getPhone())
-                .thumbnail(SaveStoreReqDto.getThumbnail())
+                .category(store.getCategory())
+                .name(store.getName())
+                .phone(store.getPhone())
+                .thumbnail(store.getThumbnail())
                 .ceoName(ceoName)
                 .businessNumber(businessNumber)
                 .businessAddress(businessAddress)
-                .openTime(SaveStoreReqDto.getOpenTime())
-                .closeTime(SaveStoreReqDto.getCloseTime())
-                .minAmount(SaveStoreReqDto.getMinAmount())
-                .deliveryHour(SaveStoreReqDto.getDeliveryHour())
-                .deliveryCost(SaveStoreReqDto.getDeliveryCost())
-                .intro(SaveStoreReqDto.getIntro())
-                .notice(SaveStoreReqDto.getNotice())
+                .openTime(store.getOpenTime())
+                .closeTime(store.getCloseTime())
+                .minAmount(store.getMinAmount())
+                .deliveryHour(store.getDeliveryHour())
+                .deliveryCost(store.getDeliveryCost())
+                .intro(store.getIntro())
+                .notice(store.getNotice())
                 .isOpend(false)
                 .isAccept(isAccept)
                 .user(user)
+                .createdAt(getCreatedAt())
                 .build();
     }
 

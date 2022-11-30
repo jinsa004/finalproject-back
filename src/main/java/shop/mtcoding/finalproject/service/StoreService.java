@@ -1,7 +1,5 @@
 package shop.mtcoding.finalproject.service;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,9 +14,13 @@ import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.SaveStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.SaveStoreRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.ShowStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -30,6 +32,25 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
 
+    @Transactional
+    public UpdateBusinessStateRespDto updateToBusinessState(UpdateBusinessStateReqDto updateBusinessStateReqDto) {
+        // 1. 해당 id의 점포가 있는지 찾기
+        Store store = storeRepository.findByUserId(updateBusinessStateReqDto.getUserDto().getId()).orElseThrow(
+                () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+
+        // 2. 심사중인 점포일 경우 예외처리 해버리기
+        // if (!store.isAccept()) {
+        // throw new CustomApiException("해당 점포는 아직 심사중입니다.", HttpStatus.BAD_REQUEST);
+        // }
+
+        // 3. 해당 점포의 내용 업데이트하기
+        Store storePS = storeRepository.save(store.update(updateBusinessStateReqDto.toEntity()));
+
+        // 4. 처리된 내용 보여주기
+        return new UpdateBusinessStateRespDto(storePS);
+    }
+
+    @Transactional
     public SaveStoreRespDto save(SaveStoreReqDto saveStoreReqDto) {
 
         // 1. 해당 id의 점포가 있는지 찾기
@@ -41,14 +62,29 @@ public class StoreService {
         // throw new CustomApiException("해당 점포는 아직 심사중입니다.", HttpStatus.BAD_REQUEST);
         // }
 
-        log.debug("디버그 1 : " + saveStoreReqDto.getCategory());
-        log.debug("디버그 1 : " + saveStoreReqDto.getName());
-
         // 3. 해당 점포의 내용 업데이트하기
-        Store storePS = storeRepository.save(saveStoreReqDto.toEntity(store));
+        Store storePS = storeRepository.save(store.update(saveStoreReqDto.toEntity()));
 
         // 4. 처리된 내용 보여주기
         return new SaveStoreRespDto(storePS);
+    }
+
+    @Transactional
+    public UpdateStoreRespDto update(UpdateStoreReqDto updateStoreReqDto) {
+        // 1. 해당 id의 점포가 있는지 찾기
+        Store store = storeRepository.findByUserId(updateStoreReqDto.getUserDto().getId()).orElseThrow(
+                () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+
+        // 2. 심사중인 점포일 경우 예외처리 해버리기
+        // if (!store.isAccept()) {
+        // throw new CustomApiException("해당 점포는 아직 심사중입니다.", HttpStatus.BAD_REQUEST);
+        // }
+
+        // 3. 해당 점포의 내용 업데이트하기
+        Store storePS = storeRepository.save(store.update(updateStoreReqDto.toEntity()));
+
+        // 4. 처리된 내용 보여주기
+        return new UpdateStoreRespDto(storePS);
     }
 
     public ApplyRespDto apply(ApplyReqDto applyReqDto) {
@@ -64,17 +100,10 @@ public class StoreService {
         return new ApplyRespDto(storePS);
     }
 
-    public ShowStoreRespDto findByUserId(Long userId) {
+    public DetailStoreRespDto findByUserId(Long userId) {
         Store storePS = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-        return new ShowStoreRespDto(storePS);
-    }
-
-    //////// 테스트 /////////
-
-    public List<Store> findByAll() {
-        List<Store> stores = storeRepository.findAllTest();
-        return stores;
+        return new DetailStoreRespDto(storePS);
     }
 
     /* 승현 작업 종료함 */
