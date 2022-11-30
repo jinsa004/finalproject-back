@@ -3,7 +3,6 @@ package shop.mtcoding.finalproject.config.dummy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import shop.mtcoding.finalproject.config.enums.UserEnum;
-import shop.mtcoding.finalproject.domain.deliveryAddress.DeliveryAddress;
 import shop.mtcoding.finalproject.domain.user.User;
 
 public class DummyEntity {
@@ -21,13 +20,5 @@ public class DummyEntity {
                 .role(username.equals("admin") ? UserEnum.ADMIN : UserEnum.CUSTOMER)
                 .build();
         return user;
-    }
-
-    protected DeliveryAddress newDeliveryAddress(String address, User user) {
-        DeliveryAddress deliveryAddress = DeliveryAddress.builder()
-                .address("부산시 진구 서면로 17번 길")
-                .userId(user.getId())
-                .build();
-        return deliveryAddress;
     }
 }
