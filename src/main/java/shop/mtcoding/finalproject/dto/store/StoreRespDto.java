@@ -12,6 +12,25 @@ public class StoreRespDto {
 
     @Getter
     @Setter
+    public static class ShowStoreRespDto {
+        private StoreCategoryEnum category;
+        private String name;
+        private String phone;
+        private String thumbnail;
+        private String ceoName;
+        private String businessNumber;
+        private String businessAddress;
+        private String openTime;
+        private String closeTime;
+        private String minAmount;
+        private String deliveryHour;
+        private String deliveryCost;
+        private String intro;
+        private String notice;
+    }
+
+    @Getter
+    @Setter
     public static class UpdateStoreRespDto {
         private StoreCategoryEnum category;
         private String name;

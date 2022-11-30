@@ -29,12 +29,24 @@ public class StoreApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreService storeService;
 
+    @GetMapping("/user/apply")
+    public ResponseEntity<?> findByUserIdToApply(@AuthenticationPrincipal LoginUser loginUser) {
+        ApplyRespDto applyRespDto = storeService.findByUserIdToApply(loginUser.getUser().getId());
+        return new ResponseEntity<>(new ResponseDto<>("입점현황보기 성공", applyRespDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/store")
+    public ResponseEntity<?> findByStoreId(@AuthenticationPrincipal LoginUser loginUser){
+        //ShowStoreRespDto showStoreRespDto = storeService.findBy
+        return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 성공", ), HttpStatus.OK);
+    }
+
     @PutMapping("/store/info")
     public ResponseEntity<?> updateById(@RequestBody UpdateStoreReqDto updateStoreReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
         updateStoreReqDto.setUserId(loginUser.getUser().getId());
         UpdateStoreRespDto updateStoreRespDto = storeService.updateById(updateStoreReqDto);
-        return new ResponseEntity<>(new ResponseDto<>("가게 정보 수정 성공", updateStoreRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>("가게 등록 성공", updateStoreRespDto), HttpStatus.OK);
     }
 
     @PostMapping("/user/apply")
@@ -43,12 +55,6 @@ public class StoreApiController {
         applyReqDto.setUserId(loginUser.getUser().getId());
         ApplyRespDto applyRespDto = storeService.apply(applyReqDto);
         return new ResponseEntity<>(new ResponseDto<>("입점신청 성공", applyRespDto), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/user/apply")
-    public ResponseEntity<?> findByUserIdToApply(@AuthenticationPrincipal LoginUser loginUser) {
-        ApplyRespDto applyRespDto = storeService.findByUserIdToApply(loginUser.getUser().getId());
-        return new ResponseEntity<>(new ResponseDto<>("입점현황보기 성공", applyRespDto), HttpStatus.OK);
     }
 
 }

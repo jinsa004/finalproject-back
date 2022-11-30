@@ -105,20 +105,26 @@ public class Store extends AudingTime {
         this.accept = accept;
     }
 
-    public Store update(UpdateStoreReqDto updateStoreReqDto) {
+    public Store update(Store store) {
         return Store.builder()
-                .category(CustomEnumUtil.toCategoryEnumFormat(updateStoreReqDto.getCategory()))
-                .name(updateStoreReqDto.getName())
-                .phone(updateStoreReqDto.getPhone())
-                .thumbnail(updateStoreReqDto.getThumbnail())
-                .openTime(updateStoreReqDto.getOpenTime())
-                .closeTime(updateStoreReqDto.getCloseTime())
-                .minAmount(updateStoreReqDto.getMinAmount())
-                .deliveryHour(updateStoreReqDto.getDeliveryHour())
-                .deliveryCost(updateStoreReqDto.getDeliveryCost())
-                .intro(updateStoreReqDto.getIntro())
-                .notice(updateStoreReqDto.getNotice())
+                .id(id)
+                .userId(userId)
+                .category(store.getCategory())
+                .name(store.getName())
+                .phone(store.getPhone())
+                .thumbnail(store.getThumbnail())
+                .ceoName(ceoName)
+                .businessNumber(businessNumber)
+                .businessAddress(businessAddress)
+                .openTime(store.getOpenTime())
+                .closeTime(store.getCloseTime())
+                .minAmount(store.getMinAmount())
+                .deliveryHour(store.getDeliveryHour())
+                .deliveryCost(store.getDeliveryCost())
+                .intro(store.getIntro())
+                .notice(store.getNotice())
                 .opend(false)
+                .accept(accept)
                 .build();
     }
 
