@@ -17,7 +17,7 @@ import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "users")
 @Entity
