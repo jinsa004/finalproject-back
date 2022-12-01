@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.auth.LoginUser;
-import shop.mtcoding.finalproject.dto.UserReqDto.LoginReqDto;
-import shop.mtcoding.finalproject.dto.UserRespDto.LoginRespDto;
+import shop.mtcoding.finalproject.dto.user.UserReqDto.LoginReqDto;
+import shop.mtcoding.finalproject.dto.user.UserRespDto.LoginRespDto;
 import shop.mtcoding.finalproject.util.CustomResponseUtil;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -66,7 +66,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwtToken = JwtProcess.create(loginUser);
 
         // 3. 토큰을 헤더에 담기
-        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
+        response.addHeader(JwtProperties.HEADER_STRING, jwtToken);
 
         // 4. 토큰 담아서 성공 응답하기
         LoginRespDto loginRespDto = new LoginRespDto(loginUser.getUser());

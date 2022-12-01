@@ -1,4 +1,4 @@
-package shop.mtcoding.bank;
+package shop.mtcoding.finalproject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

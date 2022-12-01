@@ -1,5 +1,12 @@
 SET REFERENTIAL_INTEGRITY FALSE;
-truncate table transaction;
-truncate table account;
 truncate table users;
+truncate table stores;
+truncate table report_reviews;
+truncate table payments;
+truncate table order_details;
+truncate table orders;
+truncate table menus;
+truncate table likes;
+truncate table customer_reviews;
+truncate table ceo_reviews;
 SET REFERENTIAL_INTEGRITY TRUE;
