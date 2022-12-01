@@ -2,9 +2,11 @@ package shop.mtcoding.finalproject.config.dummy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
 public class DummyEntity {
@@ -25,6 +27,39 @@ public class DummyEntity {
         return user;
     }
 
+    protected Store newStore(User user) {
+        Store store = Store.builder()
+                .name("그린치킨")
+                .phone("01011112222")
+                .thumbnail(null)
+                .ceoName("cos")
+                .businessNumber("112233")
+                .businessAddress("부산시 진구 서면 17번 길")
+                .openTime("2")
+                .closeTime("4")
+                .deliveryHour("30분")
+                .deliveryCost("2000원")
+                .intro("그린 치킨입니다.")
+                .notice("리뷰 이벤트중입니다.")
+                .isOpend(true)
+                .isAccept(true)
+                .user(user)
+                .build();
+        return store;
+    }
+
+    protected Order newOrder(User user, Store store) {
+        Order order = Order.builder()
+                .paymentId(1)
+                .state(OrderStateEnum.COMPLETE)
+                .reason(null)
+                .user(user)
+                .store(store)
+                .isClosure(false)
+                .build();
+        return order;
+    }
+
     protected CustomerReview newCustomerReview(User user, Order order) {
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
@@ -36,4 +71,5 @@ public class DummyEntity {
                 .build();
         return customerReview;
     }
+
 }

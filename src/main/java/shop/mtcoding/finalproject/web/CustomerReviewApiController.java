@@ -26,11 +26,11 @@ public class CustomerReviewApiController {
     private final CustomerReviewService customerReviewService;
 
     @PostMapping("/review/{orderId}/insert")
-    public ResponseEntity<?> userDetail(@RequestBody InsertCustomerReviewReqDto insertCustomerReviewReqDto,
+    public ResponseEntity<?> insertCustomerReview(@RequestBody InsertCustomerReviewReqDto insertCustomerReviewReqDto,
             @PathVariable Long orderId, @AuthenticationPrincipal LoginUser loginUser) {
         InsertCustomerReviewRespDto insertCustomerReviewRespDto = customerReviewService
                 .고객리뷰_등록하기(insertCustomerReviewReqDto, orderId, loginUser);
-        return new ResponseEntity<>(new ResponseDto<>("리뷰 등록하기 완료", insertCustomerReviewRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>("리뷰 등록하기 완료", insertCustomerReviewRespDto), HttpStatus.CREATED);
     }
 
 }
