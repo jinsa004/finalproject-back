@@ -49,6 +49,10 @@ public class User extends AudingTime {
     @Column(nullable = false)
     private UserEnum role; // ADMIN, CUSTOMER, CEO
 
+    // 커멜케이스는 DB에 언더스코어로 생성된다.
+    @Column(nullable = false)
+    private boolean isActive; // 계정활성화여부
+
     public void 회원수정(UpdateUserReqDto updateUserReqDto) {
         this.password = updateUserReqDto.getPassword();
         this.address = updateUserReqDto.getAddress();
@@ -58,16 +62,21 @@ public class User extends AudingTime {
     }
 
     @Builder
-    public User(Long id, String address, String username, String password, String nickname,
-            String phone, String photo, UserEnum role) {
+    public User(Long id, String address, String username, String password, String nickname, String phone, String photo,
+            UserEnum role, boolean isActive) {
         this.id = id;
         this.address = address;
         this.username = username;
         this.password = password;
         this.nickname = nickname;
-        this.photo = photo;
         this.phone = phone;
+        this.photo = photo;
         this.role = role;
+        this.isActive = isActive;
+    }
+
+    public void 회원비활성화() {
+        this.isActive = false;
     }
 
 }

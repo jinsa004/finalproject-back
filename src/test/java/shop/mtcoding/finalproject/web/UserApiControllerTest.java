@@ -60,6 +60,7 @@ public class UserApiControllerTest extends DummyEntity {
         joinReqDto.setNickname("mil");
         joinReqDto.setPhone("01071649311");
         joinReqDto.setPhoto(null);
+        joinReqDto.setActive(true);
 
         String requestBody = om.writeValueAsString(joinReqDto);
 
@@ -115,4 +116,5 @@ public class UserApiControllerTest extends DummyEntity {
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.data.nickname").value("ssar님"));
     }
+
 }
