@@ -67,4 +67,11 @@ public class UserService {
         return detailUserRespDto;
     }
 
+    public void 회원탈퇴하기(Long userId) {
+        // 1. 회원 값이 존재하는지 검증
+        User userPS = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomApiException("회원정보가 없습니다.", HttpStatus.BAD_REQUEST));
+        // 2. isActive false (계정 비활성화 로직)
+        userPS.회원비활성화();
+    }
 }

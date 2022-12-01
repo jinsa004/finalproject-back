@@ -32,6 +32,7 @@ public class UserReqDto {
         private String nickname;
         private String photo;
         private String phone;
+        private boolean isActive;
 
         public User toEntity() {
             return User.builder()
@@ -42,6 +43,7 @@ public class UserReqDto {
                     .photo(null)
                     .phone(phone)
                     .role(UserEnum.CUSTOMER)
+                    .isActive(true)
                     .build();
         }
     }
