@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -26,6 +27,9 @@ public class User extends AudingTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 60)
+    private String address;
+
     @Column(unique = true, nullable = false, length = 20)
     private String username;
 
@@ -35,29 +39,34 @@ public class User extends AudingTime {
     @Column(nullable = false, length = 20)
     private String nickname;
 
+    @Column(nullable = false, length = 20)
+    private String phone;
+
     @Column(nullable = true)
     private String photo; // 사진 포맷 무엇으로 할지?
 
-    @Column(nullable = false, length = 11)
-    private String phone;
-
-    @Column(nullable = false, length = 50)
-    private String email;
-
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private UserEnum role; // ADMIN, CUSTOMER, CEO
 
+    public void 회원수정(UpdateUserReqDto updateUserReqDto) {
+        this.password = updateUserReqDto.getPassword();
+        this.address = updateUserReqDto.getAddress();
+        this.nickname = updateUserReqDto.getNickname();
+        this.phone = updateUserReqDto.getPhone();
+        this.photo = updateUserReqDto.getPhoto();
+    }
+
     @Builder
-    public User(Long id, String username, String password, String nickname, String photo, String phone, String email,
-            UserEnum role) {
+    public User(Long id, String address, String username, String password, String nickname,
+            String phone, String photo, UserEnum role) {
         this.id = id;
+        this.address = address;
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.photo = photo;
         this.phone = phone;
-        this.email = email;
         this.role = role;
     }
 
