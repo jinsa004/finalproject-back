@@ -57,4 +57,10 @@ public class UserApiController {
         return new ResponseEntity<>(new ResponseDto<>("회원수정성공", UpdateUserRespDto), HttpStatus.OK);
     }
 
+    @PutMapping("/user/{userId}/delete")
+    public ResponseEntity<?> deleteByUserId(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
+        userService.회원탈퇴하기(userId);
+        return new ResponseEntity<>(new ResponseDto<>("회원 비활성화 완료", null), HttpStatus.OK);
+    }
+
 }
