@@ -3,6 +3,8 @@ package shop.mtcoding.finalproject.config.dummy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import shop.mtcoding.finalproject.config.enums.UserEnum;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.user.User;
 
 public class DummyEntity {
@@ -21,5 +23,17 @@ public class DummyEntity {
                 .isActive(true)
                 .build();
         return user;
+    }
+
+    protected CustomerReview newCustomerReview(User user, Order order) {
+        CustomerReview customerReview = CustomerReview.builder()
+                .content("맛있어요")
+                .starPoint(5)
+                .photo(null)
+                .isClosure(false)
+                .user(user)
+                .order(order)
+                .build();
+        return customerReview;
     }
 }
