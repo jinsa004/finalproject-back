@@ -18,6 +18,7 @@ public class DummyEntity {
                 .photo(null)
                 .address("부산시 진구 서면")
                 .role(username.equals("admin") ? UserEnum.ADMIN : UserEnum.CUSTOMER)
+                .isActive(true)
                 .build();
         return user;
     }

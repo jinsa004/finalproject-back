@@ -60,6 +60,7 @@ public class UserApiControllerTest extends DummyEntity {
         joinReqDto.setNickname("mil");
         joinReqDto.setPhone("01071649311");
         joinReqDto.setPhoto(null);
+        joinReqDto.setActive(true);
 
         String requestBody = om.writeValueAsString(joinReqDto);
 
@@ -114,5 +115,23 @@ public class UserApiControllerTest extends DummyEntity {
         // then
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.data.nickname").value("ssar님"));
+    }
+    
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void deleteByUserId_test() throws Exception {
+        // given
+        Long userId = 1L;
+
+        // when
+        ResultActions resultActions = mvc
+                .perform(put("/api/user/" + userId + "/delete"));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        // then
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.msg").value("회원 비활성화 완료"));
+
     }
 }
