@@ -1,11 +1,9 @@
 package shop.mtcoding.finalproject.dto.store;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.store.Store;
-import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class StoreRespDto {

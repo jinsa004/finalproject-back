@@ -47,7 +47,12 @@ public class StoreApiController {
         return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 성공", detailStoreRespDto), HttpStatus.OK);
     }
 
-    // 구현 필요함
+    @PutMapping("/store/close")
+    public ResponseEntity<?> delete(@AuthenticationPrincipal LoginUser loginUser) {
+        storeService.updateByUserIdToClose(loginUser.getUser().getId());
+        return new ResponseEntity<>(new ResponseDto<>("폐업 신청 성공", null), HttpStatus.OK);
+    }
+
     @PutMapping("/store/business")
     public ResponseEntity<?> updateToBusiness(@RequestBody UpdateBusinessStateReqDto updateBusinessStateReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
