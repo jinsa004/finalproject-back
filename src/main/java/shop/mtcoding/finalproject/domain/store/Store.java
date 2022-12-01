@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,8 +22,6 @@ import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.user.User;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.SaveStoreReqDto;
-import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -86,10 +86,17 @@ public class Store extends AudingTime {
     private User user;
 
     @Builder
-    public Store(Long id, StoreCategoryEnum category, String name, String phone, String thumbnail,
-            String ceoName, String businessNumber, String businessAddress, String openTime, String closeTime,
-            String minAmount, String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend,
-            boolean isAccept, User user, LocalDateTime createdAt) {
+    public Store(@JsonProperty("id") Long id, @JsonProperty("category") StoreCategoryEnum category,
+            @JsonProperty("name") String name, @JsonProperty("phone") String phone,
+            @JsonProperty("thumbnail") String thumbnail, @JsonProperty("ceoName") String ceoName,
+            @JsonProperty("businessNumber") String businessNumber,
+            @JsonProperty("businessAddress") String businessAddress,
+            @JsonProperty("openTime") String openTime, @JsonProperty("closeTime") String closeTime,
+            @JsonProperty("minAmount") String minAmount, @JsonProperty("deliveryHour") String deliveryHour,
+            @JsonProperty("deliveryCost") String deliveryCost, @JsonProperty("intro") String intro,
+            @JsonProperty("notice") String notice, @JsonProperty("isOpend") boolean isOpend,
+            @JsonProperty("isAccept") boolean isAccept, @JsonProperty("user") User user,
+            @JsonProperty("createdAt") LocalDateTime createdAt) {
         this.id = id;
         this.category = category;
         this.name = name;
@@ -128,7 +135,7 @@ public class Store extends AudingTime {
                 .deliveryCost(store.getDeliveryCost())
                 .intro(store.getIntro())
                 .notice(store.getNotice())
-                .isOpend(false)
+                .isOpend(store.isOpend)
                 .isAccept(isAccept)
                 .user(user)
                 .createdAt(getCreatedAt())

@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.UserDto;
 import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
 public class StoreReqDto {
@@ -18,7 +17,7 @@ public class StoreReqDto {
     @Setter
     public static class UpdateBusinessStateReqDto {
 
-        private UserDto userDto;
+        private Long userId;
         private boolean isOpend;
 
         public Store toEntity() {
@@ -32,7 +31,7 @@ public class StoreReqDto {
     @Setter
     public static class UpdateStoreReqDto {
 
-        private UserDto userDto;
+        private Long userId;
 
         @NotBlank(message = "카테고리는 필수입니다.")
         private String category;
@@ -90,7 +89,7 @@ public class StoreReqDto {
     @Setter
     public static class SaveStoreReqDto {
 
-        private UserDto userDto;
+        private Long userId;
 
         @NotBlank(message = "카테고리는 필수입니다.")
         private String category;
@@ -148,7 +147,7 @@ public class StoreReqDto {
     @Setter
     public static class ApplyReqDto {
 
-        private UserDto userDto;
+        private Long userId;
 
         @NotBlank(message = "사업자명은 필수입니다.")
         @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,20}$", message = "이름은 특수문자를 포함하지 않은 2~20자리여야 합니다.")

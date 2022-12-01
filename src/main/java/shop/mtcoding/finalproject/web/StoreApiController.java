@@ -24,7 +24,6 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.SaveStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.UserDto;
 import shop.mtcoding.finalproject.service.StoreService;
 
 @RequiredArgsConstructor
@@ -48,10 +47,11 @@ public class StoreApiController {
         return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 성공", detailStoreRespDto), HttpStatus.OK);
     }
 
+    // 구현 필요함
     @PutMapping("/store/business")
     public ResponseEntity<?> updateToBusiness(@RequestBody UpdateBusinessStateReqDto updateBusinessStateReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        updateBusinessStateReqDto.setUserDto(new UserDto(loginUser.getUser()));
+        updateBusinessStateReqDto.setUserId(loginUser.getUser().getId());
         UpdateBusinessStateRespDto businessStateRespDto = storeService.updateToBusinessState(updateBusinessStateReqDto);
         return new ResponseEntity<>(new ResponseDto<>("영업 상태 수정 성공", businessStateRespDto), HttpStatus.OK);
     }
@@ -59,7 +59,7 @@ public class StoreApiController {
     @PutMapping("/store")
     public ResponseEntity<?> save(@RequestBody SaveStoreReqDto saveStoreReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        saveStoreReqDto.setUserDto(new UserDto(loginUser.getUser()));
+        saveStoreReqDto.setUserId(loginUser.getUser().getId());
         SaveStoreRespDto saveStoreRespDto = storeService.save(saveStoreReqDto);
         return new ResponseEntity<>(new ResponseDto<>("가게 등록 성공", saveStoreRespDto), HttpStatus.OK);
     }
@@ -67,7 +67,7 @@ public class StoreApiController {
     @PutMapping("/store/info")
     public ResponseEntity<?> update(@RequestBody UpdateStoreReqDto updateStoreReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        updateStoreReqDto.setUserDto(new UserDto(loginUser.getUser()));
+        updateStoreReqDto.setUserId(loginUser.getUser().getId());
         UpdateStoreRespDto updateStoreRespDto = storeService.update(updateStoreReqDto);
         return new ResponseEntity<>(new ResponseDto<>("가게 수정 성공", updateStoreRespDto), HttpStatus.OK);
     }
@@ -75,7 +75,7 @@ public class StoreApiController {
     @PostMapping("/user/apply")
     public ResponseEntity<?> apply(@RequestBody ApplyReqDto applyReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        applyReqDto.setUserDto(new UserDto(loginUser.getUser()));
+        applyReqDto.setUserId(loginUser.getUser().getId());
         ApplyRespDto applyRespDto = storeService.apply(applyReqDto);
         return new ResponseEntity<>(new ResponseDto<>("입점신청 성공", applyRespDto), HttpStatus.CREATED);
     }

@@ -1,6 +1,7 @@
 package shop.mtcoding.finalproject.dto.store;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.store.Store;
@@ -76,7 +77,6 @@ public class StoreRespDto {
         private String deliveryCost;
         private String intro;
         private String notice;
-        private boolean isOpend;
 
         public DetailStoreRespDto(Store store) {
             this.category = store.getCategory();
@@ -93,7 +93,6 @@ public class StoreRespDto {
             this.deliveryCost = store.getDeliveryCost();
             this.intro = store.getIntro();
             this.notice = store.getNotice();
-            this.isOpend = store.isOpend();
         }
 
     }
@@ -153,16 +152,6 @@ public class StoreRespDto {
             this.accept = store.isAccept();
         }
 
-    }
-
-    @Getter
-    @Setter
-    public static class UserDto {
-        private Long id;
-
-        public UserDto(User user) {
-            this.id = user.getId();
-        }
     }
 
     /* 승현 작업 종료 */

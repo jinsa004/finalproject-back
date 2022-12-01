@@ -34,10 +34,11 @@ public class StoreService {
 
     @Transactional
     public UpdateBusinessStateRespDto updateToBusinessState(UpdateBusinessStateReqDto updateBusinessStateReqDto) {
+        log.debug("디버그 : " + updateBusinessStateReqDto.isOpend());
         // 1. 해당 id의 점포가 있는지 찾기
-        Store store = storeRepository.findByUserId(updateBusinessStateReqDto.getUserDto().getId()).orElseThrow(
+        Store store = storeRepository.findByUserId(updateBusinessStateReqDto.getUserId()).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-
+        log.debug("디버그 : " + store.isOpend());
         // 2. 심사중인 점포일 경우 예외처리 해버리기
         // if (!store.isAccept()) {
         // throw new CustomApiException("해당 점포는 아직 심사중입니다.", HttpStatus.BAD_REQUEST);
@@ -45,6 +46,7 @@ public class StoreService {
 
         // 3. 해당 점포의 내용 업데이트하기
         Store storePS = storeRepository.save(store.update(updateBusinessStateReqDto.toEntity()));
+        log.debug("디버그 : " + storePS.isOpend());
 
         // 4. 처리된 내용 보여주기
         return new UpdateBusinessStateRespDto(storePS);
@@ -54,7 +56,7 @@ public class StoreService {
     public SaveStoreRespDto save(SaveStoreReqDto saveStoreReqDto) {
 
         // 1. 해당 id의 점포가 있는지 찾기
-        Store store = storeRepository.findByUserId(saveStoreReqDto.getUserDto().getId()).orElseThrow(
+        Store store = storeRepository.findByUserId(saveStoreReqDto.getUserId()).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
 
         // 2. 심사중인 점포일 경우 예외처리 해버리기
@@ -72,7 +74,7 @@ public class StoreService {
     @Transactional
     public UpdateStoreRespDto update(UpdateStoreReqDto updateStoreReqDto) {
         // 1. 해당 id의 점포가 있는지 찾기
-        Store store = storeRepository.findByUserId(updateStoreReqDto.getUserDto().getId()).orElseThrow(
+        Store store = storeRepository.findByUserId(updateStoreReqDto.getUserId()).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
 
         // 2. 심사중인 점포일 경우 예외처리 해버리기
@@ -88,7 +90,7 @@ public class StoreService {
     }
 
     public ApplyRespDto apply(ApplyReqDto applyReqDto) {
-        User userPS = userRepository.findById(applyReqDto.getUserDto().getId()).orElseThrow(
+        User userPS = userRepository.findById(applyReqDto.getUserId()).orElseThrow(
                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
         Store storePS = storeRepository.save(applyReqDto.toEntity(applyReqDto, userPS));
         return new ApplyRespDto(storePS);
