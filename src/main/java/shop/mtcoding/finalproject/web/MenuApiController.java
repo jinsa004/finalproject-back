@@ -20,6 +20,7 @@ import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
+import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
@@ -36,6 +37,17 @@ public class MenuApiController {
     private final MenuService menuService;
 
     /* 승현 작업 시작 */
+
+    @PutMapping("/store/menu/{menuId}/state")
+    public ResponseEntity<?> updateByMenuIdToState(@PathVariable Long menuId,
+            @RequestBody UpdateMenuStateReqDto updateMenuStateReqDto,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        updateMenuStateReqDto.setUserDto(new UserDto(loginUser.getUser().getId()));
+        updateMenuStateReqDto.setId(menuId);
+        menuService.updateByMenuIdToState(updateMenuStateReqDto);
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 보이기 수정 완료", null), HttpStatus.OK);
+    }
+
     @PutMapping("/store/menu/{menuId}")
     public ResponseEntity<?> updateByMenuId(@PathVariable Long menuId,
             @RequestBody UpdateMenuReqDto updateMenuReqDto,

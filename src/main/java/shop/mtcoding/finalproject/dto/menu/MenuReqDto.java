@@ -17,12 +17,27 @@ public class MenuReqDto {
 
     @Getter
     @Setter
+    public static class UpdateMenuStateReqDto {
+        private UserDto userDto;
+        private Long id;
+        private boolean isClosure;
+
+        public Menu toEntity() {
+            return Menu.builder()
+                    .isClosure(this.isClosure)
+                    .build();
+        }
+
+    }
+
+    @Getter
+    @Setter
     public static class UpdateMenuReqDto {
 
         private UserDto userDto;
 
         private Long id;
-        
+
         private String thumbnail;
 
         @NotBlank(message = "카테고리를 선택해주세요.")
@@ -47,7 +62,6 @@ public class MenuReqDto {
 
         public Menu toEntity() {
             return Menu.builder()
-                    .id(id)
                     .thumbnail(thumbnail)
                     .name(name)
                     .category(CustomEnumUtil.toMenuCategoryEnumFormat(category))

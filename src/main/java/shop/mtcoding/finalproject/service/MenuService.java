@@ -17,6 +17,7 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
+import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
@@ -32,6 +33,22 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     /* 승현 작업 시작 */
+
+    @Transactional
+    public void updateByMenuIdToState(UpdateMenuStateReqDto updateMenuStateReqDto) {
+
+        // 1. 메뉴가 있는지 확인하기
+        Menu menu = menuRepository.findByMenuId(updateMenuStateReqDto.getId()).orElseThrow(
+                () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+
+        // 2. 메뉴 작성자가 본인인지 확인하기 (나중에 익셉션 빼면 좋을듯)
+        if (!menu.getStore().getUser().getId().equals(updateMenuStateReqDto.getUserDto().getId())) {
+            throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 3. 메뉴 수정하기
+        menuRepository.save(menu.close(updateMenuStateReqDto.toEntity()));
+    }
 
     @Transactional
     public UpdateMenuRespDto updateByMenuId(UpdateMenuReqDto updateMenuReqDto) {

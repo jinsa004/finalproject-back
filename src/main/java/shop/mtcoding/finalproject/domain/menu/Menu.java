@@ -83,4 +83,17 @@ public class Menu {
                 .build();
     }
 
+    public Menu close(Menu menu) {
+        return Menu.builder()
+                .id(id)
+                .name(name)
+                .thumbnail(thumbnail)
+                .intro(intro)
+                .price(price)
+                .category(category)
+                .isClosure(menu.isClosure)
+                .store(store)
+                .build();
+    }
+
 }
