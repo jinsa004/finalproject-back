@@ -48,7 +48,6 @@ public class OrderService {
                     .comment(comment)
                     .store(null)
                     .user(null)
-                    .orderDetail(orderDetail)
                     .payment(payment)
                     .state(OrderStateEnum.ORDER)
                     .reason(null)

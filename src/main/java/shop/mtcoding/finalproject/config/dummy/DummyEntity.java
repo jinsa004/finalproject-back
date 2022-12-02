@@ -65,13 +65,12 @@ public class DummyEntity {
         return menu;
     }
 
-    protected Order newOrder(User user, Store store, OrderDetail orderDetail, Payment payment) {
+    protected Order newOrder(User user, Store store, Payment payment) {
         Order order = Order.builder()
                 .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
                 .store(store)
-                .orderDetail(orderDetail)
                 .payment(payment)
                 .isClosure(false)
                 .build();

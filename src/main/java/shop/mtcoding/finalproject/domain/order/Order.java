@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -53,14 +52,12 @@ public class Order extends AudingTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
 
-    private OrderDetail orderDetail;
-
     @OneToOne(fetch = FetchType.LAZY)
     private Payment payment;
 
     @Builder
     public Order(Long id, String comment, OrderStateEnum state, String reason, boolean isClosure, User user,
-            Store store, OrderDetail orderDetail, Payment payment) {
+            Store store, Payment payment) {
         this.id = id;
         this.comment = comment;
         this.state = state;
@@ -68,7 +65,6 @@ public class Order extends AudingTime {
         this.isClosure = isClosure;
         this.user = user;
         this.store = store;
-        this.orderDetail = orderDetail;
         this.payment = payment;
     }
 
