@@ -11,12 +11,40 @@ public class MenuRespDto {
 
     @Getter
     @Setter
+    public static class DetailMenuRespDto {
+
+        private MenuCategoryEnum category;
+        private String name;
+        private String intro;
+        private String price;
+        private String thumbnail;
+        private boolean isClosure;
+
+        public DetailMenuRespDto(Menu menu) {
+            this.category = menu.getCategory();
+            this.name = menu.getName();
+            this.intro = menu.getIntro();
+            this.price = menu.getPrice();
+            this.thumbnail = menu.getThumbnail();
+            this.isClosure = menu.isClosure();
+        }
+
+    }
+
+    @Getter
+    @Setter
+    public static class ShowMenuRespDto {
+    }
+
+    @Getter
+    @Setter
     public static class InsertMenuRespDto {
         private MenuCategoryEnum category;
         private String name;
         private String intro;
         private String price;
         private String thumbnail;
+        private boolean isClosure;
 
         public InsertMenuRespDto(Menu menu) {
             this.category = menu.getCategory();
@@ -24,6 +52,7 @@ public class MenuRespDto {
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
             this.thumbnail = menu.getThumbnail();
+            this.isClosure = menu.isClosure();
         }
 
     }

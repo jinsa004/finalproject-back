@@ -171,6 +171,7 @@ public class StoreReqDto {
                     .user(user)
                     .isOpend(false)
                     .isAccept(false)
+                    .isClosure(false)
                     .build();
         }
 

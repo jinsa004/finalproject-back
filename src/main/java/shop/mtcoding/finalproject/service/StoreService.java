@@ -105,6 +105,7 @@ public class StoreService {
         Store storePS = storeRepository.save(store.close(store));
     }
 
+    @Transactional
     public ApplyRespDto apply(ApplyReqDto applyReqDto) {
         User userPS = userRepository.findById(applyReqDto.getUserId()).orElseThrow(
                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));

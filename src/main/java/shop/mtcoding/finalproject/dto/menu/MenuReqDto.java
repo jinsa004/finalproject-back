@@ -6,7 +6,6 @@ import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
-import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.dto.user.UserRespDto.UserDto;
@@ -51,6 +50,7 @@ public class MenuReqDto {
                     .price(price)
                     .intro(intro)
                     .store(store)
+                    .isClosure(false)
                     .build();
         }
     }
