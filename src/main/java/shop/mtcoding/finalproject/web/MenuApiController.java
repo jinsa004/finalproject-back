@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.web;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
 import shop.mtcoding.finalproject.dto.user.UserRespDto.UserDto;
 import shop.mtcoding.finalproject.service.MenuService;
 
@@ -36,6 +39,12 @@ public class MenuApiController {
         insertMenuReqDto.setUserDto(new UserDto(loginUser.getUser().getId()));
         InsertMenuRespDto insertMenuRespDto = menuService.insert(insertMenuReqDto);
         return new ResponseEntity<>(new ResponseDto<>("메뉴 추가 성공", insertMenuRespDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/store/menu")
+    public ResponseEntity<?> findAll(@AuthenticationPrincipal LoginUser loginUser) {
+        List<ShowMenuRespDto> showMenuRespDtos = menuService.findAll(loginUser.getUser().getId());
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 전체보기 성공", showMenuRespDtos), HttpStatus.OK);
     }
 
     @GetMapping("/store/menu/{menuId}")

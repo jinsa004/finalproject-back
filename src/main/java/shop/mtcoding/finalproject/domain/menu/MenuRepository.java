@@ -9,9 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
-    @Query("select m from Menu m join fetch m.store s join fetch s.user u where m.id = :menuId")
+    @Query("select m from Menu m join fetch m.store s join fetch s.user u where m.id = :menuId and m.isClosure = false and s.isClosure = false")
     Optional<Menu> findByMenuId(@Param("menuId") Long menuId);
 
-    @Query("select m from Menu m join fetch m.store s join fetch s.user u")
-    List<Menu> findAll();
+    @Query("select m from Menu m join fetch m.store s join fetch s.user u where s.id = :storeId and m.isClosure = false")
+    List<Menu> findAllByStoreId(@Param("storeId") Long storeId);
 }

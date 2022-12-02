@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.dto.menu;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
@@ -34,6 +36,21 @@ public class MenuRespDto {
     @Getter
     @Setter
     public static class ShowMenuRespDto {
+
+        private Long id;
+        private String thumbnail;
+        private String name;
+        private String price;
+        private boolean isClosure;
+
+        public ShowMenuRespDto(Menu menu) {
+            this.id = menu.getId();
+            this.thumbnail = menu.getThumbnail();
+            this.name = menu.getName();
+            this.price = menu.getName();
+            this.isClosure = menu.isClosure;
+        }
+
     }
 
     @Getter

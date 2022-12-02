@@ -42,11 +42,11 @@ public class Menu extends AudingTime {
     private String price;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private MenuCategoryEnum category;
 
     @Column(nullable = false)
-    private boolean isClosure;
+    public boolean isClosure;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
@@ -64,7 +64,7 @@ public class Menu extends AudingTime {
         this.store = store;
     }
 
-    public void putStore (Store store) {
+    public void putStore(Store store) {
         this.store = store;
     }
 

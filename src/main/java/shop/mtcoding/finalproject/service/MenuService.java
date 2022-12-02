@@ -1,5 +1,8 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -54,6 +58,23 @@ public class MenuService {
             throw new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
         return new DetailMenuRespDto(menuPS);
+    }
+
+    public List<ShowMenuRespDto> findAll(Long userId) {
+        // 1. 가게가 있는지 체크하기
+        Store storePS = storeRepository.findByUserId(userId).orElseThrow(
+                () -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+
+        // 2. 메뉴 목록 받아오기
+        List<Menu> menuPS = menuRepository.findAllByStoreId(storePS.getId());
+
+        // 3. Dto로 바꾸기
+        List<ShowMenuRespDto> showMenuRespDtos = new ArrayList<>();
+        for (int i = 0; i < menuPS.size(); i++) {
+            showMenuRespDtos.add(i, new ShowMenuRespDto(menuPS.get(i)));
+        }
+
+        return showMenuRespDtos;
     }
 
     /* 승현 작업 종료 */
