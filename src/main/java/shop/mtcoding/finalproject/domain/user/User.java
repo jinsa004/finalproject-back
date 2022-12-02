@@ -53,14 +53,6 @@ public class User extends AudingTime {
     @Column(nullable = false)
     private boolean isActive; // 계정활성화여부
 
-    public void 회원수정(UpdateUserReqDto updateUserReqDto) {
-        this.password = updateUserReqDto.getPassword();
-        this.address = updateUserReqDto.getAddress();
-        this.nickname = updateUserReqDto.getNickname();
-        this.phone = updateUserReqDto.getPhone();
-        this.photo = updateUserReqDto.getPhoto();
-    }
-
     @Builder
     public User(Long id, String address, String username, String password, String nickname, String phone, String photo,
             UserEnum role, boolean isActive) {
@@ -73,6 +65,14 @@ public class User extends AudingTime {
         this.photo = photo;
         this.role = role;
         this.isActive = isActive;
+    }
+
+    public void 회원수정(UpdateUserReqDto updateUserReqDto) {
+        this.password = updateUserReqDto.getPassword();
+        this.address = updateUserReqDto.getAddress();
+        this.nickname = updateUserReqDto.getNickname();
+        this.phone = updateUserReqDto.getPhone();
+        this.photo = updateUserReqDto.getPhoto();
     }
 
     public void 회원비활성화() {
