@@ -34,8 +34,6 @@ import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
-import shop.mtcoding.finalproject.dto.user.UserRespDto.UserDto;
 
 @Sql("classpath:db/truncate.sql") // 롤백 대신 사용 (auto_increment 초기화 + 데이터 비우기)
 @ActiveProfiles("test")
