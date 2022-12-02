@@ -21,7 +21,7 @@ import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.user.User;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "stores")
 @Entity

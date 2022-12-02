@@ -116,7 +116,7 @@ public class UserApiControllerTest extends DummyEntity {
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.data.nickname").value("ssar님"));
     }
-    
+
     @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void deleteByUserId_test() throws Exception {
