@@ -60,7 +60,7 @@ public class StoreService {
         Store store = storeRepository.findByUserId(insertStoreReqDto.getUserId()).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
 
-        // 2. 심사중인 점포일 경우 예외처리 해버리기
+        // 2. 심사중인 점포일 경우 예외처리 해버리기 < 나중에 통합적으로 체크하는거 구현하기
         // if (!store.isAccept() || storePS.isClosure()) {
         // throw new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         // }
@@ -103,7 +103,6 @@ public class StoreService {
 
         // 3. 해당 점포의 내용 업데이트하기
         Store storePS = storeRepository.save(store.close(store));
-        log.debug("디버그 : 엥??ㅠㅠ" + storePS.isClosure());
     }
 
     public ApplyRespDto apply(ApplyReqDto applyReqDto) {

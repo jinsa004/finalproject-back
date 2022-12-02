@@ -64,4 +64,8 @@ public class Menu extends AudingTime {
         this.store = store;
     }
 
+    public void putStore (Store store) {
+        this.store = store;
+    }
+
 }

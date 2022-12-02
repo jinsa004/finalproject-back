@@ -84,5 +84,4 @@ public class StoreApiController {
         ApplyRespDto applyRespDto = storeService.apply(applyReqDto);
         return new ResponseEntity<>(new ResponseDto<>("입점신청 성공", applyRespDto), HttpStatus.CREATED);
     }
-
 }
