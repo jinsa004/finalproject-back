@@ -8,6 +8,8 @@ import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -63,13 +65,14 @@ public class DummyEntity {
         return menu;
     }
 
-    protected Order newOrder(User user, Store store) {
+    protected Order newOrder(User user, Store store, OrderDetail orderDetail, Payment payment) {
         Order order = Order.builder()
-                .paymentId(1)
                 .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
                 .store(store)
+                .orderDetail(orderDetail)
+                .payment(payment)
                 .isClosure(false)
                 .build();
         return order;
