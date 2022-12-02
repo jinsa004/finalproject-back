@@ -2,9 +2,11 @@ package shop.mtcoding.finalproject.config.dummy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
@@ -46,6 +48,19 @@ public class DummyEntity {
                 .user(user)
                 .build();
         return store;
+    }
+
+    protected Menu newMenu(Store store) {
+        Menu menu = Menu.builder()
+                .name("후라이드치킨")
+                .thumbnail(null)
+                .intro("깨끗한 기름으로 튀겼습니다.")
+                .price("18,000원")
+                .category(MenuCategoryEnum.MAIN)
+                .isClosure(false)
+                .store(store)
+                .build();
+        return menu;
     }
 
     protected Order newOrder(User user, Store store) {
