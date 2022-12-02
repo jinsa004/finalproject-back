@@ -15,12 +15,12 @@ public class OrderService {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final OrderRepository orderRepository;
 
-    // // "/api/order/{userId}"
-    // public void 주문하기(InsertOrderReqDto insertOrderReqDto, Long userId) {
-    // //
+    // "/api/order/{userId}"
+    public void 주문하기(InsertOrderReqDto insertOrderReqDto, Long userId) {
+        // 1.
 
-    // //
+        //
 
-    // //
-    // }
+        //
+    }
 }

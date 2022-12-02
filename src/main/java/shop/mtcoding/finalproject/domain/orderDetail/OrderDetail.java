@@ -2,9 +2,11 @@ package shop.mtcoding.finalproject.domain.orderDetail;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,10 +31,10 @@ public class OrderDetail extends AudingTime {
     @Column(nullable = false)
     private int count;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Menu menu;
 
     @Builder

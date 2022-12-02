@@ -55,12 +55,13 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
     @Autowired
     private OrderRepository orderRepository;
 
-    @BeforeEach
-    public void setUp() {
-        User user = userRepository.save(newUser("ssar"));
-        Store store = storeRepository.save(newStore(user));
-        Order order = orderRepository.save(newOrder(user, store));
-    }
+    // @BeforeEach
+    // public void setUp() {
+    // User user = userRepository.save(newUser("ssar"));
+    // Store store = storeRepository.save(newStore(user));
+    // Order order = orderRepository.save(newOrder(user, store, orderDetail,
+    // payment));
+    // }
 
     @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
