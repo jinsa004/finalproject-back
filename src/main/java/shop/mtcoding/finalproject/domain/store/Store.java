@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.domain.store;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -78,14 +80,17 @@ public class Store extends AudingTime {
     @Column(nullable = true)
     private boolean isAccept;
 
+    @Column(nullable = false)
+    private boolean isClosure;
+
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Builder
-    public Store(Long id, StoreCategoryEnum category, String name, String phone, String thumbnail,
-            String ceoName, String businessNumber, String businessAddress, String openTime, String closeTime,
-            String minAmount, String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend,
-            boolean isAccept, User user) {
+    public Store(Long id, StoreCategoryEnum category, String name, String phone, String thumbnail, String ceoName,
+            String businessNumber, String businessAddress, String openTime, String closeTime, String minAmount,
+            String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend, boolean isAccept,
+            boolean isClosure, LocalDateTime createdAt, User user) {
         this.id = id;
         this.category = category;
         this.name = name;
@@ -103,7 +108,59 @@ public class Store extends AudingTime {
         this.notice = notice;
         this.isOpend = isOpend;
         this.isAccept = isAccept;
+        this.isClosure = isClosure;
+        this.createdAt = createdAt;
         this.user = user;
+    }
+
+    public Store close(Store store) {
+        return Store.builder()
+                .id(id)
+                .category(store.getCategory())
+                .name(store.getName())
+                .phone(store.getPhone())
+                .thumbnail(store.getThumbnail())
+                .ceoName(ceoName)
+                .businessNumber(businessNumber)
+                .businessAddress(businessAddress)
+                .openTime(store.getOpenTime())
+                .closeTime(store.getCloseTime())
+                .minAmount(store.getMinAmount())
+                .deliveryHour(store.getDeliveryHour())
+                .deliveryCost(store.getDeliveryCost())
+                .intro(store.getIntro())
+                .notice(store.getNotice())
+                .isOpend(store.isOpend)
+                .isAccept(isAccept)
+                .isClosure(true)
+                .user(user)
+                .createdAt(getCreatedAt())
+                .build();
+    }
+
+    public Store update(Store store) {
+        return Store.builder()
+                .id(id)
+                .category(store.getCategory())
+                .name(store.getName())
+                .phone(store.getPhone())
+                .thumbnail(store.getThumbnail())
+                .ceoName(ceoName)
+                .businessNumber(businessNumber)
+                .businessAddress(businessAddress)
+                .openTime(store.getOpenTime())
+                .closeTime(store.getCloseTime())
+                .minAmount(store.getMinAmount())
+                .deliveryHour(store.getDeliveryHour())
+                .deliveryCost(store.getDeliveryCost())
+                .intro(store.getIntro())
+                .notice(store.getNotice())
+                .isOpend(store.isOpend)
+                .isAccept(isAccept)
+                .isClosure(isClosure)
+                .user(user)
+                .createdAt(getCreatedAt())
+                .build();
     }
 
 }
