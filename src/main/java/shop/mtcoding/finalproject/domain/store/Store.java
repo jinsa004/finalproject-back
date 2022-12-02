@@ -13,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,7 +32,7 @@ public class Store extends AudingTime {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = true)
+    @Column(nullable = true)
     private StoreCategoryEnum category;
 
     @Column(nullable = true, length = 30)
