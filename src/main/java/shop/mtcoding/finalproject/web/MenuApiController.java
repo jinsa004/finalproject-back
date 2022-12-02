@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +19,11 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
+import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
 import shop.mtcoding.finalproject.dto.user.UserRespDto.UserDto;
 import shop.mtcoding.finalproject.service.MenuService;
 
@@ -33,6 +36,16 @@ public class MenuApiController {
     private final MenuService menuService;
 
     /* 승현 작업 시작 */
+    @PutMapping("/store/menu/{menuId}")
+    public ResponseEntity<?> updateByMenuId(@PathVariable Long menuId,
+            @RequestBody UpdateMenuReqDto updateMenuReqDto,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        updateMenuReqDto.setUserDto(new UserDto(loginUser.getUser().getId()));
+        updateMenuReqDto.setId(menuId);
+        UpdateMenuRespDto updateMenuRespDto = menuService.updateByMenuId(updateMenuReqDto);
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 수정 성공", updateMenuRespDto), HttpStatus.OK);
+    }
+
     @PostMapping("/store/menu")
     public ResponseEntity<?> insert(@RequestBody InsertMenuReqDto insertMenuReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {

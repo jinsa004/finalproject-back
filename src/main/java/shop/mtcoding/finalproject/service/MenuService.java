@@ -16,9 +16,11 @@ import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
+import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -32,11 +34,28 @@ public class MenuService {
     /* 승현 작업 시작 */
 
     @Transactional
+    public UpdateMenuRespDto updateByMenuId(UpdateMenuReqDto updateMenuReqDto) {
+        // 1. 메뉴가 있는지 확인하기
+        Menu menu = menuRepository.findByMenuId(updateMenuReqDto.getId()).orElseThrow(
+                () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+
+        // 2. 메뉴 작성자가 본인인지 확인하기 (나중에 익셉션 빼면 좋을듯)
+        if (!menu.getStore().getUser().getId().equals(updateMenuReqDto.getUserDto().getId())) {
+            throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 3. 메뉴 수정하기
+        Menu menuPS = menuRepository.save(menu.update(updateMenuReqDto.toEntity()));
+
+        return new UpdateMenuRespDto(menuPS);
+    }
+
+    @Transactional
     public InsertMenuRespDto insert(InsertMenuReqDto insertMenuReqDto) {
         // 1. 가게가 있는지 확인하기
         Store storePS = storeRepository.findByUserId(insertMenuReqDto.getUserDto().getId()).orElseThrow(
                 () -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-        log.debug("디버그 : " + insertMenuReqDto.getCategory());
+
         // 2. 심사중이거나 폐업한 점포면 예외처리
         // if (!storePS.isAccept() || storePS.isClosure()) {
         // throw new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
