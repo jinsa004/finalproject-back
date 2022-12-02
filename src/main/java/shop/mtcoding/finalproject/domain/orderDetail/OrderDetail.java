@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -12,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.menu.Menu;
+import shop.mtcoding.finalproject.domain.order.Order;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -24,20 +27,20 @@ public class OrderDetail extends AudingTime {
     private Long id;
 
     @Column(nullable = false)
-    private Long orderId;
-
-    @Column(nullable = false)
-    private Long menuId;
-
-    @Column(nullable = false)
     private int count;
 
+    @OneToOne
+    private Order order;
+
+    @OneToOne
+    private Menu menu;
+
     @Builder
-    public OrderDetail(Long id, Long orderId, Long menuId, int count) {
+    public OrderDetail(Long id, int count, Order order, Menu menu) {
         this.id = id;
-        this.orderId = orderId;
-        this.menuId = menuId;
         this.count = count;
+        this.order = order;
+        this.menu = menu;
     }
 
 }
