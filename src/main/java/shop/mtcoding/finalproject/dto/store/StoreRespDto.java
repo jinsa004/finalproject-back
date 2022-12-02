@@ -97,7 +97,7 @@ public class StoreRespDto {
 
     @Getter
     @Setter
-    public static class SaveStoreRespDto {
+    public static class InsertStoreRespDto {
         private StoreCategoryEnum category;
         private String name;
         private String phone;
@@ -113,7 +113,7 @@ public class StoreRespDto {
         private String intro;
         private String notice;
 
-        public SaveStoreRespDto(Store store) {
+        public InsertStoreRespDto(Store store) {
             this.category = store.getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();

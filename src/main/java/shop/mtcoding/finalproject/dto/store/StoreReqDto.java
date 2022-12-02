@@ -87,7 +87,7 @@ public class StoreReqDto {
 
     @Getter
     @Setter
-    public static class SaveStoreReqDto {
+    public static class InsertStoreReqDto {
 
         private Long userId;
 

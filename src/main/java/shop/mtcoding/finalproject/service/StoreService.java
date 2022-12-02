@@ -13,12 +13,12 @@ import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.SaveStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.SaveStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 
@@ -54,10 +54,10 @@ public class StoreService {
     }
 
     @Transactional
-    public SaveStoreRespDto save(SaveStoreReqDto saveStoreReqDto) {
+    public InsertStoreRespDto insert(InsertStoreReqDto insertStoreReqDto) {
 
         // 1. 해당 id의 점포가 있는지 찾기
-        Store store = storeRepository.findByUserId(saveStoreReqDto.getUserId()).orElseThrow(
+        Store store = storeRepository.findByUserId(insertStoreReqDto.getUserId()).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
 
         // 2. 심사중인 점포일 경우 예외처리 해버리기
@@ -66,10 +66,10 @@ public class StoreService {
         // }
 
         // 3. 해당 점포의 내용 업데이트하기
-        Store storePS = storeRepository.save(store.update(saveStoreReqDto.toEntity()));
+        Store storePS = storeRepository.save(store.update(insertStoreReqDto.toEntity()));
 
         // 4. 처리된 내용 보여주기
-        return new SaveStoreRespDto(storePS);
+        return new InsertStoreRespDto(storePS);
     }
 
     @Transactional

@@ -29,7 +29,7 @@ import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.SaveStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 
@@ -38,7 +38,6 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 public class StoreApiControllerTest extends DummyEntity {
-
     private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
     private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
 
@@ -74,9 +73,9 @@ public class StoreApiControllerTest extends DummyEntity {
 
         // when
         ResultActions resultActions = mvc
-                .perform(post("/api/user/apply")
-                        .content(requestBody)
-                        .contentType(APPLICATION_JSON_UTF8));
+                        .perform(post("/api/user/apply")
+                                        .content(requestBody)
+                                        .contentType(APPLICATION_JSON_UTF8));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 
@@ -91,31 +90,31 @@ public class StoreApiControllerTest extends DummyEntity {
     /* ///////////// PUT ///////////// */
     @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    public void save_test() throws Exception {
+    public void insert_test() throws Exception {
         // given
         User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                        () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
         Dummy_apply(userPS);
-        SaveStoreReqDto saveStoreReqDto = new SaveStoreReqDto();
-        saveStoreReqDto.setCategory("치킨");
-        saveStoreReqDto.setName("양념이 맛있는 치킨집");
-        saveStoreReqDto.setPhone("0510001234");
-        saveStoreReqDto.setThumbnail(null);
-        saveStoreReqDto.setOpenTime("10");
-        saveStoreReqDto.setCloseTime("10");
-        saveStoreReqDto.setMinAmount("12000");
-        saveStoreReqDto.setDeliveryHour("50");
-        saveStoreReqDto.setDeliveryCost("3000");
-        saveStoreReqDto.setIntro("맛있는 치킨집");
-        saveStoreReqDto.setNotice("깨끗한 기름을 사용하여 맛있는 치킨을 만듭니다.");
-        String requestBody = om.writeValueAsString(saveStoreReqDto);
+        InsertStoreReqDto insertStoreReqDto = new InsertStoreReqDto();
+        insertStoreReqDto.setCategory("치킨");
+        insertStoreReqDto.setName("양념이 맛있는 치킨집");
+        insertStoreReqDto.setPhone("0510001234");
+        insertStoreReqDto.setThumbnail(null);
+        insertStoreReqDto.setOpenTime("10");
+        insertStoreReqDto.setCloseTime("10");
+        insertStoreReqDto.setMinAmount("12000");
+        insertStoreReqDto.setDeliveryHour("50");
+        insertStoreReqDto.setDeliveryCost("3000");
+        insertStoreReqDto.setIntro("맛있는 치킨집");
+        insertStoreReqDto.setNotice("깨끗한 기름을 사용하여 맛있는 치킨을 만듭니다.");
+        String requestBody = om.writeValueAsString(insertStoreReqDto);
         System.out.println("테스트 : " + requestBody);
 
         // when
         ResultActions resultActions = mvc
-                .perform(put("/api/store")
-                        .content(requestBody)
-                        .contentType(APPLICATION_JSON_UTF8));
+                        .perform(put("/api/store")
+                                        .content(requestBody)
+                                        .contentType(APPLICATION_JSON_UTF8));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 
@@ -131,7 +130,7 @@ public class StoreApiControllerTest extends DummyEntity {
     public void update_test() throws Exception {
         // given
         User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                        () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
         Dummy_apply(userPS);
         UpdateStoreReqDto updateStoreReqDto = new UpdateStoreReqDto();
         updateStoreReqDto.setCategory("치킨");
@@ -150,9 +149,9 @@ public class StoreApiControllerTest extends DummyEntity {
 
         // when
         ResultActions resultActions = mvc
-                .perform(put("/api/store/info")
-                        .content(requestBody)
-                        .contentType(APPLICATION_JSON_UTF8));
+                        .perform(put("/api/store/info")
+                                        .content(requestBody)
+                                        .contentType(APPLICATION_JSON_UTF8));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 
@@ -168,7 +167,7 @@ public class StoreApiControllerTest extends DummyEntity {
     public void updateBusinessState_test() throws Exception {
         // given
         User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                        () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
         Dummy_apply(userPS);
         UpdateBusinessStateReqDto updateBusinessStateReqDto = new UpdateBusinessStateReqDto();
         updateBusinessStateReqDto.setOpend(true);
@@ -177,9 +176,9 @@ public class StoreApiControllerTest extends DummyEntity {
 
         // when
         ResultActions resultActions = mvc
-                .perform(put("/api/store/business")
-                        .content(requestBody)
-                        .contentType(APPLICATION_JSON_UTF8));
+                        .perform(put("/api/store/business")
+                                        .content(requestBody)
+                                        .contentType(APPLICATION_JSON_UTF8));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 
@@ -194,12 +193,12 @@ public class StoreApiControllerTest extends DummyEntity {
     public void findToapplyState_test() throws Exception {
         // given
         User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                        () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
         Dummy_apply(userPS);
 
         // when
         ResultActions resultActions = mvc
-                .perform(get("/api/user/apply"));
+                        .perform(get("/api/user/apply"));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 
@@ -214,12 +213,12 @@ public class StoreApiControllerTest extends DummyEntity {
     public void findToStoreDetail_test() throws Exception {
         // given
         User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                        () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
         Dummy_apply(userPS);
 
         // when
         ResultActions resultActions = mvc
-                .perform(get("/api/store"));
+                        .perform(get("/api/store"));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 

@@ -16,12 +16,12 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.SaveStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.SaveStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 import shop.mtcoding.finalproject.service.StoreService;
@@ -62,11 +62,11 @@ public class StoreApiController {
     }
 
     @PutMapping("/store")
-    public ResponseEntity<?> save(@RequestBody SaveStoreReqDto saveStoreReqDto,
+    public ResponseEntity<?> save(@RequestBody InsertStoreReqDto insertStoreReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        saveStoreReqDto.setUserId(loginUser.getUser().getId());
-        SaveStoreRespDto saveStoreRespDto = storeService.save(saveStoreReqDto);
-        return new ResponseEntity<>(new ResponseDto<>("가게 등록 성공", saveStoreRespDto), HttpStatus.OK);
+        insertStoreReqDto.setUserId(loginUser.getUser().getId());
+        InsertStoreRespDto insertStoreRespDto = storeService.insert(insertStoreReqDto);
+        return new ResponseEntity<>(new ResponseDto<>("가게 등록 성공", insertStoreRespDto), HttpStatus.OK);
     }
 
     @PutMapping("/store/info")
