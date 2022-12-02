@@ -42,7 +42,7 @@ public class MenuService {
                 () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
         // 2. 메뉴 작성자가 본인인지 확인하기 (나중에 익셉션 빼면 좋을듯)
-        if (!menu.getStore().getUser().getId().equals(updateMenuStateReqDto.getUserDto().getId())) {
+        if (!menu.getStore().getUser().getId().equals(updateMenuStateReqDto.getUserId())) {
             throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
         }
 
@@ -57,7 +57,7 @@ public class MenuService {
                 () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
         // 2. 메뉴 작성자가 본인인지 확인하기 (나중에 익셉션 빼면 좋을듯)
-        if (!menu.getStore().getUser().getId().equals(updateMenuReqDto.getUserDto().getId())) {
+        if (!menu.getStore().getUser().getId().equals(updateMenuReqDto.getUserId())) {
             throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
         }
 
@@ -70,7 +70,7 @@ public class MenuService {
     @Transactional
     public InsertMenuRespDto insert(InsertMenuReqDto insertMenuReqDto) {
         // 1. 가게가 있는지 확인하기
-        Store storePS = storeRepository.findByUserId(insertMenuReqDto.getUserDto().getId()).orElseThrow(
+        Store storePS = storeRepository.findByUserId(insertMenuReqDto.getUserId()).orElseThrow(
                 () -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
         // 2. 심사중이거나 폐업한 점포면 예외처리

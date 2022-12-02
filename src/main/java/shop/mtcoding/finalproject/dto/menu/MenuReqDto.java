@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
-import shop.mtcoding.finalproject.dto.user.UserRespDto.UserDto;
 import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
 public class MenuReqDto {
@@ -18,7 +17,7 @@ public class MenuReqDto {
     @Getter
     @Setter
     public static class UpdateMenuStateReqDto {
-        private UserDto userDto;
+        private Long userId;
         private Long id;
         private boolean isClosure;
 
@@ -34,7 +33,7 @@ public class MenuReqDto {
     @Setter
     public static class UpdateMenuReqDto {
 
-        private UserDto userDto;
+        private Long userId;
 
         private Long id;
 
@@ -76,7 +75,7 @@ public class MenuReqDto {
     @Setter
     public static class InsertMenuReqDto {
 
-        private UserDto userDto;
+        private Long userId;
 
         private String thumbnail;
 

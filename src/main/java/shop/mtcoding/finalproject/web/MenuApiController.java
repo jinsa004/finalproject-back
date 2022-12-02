@@ -25,7 +25,6 @@ import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
-import shop.mtcoding.finalproject.dto.user.UserRespDto.UserDto;
 import shop.mtcoding.finalproject.service.MenuService;
 
 @RequiredArgsConstructor
@@ -42,7 +41,7 @@ public class MenuApiController {
     public ResponseEntity<?> updateByMenuIdToState(@PathVariable Long menuId,
             @RequestBody UpdateMenuStateReqDto updateMenuStateReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        updateMenuStateReqDto.setUserDto(new UserDto(loginUser.getUser().getId()));
+        updateMenuStateReqDto.setUserId(loginUser.getUser().getId());
         updateMenuStateReqDto.setId(menuId);
         menuService.updateByMenuIdToState(updateMenuStateReqDto);
         return new ResponseEntity<>(new ResponseDto<>("메뉴 보이기 수정 완료", null), HttpStatus.OK);
@@ -52,7 +51,7 @@ public class MenuApiController {
     public ResponseEntity<?> updateByMenuId(@PathVariable Long menuId,
             @RequestBody UpdateMenuReqDto updateMenuReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        updateMenuReqDto.setUserDto(new UserDto(loginUser.getUser().getId()));
+        updateMenuReqDto.setUserId(loginUser.getUser().getId());
         updateMenuReqDto.setId(menuId);
         UpdateMenuRespDto updateMenuRespDto = menuService.updateByMenuId(updateMenuReqDto);
         return new ResponseEntity<>(new ResponseDto<>("메뉴 수정 성공", updateMenuRespDto), HttpStatus.OK);
@@ -61,7 +60,7 @@ public class MenuApiController {
     @PostMapping("/store/menu")
     public ResponseEntity<?> insert(@RequestBody InsertMenuReqDto insertMenuReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        insertMenuReqDto.setUserDto(new UserDto(loginUser.getUser().getId()));
+        insertMenuReqDto.setUserId(loginUser.getUser().getId());
         InsertMenuRespDto insertMenuRespDto = menuService.insert(insertMenuReqDto);
         return new ResponseEntity<>(new ResponseDto<>("메뉴 추가 성공", insertMenuRespDto), HttpStatus.CREATED);
     }

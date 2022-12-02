@@ -9,17 +9,7 @@ import shop.mtcoding.finalproject.util.CustomDateUtil;
 public class StoreRespDto {
 
     /* 승현 작업 시작 */
-    @Getter
-    @Setter
-    public static class StoreDto {
-        private Long id;
-
-        public StoreDto(Long id) {
-            this.id = id;
-        }
-
-    }
-
+    
     @Getter
     @Setter
     public static class UpdateBusinessStateRespDto {
