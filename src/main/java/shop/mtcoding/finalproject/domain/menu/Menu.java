@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.domain.menu;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,7 +25,7 @@ import shop.mtcoding.finalproject.domain.store.Store;
 @Getter
 @Table(name = "menus")
 @Entity
-public class Menu extends AudingTime {
+public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +44,11 @@ public class Menu extends AudingTime {
     private String price;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private MenuCategoryEnum category;
 
     @Column(nullable = false)
-    private boolean isClosure;
+    public boolean isClosure;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
@@ -62,6 +64,36 @@ public class Menu extends AudingTime {
         this.category = category;
         this.isClosure = isClosure;
         this.store = store;
+    }
+
+    public void putStore(Store store) {
+        this.store = store;
+    }
+
+    public Menu update(Menu menu) {
+        return Menu.builder()
+                .id(id)
+                .name(menu.getName())
+                .thumbnail(menu.getThumbnail())
+                .intro(menu.getIntro())
+                .price(menu.getPrice())
+                .category(menu.getCategory())
+                .isClosure(isClosure)
+                .store(store)
+                .build();
+    }
+
+    public Menu close(Menu menu) {
+        return Menu.builder()
+                .id(id)
+                .name(name)
+                .thumbnail(thumbnail)
+                .intro(intro)
+                .price(price)
+                .category(category)
+                .isClosure(menu.isClosure)
+                .store(store)
+                .build();
     }
 
 }

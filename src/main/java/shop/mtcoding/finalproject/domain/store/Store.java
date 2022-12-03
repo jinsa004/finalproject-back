@@ -32,7 +32,7 @@ public class Store extends AudingTime {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = true)
+    @Column(nullable = true)
     private StoreCategoryEnum category;
 
     @Column(nullable = true, length = 30)

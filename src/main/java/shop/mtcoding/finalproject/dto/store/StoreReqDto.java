@@ -70,7 +70,7 @@ public class StoreReqDto {
 
         public Store toEntity() {
             return Store.builder()
-                    .category(CustomEnumUtil.toCategoryEnumFormat(category))
+                    .category(CustomEnumUtil.toStoreCategoryEnumFormat(category))
                     .name(name)
                     .phone(phone)
                     .thumbnail(thumbnail)
@@ -128,7 +128,7 @@ public class StoreReqDto {
 
         public Store toEntity() {
             return Store.builder()
-                    .category(CustomEnumUtil.toCategoryEnumFormat(category))
+                    .category(CustomEnumUtil.toStoreCategoryEnumFormat(category))
                     .name(name)
                     .phone(phone)
                     .thumbnail(thumbnail)
@@ -171,6 +171,7 @@ public class StoreReqDto {
                     .user(user)
                     .isOpend(false)
                     .isAccept(false)
+                    .isClosure(false)
                     .build();
         }
 
