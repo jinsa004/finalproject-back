@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.user.User;
-import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.CustomerReviewListRespDto.CustomerReviewDto;
+import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class CustomerReviewRespDto {
     @Getter
@@ -57,14 +57,19 @@ public class CustomerReviewRespDto {
             private String content;
             private String photo;
             private int starPoint;
+            private String comment;
+            private String createAt;
 
             public CustomerReviewDto(CustomerReview customerReview) {
                 this.id = customerReview.getId();
                 this.content = customerReview.getContent();
                 this.photo = customerReview.getPhoto();
                 this.starPoint = customerReview.getStarPoint();
+                this.comment = customerReview.getCeoReview().getContent();
+                this.createAt = CustomDateUtil.toStringFormat(customerReview.getCreatedAt());
             }
 
         }
+
     }
 }
