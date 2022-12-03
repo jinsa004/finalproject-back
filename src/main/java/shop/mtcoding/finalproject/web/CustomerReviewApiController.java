@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewReqDto.InsertCustomerReviewReqDto;
+import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.CustomerReviewListRespDto;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.InsertCustomerReviewRespDto;
 import shop.mtcoding.finalproject.service.CustomerReviewService;
 
@@ -33,4 +35,10 @@ public class CustomerReviewApiController {
         return new ResponseEntity<>(new ResponseDto<>("리뷰 등록하기 완료", insertCustomerReviewRespDto), HttpStatus.CREATED);
     }
 
+    @GetMapping("/review/{userId}")
+    public ResponseEntity<?> findByUserIdToCustomerReview(@PathVariable Long userId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.내_리뷰_목록하기(userId, loginUser);
+        return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공", CustomerReviewListRespDto), HttpStatus.OK);
+    }
 }
