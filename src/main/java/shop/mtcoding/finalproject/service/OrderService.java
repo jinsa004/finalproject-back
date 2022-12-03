@@ -1,9 +1,6 @@
 package shop.mtcoding.finalproject.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +21,6 @@ import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
-import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -36,27 +32,25 @@ public class OrderService {
 
     // "/api/order/{userId}"
     @Transactional
-    public void 주문하기(InsertOrderReqDto insertOrderReqDto, LoginUser loginUser, Long storeId) {
+    public void 주문하기(InsertOrderReqDto insertOrderReqDto, LoginUser loginUser, Long storeId, Payment payment) {
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("가게 정보가 없습니다.", HttpStatus.BAD_REQUEST));
-        orderRepository.save(insertOrderReqDto.toEntity(loginUser.getUser(), storePS));
+        orderRepository.save(insertOrderReqDto.toEntity(loginUser.getUser(), storePS, payment));
     }
 
     @Getter
     @Setter
     public static class InsertOrderReqDto {
+        // 결제수단 1(카카오페이), 메뉴/수량(오더디테일리스트),
         private String comment;
-        private String state;
-        private String reason;
         private String paymentName;
-        private String createdAt;
         private List<OrderDetail> orderDetailList;
 
         public Order toEntity(User user, Store store, Payment payment) {
             return Order.builder()
                     .comment(comment)
-                    .state(null)
-                    .reason(reason)
+                    .state(OrderStateEnum.ORDER)
+                    .reason(null)
                     .user(user)
                     .store(store)
                     .payment(payment)
