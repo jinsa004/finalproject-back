@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -87,6 +88,15 @@ public class DummyEntity {
                 .order(order)
                 .build();
         return customerReview;
+    }
+
+    protected CeoReview newCeoReview(Store store, CustomerReview customerReview) {
+        CeoReview ceoReview = CeoReview.builder()
+                .content("넌 나가라")
+                .store(store)
+                .customerReview(customerReview)
+                .build();
+        return ceoReview;
     }
 
 }
