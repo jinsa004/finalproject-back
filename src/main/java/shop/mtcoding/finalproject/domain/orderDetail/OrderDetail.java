@@ -18,7 +18,7 @@ import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "order_details")
 @Entity

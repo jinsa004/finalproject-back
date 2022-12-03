@@ -19,7 +19,7 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.user.User;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "customer_reviews")
 @Entity
@@ -47,13 +47,9 @@ public class CustomerReview extends AudingTime {
     @OneToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private CeoReview ceoReview;
-
     @Builder
-
     public CustomerReview(Long id, String content, int starPoint, String photo, boolean isClosure, User user,
-            Order order, CeoReview ceoReview) {
+            Order order) {
         this.id = id;
         this.content = content;
         this.starPoint = starPoint;
@@ -61,7 +57,6 @@ public class CustomerReview extends AudingTime {
         this.isClosure = isClosure;
         this.user = user;
         this.order = order;
-        this.ceoReview = ceoReview;
     }
 
 }

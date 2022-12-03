@@ -57,7 +57,6 @@ public class CustomerReviewRespDto {
             private String content;
             private String photo;
             private int starPoint;
-            private String comment;
             private String createAt;
 
             public CustomerReviewDto(CustomerReview customerReview) {
@@ -65,7 +64,6 @@ public class CustomerReviewRespDto {
                 this.content = customerReview.getContent();
                 this.photo = customerReview.getPhoto();
                 this.starPoint = customerReview.getStarPoint();
-                this.comment = customerReview.getCeoReview().getContent();
                 this.createAt = CustomDateUtil.toStringFormat(customerReview.getCreatedAt());
             }
 

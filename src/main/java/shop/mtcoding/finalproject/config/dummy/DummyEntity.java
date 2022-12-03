@@ -66,13 +66,12 @@ public class DummyEntity {
         return menu;
     }
 
-    protected Order newOrder(User user, Store store, Payment payment) {
+    protected Order newOrder(User user, Store store) {
         Order order = Order.builder()
                 .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
                 .store(store)
-                .payment(payment)
                 .isClosure(false)
                 .build();
         return order;
@@ -92,7 +91,7 @@ public class DummyEntity {
 
     protected CeoReview newCeoReview(Store store, CustomerReview customerReview) {
         CeoReview ceoReview = CeoReview.builder()
-                .content("넌 나가라")
+                .content("고 마워 요")
                 .store(store)
                 .customerReview(customerReview)
                 .build();

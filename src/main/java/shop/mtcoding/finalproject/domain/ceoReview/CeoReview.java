@@ -18,7 +18,7 @@ import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.store.Store;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "ceo_reviews")
 @Entity
@@ -28,7 +28,7 @@ public class CeoReview extends AudingTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true, length = 100)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
