@@ -1,5 +1,10 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,6 +24,7 @@ import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -40,17 +46,20 @@ public class OrderService {
     @Setter
     public static class InsertOrderReqDto {
         private String comment;
-        private OrderDetail orderDetail;
-        private Payment payment;
+        private String state;
+        private String reason;
+        private String paymentName;
+        private String createdAt;
+        private List<OrderDetail> orderDetailList;
 
-        public Order toEntity(User user, Store store) {
+        public Order toEntity(User user, Store store, Payment payment) {
             return Order.builder()
                     .comment(comment)
-                    .store(null)
-                    .user(null)
+                    .state(null)
+                    .reason(reason)
+                    .user(user)
+                    .store(store)
                     .payment(payment)
-                    .state(OrderStateEnum.ORDER)
-                    .reason(null)
                     .build();
         }
 
