@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import shop.mtcoding.finalproject.config.exception.CustomApiException;
-
 public class CustomApiExceptionTest {
 
     @Test

@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -17,6 +18,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -29,9 +32,6 @@ public class Order extends AudingTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private int paymentId;
 
     @Column(nullable = true, length = 80)
     private String comment;
@@ -52,17 +52,20 @@ public class Order extends AudingTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Payment payment;
+
     @Builder
-    public Order(Long id, int paymentId, String comment, OrderStateEnum state, String reason, boolean isClosure,
-            User user, Store store) {
+    public Order(Long id, String comment, OrderStateEnum state, String reason, boolean isClosure, User user,
+            Store store, Payment payment) {
         this.id = id;
-        this.paymentId = paymentId;
         this.comment = comment;
         this.state = state;
         this.reason = reason;
         this.isClosure = isClosure;
         this.user = user;
         this.store = store;
+        this.payment = payment;
     }
 
 }

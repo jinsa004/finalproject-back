@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -14,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.user.User;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -25,9 +27,6 @@ public class CustomerReview extends AudingTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private Long orderId;
 
     @Column(nullable = false, length = 100)
     private String content;
@@ -44,16 +43,19 @@ public class CustomerReview extends AudingTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Order order;
+
     @Builder
-    public CustomerReview(Long id, Long orderId, String content, int starPoint, String photo, boolean isClosure,
-            User user) {
+    public CustomerReview(Long id, String content, int starPoint, String photo, boolean isClosure, User user,
+            Order order) {
         this.id = id;
-        this.orderId = orderId;
         this.content = content;
         this.starPoint = starPoint;
         this.photo = photo;
         this.isClosure = isClosure;
         this.user = user;
+        this.order = order;
     }
 
 }
