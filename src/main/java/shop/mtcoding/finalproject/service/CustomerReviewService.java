@@ -60,7 +60,7 @@ public class CustomerReviewService {
         if (userPS.getId() != loginUser.getUser().getId()) {
             throw new CustomApiException("해당 리뷰를 관리할 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
-        // 3 핵심로직 내 리뷰 목록보기
+        // 3 핵심로직 내 리뷰 목록보기, 리뷰에 맞는 사장님 답글 목록보기
         List<CustomerReview> customerReviewList = customerReviewRepository.findReviewListByUserId(userId);
         // 4 DTO 응답
         return new CustomerReviewListRespDto(userPS, customerReviewList);
