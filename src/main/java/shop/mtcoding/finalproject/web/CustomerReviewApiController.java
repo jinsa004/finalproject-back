@@ -35,13 +35,13 @@ public class CustomerReviewApiController {
         return new ResponseEntity<>(new ResponseDto<>("리뷰 등록하기 완료", insertCustomerReviewRespDto), HttpStatus.CREATED);
     }
 
-    // @GetMapping("/review/{userId}")
-    // public ResponseEntity<?> findByUserIdToCustomerReview(@PathVariable Long
-    // userId,
-    // @AuthenticationPrincipal LoginUser loginUser) {
-    // CustomerReviewListRespDto CustomerReviewListRespDto =
-    // customerReviewService.내_리뷰_목록하기(userId, loginUser);
-    // return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공",
-    // CustomerReviewListRespDto), HttpStatus.OK);
-    // }
+    @GetMapping("/review/{userId}")
+    public ResponseEntity<?> findByUserIdToCustomerReview(@PathVariable Long userId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        log.debug("디버그 : 컨트롤러 -> 서비스 드가기전");
+        CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.내_리뷰_목록하기(userId, loginUser);
+        log.debug("디버그 : 컨트롤러에서 리턴합니다");
+        return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공",
+                CustomerReviewListRespDto), HttpStatus.OK);
+    }
 }

@@ -2,10 +2,11 @@ package shop.mtcoding.finalproject.config.dummy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviews;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -70,29 +71,32 @@ public class DummyEntity {
                 .reason(null)
                 .user(user)
                 .store(store)
+                .deliveryStateEnum(DeliveryStateEnum.DELIVERY)
                 .isClosure(false)
                 .build();
         return order;
     }
 
-    protected CustomerReview newCustomerReview(User user, Order order) {
+    protected CustomerReview newCustomerReview(User user, Order order, CeoReviews ceoReviews) {
+
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
                 .starPoint(5)
                 .photo(null)
                 .isClosure(false)
+                .ceoReviews(null)
                 .user(user)
                 .order(order)
                 .build();
         return customerReview;
     }
 
-    protected CeoReview newCeoReview(Store store) {
-        CeoReview ceoReview = CeoReview.builder()
+    protected CeoReviews newCeoReview(Store store) {
+        CeoReviews ceoReviews = CeoReviews.builder()
                 .content("고 마워 요")
                 .store(store)
                 .build();
-        return ceoReview;
+        return ceoReviews;
     }
 
 }

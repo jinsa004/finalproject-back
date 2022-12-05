@@ -15,14 +15,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
-import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.store.Store;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "ceo_reviews")
 @Entity
-public class CeoReview extends AudingTime {
+public class CeoReviews extends AudingTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +34,16 @@ public class CeoReview extends AudingTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Order order;
+
     @Builder
-    public CeoReview(Long id, String content, Store store) {
+    public CeoReviews(Long id, String content, Store store, Order order) {
         this.id = id;
         this.content = content;
         this.store = store;
+        this.order = order;
     }
-
 }
 
 // 기존 테이블명 : comments

@@ -37,7 +37,7 @@ public class Menu {
     @Column(nullable = true, length = 100)
     private String intro;
 
-    @Column(nullable = false, length = 6)
+    @Column(nullable = false, length = 20)
     private String price;
 
     @Enumerated(EnumType.STRING)

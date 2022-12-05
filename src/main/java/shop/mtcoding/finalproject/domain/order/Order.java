@@ -59,12 +59,14 @@ public class Order extends AudingTime {
     private Payment payment;
 
     @Builder
-    public Order(Long id, String comment, OrderStateEnum state, String reason, boolean isClosure, User user,
+    public Order(Long id, String comment, OrderStateEnum state, String reason, DeliveryStateEnum deliveryStateEnum,
+            boolean isClosure, User user,
             Store store, Payment payment) {
         this.id = id;
         this.comment = comment;
         this.state = state;
         this.reason = reason;
+        this.deliveryStateEnum = deliveryStateEnum;
         this.isClosure = isClosure;
         this.user = user;
         this.store = store;
