@@ -84,7 +84,7 @@ public class DummyEntity {
                 .starPoint(5)
                 .photo(null)
                 .isClosure(false)
-                .ceoReviews(null)
+                .ceoReviews(ceoReviews)
                 .user(user)
                 .order(order)
                 .build();
