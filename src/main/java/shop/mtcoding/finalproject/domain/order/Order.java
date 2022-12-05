@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.payment.Payment;
@@ -44,6 +45,9 @@ public class Order extends AudingTime {
 
     @Column(nullable = false)
     private boolean isClosure;
+
+    @Column(nullable = false)
+    private DeliveryStateEnum deliveryStateEnum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

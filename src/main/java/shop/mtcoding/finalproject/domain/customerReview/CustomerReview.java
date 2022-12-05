@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -45,6 +46,9 @@ public class CustomerReview extends AudingTime {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Order order;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private CeoReview ceoReview;
 
     @Builder
     public CustomerReview(Long id, String content, int starPoint, String photo, boolean isClosure, User user,

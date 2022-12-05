@@ -34,15 +34,11 @@ public class CeoReview extends AudingTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private CustomerReview customerReview;
-
     @Builder
-    public CeoReview(Long id, String content, Store store, CustomerReview customerReview) {
+    public CeoReview(Long id, String content, Store store) {
         this.id = id;
         this.content = content;
         this.store = store;
-        this.customerReview = customerReview;
     }
 
 }

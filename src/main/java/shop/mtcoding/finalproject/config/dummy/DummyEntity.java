@@ -87,11 +87,10 @@ public class DummyEntity {
         return customerReview;
     }
 
-    protected CeoReview newCeoReview(Store store, CustomerReview customerReview) {
+    protected CeoReview newCeoReview(Store store) {
         CeoReview ceoReview = CeoReview.builder()
                 .content("고 마워 요")
                 .store(store)
-                .customerReview(customerReview)
                 .build();
         return ceoReview;
     }

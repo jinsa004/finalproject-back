@@ -52,18 +52,21 @@ public class CustomerReviewService {
     }
 
     // /review/{userId}
-    public CustomerReviewListRespDto 내_리뷰_목록하기(Long userId, LoginUser loginUser) {
-        // 1 해당 유저의 review가 있는지 체크
-        User userPS = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.", HttpStatus.BAD_REQUEST));
-        // 2 유저 권한체크
-        if (userPS.getId() != loginUser.getUser().getId()) {
-            throw new CustomApiException("해당 리뷰를 관리할 권한이 없습니다.", HttpStatus.FORBIDDEN);
-        }
-        // 3 핵심로직 내 리뷰 목록보기, 리뷰에 맞는 사장님 답글 목록보기
-        List<CustomerReview> customerReviewList = customerReviewRepository.findReviewListByUserId(userId);
-        // 4 DTO 응답
-        return new CustomerReviewListRespDto(userPS, customerReviewList);
-    }
+    // public CustomerReviewListRespDto 내_리뷰_목록하기(Long userId, LoginUser loginUser)
+    // {
+    // // 1 해당 유저의 review가 있는지 체크
+    // User userPS = userRepository.findById(userId)
+    // .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.",
+    // HttpStatus.BAD_REQUEST));
+    // // 2 유저 권한체크
+    // if (userPS.getId() != loginUser.getUser().getId()) {
+    // throw new CustomApiException("해당 리뷰를 관리할 권한이 없습니다.", HttpStatus.FORBIDDEN);
+    // }
+    // 3 핵심로직 내 리뷰 목록보기, 리뷰에 맞는 사장님 답글 목록보기
+    // List<CustomerReview> customerReviewList =
+    // customerReviewRepository.findReviewListByUserId(userId);
+    // // 4 DTO 응답
+    // return new CustomerReviewListRespDto(userPS, customerReviewList);
+    // }
 
 }
