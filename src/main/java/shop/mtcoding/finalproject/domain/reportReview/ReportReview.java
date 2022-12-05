@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.ReportReasonEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "report_reviews")
 @Entity

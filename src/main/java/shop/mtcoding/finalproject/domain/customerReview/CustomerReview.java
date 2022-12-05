@@ -10,15 +10,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.lang.Nullable;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviews;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.user.User;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "customer_reviews")
 @Entity
@@ -46,9 +49,12 @@ public class CustomerReview extends AudingTime {
     @OneToOne(fetch = FetchType.LAZY)
     private Order order;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private CeoReviews ceoReviews;
+
     @Builder
     public CustomerReview(Long id, String content, int starPoint, String photo, boolean isClosure, User user,
-            Order order) {
+            Order order, CeoReviews ceoReviews) {
         this.id = id;
         this.content = content;
         this.starPoint = starPoint;
@@ -56,6 +62,7 @@ public class CustomerReview extends AudingTime {
         this.isClosure = isClosure;
         this.user = user;
         this.order = order;
+        this.ceoReviews = ceoReviews;
     }
 
 }

@@ -16,13 +16,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "orders")
 @Entity
@@ -45,6 +46,9 @@ public class Order extends AudingTime {
     @Column(nullable = false)
     private boolean isClosure;
 
+    @Column(nullable = false)
+    private DeliveryStateEnum deliveryStateEnum;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
@@ -55,12 +59,14 @@ public class Order extends AudingTime {
     private Payment payment;
 
     @Builder
-    public Order(Long id, String comment, OrderStateEnum state, String reason, boolean isClosure, User user,
+    public Order(Long id, String comment, OrderStateEnum state, String reason, DeliveryStateEnum deliveryStateEnum,
+            boolean isClosure, User user,
             Store store, Payment payment) {
         this.id = id;
         this.comment = comment;
         this.state = state;
         this.reason = reason;
+        this.deliveryStateEnum = deliveryStateEnum;
         this.isClosure = isClosure;
         this.user = user;
         this.store = store;

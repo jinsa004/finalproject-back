@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -14,35 +15,35 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.store.Store;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "ceo_reviews")
 @Entity
-public class CeoReview extends AudingTime {
+public class CeoReviews extends AudingTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long reviewId;
-
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true, length = 100)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Order order;
+
     @Builder
-    public CeoReview(Long id, Long reviewId, String content, Store store) {
+    public CeoReviews(Long id, String content, Store store, Order order) {
         this.id = id;
-        this.reviewId = reviewId;
         this.content = content;
         this.store = store;
+        this.order = order;
     }
-
 }
 
 // 기존 테이블명 : comments

@@ -2,14 +2,14 @@ package shop.mtcoding.finalproject.config.dummy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviews;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
-import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
-import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -65,28 +65,38 @@ public class DummyEntity {
         return menu;
     }
 
-    protected Order newOrder(User user, Store store, Payment payment) {
+    protected Order newOrder(User user, Store store) {
         Order order = Order.builder()
                 .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
                 .store(store)
-                .payment(payment)
+                .deliveryStateEnum(DeliveryStateEnum.DELIVERY)
                 .isClosure(false)
                 .build();
         return order;
     }
 
-    protected CustomerReview newCustomerReview(User user, Order order) {
+    protected CustomerReview newCustomerReview(User user, Order order, CeoReviews ceoReviews) {
+
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
                 .starPoint(5)
                 .photo(null)
                 .isClosure(false)
+                .ceoReviews(ceoReviews)
                 .user(user)
                 .order(order)
                 .build();
         return customerReview;
+    }
+
+    protected CeoReviews newCeoReview(Store store) {
+        CeoReviews ceoReviews = CeoReviews.builder()
+                .content("고 마워 요")
+                .store(store)
+                .build();
+        return ceoReviews;
     }
 
 }
