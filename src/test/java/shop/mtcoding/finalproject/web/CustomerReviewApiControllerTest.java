@@ -63,7 +63,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
     private CustomerReviewRepository customerReviewRepository;
 
     @Autowired
-    private CeoReviewRepository CeoReviewRepository;
+    private CeoReviewRepository ceoReviewRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -75,7 +75,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         Store store = storeRepository.save(newStore(ssar));
         Menu menu = menuRepository.save(newMenu(store));
         Order order = orderRepository.save(newOrder(jinsa, store));
-        CeoReview CeoReview = CeoReviewRepository.save(newCeoReview(store, order));
+        CeoReview CeoReview = ceoReviewRepository.save(newCeoReview(store, order));
         CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, store, CeoReview));
     }
 

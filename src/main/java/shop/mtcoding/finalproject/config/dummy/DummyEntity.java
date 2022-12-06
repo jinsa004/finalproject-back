@@ -24,7 +24,7 @@ public class DummyEntity {
                 .nickname(username + "님")
                 .phone("01011112222")
                 .photo(null)
-                .address("부산시 진구 서면")
+                .address("부산시 진구 서면 17번 길")
                 .role(username.equals("admin") ? UserEnum.ADMIN : UserEnum.CUSTOMER)
                 .isActive(true)
                 .build();

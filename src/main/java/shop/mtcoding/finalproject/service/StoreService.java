@@ -39,9 +39,9 @@ public class StoreService {
     private final CustomerReviewRepository customerReviewRepository;
 
     /* 성진 작업 시작함 */
-    public StoreListRespDto 가게_목록보기(String address) {
+    public StoreListRespDto 가게_목록보기() {
         // 1 가게 정보 1셀렉 가게리스트
-        List<Store> storeList = storeRepository.findByBusinessAddress(address);
+        List<Store> storeList = storeRepository.findAll();
         // 2 리뷰 별점 셀렉해서 평균내기(평균은 쿼리로 작성) 리뷰리스트
         List<CustomerReview> customerReviewList = customerReviewRepository.starPointAverageToStore();
         // 3 DTO 응답
