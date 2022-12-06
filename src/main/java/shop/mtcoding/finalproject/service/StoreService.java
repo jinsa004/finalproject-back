@@ -42,12 +42,14 @@ public class StoreService {
     public StoreListRespDto 가게_목록보기() {
         // 1 가게 정보 1셀렉
         List<Store> storeList = storeRepository.findAll();
-        // 2 리뷰 별점 셀렉해서 평균내기
+        log.debug("디버그 : 가게리스트 길이: " + storeList.size());
+        // 2 리뷰 별점 셀렉해서 평균내기(평균은 쿼리로 작성)
         List<CustomerReview> customerReviewList = new ArrayList<>();
-        for (int i = 1; i < storeList.size(); i++) {
+        for (int i = 0; i < storeList.size(); i++) {
             customerReviewList.add(customerReviewRepository.findByStoreIdToStarPoint(storeList.get(i).getId()));
-            System.out.println("for문이 도는 중입니다.");
+            log.debug("디버그 : 스토어리스트 길이 :" + storeList.size());
         }
+        log.debug("디버그 : 리뷰 리스트 별점 평균" + customerReviewList);
         // 3 DTO 응답
         StoreListRespDto storeListRespDto = new StoreListRespDto(storeList, customerReviewList);
         return storeListRespDto;

@@ -20,8 +20,6 @@ public class StoreRespDto {
         private List<StoreDto> stores = new ArrayList<>();
         private List<CustomerReviewDto> customerReviews = new ArrayList<>();
 
-        private int starPoint;
-
         public StoreListRespDto(List<Store> stores, List<CustomerReview> customerReviews) {
             this.stores = stores.stream().map((store) -> new StoreDto(store))
                     .collect(Collectors.toList());
@@ -35,12 +33,14 @@ public class StoreRespDto {
         @Getter
         @Setter
         public class StoreDto {
+            private Long storeId;
             private String storeName;
             private String deliveryCost;
             private String intro;
             private String thumbnail;
 
             public StoreDto(Store store) {
+                this.storeId = store.getId();
                 this.storeName = store.getName();
                 this.deliveryCost = store.getDeliveryCost();
                 this.intro = store.getIntro();
@@ -52,9 +52,11 @@ public class StoreRespDto {
         @Getter
         @Setter
         public class CustomerReviewDto {
+            private Long storeId;
             private int starPoint;
 
             public CustomerReviewDto(CustomerReview customerReview) {
+                this.storeId = customerReview.getOrder().getStore().getId();
                 this.starPoint = customerReview.getStarPoint();
             }
 
