@@ -76,7 +76,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         Menu menu = menuRepository.save(newMenu(store));
         Order order = orderRepository.save(newOrder(jinsa, store));
         CeoReview CeoReview = CeoReviewRepository.save(newCeoReview(store, order));
-        CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, order, CeoReview));
+        CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, store, CeoReview));
     }
 
     @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)

@@ -14,6 +14,34 @@ import shop.mtcoding.finalproject.util.CustomDateUtil;
 public class StoreRespDto {
 
     /* 성진 작업 시작@!@ */
+
+    // @Getter
+    // @Setter
+    // public static class StoreListRespDto {
+    // private List<StoreDto> storeList = new ArrayList<>();
+
+    // @Getter
+    // @Setter
+    // public class StoreDto {
+    // private String name;
+    // private String thumbnail;
+    // private String deliveryCost;
+    // private String intro;
+    // private CustomerReview customerReview;
+
+    // public StoreDto(Store store) {
+    // this.name = store.getName();
+    // this.thumbnail = store.getThumbnail();
+    // this.deliveryCost = store.getDeliveryCost();
+    // this.intro = store.getIntro();
+    // this.customerReview = store.get;
+    // }
+
+    // }
+
+    // }
+
+    // 강사님이 짜주신 로직!!
     @Getter
     @Setter
     public static class StoreListRespDto {

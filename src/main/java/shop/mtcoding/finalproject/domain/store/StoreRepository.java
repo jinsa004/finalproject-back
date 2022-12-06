@@ -15,6 +15,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("select s from Store s where id = :id and s.isClosure = false")
     Optional<Store> updateById(@Param("id") Long id);
 
-    // select s from Store s where s.businessAddress = :address
+    @Query("select s from Store s where s.businessAddress = :address")
     List<Store> findByBusinessAddress(String address);
+
+    @Query(value = "select avg(cr.star_point), s.name, s.thumbnail, s.intro, s.delivery_cost from stores s left join customer_reviews cr on cr.store_id = s.id", nativeQuery = true)
+    List<Store> storeListAverageStarPoint();
+
 }
