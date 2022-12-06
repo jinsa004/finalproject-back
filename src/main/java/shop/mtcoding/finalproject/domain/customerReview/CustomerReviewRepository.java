@@ -11,6 +11,6 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
     @Query(value = "select * from customer_reviews cr right outer join ceo_reviews cor on cor.id = cr.ceo_reviews_id where cr.user_id = :userId", nativeQuery = true)
     List<CustomerReview> findReviewListByUserId(@Param("userId") Long userId);
 
-    @Query(value = "select avg(cr.star_point) from customer_reviews cr left join stores s on s.id = cr.store_id", nativeQuery = true)
+    @Query(value = "select *, avg(cr.star_point) from customer_reviews cr left join stores s on s.id = cr.store_id", nativeQuery = true)
     List<CustomerReview> starPointAverageToStore();
 }

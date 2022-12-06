@@ -87,7 +87,7 @@ public class StoreApiControllerTest extends DummyEntity {
         }
 
         @Test
-        public void findByUserIdToCustomerReview_test() throws Exception {
+        public void findStoreList_test() throws Exception {
                 // given
                 String address = "부산시 진구 서면 17번 길";
                 // when
@@ -96,9 +96,9 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
-                // // then
-                // resultActions.andExpect(status().isOk());
-                // resultActions.andExpect(jsonPath("$.data.user.nickname").value("ssar님"));
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.stores.[0].storeName").value("그린치킨"));
         }
 
         /* ///////////// POST ///////////// */
