@@ -22,8 +22,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReviews;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewsRepository;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
@@ -63,7 +63,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
     private CustomerReviewRepository customerReviewRepository;
 
     @Autowired
-    private CeoReviewsRepository ceoReviewsRepository;
+    private CeoReviewRepository ceoReviewsRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -75,7 +75,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         Store store = storeRepository.save(newStore(ssar));
         Menu menu = menuRepository.save(newMenu(store));
         Order order = orderRepository.save(newOrder(jinsa, store));
-        CeoReviews ceoReviews = ceoReviewsRepository.save(newCeoReview(store));
+        CeoReview ceoReviews = ceoReviewsRepository.save(newCeoReview(store));
         CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, order, ceoReviews));
     }
 
