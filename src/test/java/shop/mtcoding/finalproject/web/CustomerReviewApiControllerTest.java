@@ -134,6 +134,6 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         // then
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.msg").value("리뷰 삭제하기 성공"));
-
     }
+
 }
