@@ -11,7 +11,7 @@ public class CustomerReviewReqDto {
     @Setter
     public static class InsertCustomerReviewReqDto {
         private String content;
-        private int starPoint;
+        private Double starPoint;
         private String photo;
 
         public CustomerReview toEntity(User user, Store store) {

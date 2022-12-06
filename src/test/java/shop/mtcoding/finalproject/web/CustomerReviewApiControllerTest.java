@@ -87,7 +87,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         InsertCustomerReviewReqDto insertCustomerReviewReqDto = new InsertCustomerReviewReqDto();
         insertCustomerReviewReqDto.setContent("맛잇어용");
         insertCustomerReviewReqDto.setPhoto(null);
-        insertCustomerReviewReqDto.setStarPoint(4);
+        insertCustomerReviewReqDto.setStarPoint(4.0);
 
         String requestBody = om.writeValueAsString(insertCustomerReviewReqDto);
         System.out.println("테스트 : " + requestBody);

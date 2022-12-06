@@ -15,7 +15,7 @@ public class CustomerReviewRespDto {
     @Setter
     public static class InsertCustomerReviewRespDto {
         private String content;
-        private int starPoint;
+        private Double starPoint;
         private String photo;
 
         public InsertCustomerReviewRespDto(CustomerReview customerReview) {
@@ -73,7 +73,7 @@ public class CustomerReviewRespDto {
         public class CustomerReviewDto {
             private String content;
             private String photo;
-            private int starPoint;
+            private Double starPoint;
             private String createdAt;
             private String comment;
             private String commentCreatedAt;
@@ -127,7 +127,7 @@ public class CustomerReviewRespDto {
 // private Long id;
 // private String content;
 // private String photo;
-// private int starPoint;
+// private Double starPoint;
 // private String createAt;
 
 // public CustomerReviewDto(CustomerReview customerReview) {

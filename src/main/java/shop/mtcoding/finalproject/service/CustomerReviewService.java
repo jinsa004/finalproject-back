@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -34,12 +33,10 @@ public class CustomerReviewService {
     private final StoreRepository storeRepository;
     private final CustomerReviewRepository customerReviewRepository;
     private final OrderRepository orderRepository;
-    private final CeoReviewRepository ceoReviewRepository;
 
     @Transactional
     public InsertCustomerReviewRespDto 고객리뷰_등록하기(InsertCustomerReviewReqDto insertCustomerReviewReqDto, Long storeId,
-            Long orderId,
-            LoginUser loginUser) {
+            Long orderId, LoginUser loginUser) {
         // 0. 해당 가게가 있는지 검증
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않았습니다.", HttpStatus.BAD_REQUEST));
@@ -60,7 +57,7 @@ public class CustomerReviewService {
         return new InsertCustomerReviewRespDto(customerReviewPS);
     }
 
-    public CustomerReviewListRespDto 내_리뷰_목록하기(Long userId, LoginUser loginUser) {
+    public CustomerReviewListRespDto 내_리뷰_목록보기(Long userId, LoginUser loginUser) {
         // 1 해당 유저의 review가 있는지 체크
         User userPS = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.",

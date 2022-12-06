@@ -59,7 +59,7 @@ public class StoreRespDto {
             @Setter
             public class CustomerReviewDto {
                 private Long storeId;
-                private int starPoint;
+                private Double starPoint;
 
                 public CustomerReviewDto(CustomerReview customerReview) {
                     this.storeId = customerReview.getStore().getId();

@@ -81,7 +81,7 @@ public class DummyEntity {
 
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
-                .starPoint(5)
+                .starPoint(5.0)
                 .photo(null)
                 .isClosure(false)
                 .user(user)

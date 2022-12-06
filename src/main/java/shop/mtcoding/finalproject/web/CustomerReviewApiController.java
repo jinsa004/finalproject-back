@@ -30,16 +30,16 @@ public class CustomerReviewApiController {
 
     @PostMapping("/review/{orderId}/insert")
     public ResponseEntity<?> insertCustomerReview(@RequestBody InsertCustomerReviewReqDto insertCustomerReviewReqDto,
-            @PathVariable Long orderId, @AuthenticationPrincipal LoginUser loginUser) {
+            @PathVariable Long orderId, @PathVariable Long storeId, @AuthenticationPrincipal LoginUser loginUser) {
         InsertCustomerReviewRespDto insertCustomerReviewRespDto = customerReviewService
-                .고객리뷰_등록하기(insertCustomerReviewReqDto, orderId, loginUser);
+                .고객리뷰_등록하기(insertCustomerReviewReqDto, storeId, orderId, loginUser);
         return new ResponseEntity<>(new ResponseDto<>("리뷰 등록하기 완료", insertCustomerReviewRespDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/review/{userId}")
     public ResponseEntity<?> findByUserIdToCustomerReview(@PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.내_리뷰_목록하기(userId, loginUser);
+        CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.내_리뷰_목록보기(userId, loginUser);
         return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공",
                 CustomerReviewListRespDto), HttpStatus.OK);
     }
