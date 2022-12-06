@@ -1,23 +1,27 @@
 package shop.mtcoding.finalproject.domain.customerReview;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.springframework.lang.Nullable;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReviews;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -49,12 +53,12 @@ public class CustomerReview extends AudingTime {
     @OneToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private CeoReviews ceoReviews;
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    private CeoReview ceoReview;
 
     @Builder
     public CustomerReview(Long id, String content, int starPoint, String photo, boolean isClosure, User user,
-            Order order, CeoReviews ceoReviews) {
+            Order order, CeoReview ceoReview, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;
         this.starPoint = starPoint;
@@ -62,12 +66,30 @@ public class CustomerReview extends AudingTime {
         this.isClosure = isClosure;
         this.user = user;
         this.order = order;
-        this.ceoReviews = ceoReviews;
+        this.ceoReview = ceoReview;
+        this.createdAt = createdAt;
     }
 
     public void 비활성화하기() {
         this.isClosure = true;
     }
+
+    /* 승현 작업 시작 */
+    public CustomerReview updateCeoReview(CeoReview ceoReviewPS) {
+        return CustomerReview.builder()
+                .id(id)
+                .content(content)
+                .starPoint(starPoint)
+                .photo(photo)
+                .isClosure(isClosure)
+                .user(user)
+                .order(order)
+                .ceoReview(ceoReviewPS)
+                .createdAt(createdAt)
+                .build();
+    }
+    /* 승현 작업 종료 */
+
 }
 
 // 기존 테이블명 : reviews
