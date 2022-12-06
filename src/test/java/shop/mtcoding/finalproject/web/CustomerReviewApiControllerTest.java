@@ -2,6 +2,7 @@ package shop.mtcoding.finalproject.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -69,12 +70,13 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
 
     @BeforeEach
     public void setUp() {
-        User user = userRepository.save(newUser("ssar"));
-        Store store = storeRepository.save(newStore(user));
+        User ssar = userRepository.save(newUser("ssar"));
+        User jinsa = userRepository.save(newUser("jinsa"));
+        Store store = storeRepository.save(newStore(ssar));
         Menu menu = menuRepository.save(newMenu(store));
-        Order order = orderRepository.save(newOrder(user, store));
+        Order order = orderRepository.save(newOrder(jinsa, store));
         CeoReviews ceoReviews = ceoReviewsRepository.save(newCeoReview(store));
-        CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(user, order, ceoReviews));
+        CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, order, ceoReviews));
     }
 
     @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -116,4 +118,22 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.data.user.nickname").value("ssar님"));
     }
+
+    @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void deleteByUserId_test() throws Exception {
+        // given
+        Long userId = 2L;
+        Long reviewId = 1L;
+        // when
+        ResultActions resultActions = mvc
+                .perform(put("/api/review/" + userId + "/delete/" + reviewId));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        // then
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.msg").value("리뷰 삭제하기 성공"));
+    }
+
 }

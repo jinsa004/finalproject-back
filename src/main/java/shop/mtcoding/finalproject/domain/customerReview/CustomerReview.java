@@ -65,6 +65,9 @@ public class CustomerReview extends AudingTime {
         this.ceoReviews = ceoReviews;
     }
 
+    public void 비활성화하기() {
+        this.isClosure = true;
+    }
 }
 
 // 기존 테이블명 : reviews
