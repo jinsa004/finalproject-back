@@ -14,13 +14,14 @@ public class CustomerReviewReqDto {
         private int starPoint;
         private String photo;
 
-        public CustomerReview toEntity(Store store, User user) {
+        public CustomerReview toEntity(User user, Store store) {
             return CustomerReview.builder()
                     .content(content)
                     .starPoint(starPoint)
                     .photo(photo)
                     .user(user)
                     .store(store)
+                    .ceoReview(null)
                     .isClosure(false)
                     .build();
         }
