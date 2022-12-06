@@ -1,7 +1,5 @@
 package shop.mtcoding.finalproject.domain.menu;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,10 +16,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
-import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.store.Store;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "menus")
 @Entity
@@ -40,7 +37,7 @@ public class Menu {
     @Column(nullable = true, length = 100)
     private String intro;
 
-    @Column(nullable = false, length = 6)
+    @Column(nullable = false, length = 20)
     private String price;
 
     @Enumerated(EnumType.STRING)
