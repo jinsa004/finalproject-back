@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
@@ -30,9 +33,14 @@ public class StoreService {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
+    private final CustomerReviewRepository customerReviewRepository;
 
     /* 성진 작업 시작함 */
     public void 가게_목록보기() {
+        // 1 가게 정보 1셀렉
+        List<Store> storeList = storeRepository.findAll();
+        // 2 리뷰 별점 셀렉해서 평균내기
+        customerReviewRepository.findByStoreId(storeList.get(0).getId());
 
     }
 
