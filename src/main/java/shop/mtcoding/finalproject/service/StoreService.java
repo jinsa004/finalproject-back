@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 
@@ -37,13 +39,21 @@ public class StoreService {
     private final CustomerReviewRepository customerReviewRepository;
 
     /* 성진 작업 시작함 */
-    public void 가게_목록보기() {
+    public StoreListRespDto 가게_목록보기() {
         // 1 가게 정보 1셀렉
         List<Store> storeList = storeRepository.findAll();
         // 2 리뷰 별점 셀렉해서 평균내기
-        CustomerReview customerReviewPS = customerReviewRepository.findByStoreIdToStarPoint(storeList.get(0).getId());
-
+        List<CustomerReview> customerReviewList = new ArrayList<>();
+        for (int i = 1; i < storeList.size(); i++) {
+            customerReviewList.add(customerReviewRepository.findByStoreIdToStarPoint(storeList.get(i).getId()));
+            System.out.println("for문이 도는 중입니다.");
+        }
+        // 3 DTO 응답
+        StoreListRespDto storeListRespDto = new StoreListRespDto(storeList, customerReviewList);
+        return storeListRespDto;
     }
+
+    /* 성진 작업 끝!@! */
 
     /* 승현 작업 시작함 */
 

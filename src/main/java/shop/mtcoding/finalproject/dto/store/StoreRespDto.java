@@ -1,15 +1,69 @@
 package shop.mtcoding.finalproject.dto.store;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class StoreRespDto {
 
+    /* 성진 작업 시작@!@ */
+    @Getter
+    @Setter
+    public static class StoreListRespDto {
+        private List<StoreDto> stores = new ArrayList<>();
+        private List<CustomerReviewDto> customerReviews = new ArrayList<>();
+
+        private int starPoint;
+
+        public StoreListRespDto(List<Store> stores, List<CustomerReview> customerReviews) {
+            this.stores = stores.stream().map((store) -> new StoreDto(store))
+                    .collect(Collectors.toList());
+            ;
+            this.customerReviews = customerReviews.stream()
+                    .map((customerReview) -> new CustomerReviewDto(customerReview))
+                    .collect(Collectors.toList());
+            ;
+        }
+
+        @Getter
+        @Setter
+        public class StoreDto {
+            private String storeName;
+            private String deliveryCost;
+            private String intro;
+            private String thumbnail;
+
+            public StoreDto(Store store) {
+                this.storeName = store.getName();
+                this.deliveryCost = store.getDeliveryCost();
+                this.intro = store.getIntro();
+                this.thumbnail = store.getThumbnail();
+            }
+
+        }
+
+        @Getter
+        @Setter
+        public class CustomerReviewDto {
+            private int starPoint;
+
+            public CustomerReviewDto(CustomerReview customerReview) {
+                this.starPoint = customerReview.getStarPoint();
+            }
+
+        }
+
+    }
+
     /* 승현 작업 시작 */
-    
+
     @Getter
     @Setter
     public static class UpdateBusinessStateRespDto {
