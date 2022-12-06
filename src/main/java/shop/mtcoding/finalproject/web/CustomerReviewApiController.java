@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,10 +39,15 @@ public class CustomerReviewApiController {
     @GetMapping("/review/{userId}")
     public ResponseEntity<?> findByUserIdToCustomerReview(@PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        log.debug("디버그 : 컨트롤러 -> 서비스 드가기전");
         CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.내_리뷰_목록하기(userId, loginUser);
-        log.debug("디버그 : 컨트롤러에서 리턴합니다");
         return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공",
                 CustomerReviewListRespDto), HttpStatus.OK);
+    }
+
+    @PutMapping("/review/{userId}/delete/{reviewId}")
+    public ResponseEntity<?> deleteCustomerReview(@PathVariable Long userId, @PathVariable Long reviewId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        customerReviewService.내_리뷰_삭제하기(reviewId, userId, loginUser);
+        return new ResponseEntity<>(new ResponseDto<>("리뷰 삭제하기 성공", null), HttpStatus.OK);
     }
 }

@@ -53,63 +53,43 @@ public class CustomerReviewService {
         return new InsertCustomerReviewRespDto(customerReviewPS);
     }
 
-    // /review/{userId}
-    // public CustomerReviewListRespDto 내_리뷰_목록하기(Long userId, LoginUser loginUser)
-    // {
-    // // 1 해당 유저의 review가 있는지 체크
-    // User userPS = userRepository.findById(userId)
-    // .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.",
-    // HttpStatus.BAD_REQUEST));
-    // // 2 유저 권한체크
-    // if (userPS.getId() != loginUser.getUser().getId()) {
-    // throw new CustomApiException("해당 리뷰를 관리할 권한이 없습니다.", HttpStatus.FORBIDDEN);
-    // }
-    // log.debug("디버그 : 유저 체크" + userPS);
-    // // 3 핵심로직 내 리뷰 목록보기
-    // List<CustomerReview> customerReviewList =
-    // customerReviewRepository.findReviewListByUserId(userPS.getId());
-    // List<CeoReview> ceoReviewList =
-    // ceoReviewRepository.findReviewListByUserId(customerReviewList.get(0).getId());
-    // Order orderPS = orderRepository.findById(userPS.getId())
-    // .orElseThrow(() -> new CustomApiException("주문내역이 없습니다.",
-    // HttpStatus.BAD_REQUEST));
-    // // DTO 응답
-    // return new CustomerReviewListRespDto(customerReviewList, ceoReviewList,
-    // orderPS, userPS);
-    // }
-
     public CustomerReviewListRespDto 내_리뷰_목록하기(Long userId, LoginUser loginUser) {
         // 1 해당 유저의 review가 있는지 체크
-        log.debug("디버그 : 서비스에서 유저 리뷰 체크");
         User userPS = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.",
                         HttpStatus.BAD_REQUEST));
         // 2 유저 권한체크
-        log.debug("디버그 : 서비스에서 유저 권한 체크");
         if (userPS.getId() != loginUser.getUser().getId()) {
             throw new CustomApiException("해당 리뷰를 관리할 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
-        log.debug("디버그 : 유저가 주문을 했는지 체크 전 ");
-
         Order orderPS = orderRepository.findById(userPS.getId())
                 .orElseThrow(() -> new CustomApiException("주문내역이 없습니다.", HttpStatus.BAD_REQUEST));
-        log.debug("디버그 : 유저가 주문을 했는지 체크함 ");
-
         // 3 핵심로직 내 리뷰 목록보기
-        log.debug("디버그 : 서비스에서 내 리뷰 목록보기 ");
-
         List<CustomerReview> customerReviewList = customerReviewRepository.findReviewListByUserId(userPS.getId());
-        log.debug("디버그 : customerReviewRepository에서 user아이디로 찾아서 리스트에 담앗음");
-
-        log.debug("디버그 :  리뷰 ID : " + customerReviewList.get(0).getId());
-        log.debug("디버그 : =========================");
-        log.debug("디버그 :  CEO ID : " + customerReviewList.get(0).getCeoReviews().getId());
-
-        log.debug("디버그 : CEO 리뷰 : " + customerReviewList.get(0).getCeoReviews().getContent());
-        log.debug("디버그 : =========================");
-
         // DTO 응답
         return new CustomerReviewListRespDto(customerReviewList, orderPS, userPS);
     }
 
+    public void 내_리뷰_삭제하기(Long reviewId, Long userId, LoginUser loginUser) {
+        // 1 해당 유저의 review가 있는지 체크
+        log.debug("디버그 : 유저 정보 체크 전");
+        User userPS = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomApiException("유저 정보가 없습니다.",
+                        HttpStatus.BAD_REQUEST));
+        log.debug("디버그 : 유저 정보 체크 후");
+        // 2 유저 권한체크
+        log.debug("디버그 : 유저 권한 체크 전 ");
+        if (userPS.getId() != loginUser.getUser().getId()) {
+            throw new CustomApiException("해당 리뷰를 관리할 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+        log.debug("디버그 : 유저 권한 체크 후");
+        // 3 핵심로직 해당 리뷰 셀렉
+        log.debug("디버그 : 리뷰 정보 체크 전");
+        CustomerReview customerReviewPS = customerReviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomApiException("리뷰 정보가 없습니다.",
+                        HttpStatus.BAD_REQUEST));
+        log.debug("디버그 : 리뷰 정보 체크 후");
+        // 4 리뷰 비활성화하기
+        customerReviewPS.비활성화하기();
+    }
 }

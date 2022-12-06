@@ -2,6 +2,7 @@ package shop.mtcoding.finalproject.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -115,5 +116,23 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         // then
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.data.user.nickname").value("ssar님"));
+    }
+
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void deleteByUserId_test() throws Exception {
+        // given
+        Long userId = 1L;
+        Long reviewId = 1L;
+        // when
+        ResultActions resultActions = mvc
+                .perform(put("/api/review/" + userId + "/delete" + reviewId));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        // // then
+        // resultActions.andExpect(status().isOk());
+        // resultActions.andExpect(jsonPath("$.msg").value("리뷰 삭제하기 성공"));
+
     }
 }
