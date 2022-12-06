@@ -38,8 +38,8 @@ public class StoreApiController {
     /* 성진 작업 시작@ */
 
     @GetMapping("/storeList")
-    public ResponseEntity<?> findStoreList() {
-        StoreListRespDto storeListRespDto = storeService.가게_목록보기();
+    public ResponseEntity<?> findStoreList(String address) {
+        StoreListRespDto storeListRespDto = storeService.가게_목록보기(address);
         return new ResponseEntity<>(new ResponseDto<>("가게 목록보기 기능 완료", storeListRespDto), HttpStatus.OK);
     }
 

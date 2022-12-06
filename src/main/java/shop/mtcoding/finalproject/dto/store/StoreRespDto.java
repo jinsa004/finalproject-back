@@ -18,16 +18,21 @@ public class StoreRespDto {
     @Setter
     public static class StoreListRespDto {
         private List<StoreDto> stores = new ArrayList<>();
-        private List<CustomerReviewDto> customerReviews = new ArrayList<>();
 
-        public StoreListRespDto(List<Store> stores, List<CustomerReview> customerReviews) {
-            this.stores = stores.stream().map((store) -> new StoreDto(store))
-                    .collect(Collectors.toList());
-            ;
-            this.customerReviews = customerReviews.stream()
-                    .map((customerReview) -> new CustomerReviewDto(customerReview))
-                    .collect(Collectors.toList());
-            ;
+        public StoreListRespDto(List<Store> storesPS, List<CustomerReview> customerReviewsPS) {
+            for (Store store : storesPS) {
+
+                List<CustomerReview> tempReviews = new ArrayList<>();
+
+                for (CustomerReview customerReview : customerReviewsPS) {
+                    if (customerReview.getStore().getId() == store.getId()) {
+                        tempReviews.add(customerReview);
+                    }
+                }
+
+                stores.add(new StoreDto(store, tempReviews));
+            }
+
         }
 
         @Getter
@@ -39,25 +44,28 @@ public class StoreRespDto {
             private String intro;
             private String thumbnail;
 
-            public StoreDto(Store store) {
+            private List<CustomerReviewDto> customerReviews = new ArrayList<>();
+
+            public StoreDto(Store store, List<CustomerReview> crs) {
                 this.storeId = store.getId();
                 this.storeName = store.getName();
                 this.deliveryCost = store.getDeliveryCost();
                 this.intro = store.getIntro();
                 this.thumbnail = store.getThumbnail();
+                this.customerReviews = crs.stream().map(CustomerReviewDto::new).collect(Collectors.toList());
             }
 
-        }
+            @Getter
+            @Setter
+            public class CustomerReviewDto {
+                private Long storeId;
+                private int starPoint;
 
-        @Getter
-        @Setter
-        public class CustomerReviewDto {
-            private Long storeId;
-            private int starPoint;
+                public CustomerReviewDto(CustomerReview customerReview) {
+                    this.storeId = customerReview.getStore().getId();
+                    this.starPoint = customerReview.getStarPoint();
+                }
 
-            public CustomerReviewDto(CustomerReview customerReview) {
-                this.storeId = customerReview.getOrder().getStore().getId();
-                this.starPoint = customerReview.getStarPoint();
             }
 
         }

@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -44,22 +45,22 @@ public class CustomerReview extends AudingTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Order order;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Store store;
 
     @OneToOne(fetch = FetchType.LAZY)
     private CeoReview ceoReview;
 
     @Builder
     public CustomerReview(Long id, String content, int starPoint, String photo, boolean isClosure, User user,
-            Order order, CeoReview ceoReview) {
+            Store store, CeoReview ceoReview) {
         this.id = id;
         this.content = content;
         this.starPoint = starPoint;
         this.photo = photo;
         this.isClosure = isClosure;
         this.user = user;
-        this.order = order;
+        this.store = store;
         this.ceoReview = ceoReview;
     }
 

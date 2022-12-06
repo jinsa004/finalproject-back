@@ -77,7 +77,7 @@ public class DummyEntity {
         return order;
     }
 
-    protected CustomerReview newCustomerReview(User user, Order order, CeoReview ceoReview) {
+    protected CustomerReview newCustomerReview(User user, Store store, CeoReview ceoReview) {
 
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
@@ -85,7 +85,7 @@ public class DummyEntity {
                 .photo(null)
                 .isClosure(false)
                 .user(user)
-                .order(order)
+                .store(store)
                 .ceoReview(ceoReview)
                 .build();
         return customerReview;
