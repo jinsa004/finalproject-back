@@ -27,10 +27,16 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 @Service
 public class StoreService {
 
-    /* 승현 작업 시작함 */
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
+
+    /* 성진 작업 시작함 */
+    public void 가게_목록보기() {
+
+    }
+
+    /* 승현 작업 시작함 */
 
     @Transactional
     public UpdateBusinessStateRespDto updateToBusinessState(UpdateBusinessStateReqDto updateBusinessStateReqDto) {
