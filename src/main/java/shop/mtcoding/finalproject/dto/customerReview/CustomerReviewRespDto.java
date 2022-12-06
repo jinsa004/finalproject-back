@@ -83,8 +83,8 @@ public class CustomerReviewRespDto {
                 this.photo = customerReview.getPhoto();
                 this.starPoint = customerReview.getStarPoint();
                 this.createdAt = CustomDateUtil.toStringFormat(customerReview.getCreatedAt());
-                this.comment = customerReview.getCeoReviews().getContent();
-                this.commentCreatedAt = CustomDateUtil.toStringFormat(customerReview.getCeoReviews().getCreatedAt());
+                this.comment = customerReview.getCeoReview().getContent();
+                this.commentCreatedAt = CustomDateUtil.toStringFormat(customerReview.getCeoReview().getCreatedAt());
             }
 
         }

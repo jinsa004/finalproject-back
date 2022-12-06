@@ -22,7 +22,7 @@ import shop.mtcoding.finalproject.domain.store.Store;
 @Getter
 @Table(name = "ceo_reviews")
 @Entity
-public class CeoReviews extends AudingTime {
+public class CeoReview extends AudingTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class CeoReviews extends AudingTime {
     private Order order;
 
     @Builder
-    public CeoReviews(Long id, String content, Store store, Order order) {
+    public CeoReview(Long id, String content, Store store, Order order) {
         this.id = id;
         this.content = content;
         this.store = store;
