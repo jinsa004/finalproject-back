@@ -35,10 +35,10 @@ public class CeoReviewRespDto {
 
     @Getter
     @Setter
-    public static class SaveCeoReviewDto {
+    public static class InsertCeoReviewRespDto {
         private String content;
 
-        public SaveCeoReviewDto(CeoReview ceoReview) {
+        public InsertCeoReviewRespDto(CeoReview ceoReview) {
             this.content = ceoReview.getContent();
         }
     }
