@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
@@ -40,7 +41,7 @@ public class StoreService {
         // 1 가게 정보 1셀렉
         List<Store> storeList = storeRepository.findAll();
         // 2 리뷰 별점 셀렉해서 평균내기
-        customerReviewRepository.findByStoreId(storeList.get(0).getId());
+        CustomerReview customerReviewPS = customerReviewRepository.findByStoreIdToStarPoint(storeList.get(0).getId());
 
     }
 
