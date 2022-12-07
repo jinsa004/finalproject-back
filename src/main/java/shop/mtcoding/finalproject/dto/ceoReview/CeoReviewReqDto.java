@@ -19,6 +19,7 @@ public class CeoReviewReqDto {
             return CeoReview.builder()
                     .content(content)
                     .store(customerReview.getStore())
+                    .order(customerReview.getOrder())
                     .build();
         }
     }
