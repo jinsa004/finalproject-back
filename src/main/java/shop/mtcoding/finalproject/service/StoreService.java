@@ -54,14 +54,19 @@ public class StoreService {
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("해당 가게 내역이 없습니다.",
                         HttpStatus.BAD_REQUEST));
-        // 2. 별점 평균 데이터 및 리뷰 개수
+        log.debug("디버그 : 가게정보 :" + storePS.getName());
+        // 2. 별점 평균 데이터 및 리뷰 개수(연산)
         CustomerReview customerReviewPS = customerReviewRepository.findByStoreId(storeId);
-        // 3. 답글 개수 데이터
+        log.debug("디버그 : 리뷰 별점 :" + customerReviewPS.getStarPoint());
+        // 3. 답글 개수 데이터(연산)
         CeoReview ceoReviewPS = ceoReviewRepository.findByStoreId(storeId);
-        // 4. 좋아요 개수 데이터
+        log.debug("디버그 : 답글 갯수 : " + ceoReviewPS.getId());
+        // 4. 좋아요 개수 데이터(연산)
         Like likePS = likeRepository.findByStoreId(storeId);
-        // 5. 메뉴 테이블 데이터 셀렉
+        log.debug("디버그 : 좋아요 개수 : " + likePS.getId());
+        // 5. 메뉴 테이블 데이터 셀렉(리스트)
         List<Menu> menuList = menuRepository.findAllByStoreId(storeId);
+        log.debug("디버그 : 메뉴 정보 : " + menuList.get(0).getName());
         // 6. DTO 응답
         DetailStoreMainRespDto detailStoreMainRespDto = new DetailStoreMainRespDto(storePS, customerReviewPS,
                 ceoReviewPS, likePS, menuList);
