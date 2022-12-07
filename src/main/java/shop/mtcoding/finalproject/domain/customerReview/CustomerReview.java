@@ -65,8 +65,8 @@ public class CustomerReview extends AudingTime {
         this.photo = photo;
         this.isClosure = isClosure;
         this.user = user;
-        this.order = order;
         this.store = store;
+        this.order = order;
         this.createdAt = createdAt;
         this.ceoReview = ceoReview;
     }
@@ -84,7 +84,6 @@ public class CustomerReview extends AudingTime {
                 .photo(photo)
                 .isClosure(isClosure)
                 .user(user)
-                .order(order)
                 .store(store)
                 .ceoReview(ceoReviewPS)
                 .createdAt(createdAt)

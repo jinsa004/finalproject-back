@@ -83,7 +83,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 Order order = orderRepository.save(newOrder(jinsa, store));
                 CeoReview CeoReview = ceoReviewRepository.save(newCeoReview(store, order));
                 CustomerReview customerReview = customerReviewRepository
-                                .save(newCustomerReview(jinsa, store, CeoReview));
+                                .save(newCustomerReview(jinsa, order, store, CeoReview));
         }
 
         @Test
@@ -102,7 +102,7 @@ public class StoreApiControllerTest extends DummyEntity {
         }
 
         /* ///////////// POST ///////////// */
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void apply_test() throws Exception, NestedServletException {
 
@@ -137,7 +137,6 @@ public class StoreApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Dummy_apply(userPS);
                 InsertStoreReqDto insertStoreReqDto = new InsertStoreReqDto();
                 insertStoreReqDto.setCategory("치킨");
                 insertStoreReqDto.setName("양념이 맛있는 치킨집");
@@ -174,7 +173,6 @@ public class StoreApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Dummy_apply(userPS);
                 UpdateStoreReqDto updateStoreReqDto = new UpdateStoreReqDto();
                 updateStoreReqDto.setCategory("치킨");
                 updateStoreReqDto.setName("후라이드가 맛있는 치킨집");
@@ -211,7 +209,6 @@ public class StoreApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Dummy_apply(userPS);
                 UpdateBusinessStateReqDto updateBusinessStateReqDto = new UpdateBusinessStateReqDto();
                 updateBusinessStateReqDto.setOpend(true);
                 String requestBody = om.writeValueAsString(updateBusinessStateReqDto);
@@ -237,7 +234,6 @@ public class StoreApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Dummy_apply(userPS);
 
                 // when
                 ResultActions resultActions = mvc
@@ -247,8 +243,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.ceoName").value("테스터"));
-                resultActions.andExpect(jsonPath("$.data.accept").value(false));
+                resultActions.andExpect(jsonPath("$.data.ceoName").value("cos"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -257,24 +252,15 @@ public class StoreApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Dummy_apply(userPS);
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/store"));
+                                .perform(get("/api/store/detail"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.ceoName").value("테스터"));
-        }
-
-        public void Dummy_apply(User userPS) {
-                ApplyReqDto applyReqDto = new ApplyReqDto();
-                applyReqDto.setCeoName("테스터");
-                applyReqDto.setBusinessAddress("부산시 부산진구 혜도빌딩 4층 423호");
-                applyReqDto.setBusinessNumber("0101112222");
-                storeRepository.save(applyReqDto.toEntity(applyReqDto, userPS));
+                resultActions.andExpect(jsonPath("$.data.ceoName").value("cos"));
         }
 }
