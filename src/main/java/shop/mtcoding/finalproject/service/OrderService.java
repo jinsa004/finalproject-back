@@ -23,6 +23,7 @@ import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
 
 @Transactional(readOnly = true)
@@ -65,6 +66,27 @@ public class OrderService {
     }
 
     /* 승현 작업 시작 */
+
+    @Transactional
+    public void updateByUserIdToCancle(UpdateToCancleOrderReqDto updateToCancleOrderReqDto) {
+
+        // 1. 가게 주인이 맞는지 체크하기
+        Store storePS = storeRepository.findById(updateToCancleOrderReqDto.getStoreId()).orElseThrow(
+                () -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        if (storePS.getUser().getId() != updateToCancleOrderReqDto.getUserId()) {
+            throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 2. 주문 상태 확인하기
+        Order order = orderRepository.findById(updateToCancleOrderReqDto.getOrderId()).orElseThrow(
+                () -> new CustomApiException("해당 주문이 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        if (order.getState() == OrderStateEnum.CANCEL) {
+            throw new CustomApiException("이미 취소된 주문입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 3. 업데이트 하기
+        Order orderPS = orderRepository.save(order.updateToCancle(updateToCancleOrderReqDto.toEntity()));
+    }
 
     public List<ShowOrderListRespDto> findAllByStoreId(Long storeId, Long id) {
 
