@@ -69,7 +69,7 @@ public class DummyEntity {
     protected Order newOrder(User user, Store store) {
         Order order = Order.builder()
                 .comment("젓가락 빼주세요")
-                .state(OrderStateEnum.CHECK)
+                .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
                 .store(store)

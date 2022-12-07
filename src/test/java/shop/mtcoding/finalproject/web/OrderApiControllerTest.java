@@ -123,4 +123,24 @@ public class OrderApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data").value("주문취소"));
 
         }
+
+        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void findAllByStoreId_test() throws Exception {
+                // given
+                User userPS = userRepository.findByUsername("ssar").orElseThrow(
+                                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                Long storeId = 1L;
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/store/" + storeId + "/order"));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : 응답데이터 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.[0].orderComment").value("젓가락 빼주세요"));
+
+        }
 }
