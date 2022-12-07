@@ -68,7 +68,7 @@ public class OrderService {
     /* 승현 작업 시작 */
 
     @Transactional
-    public void updateByUserIdToCancle(UpdateToCancleOrderReqDto updateToCancleOrderReqDto) {
+    public String updatToState(UpdateToCancleOrderReqDto updateToCancleOrderReqDto) {
 
         // 1. 가게 주인이 맞는지 체크하기
         Store storePS = storeRepository.findById(updateToCancleOrderReqDto.getStoreId()).orElseThrow(
@@ -80,12 +80,11 @@ public class OrderService {
         // 2. 주문 상태 확인하기
         Order order = orderRepository.findById(updateToCancleOrderReqDto.getOrderId()).orElseThrow(
                 () -> new CustomApiException("해당 주문이 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-        if (order.getState() == OrderStateEnum.CANCEL) {
-            throw new CustomApiException("이미 취소된 주문입니다.", HttpStatus.BAD_REQUEST);
-        }
 
         // 3. 업데이트 하기
-        Order orderPS = orderRepository.save(order.updateToCancle(updateToCancleOrderReqDto.toEntity()));
+        Order orderPS = orderRepository.save(order.update(updateToCancleOrderReqDto.toEntity()));
+
+        return orderPS.getState().getState();
     }
 
     public List<ShowOrderListRespDto> findAllByStoreId(Long storeId, Long id) {

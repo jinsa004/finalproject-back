@@ -28,15 +28,15 @@ public class OrderApiController {
 
     /* 승현 작업 시작 */
 
-    @PutMapping("/store/{storeId}/order/{orderId}/cancle")
-    public ResponseEntity<?> UpdateOrderByUserIdToCancle(@PathVariable Long storeId,
+    @PutMapping("/store/{storeId}/order/{orderId}/state")
+    public ResponseEntity<?> UpdateOrderByUserIdToComplete(@PathVariable Long storeId, @PathVariable Long orderId,
             @RequestBody UpdateToCancleOrderReqDto updateToCancleOrderReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
         updateToCancleOrderReqDto.setUserId(loginUser.getUser().getId());
         updateToCancleOrderReqDto.setOrderId(storeId);
         updateToCancleOrderReqDto.setStoreId(storeId);
-        orderService.updateByUserIdToCancle(updateToCancleOrderReqDto);
-        return new ResponseEntity<>(new ResponseDto<>("주문취소 완료", null), HttpStatus.OK);
+        String state = orderService.updatToState(updateToCancleOrderReqDto);
+        return new ResponseEntity<>(new ResponseDto<>("주문상태 변경완료", state), HttpStatus.OK);
     }
 
     @GetMapping("/store/{storeId}/order")

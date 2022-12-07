@@ -81,7 +81,7 @@ public class Order extends AudingTime {
         this.createdAt = createdAt;
     }
 
-    public Order updateToCancle(Order order) {
+    public Order update(Order order) {
         return Order.builder()
                 .id(id)
                 .comment(comment)
