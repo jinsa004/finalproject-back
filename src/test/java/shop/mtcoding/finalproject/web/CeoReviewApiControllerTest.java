@@ -42,95 +42,95 @@ import shop.mtcoding.finalproject.dto.ceoReview.CeoReviewReqDto.InsertCeoReviewR
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 public class CeoReviewApiControllerTest extends DummyEntity {
-        private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
-        private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
+    private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
+    private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
 
-        @Autowired
-        private MockMvc mvc;
+    @Autowired
+    private MockMvc mvc;
 
-        @Autowired
-        private ObjectMapper om;
+    @Autowired
+    private ObjectMapper om;
 
-        @Autowired
-        private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-        @Autowired
-        private StoreRepository storeRepository;
+    @Autowired
+    private StoreRepository storeRepository;
 
-        @Autowired
-        private MenuRepository menuRepository;
+    @Autowired
+    private MenuRepository menuRepository;
 
-        @Autowired
-        private CustomerReviewRepository customerReviewRepository;
+    @Autowired
+    private CustomerReviewRepository customerReviewRepository;
 
-        @Autowired
-        private CeoReviewRepository ceoReviewRepository;
+    @Autowired
+    private CeoReviewRepository ceoReviewRepository;
 
-        @Autowired
-        private OrderRepository orderRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
-        @BeforeEach
-        public void setUp() {
-                User ssar = userRepository.save(newUser("ssar"));
-                User jinsa = userRepository.save(newUser("jinsa"));
-                Store store = storeRepository.save(newStore(ssar));
-                Menu menu = menuRepository.save(newMenu(store));
-                Order order = orderRepository.save(newOrder(jinsa, store));
-                CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
-                CustomerReview customerReview = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order, store, ceoReview));
-                CustomerReview customerReview2 = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order, store, null));
-        }
+    @BeforeEach
+    public void setUp() {
+        User ssar = userRepository.save(newUser("ssar"));
+        User jinsa = userRepository.save(newUser("jinsa"));
+        Store store = storeRepository.save(newStore(ssar));
+        Menu menu = menuRepository.save(newMenu(store));
+        Order order = orderRepository.save(newOrder(jinsa, store));
+        CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
+        CustomerReview customerReview = customerReviewRepository
+                .save(newCustomerReview(jinsa, order, store, ceoReview));
+        CustomerReview customerReview2 = customerReviewRepository
+                .save(newCustomerReview(jinsa, order, store, null));
+    }
 
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-        @Test
-        public void insertCeoReviewByCustomerId_test() throws Exception {
-                // given
-                User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void insertCeoReviewByCustomerId_test() throws Exception {
+        // given
+        User userPS = userRepository.findByUsername("ssar").orElseThrow(
+                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
 
-                Long customerReviewId = 2L;
-                InsertCeoReviewReqDto insertCeoReviewReqDto = new InsertCeoReviewReqDto();
-                insertCeoReviewReqDto.setContent("맛있게 드셨다니 다행입니다^^");
-                insertCeoReviewReqDto.setUserId(userPS.getId());
-                insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
+        Long customerReviewId = 2L;
+        InsertCeoReviewReqDto insertCeoReviewReqDto = new InsertCeoReviewReqDto();
+        insertCeoReviewReqDto.setContent("맛있게 드셨다니 다행입니다^^");
+        insertCeoReviewReqDto.setUserId(userPS.getId());
+        insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
 
-                CustomerReview customerReviewPS = customerReviewRepository
-                                .findById(insertCeoReviewReqDto.getCustomerReviewId())
-                                .orElseThrow(() -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-                insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
+        CustomerReview customerReviewPS = customerReviewRepository
+                .findById(insertCeoReviewReqDto.getCustomerReviewId())
+                .orElseThrow(() -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
 
-                String requestBody = om.writeValueAsString(insertCeoReviewReqDto);
-                System.out.println("테스트 : " + requestBody);
+        String requestBody = om.writeValueAsString(insertCeoReviewReqDto);
+        System.out.println("테스트 : " + requestBody);
 
-                // when
-                ResultActions resultActions = mvc
-                                .perform(post("/api/store/" + customerReviewId + "/review")
-                                                .content(requestBody)
-                                                .contentType(APPLICATION_JSON_UTF8));
-                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : 응답데이터 : " + responseBody);
+        // when
+        ResultActions resultActions = mvc
+                .perform(post("/api/store/" + customerReviewId + "/review")
+                                .content(requestBody)
+                                .contentType(APPLICATION_JSON_UTF8));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : 응답데이터 : " + responseBody);
 
-                // then
-                resultActions.andExpect(status().isCreated());
-                resultActions.andExpect(jsonPath("$.data.content").value("맛있게 드셨다니 다행입니다^^"));
-        }
+        // then
+        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(jsonPath("$.data.content").value("맛있게 드셨다니 다행입니다^^"));
+    }
 
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-        @Test
-        public void findAllReviewByStoreId_test() throws Exception {
-                // given
-                Long storeId = 1L;
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void findAllReviewByStoreId_test() throws Exception {
+        // given
+        Long storeId = 1L;
 
-                // when
-                ResultActions resultActions = mvc.perform(get("/api/store/" + storeId + "/review"));
+        // when
+        ResultActions resultActions = mvc.perform(get("/api/store/" + storeId + "/review"));
 
-                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : " + responseBody);
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
 
-                // then
-                resultActions.andExpect(status().isOk());
-        }
+        // then
+        resultActions.andExpect(status().isOk());
+    }
 
 }

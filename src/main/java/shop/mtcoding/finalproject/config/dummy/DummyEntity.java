@@ -10,6 +10,7 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -67,6 +68,7 @@ public class DummyEntity {
 
     protected Order newOrder(User user, Store store) {
         Order order = Order.builder()
+                .comment("젓가락 빼주세요")
                 .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
@@ -75,6 +77,15 @@ public class DummyEntity {
                 .isClosure(false)
                 .build();
         return order;
+    }
+
+    protected OrderDetail newOrderDetail(Order order, Menu menu) {
+        OrderDetail orderDetail = OrderDetail.builder()
+                .count(1)
+                .order(order)
+                .menu(menu)
+                .build();
+        return orderDetail;
     }
 
     protected CustomerReview newCustomerReview(User user, Order order, Store store, CeoReview ceoReview) {
@@ -101,5 +112,5 @@ public class DummyEntity {
                 .build();
         return ceoReview;
     }
-
+    
 }

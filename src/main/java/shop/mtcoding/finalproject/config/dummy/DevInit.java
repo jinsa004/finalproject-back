@@ -14,6 +14,8 @@ import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
@@ -28,6 +30,7 @@ public class DevInit extends DummyEntity {
             StoreRepository storeRepository,
             MenuRepository menuRepository,
             OrderRepository orderRepository,
+            OrderDetailRepository orderDetailRepository,
             CustomerReviewRepository customerReviewRepository,
             CeoReviewRepository ceoReviewRepository) {
 
@@ -36,12 +39,15 @@ public class DevInit extends DummyEntity {
             User jinsa = userRepository.save(newUser("jinsa"));
             Store store = storeRepository.save(newStore(ssar));
             Menu menu = menuRepository.save(newMenu(store));
-            Order order = orderRepository.save(newOrder(jinsa, store));
-            CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
+            Order order1 = orderRepository.save(newOrder(jinsa, store));
+            Order order2 = orderRepository.save(newOrder(jinsa, store));
+            OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu));
+            OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu));
+            CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order1));
             CustomerReview customerReview = customerReviewRepository
-                    .save(newCustomerReview(jinsa, order, store, ceoReview));
+                    .save(newCustomerReview(jinsa, order1, store, ceoReview));
             CustomerReview customerReview2 = customerReviewRepository
-                    .save(newCustomerReview(jinsa, order, store, null));
+                    .save(newCustomerReview(jinsa, order1, store, null));
         };
     }
 }

@@ -101,7 +101,7 @@ public class StoreRespDto {
     }
 
     /* 승현 작업 시작 */
-
+    
     @Getter
     @Setter
     public static class UpdateBusinessStateRespDto {
