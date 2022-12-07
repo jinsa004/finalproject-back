@@ -10,6 +10,8 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -84,6 +86,7 @@ public class DummyEntity {
                 .starPoint(5.0)
                 .photo(null)
                 .isClosure(false)
+                .ceoReview(ceoReview)
                 .user(user)
                 .store(store)
                 .ceoReview(ceoReview)

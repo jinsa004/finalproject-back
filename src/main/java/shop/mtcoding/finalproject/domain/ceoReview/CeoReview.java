@@ -28,7 +28,7 @@ public class CeoReview extends AudingTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,6 +44,7 @@ public class CeoReview extends AudingTime {
         this.store = store;
         this.order = order;
     }
+
 }
 
 // 기존 테이블명 : comments

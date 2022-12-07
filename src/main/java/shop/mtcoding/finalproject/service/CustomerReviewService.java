@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -33,6 +34,7 @@ public class CustomerReviewService {
     private final StoreRepository storeRepository;
     private final CustomerReviewRepository customerReviewRepository;
     private final OrderRepository orderRepository;
+    private final CeoReviewRepository ceoReviewRepository;
 
     @Transactional
     public InsertCustomerReviewRespDto 고객리뷰_등록하기(InsertCustomerReviewReqDto insertCustomerReviewReqDto, Long storeId,
