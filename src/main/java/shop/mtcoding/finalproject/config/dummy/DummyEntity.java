@@ -77,18 +77,18 @@ public class DummyEntity {
         return order;
     }
 
-    protected CustomerReview newCustomerReview(User user, Order order, Store store, CeoReview ceoReview) {
+    protected CustomerReview newCustomerReview(User user, Order order, Store store, CeoReview ceoReview,
+            Double starPoint) {
 
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
-                .starPoint(5.0)
+                .starPoint(starPoint)
                 .photo(null)
                 .isClosure(false)
                 .ceoReview(ceoReview)
                 .user(user)
                 .order(order)
                 .store(store)
-                .ceoReview(ceoReview)
                 .build();
         return customerReview;
     }

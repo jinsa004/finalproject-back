@@ -39,9 +39,9 @@ public class DevInit extends DummyEntity {
             Order order = orderRepository.save(newOrder(jinsa, store));
             CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
             CustomerReview customerReview = customerReviewRepository
-                    .save(newCustomerReview(jinsa, order, store, ceoReview));
+                    .save(newCustomerReview(jinsa, order, store, ceoReview, 4.0));
             CustomerReview customerReview2 = customerReviewRepository
-                    .save(newCustomerReview(jinsa, order, store, null));
+                    .save(newCustomerReview(jinsa, order, store, null, 5.0));
         };
     }
 }

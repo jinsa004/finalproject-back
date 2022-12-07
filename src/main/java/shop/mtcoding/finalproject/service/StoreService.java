@@ -10,8 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
+import shop.mtcoding.finalproject.domain.like.LikeRepository;
+import shop.mtcoding.finalproject.domain.menu.Menu;
+import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
@@ -36,11 +42,26 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
     private final CustomerReviewRepository customerReviewRepository;
+    private final CeoReviewRepository ceoReviewRepository;
+    private final LikeRepository likeRepository;
+    private final MenuRepository menuRepository;
 
     /* 성진 작업 시작함 */
 
-    public void 가게_상세보기() {
-
+    public void 가게_상세보기(Long storeId) {
+        // 1. 가게가 존재하는지?
+        Store storePS = storeRepository.findById(storeId)
+                .orElseThrow(() -> new CustomApiException("해당 가게 내역이 없습니다.",
+                        HttpStatus.BAD_REQUEST));
+        // 2. 별점 평균 데이터 및 리뷰 개수
+        CustomerReview customerReviewPS = customerReviewRepository.findByStoreId(storeId);
+        // 3. 답글 개수 데이터
+        CeoReview ceoReviewPS = ceoReviewRepository.findByStoreId(storeId);
+        // 4. 좋아요 개수 데이터
+        Like likePS = likeRepository.findByStoreId(storeId);
+        // 5. 메뉴 테이블 데이터 셀렉
+        List<Menu> menuList = menuRepository.findAllByStoreId(storeId);
+        // 6. DTO 응답
     }
 
     public StoreListRespDto 가게_목록보기() {
