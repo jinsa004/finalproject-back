@@ -7,23 +7,23 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
 public class CustomerReviewReqDto {
-    @Getter
-    @Setter
-    public static class InsertCustomerReviewReqDto {
-        private String content;
-        private Double starPoint;
-        private String photo;
+        @Getter
+        @Setter
+        public static class InsertCustomerReviewReqDto {
+                private String content;
+                private Double starPoint;
+                private String photo;
 
-        public CustomerReview toEntity(User user, Store store) {
-            return CustomerReview.builder()
-                    .content(content)
-                    .starPoint(starPoint)
-                    .photo(photo)
-                    .user(user)
-                    .store(store)
-                    .ceoReview(null)
-                    .isClosure(false)
-                    .build();
+                public CustomerReview toEntity(User user, Store store) {
+                        return CustomerReview.builder()
+                                        .content(content)
+                                        .starPoint(starPoint)
+                                        .photo(photo)
+                                        .user(user)
+                                        .store(store)
+                                        .ceoReview(null)
+                                        .isClosure(false)
+                                        .build();
+                }
         }
-    }
 }

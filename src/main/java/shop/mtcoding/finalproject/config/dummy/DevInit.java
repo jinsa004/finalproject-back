@@ -24,9 +24,11 @@ import shop.mtcoding.finalproject.domain.user.UserRepository;
 public class DevInit extends DummyEntity {
     @Profile("dev")
     @Bean
-    public CommandLineRunner dataSetting(UserRepository userRepository, StoreRepository storeRepository,
+    public CommandLineRunner dataSetting(UserRepository userRepository,
+            StoreRepository storeRepository,
             MenuRepository menuRepository,
-            OrderRepository orderRepository, CustomerReviewRepository customerReviewRepository,
+            OrderRepository orderRepository,
+            CustomerReviewRepository customerReviewRepository,
             CeoReviewRepository ceoReviewRepository) {
 
         return (args) -> {
