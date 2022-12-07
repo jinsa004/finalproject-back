@@ -24,7 +24,7 @@ public class DummyEntity {
                 .nickname(username + "님")
                 .phone("01011112222")
                 .photo(null)
-                .address("부산시 진구 서면")
+                .address("부산시 진구 서면 17번 길")
                 .role(username.equals("admin") ? UserEnum.ADMIN : UserEnum.CUSTOMER)
                 .isActive(true)
                 .build();
@@ -77,16 +77,18 @@ public class DummyEntity {
         return order;
     }
 
-    protected CustomerReview newCustomerReview(User user, Order order, CeoReview CeoReview) {
+    protected CustomerReview newCustomerReview(User user, Order order, Store store, CeoReview ceoReview) {
 
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
-                .starPoint(5)
+                .starPoint(5.0)
                 .photo(null)
                 .isClosure(false)
+                .ceoReview(ceoReview)
                 .user(user)
                 .order(order)
-                .ceoReview(CeoReview)
+                .store(store)
+                .ceoReview(ceoReview)
                 .build();
         return customerReview;
     }

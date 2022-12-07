@@ -18,8 +18,7 @@ public class CeoReviewReqDto {
         public CeoReview toEntity(CustomerReview customerReview) {
             return CeoReview.builder()
                     .content(content)
-                    .store(customerReview.getOrder().getStore())
-                    .order(customerReview.getOrder())
+                    .store(customerReview.getStore())
                     .build();
         }
     }
