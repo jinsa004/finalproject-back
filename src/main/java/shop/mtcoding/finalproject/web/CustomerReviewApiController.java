@@ -28,7 +28,7 @@ public class CustomerReviewApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final CustomerReviewService customerReviewService;
 
-    @PostMapping("/review/{orderId}/insert")
+    @PostMapping("/review/{orderId}/insert/{storeId}")
     public ResponseEntity<?> insertCustomerReview(@RequestBody InsertCustomerReviewReqDto insertCustomerReviewReqDto,
             @PathVariable Long orderId, @PathVariable Long storeId, @AuthenticationPrincipal LoginUser loginUser) {
         InsertCustomerReviewRespDto insertCustomerReviewRespDto = customerReviewService

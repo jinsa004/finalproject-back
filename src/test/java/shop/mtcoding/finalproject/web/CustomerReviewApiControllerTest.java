@@ -79,11 +79,12 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, store, CeoReview));
     }
 
-    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void insertCustomerReview_test() throws Exception {
         // given
         Long orderId = 1L;
+        Long storeId = 1L;
         InsertCustomerReviewReqDto insertCustomerReviewReqDto = new InsertCustomerReviewReqDto();
         insertCustomerReviewReqDto.setContent("맛잇어용");
         insertCustomerReviewReqDto.setPhoto(null);
@@ -93,7 +94,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         System.out.println("테스트 : " + requestBody);
         // when
         ResultActions resultActions = mvc
-                .perform(post("/api/review/" + orderId + "/insert").content(requestBody)
+                .perform(post("/api/review/" + orderId + "/insert/" + storeId).content(requestBody)
                         .contentType(APPLICATION_JSON_UTF8));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : 응답데이터 : " + responseBody);
