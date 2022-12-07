@@ -1,6 +1,7 @@
 package shop.mtcoding.finalproject.util;
 
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
+import shop.mtcoding.finalproject.config.enums.ReportReasonEnum;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 
 public class CustomEnumUtil {
@@ -22,6 +23,17 @@ public class CustomEnumUtil {
           for (int i = 0; i < MenuCategoryEnum.values().length; i++) {
                if (category[i].getCategory().equals(menuCategoryEnum)) {
                     result = category[i];
+               }
+          }
+          return result;
+     }
+
+     public static ReportReasonEnum toReportReasonEnumFormat(String reportReasonEnum) {
+          ReportReasonEnum[] reason = ReportReasonEnum.values();
+          ReportReasonEnum result = null;
+          for (int i = 0; i < ReportReasonEnum.values().length; i++) {
+               if (reason[i].getReason().equals(result)) {
+                    result = reason[i];
                }
           }
           return result;
