@@ -10,15 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.springframework.lang.Nullable;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReviews;
-import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
+import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,7 +33,7 @@ public class CustomerReview extends AudingTime {
     private String content;
 
     @Column(nullable = false)
-    private int starPoint;
+    private Double starPoint;
 
     @Column(nullable = true)
     private String photo;
@@ -46,23 +44,23 @@ public class CustomerReview extends AudingTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Order order;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Store store;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private CeoReviews ceoReviews;
+    private CeoReview ceoReview;
 
     @Builder
-    public CustomerReview(Long id, String content, int starPoint, String photo, boolean isClosure, User user,
-            Order order, CeoReviews ceoReviews) {
+    public CustomerReview(Long id, String content, Double starPoint, String photo, boolean isClosure, User user,
+            Store store, CeoReview ceoReview) {
         this.id = id;
         this.content = content;
         this.starPoint = starPoint;
         this.photo = photo;
         this.isClosure = isClosure;
         this.user = user;
-        this.order = order;
-        this.ceoReviews = ceoReviews;
+        this.store = store;
+        this.ceoReview = ceoReview;
     }
 
     public void 비활성화하기() {

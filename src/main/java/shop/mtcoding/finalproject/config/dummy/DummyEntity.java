@@ -6,10 +6,12 @@ import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReviews;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -24,7 +26,7 @@ public class DummyEntity {
                 .nickname(username + "님")
                 .phone("01011112222")
                 .photo(null)
-                .address("부산시 진구 서면")
+                .address("부산시 진구 서면 17번 길")
                 .role(username.equals("admin") ? UserEnum.ADMIN : UserEnum.CUSTOMER)
                 .isActive(true)
                 .build();
@@ -77,26 +79,28 @@ public class DummyEntity {
         return order;
     }
 
-    protected CustomerReview newCustomerReview(User user, Order order, CeoReviews ceoReviews) {
+    protected CustomerReview newCustomerReview(User user, Store store, CeoReview ceoReview) {
 
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
-                .starPoint(5)
+                .starPoint(5.0)
                 .photo(null)
                 .isClosure(false)
-                .ceoReviews(ceoReviews)
+                .ceoReview(ceoReview)
                 .user(user)
-                .order(order)
+                .store(store)
+                .ceoReview(ceoReview)
                 .build();
         return customerReview;
     }
 
-    protected CeoReviews newCeoReview(Store store) {
-        CeoReviews ceoReviews = CeoReviews.builder()
+    protected CeoReview newCeoReview(Store store, Order order) {
+        CeoReview ceoReview = CeoReview.builder()
                 .content("고 마워 요")
                 .store(store)
+                .order(order)
                 .build();
-        return ceoReviews;
+        return ceoReview;
     }
 
 }

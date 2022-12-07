@@ -22,13 +22,13 @@ import shop.mtcoding.finalproject.domain.store.Store;
 @Getter
 @Table(name = "ceo_reviews")
 @Entity
-public class CeoReviews extends AudingTime {
+public class CeoReview extends AudingTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,12 +38,13 @@ public class CeoReviews extends AudingTime {
     private Order order;
 
     @Builder
-    public CeoReviews(Long id, String content, Store store, Order order) {
+    public CeoReview(Long id, String content, Store store, Order order) {
         this.id = id;
         this.content = content;
         this.store = store;
         this.order = order;
     }
+
 }
 
 // 기존 테이블명 : comments

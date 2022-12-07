@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import lombok.RequiredArgsConstructor;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
@@ -24,7 +26,8 @@ public class DevInit extends DummyEntity {
     @Bean
     public CommandLineRunner dataSetting(UserRepository userRepository, StoreRepository storeRepository,
             MenuRepository menuRepository,
-            OrderRepository orderRepository, CustomerReviewRepository customerReviewRepository) {
+            OrderRepository orderRepository, CustomerReviewRepository customerReviewRepository,
+            CeoReviewRepository ceoReviewRepository) {
 
         return (args) -> {
             User ssar = userRepository.save(newUser("ssar"));
@@ -32,7 +35,8 @@ public class DevInit extends DummyEntity {
             Store store = storeRepository.save(newStore(ssar));
             Menu menu = menuRepository.save(newMenu(store));
             Order order = orderRepository.save(newOrder(jinsa, store));
-            CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, order, null));
+            CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
+            CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, store, ceoReview));
         };
     }
 }

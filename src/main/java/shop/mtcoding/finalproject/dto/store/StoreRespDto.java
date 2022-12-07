@@ -1,15 +1,107 @@
 package shop.mtcoding.finalproject.dto.store;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class StoreRespDto {
 
+    /* 성진 작업 시작@!@ */
+
+    // @Getter
+    // @Setter
+    // public static class StoreListRespDto {
+    // private List<StoreDto> storeList = new ArrayList<>();
+
+    // @Getter
+    // @Setter
+    // public class StoreDto {
+    // private String name;
+    // private String thumbnail;
+    // private String deliveryCost;
+    // private String intro;
+    // private CustomerReview customerReview;
+
+    // public StoreDto(Store store) {
+    // this.name = store.getName();
+    // this.thumbnail = store.getThumbnail();
+    // this.deliveryCost = store.getDeliveryCost();
+    // this.intro = store.getIntro();
+    // this.customerReview = store.get;
+    // }
+
+    // }
+
+    // }
+
+    // 강사님이 짜주신 로직!!
+    @Getter
+    @Setter
+    public static class StoreListRespDto {
+        private List<StoreDto> stores = new ArrayList<>();
+
+        public StoreListRespDto(List<Store> storesPS, List<CustomerReview> customerReviewsPS) {
+            for (Store store : storesPS) {
+
+                List<CustomerReview> tempReviews = new ArrayList<>();
+
+                for (CustomerReview customerReview : customerReviewsPS) {
+                    if (customerReview.getStore().getId() == store.getId()) {
+                        tempReviews.add(customerReview);
+                    }
+                }
+
+                stores.add(new StoreDto(store, tempReviews));
+            }
+
+        }
+
+        @Getter
+        @Setter
+        public class StoreDto {
+            private Long storeId;
+            private String storeName;
+            private String deliveryCost;
+            private String intro;
+            private String thumbnail;
+
+            private List<CustomerReviewDto> customerReviews = new ArrayList<>();
+
+            public StoreDto(Store store, List<CustomerReview> crs) {
+                this.storeId = store.getId();
+                this.storeName = store.getName();
+                this.deliveryCost = store.getDeliveryCost();
+                this.intro = store.getIntro();
+                this.thumbnail = store.getThumbnail();
+                this.customerReviews = crs.stream().map(CustomerReviewDto::new).collect(Collectors.toList());
+            }
+
+            @Getter
+            @Setter
+            public class CustomerReviewDto {
+                private Long storeId;
+                private Double starPoint;
+
+                public CustomerReviewDto(CustomerReview customerReview) {
+                    this.storeId = customerReview.getStore().getId();
+                    this.starPoint = customerReview.getStarPoint();
+                }
+
+            }
+
+        }
+
+    }
+
     /* 승현 작업 시작 */
-    
+
     @Getter
     @Setter
     public static class UpdateBusinessStateRespDto {

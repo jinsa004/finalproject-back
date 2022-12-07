@@ -22,6 +22,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 import shop.mtcoding.finalproject.service.StoreService;
@@ -34,6 +35,15 @@ public class StoreApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreService storeService;
 
+    /* 성진 작업 시작@ */
+
+    @GetMapping("/storeList")
+    public ResponseEntity<?> findStoreList() {
+        StoreListRespDto storeListRespDto = storeService.가게_목록보기();
+        return new ResponseEntity<>(new ResponseDto<>("가게 목록보기 기능 완료",
+                storeListRespDto), HttpStatus.OK);
+    }
+
     @GetMapping("/user/apply")
     public ResponseEntity<?> findByUserIdToApply(@AuthenticationPrincipal LoginUser loginUser) {
         log.debug("디버그 : 유저아이디: " + loginUser.getUser().getId());
@@ -41,7 +51,7 @@ public class StoreApiController {
         return new ResponseEntity<>(new ResponseDto<>("입점현황보기 성공", applyRespDto), HttpStatus.OK);
     }
 
-    @GetMapping("/store")
+    @GetMapping("/store/detail")
     public ResponseEntity<?> findByUserId(@AuthenticationPrincipal LoginUser loginUser) {
         DetailStoreRespDto detailStoreRespDto = storeService.findByUserId(loginUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 성공", detailStoreRespDto), HttpStatus.OK);

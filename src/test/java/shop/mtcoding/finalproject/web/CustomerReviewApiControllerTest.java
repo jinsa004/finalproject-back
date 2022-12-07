@@ -22,8 +22,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReviews;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewsRepository;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
@@ -63,7 +63,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
     private CustomerReviewRepository customerReviewRepository;
 
     @Autowired
-    private CeoReviewsRepository ceoReviewsRepository;
+    private CeoReviewRepository ceoReviewRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -75,25 +75,26 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         Store store = storeRepository.save(newStore(ssar));
         Menu menu = menuRepository.save(newMenu(store));
         Order order = orderRepository.save(newOrder(jinsa, store));
-        CeoReviews ceoReviews = ceoReviewsRepository.save(newCeoReview(store));
-        CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, order, ceoReviews));
+        CeoReview CeoReview = ceoReviewRepository.save(newCeoReview(store, order));
+        CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, store, CeoReview));
     }
 
-    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void insertCustomerReview_test() throws Exception {
         // given
         Long orderId = 1L;
+        Long storeId = 1L;
         InsertCustomerReviewReqDto insertCustomerReviewReqDto = new InsertCustomerReviewReqDto();
         insertCustomerReviewReqDto.setContent("맛잇어용");
         insertCustomerReviewReqDto.setPhoto(null);
-        insertCustomerReviewReqDto.setStarPoint(4);
+        insertCustomerReviewReqDto.setStarPoint(4.0);
 
         String requestBody = om.writeValueAsString(insertCustomerReviewReqDto);
         System.out.println("테스트 : " + requestBody);
         // when
         ResultActions resultActions = mvc
-                .perform(post("/api/review/" + orderId + "/insert").content(requestBody)
+                .perform(post("/api/review/" + orderId + "/insert/" + storeId).content(requestBody)
                         .contentType(APPLICATION_JSON_UTF8));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : 응답데이터 : " + responseBody);
@@ -134,6 +135,6 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         // then
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.msg").value("리뷰 삭제하기 성공"));
-    }
 
+    }
 }
