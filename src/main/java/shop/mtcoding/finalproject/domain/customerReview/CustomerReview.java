@@ -1,4 +1,6 @@
-package shop.mtcoding.finalproject.domain.ceoReview;
+package shop.mtcoding.finalproject.domain.customerReview;
+
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,21 +17,35 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.store.Store;
+import shop.mtcoding.finalproject.domain.user.User;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Table(name = "ceo_reviews")
+@Table(name = "customer_reviews")
 @Entity
-public class CeoReview extends AudingTime {
+public class CustomerReview extends AudingTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String content;
+
+    @Column(nullable = false)
+    private Double starPoint;
+
+    @Column(nullable = true)
+    private String photo;
+
+    @Column(nullable = false)
+    private boolean isClosure;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
@@ -37,15 +53,46 @@ public class CeoReview extends AudingTime {
     @OneToOne(fetch = FetchType.LAZY)
     private Order order;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private CeoReview ceoReview;
+
     @Builder
-    public CeoReview(Long id, String content, Store store, Order order) {
+    public CustomerReview(Long id, String content, Double starPoint, String photo, boolean isClosure, User user,
+            Store store, Order order, CeoReview ceoReview, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;
+        this.starPoint = starPoint;
+        this.photo = photo;
+        this.isClosure = isClosure;
+        this.user = user;
         this.store = store;
         this.order = order;
+        this.createdAt = createdAt;
+        this.ceoReview = ceoReview;
     }
+
+    public void 비활성화하기() {
+        this.isClosure = true;
+    }
+
+    /* 승현 작업 시작 */
+    public CustomerReview updateCeoReview(CeoReview ceoReviewPS) {
+        return CustomerReview.builder()
+                .id(id)
+                .content(content)
+                .starPoint(starPoint)
+                .photo(photo)
+                .isClosure(isClosure)
+                .user(user)
+                .store(store)
+                .ceoReview(ceoReviewPS)
+                .createdAt(createdAt)
+                .build();
+    }
+    /* 승현 작업 종료 */
+
 }
 
-// 기존 테이블명 : comments
+// 기존 테이블명 : reviews
 // 변경 사유 : 테이블명이 비슷해야 더 편하게 쓸것 같아서 변경함
 // 기존 테이블명으로 수정해주셔도 됩니다!

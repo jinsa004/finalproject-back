@@ -38,6 +38,11 @@ public class StoreService {
     private final CustomerReviewRepository customerReviewRepository;
 
     /* 성진 작업 시작함 */
+
+    public void 가게_상세보기() {
+
+    }
+
     public StoreListRespDto 가게_목록보기() {
         // 1 가게 정보 1셀렉 가게리스트
         List<Store> storeList = storeRepository.findAll();

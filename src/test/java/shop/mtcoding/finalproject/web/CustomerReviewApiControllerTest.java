@@ -41,101 +41,101 @@ import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewReqDto.Insert
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 public class CustomerReviewApiControllerTest extends DummyEntity {
-    private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
-    private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
+        private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
+        private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
 
-    @Autowired
-    private MockMvc mvc;
+        @Autowired
+        private MockMvc mvc;
 
-    @Autowired
-    private ObjectMapper om;
+        @Autowired
+        private ObjectMapper om;
 
-    @Autowired
-    private UserRepository userRepository;
+        @Autowired
+        private UserRepository userRepository;
 
-    @Autowired
-    private StoreRepository storeRepository;
+        @Autowired
+        private StoreRepository storeRepository;
 
-    @Autowired
-    private MenuRepository menuRepository;
+        @Autowired
+        private MenuRepository menuRepository;
 
-    @Autowired
-    private CustomerReviewRepository customerReviewRepository;
+        @Autowired
+        private CustomerReviewRepository customerReviewRepository;
 
-    @Autowired
-    private CeoReviewRepository ceoReviewRepository;
+        @Autowired
+        private CeoReviewRepository ceoReviewRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+        @Autowired
+        private OrderRepository orderRepository;
 
-    @BeforeEach
-    public void setUp() {
-        User ssar = userRepository.save(newUser("ssar"));
-        User jinsa = userRepository.save(newUser("jinsa"));
-        Store store = storeRepository.save(newStore(ssar));
-        Menu menu = menuRepository.save(newMenu(store));
-        Order order = orderRepository.save(newOrder(jinsa, store));
-        CeoReview CeoReview = ceoReviewRepository.save(newCeoReview(store, order));
-        CustomerReview customerReview = customerReviewRepository
-                .save(newCustomerReview(jinsa, order, store, CeoReview));
-    }
+        @BeforeEach
+        public void setUp() {
+                User ssar = userRepository.save(newUser("ssar"));
+                User jinsa = userRepository.save(newUser("jinsa"));
+                Store store = storeRepository.save(newStore(ssar));
+                Menu menu = menuRepository.save(newMenu(store));
+                Order order = orderRepository.save(newOrder(jinsa, store));
+                CeoReview CeoReview = ceoReviewRepository.save(newCeoReview(store, order));
+                CustomerReview customerReview = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order, store, CeoReview));
+        }
 
-    @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    @Test
-    public void insertCustomerReview_test() throws Exception {
-        // given
-        Long orderId = 1L;
-        Long storeId = 1L;
-        InsertCustomerReviewReqDto insertCustomerReviewReqDto = new InsertCustomerReviewReqDto();
-        insertCustomerReviewReqDto.setContent("맛잇어용");
-        insertCustomerReviewReqDto.setPhoto(null);
-        insertCustomerReviewReqDto.setStarPoint(4.0);
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void insertCustomerReview_test() throws Exception {
+                // given
+                Long orderId = 1L;
+                Long storeId = 1L;
+                InsertCustomerReviewReqDto insertCustomerReviewReqDto = new InsertCustomerReviewReqDto();
+                insertCustomerReviewReqDto.setContent("맛잇어용");
+                insertCustomerReviewReqDto.setPhoto(null);
+                insertCustomerReviewReqDto.setStarPoint(4.0);
 
-        String requestBody = om.writeValueAsString(insertCustomerReviewReqDto);
-        System.out.println("테스트 : " + requestBody);
-        // when
-        ResultActions resultActions = mvc
-                .perform(post("/api/review/" + orderId + "/insert/" + storeId).content(requestBody)
-                        .contentType(APPLICATION_JSON_UTF8));
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : 응답데이터 : " + responseBody);
+                String requestBody = om.writeValueAsString(insertCustomerReviewReqDto);
+                System.out.println("테스트 : " + requestBody);
+                // when
+                ResultActions resultActions = mvc
+                                .perform(post("/api/review/" + orderId + "/insert/" + storeId).content(requestBody)
+                                                .contentType(APPLICATION_JSON_UTF8));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : 응답데이터 : " + responseBody);
 
-        // then
-        resultActions.andExpect(status().isCreated());
-        resultActions.andExpect(jsonPath("$.data.content").value("맛잇어용"));
-    }
+                // then
+                resultActions.andExpect(status().isCreated());
+                resultActions.andExpect(jsonPath("$.data.content").value("맛잇어용"));
+        }
 
-    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    @Test
-    public void findByUserIdToCustomerReview_test() throws Exception {
-        // given
-        Long userId = 1L;
-        // when
-        ResultActions resultActions = mvc
-                .perform(get("/api/review/" + userId));
+        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void findByUserIdToCustomerReview_test() throws Exception {
+                // given
+                Long userId = 1L;
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/review/" + userId));
 
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + responseBody);
-        // then
-        resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.data.user.nickname").value("ssar님"));
-    }
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.user.nickname").value("ssar님"));
+        }
 
-    @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    @Test
-    public void deleteByUserId_test() throws Exception {
-        // given
-        Long userId = 2L;
-        Long reviewId = 1L;
-        // when
-        ResultActions resultActions = mvc
-                .perform(put("/api/review/" + userId + "/delete/" + reviewId));
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + responseBody);
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void deleteByUserId_test() throws Exception {
+                // given
+                Long userId = 2L;
+                Long reviewId = 1L;
+                // when
+                ResultActions resultActions = mvc
+                                .perform(put("/api/review/" + userId + "/delete/" + reviewId));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
 
-        // then
-        resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.msg").value("리뷰 삭제하기 성공"));
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.msg").value("리뷰 삭제하기 성공"));
 
-    }
+        }
 }
