@@ -37,7 +37,7 @@ public class Order extends AudingTime {
     private String comment;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private OrderStateEnum state;
 
     @Column(nullable = true)
@@ -46,6 +46,7 @@ public class Order extends AudingTime {
     @Column(nullable = false)
     private boolean isClosure;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DeliveryStateEnum deliveryStateEnum;
 

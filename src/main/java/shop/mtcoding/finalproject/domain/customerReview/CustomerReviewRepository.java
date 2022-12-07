@@ -17,4 +17,7 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
     @Query(value = "update customer_reviews cr set ceo_review_id = :ceoReviewId", nativeQuery = true)
     void updateToCeoReviewId(@Param("ceoReviewId") Long ceoReviewId);
 
+    @Query(value = "select *, avg(cr.star_point) from customer_reviews cr left join stores s on s.id = cr.store_id", nativeQuery = true)
+    List<CustomerReview> starPointAverageToStore();
+
 }

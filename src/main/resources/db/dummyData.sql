@@ -74,7 +74,7 @@
     userId int NOT null,
     orderId int NOT null,
     content VARCHAR(160),
-    starPoint int not null,
+    starPoint Double not null,
     photo VARCHAR(256),
     isClosure boolean,
     createdAt datetime

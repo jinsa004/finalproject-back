@@ -15,7 +15,7 @@ public class CustomerReviewRespDto {
     @Setter
     public static class InsertCustomerReviewRespDto {
         private String content;
-        private int starPoint;
+        private Double starPoint;
         private String photo;
 
         public InsertCustomerReviewRespDto(CustomerReview customerReview) {
@@ -73,7 +73,7 @@ public class CustomerReviewRespDto {
         public class CustomerReviewDto {
             private String content;
             private String photo;
-            private int starPoint;
+            private Double starPoint;
             private String createdAt;
             private String comment;
             private String commentCreatedAt;
@@ -96,15 +96,15 @@ public class CustomerReviewRespDto {
 // public static class CustomerReviewListRespDto {
 // private UserDto user;
 // private List<CustomerReviewDto> customerReviews = new ArrayList<>();
-// private List<CeoReviewDto> ceoReviews = new ArrayList<>();
+// private List<CeoReviewDto> CeoReview = new ArrayList<>();
 
 // public CustomerReviewListRespDto(User user, List<CustomerReview>
-// customerReviews, List<CeoReview> ceoReviews) {
+// customerReviews, List<CeoReview> CeoReview) {
 // this.user = new UserDto(user);
 // this.customerReviews = customerReviews.stream()
 // .map((customerReview) -> new CustomerReviewDto(customerReview))
 // .collect(Collectors.toList());
-// this.ceoReviews = ceoReviews.stream()
+// this.CeoReview = CeoReview.stream()
 // .map((ceoReview) -> new CeoReviewDto(ceoReview))
 // .collect(Collectors.toList());
 // }
@@ -127,7 +127,7 @@ public class CustomerReviewRespDto {
 // private Long id;
 // private String content;
 // private String photo;
-// private int starPoint;
+// private Double starPoint;
 // private String createAt;
 
 // public CustomerReviewDto(CustomerReview customerReview) {
