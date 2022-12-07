@@ -6,6 +6,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface CeoReviewRepository extends JpaRepository<CeoReview, Long> {
 
-    @Query(value = "select count(id) from ceo_reviews c where c.store_id = :storeId", nativeQuery = true)
+    @Query(value = "select count(id) id from ceo_reviews c where c.store_id = :storeId", nativeQuery = true)
     CeoReview findByStoreId(@Param("storeId") Long storeId);
 }

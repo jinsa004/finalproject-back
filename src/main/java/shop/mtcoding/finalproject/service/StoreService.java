@@ -27,6 +27,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreMainRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreListRespDto;
@@ -48,7 +49,7 @@ public class StoreService {
 
     /* 성진 작업 시작함 */
 
-    public void 가게_상세보기(Long storeId) {
+    public DetailStoreMainRespDto 가게_상세보기(Long storeId) {
         // 1. 가게가 존재하는지?
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("해당 가게 내역이 없습니다.",
@@ -62,6 +63,9 @@ public class StoreService {
         // 5. 메뉴 테이블 데이터 셀렉
         List<Menu> menuList = menuRepository.findAllByStoreId(storeId);
         // 6. DTO 응답
+        DetailStoreMainRespDto detailStoreMainRespDto = new DetailStoreMainRespDto(storePS, customerReviewPS,
+                ceoReviewPS, likePS, menuList);
+        return detailStoreMainRespDto;
     }
 
     public StoreListRespDto 가게_목록보기() {
