@@ -104,7 +104,7 @@ public class OrderService {
         // 3. Dto에 담기
         List<ShowOrderListRespDto> showOrderListRespDtos = new ArrayList<>();
         for (int i = 0; i < orderPS.size(); i++) {
-            List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(orderPS.get(0).getId());
+            List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(orderPS.get(i).getId());
             showOrderListRespDtos.add(i, new ShowOrderListRespDto(orderPS.get(i), orderDetails));
             // log.debug("디버그 : " + showOrderListRespDtos.get(i).getOrderList().get(0));
         }
