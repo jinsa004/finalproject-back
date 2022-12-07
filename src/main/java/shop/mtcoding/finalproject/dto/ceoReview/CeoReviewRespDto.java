@@ -13,7 +13,7 @@ public class CeoReviewRespDto {
     public static class ShowReviewRespDto {
 
         private Long id;
-        private int starPoint;
+        private Double starPoint;
         private String orderCreatedAt;
         private boolean isClosure;
         private String customerContent;

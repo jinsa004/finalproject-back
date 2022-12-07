@@ -77,8 +77,10 @@ public class CeoReviewApiControllerTest extends DummyEntity {
         Menu menu = menuRepository.save(newMenu(store));
         Order order = orderRepository.save(newOrder(jinsa, store));
         CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
-        CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, order, ceoReview));
-        CustomerReview customerReview2 = customerReviewRepository.save(newCustomerReview(jinsa, order, null));
+        CustomerReview customerReview = customerReviewRepository
+                .save(newCustomerReview(jinsa, order, store, ceoReview));
+        CustomerReview customerReview2 = customerReviewRepository
+                .save(newCustomerReview(jinsa, order, store, null));
     }
 
     @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -94,7 +96,8 @@ public class CeoReviewApiControllerTest extends DummyEntity {
         insertCeoReviewReqDto.setUserId(userPS.getId());
         insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
 
-        CustomerReview customerReviewPS = customerReviewRepository.findById(insertCeoReviewReqDto.getCustomerReviewId())
+        CustomerReview customerReviewPS = customerReviewRepository
+                .findById(insertCeoReviewReqDto.getCustomerReviewId())
                 .orElseThrow(() -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
         insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
 
@@ -104,8 +107,8 @@ public class CeoReviewApiControllerTest extends DummyEntity {
         // when
         ResultActions resultActions = mvc
                 .perform(post("/api/store/" + customerReviewId + "/review")
-                        .content(requestBody)
-                        .contentType(APPLICATION_JSON_UTF8));
+                                .content(requestBody)
+                                .contentType(APPLICATION_JSON_UTF8));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : 응답데이터 : " + responseBody);
 

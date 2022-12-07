@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.domain.order;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,7 +39,7 @@ public class Order extends AudingTime {
     private String comment;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private OrderStateEnum state;
 
     @Column(nullable = true)
@@ -46,6 +48,7 @@ public class Order extends AudingTime {
     @Column(nullable = false)
     private boolean isClosure;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DeliveryStateEnum deliveryStateEnum;
 
@@ -58,19 +61,40 @@ public class Order extends AudingTime {
     @OneToOne(fetch = FetchType.LAZY)
     private Payment payment;
 
+    @Column(nullable = true)
+    private LocalDateTime completeTime;
+
     @Builder
-    public Order(Long id, String comment, OrderStateEnum state, String reason, DeliveryStateEnum deliveryStateEnum,
-            boolean isClosure, User user,
-            Store store, Payment payment) {
+    public Order(Long id, String comment, OrderStateEnum state, String reason, boolean isClosure,
+            DeliveryStateEnum deliveryStateEnum, User user, Store store, Payment payment, LocalDateTime completeTime,
+            LocalDateTime createdAt) {
         this.id = id;
         this.comment = comment;
         this.state = state;
         this.reason = reason;
         this.deliveryStateEnum = deliveryStateEnum;
         this.isClosure = isClosure;
+        this.deliveryStateEnum = deliveryStateEnum;
         this.user = user;
         this.store = store;
         this.payment = payment;
+        this.completeTime = completeTime;
+        this.createdAt = createdAt;
     }
 
+    public Order update(Order order) {
+        return Order.builder()
+                .id(id)
+                .comment(comment)
+                .state(order.getState())
+                .reason(order.getReason())
+                .isClosure(isClosure)
+                .deliveryStateEnum(deliveryStateEnum)
+                .user(user)
+                .store(store)
+                .payment(payment)
+                .completeTime(completeTime)
+                .createdAt(createdAt)
+                .build();
+    }
 }

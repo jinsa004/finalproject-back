@@ -10,6 +10,7 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -24,7 +25,7 @@ public class DummyEntity {
                 .nickname(username + "님")
                 .phone("01011112222")
                 .photo(null)
-                .address("부산시 진구 서면")
+                .address("부산시 진구 서면 17번 길")
                 .role(username.equals("admin") ? UserEnum.ADMIN : UserEnum.CUSTOMER)
                 .isActive(true)
                 .build();
@@ -67,6 +68,7 @@ public class DummyEntity {
 
     protected Order newOrder(User user, Store store) {
         Order order = Order.builder()
+                .comment("젓가락 빼주세요")
                 .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
@@ -77,16 +79,27 @@ public class DummyEntity {
         return order;
     }
 
-    protected CustomerReview newCustomerReview(User user, Order order, CeoReview CeoReview) {
+    protected OrderDetail newOrderDetail(Order order, Menu menu) {
+        OrderDetail orderDetail = OrderDetail.builder()
+                .count(1)
+                .order(order)
+                .menu(menu)
+                .build();
+        return orderDetail;
+    }
+
+    protected CustomerReview newCustomerReview(User user, Order order, Store store, CeoReview ceoReview) {
 
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
-                .starPoint(5)
+                .starPoint(5.0)
                 .photo(null)
                 .isClosure(false)
+                .ceoReview(ceoReview)
                 .user(user)
                 .order(order)
-                .ceoReview(CeoReview)
+                .store(store)
+                .ceoReview(ceoReview)
                 .build();
         return customerReview;
     }
@@ -99,5 +112,5 @@ public class DummyEntity {
                 .build();
         return ceoReview;
     }
-
+    
 }

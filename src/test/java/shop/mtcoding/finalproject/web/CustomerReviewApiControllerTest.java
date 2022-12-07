@@ -41,6 +41,7 @@ import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewReqDto.Insert
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 public class CustomerReviewApiControllerTest extends DummyEntity {
+
     private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
     private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
 
@@ -63,7 +64,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
     private CustomerReviewRepository customerReviewRepository;
 
     @Autowired
-    private CeoReviewRepository ceoReviewsRepository;
+    private CeoReviewRepository ceoReviewRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -75,26 +76,28 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         Store store = storeRepository.save(newStore(ssar));
         Menu menu = menuRepository.save(newMenu(store));
         Order order = orderRepository.save(newOrder(jinsa, store));
-        CeoReview ceoReview = ceoReviewsRepository.save(newCeoReview(store, order));
-        CustomerReview customerReview = customerReviewRepository.save(newCustomerReview(jinsa, order, ceoReview));
+        CeoReview CeoReview = ceoReviewRepository.save(newCeoReview(store, order));
+        CustomerReview customerReview = customerReviewRepository
+                .save(newCustomerReview(jinsa, order, store, CeoReview));
     }
 
-    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void insertCustomerReview_test() throws Exception {
         // given
         Long orderId = 1L;
+        Long storeId = 1L;
         InsertCustomerReviewReqDto insertCustomerReviewReqDto = new InsertCustomerReviewReqDto();
         insertCustomerReviewReqDto.setContent("맛잇어용");
         insertCustomerReviewReqDto.setPhoto(null);
-        insertCustomerReviewReqDto.setStarPoint(4);
+        insertCustomerReviewReqDto.setStarPoint(4.0);
 
         String requestBody = om.writeValueAsString(insertCustomerReviewReqDto);
         System.out.println("테스트 : " + requestBody);
         // when
         ResultActions resultActions = mvc
-                .perform(post("/api/review/" + orderId + "/insert").content(requestBody)
-                        .contentType(APPLICATION_JSON_UTF8));
+                .perform(post("/api/review/" + orderId + "/insert/" + storeId).content(requestBody)
+                                .contentType(APPLICATION_JSON_UTF8));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : 응답데이터 : " + responseBody);
 
@@ -110,7 +113,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         Long userId = 1L;
         // when
         ResultActions resultActions = mvc
-                .perform(get("/api/review/" + userId));
+                        .perform(get("/api/review/" + userId));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
@@ -127,13 +130,13 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         Long reviewId = 1L;
         // when
         ResultActions resultActions = mvc
-                .perform(put("/api/review/" + userId + "/delete/" + reviewId));
+                        .perform(put("/api/review/" + userId + "/delete/" + reviewId));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 
         // then
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.msg").value("리뷰 삭제하기 성공"));
-    }
 
+    }
 }

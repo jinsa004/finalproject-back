@@ -8,13 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,6 +19,7 @@ import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,7 +36,7 @@ public class CustomerReview extends AudingTime {
     private String content;
 
     @Column(nullable = false)
-    private int starPoint;
+    private Double starPoint;
 
     @Column(nullable = true)
     private String photo;
@@ -50,24 +47,28 @@ public class CustomerReview extends AudingTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Store store;
+
     @OneToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @OneToOne(fetch = FetchType.LAZY)
     private CeoReview ceoReview;
 
     @Builder
-    public CustomerReview(Long id, String content, int starPoint, String photo, boolean isClosure, User user,
-            Order order, CeoReview ceoReview, LocalDateTime createdAt) {
+    public CustomerReview(Long id, String content, Double starPoint, String photo, boolean isClosure, User user,
+            Store store, Order order, CeoReview ceoReview, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;
         this.starPoint = starPoint;
         this.photo = photo;
         this.isClosure = isClosure;
         this.user = user;
+        this.store = store;
         this.order = order;
-        this.ceoReview = ceoReview;
         this.createdAt = createdAt;
+        this.ceoReview = ceoReview;
     }
 
     public void 비활성화하기() {
@@ -83,7 +84,7 @@ public class CustomerReview extends AudingTime {
                 .photo(photo)
                 .isClosure(isClosure)
                 .user(user)
-                .order(order)
+                .store(store)
                 .ceoReview(ceoReviewPS)
                 .createdAt(createdAt)
                 .build();

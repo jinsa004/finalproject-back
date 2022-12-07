@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -8,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
@@ -19,6 +23,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 
@@ -27,10 +32,33 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
 @Service
 public class StoreService {
 
-    /* 승현 작업 시작함 */
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
+    private final CustomerReviewRepository customerReviewRepository;
+
+    /* 성진 작업 시작함 */
+
+    public void 가게_상세보기() {
+
+    }
+
+    public StoreListRespDto 가게_목록보기() {
+        // 1 가게 정보 1셀렉 가게리스트
+        List<Store> storeList = storeRepository.findAll();
+        log.debug("디버그 : 스토어리스트 : " + storeList);
+        // 2 리뷰 별점 셀렉해서 평균내기(평균은 쿼리로 작성) 리뷰리스트
+        log.debug("디버그 : 리뷰리스트 전");
+        List<CustomerReview> customerReviewList = customerReviewRepository.starPointAverageToStore();
+        log.debug("디버그 : 리뷰리스트 후: " + customerReviewList);
+        // 3 DTO 응답
+        StoreListRespDto storeListRespDto = new StoreListRespDto(storeList, customerReviewList);
+        return storeListRespDto;
+    }
+
+    /* 성진 작업 끝!@! */
+
+    /* 승현 작업 시작함 */
 
     @Transactional
     public UpdateBusinessStateRespDto updateToBusinessState(UpdateBusinessStateReqDto updateBusinessStateReqDto) {
