@@ -33,7 +33,7 @@ public class OrderApiController {
             @RequestBody UpdateToCancleOrderReqDto updateToCancleOrderReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
         updateToCancleOrderReqDto.setUserId(loginUser.getUser().getId());
-        updateToCancleOrderReqDto.setOrderId(storeId);
+        updateToCancleOrderReqDto.setOrderId(orderId);
         updateToCancleOrderReqDto.setStoreId(storeId);
         String state = orderService.updatToState(updateToCancleOrderReqDto);
         return new ResponseEntity<>(new ResponseDto<>("주문상태 변경완료", state), HttpStatus.OK);
