@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.menu.Menu;
@@ -33,7 +34,7 @@ public class StoreRespDto {
 
         private List<MenuDto> menuList = new ArrayList<>();
 
-        public DetailStoreMainRespDto(Store store, CustomerReview customerReview,
+        public DetailStoreMainRespDto(Store store, CustomerInterface customerReview,
                 CeoReview ceoReview, Like like, List<Menu> menus) {
             this.name = store.getName();
             this.minAmount = store.getMinAmount();
@@ -41,7 +42,7 @@ public class StoreRespDto {
             this.deliveryCost = store.getDeliveryCost();
             this.phone = store.getPhone();
             this.starPoint = customerReview.getStarPoint();
-            this.reviewCount = customerReview.getId();
+            this.reviewCount = customerReview.getCount();
             this.commentCount = ceoReview.getId();
             this.likeCount = like.getId();
             this.menuList = menus.stream().map(MenuDto::new).collect(Collectors.toList());
