@@ -17,17 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
-import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.MenuListRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
 import shop.mtcoding.finalproject.service.MenuService;
-import shop.mtcoding.finalproject.service.MenuService.MenuListRespDto;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")

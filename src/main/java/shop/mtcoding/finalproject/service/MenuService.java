@@ -2,7 +2,6 @@ package shop.mtcoding.finalproject.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
@@ -24,6 +20,7 @@ import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.MenuListRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
 
@@ -45,35 +42,6 @@ public class MenuService {
         MenuListRespDto menuListRespDto = new MenuListRespDto(menuList);
         log.debug("디버그 : DTO 응답 타나?");
         return menuListRespDto;
-    }
-
-    @Getter
-    @Setter
-    public static class MenuListRespDto {
-        private List<MenuDto> menus = new ArrayList<>();
-
-        public MenuListRespDto(List<Menu> menus) {
-            this.menus = menus.stream().map((menu) -> new MenuDto(menu)).collect(Collectors.toList());
-        }
-
-        @Getter
-        @Setter
-        public class MenuDto {
-            private String name;
-            private String intro;
-            private String price;
-            private String thumbnail;
-            private MenuCategoryEnum category;
-
-            public MenuDto(Menu menu) {
-                this.name = menu.getName();
-                this.intro = menu.getIntro();
-                this.price = menu.getPrice();
-                this.thumbnail = menu.getThumbnail();
-                this.category = menu.getCategory();
-            }
-
-        }
     }
 
     /* 승현 작업 시작 */
