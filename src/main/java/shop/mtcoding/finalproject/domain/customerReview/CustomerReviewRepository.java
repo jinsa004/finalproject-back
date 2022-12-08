@@ -20,4 +20,7 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
     @Query(value = "select *, avg(cr.star_point) from customer_reviews cr left join stores s on s.id = cr.store_id", nativeQuery = true)
     List<CustomerReview> starPointAverageToStore();
 
+    // 별점평균, 리뷰갯수 연산데이터 쿼리
+    @Query(value = "select count(cr.id) id, avg(cr.star_point) starPoint from customer_reviews cr where cr.store_id =:storeId group by cr.store_id", nativeQuery = true)
+    CustomerInterface findByStoreId(@Param("storeId") Long storeId);
 }

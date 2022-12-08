@@ -57,20 +57,17 @@ public class Order extends AudingTime {
     private Store store;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private Order order;
-
-    @OneToOne(fetch = FetchType.LAZY)
     private Payment payment;
 
     @Builder
-    public Order(Long id, String comment, OrderStateEnum state, String reason, DeliveryStateEnum deliveryStateEnum,
-            boolean isClosure, User user, Order order, Store store, Payment payment) {
+    public Order(Long id, String comment, OrderStateEnum state, String reason, boolean isClosure,
+            DeliveryStateEnum deliveryStateEnum, User user, Store store, Payment payment) {
         this.id = id;
         this.comment = comment;
         this.state = state;
         this.reason = reason;
-        this.deliveryStateEnum = deliveryStateEnum;
         this.isClosure = isClosure;
+        this.deliveryStateEnum = deliveryStateEnum;
         this.user = user;
         this.store = store;
         this.payment = payment;

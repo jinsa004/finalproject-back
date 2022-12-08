@@ -10,6 +10,8 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
+import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -29,19 +31,22 @@ public class DevInit extends DummyEntity {
             MenuRepository menuRepository,
             OrderRepository orderRepository,
             CustomerReviewRepository customerReviewRepository,
-            CeoReviewRepository ceoReviewRepository) {
+            CeoReviewRepository ceoReviewRepository,
+            LikeRepository likeRepository) {
 
         return (args) -> {
             User ssar = userRepository.save(newUser("ssar"));
             User jinsa = userRepository.save(newUser("jinsa"));
             Store store = storeRepository.save(newStore(ssar));
-            Menu menu = menuRepository.save(newMenu(store));
+            Menu menu1 = menuRepository.save(newMenu(store));
+            Menu menu2 = menuRepository.save(newMenu(store));
             Order order = orderRepository.save(newOrder(jinsa, store));
             CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
             CustomerReview customerReview = customerReviewRepository
-                    .save(newCustomerReview(jinsa, order, store, ceoReview));
+                    .save(newCustomerReview(jinsa, order, store, ceoReview, 4.0));
             CustomerReview customerReview2 = customerReviewRepository
-                    .save(newCustomerReview(jinsa, order, store, null));
+                    .save(newCustomerReview(jinsa, order, store, null, 5.0));
+            Like like = likeRepository.save(newLike(jinsa, store));
         };
     }
 }

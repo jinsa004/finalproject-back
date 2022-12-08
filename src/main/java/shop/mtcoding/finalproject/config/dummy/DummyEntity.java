@@ -8,6 +8,7 @@ import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.store.Store;
@@ -77,18 +78,18 @@ public class DummyEntity {
         return order;
     }
 
-    protected CustomerReview newCustomerReview(User user, Order order, Store store, CeoReview ceoReview) {
+    protected CustomerReview newCustomerReview(User user, Order order, Store store, CeoReview ceoReview,
+            Double starPoint) {
 
         CustomerReview customerReview = CustomerReview.builder()
                 .content("맛있어요")
-                .starPoint(5.0)
+                .starPoint(starPoint)
                 .photo(null)
                 .isClosure(false)
                 .ceoReview(ceoReview)
                 .user(user)
                 .order(order)
                 .store(store)
-                .ceoReview(ceoReview)
                 .build();
         return customerReview;
     }
@@ -102,4 +103,11 @@ public class DummyEntity {
         return ceoReview;
     }
 
+    protected Like newLike(User user, Store store) {
+        Like like = Like.builder()
+                .user(user)
+                .store(store)
+                .build();
+        return like;
+    }
 }

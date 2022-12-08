@@ -10,8 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
+import shop.mtcoding.finalproject.domain.like.LikeInterface;
+import shop.mtcoding.finalproject.domain.like.LikeRepository;
+import shop.mtcoding.finalproject.domain.menu.Menu;
+import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
@@ -21,6 +29,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreMainRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreListRespDto;
@@ -36,11 +45,35 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
     private final CustomerReviewRepository customerReviewRepository;
+    private final CeoReviewRepository ceoReviewRepository;
+    private final LikeRepository likeRepository;
+    private final MenuRepository menuRepository;
 
     /* 성진 작업 시작함 */
 
-    public void 가게_상세보기() {
-
+    public DetailStoreMainRespDto 가게_상세보기(Long storeId) {
+        // 1. 가게가 존재하는지?
+        Store storePS = storeRepository.findById(storeId)
+                .orElseThrow(() -> new CustomApiException("해당 가게 내역이 없습니다.",
+                        HttpStatus.BAD_REQUEST));
+        log.debug("디버그 : 가게정보 :" + storePS.getName());
+        // 2. 별점 평균 데이터 및 리뷰 개수(연산)
+        CustomerInterface customerReviewDto = customerReviewRepository.findByStoreId(storeId);
+        log.debug("디버그 : 리뷰 별점 :" + customerReviewDto.getStarPoint());
+        // 3. 답글 개수 데이터(연산)
+        CeoReviewInterface ceoReviewDto = ceoReviewRepository.findByStoreId(storeId);
+        log.debug("디버그 : 답글 갯수 : " + ceoReviewDto.getCount());
+        // 4. 좋아요 개수 데이터(연산)
+        LikeInterface likeDto = likeRepository.findByStoreId(storeId);
+        log.debug("디버그 : 좋아요 개수 : " + likeDto.getCount());
+        // 5. 메뉴 테이블 데이터 셀렉(리스트)
+        List<Menu> menuList = menuRepository.findAllByStoreId(storeId);
+        log.debug("디버그 : 메뉴 정보 : " + menuList.get(0).getName());
+        // 6. DTO 응답
+        DetailStoreMainRespDto detailStoreMainRespDto = new DetailStoreMainRespDto(storePS, customerReviewDto,
+                ceoReviewDto, likeDto, menuList);
+        log.debug("디버그 : 응답 데이터 확인 : " + detailStoreMainRespDto);
+        return detailStoreMainRespDto;
     }
 
     public StoreListRespDto 가게_목록보기() {
