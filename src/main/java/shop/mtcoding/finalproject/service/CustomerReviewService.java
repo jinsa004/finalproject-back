@@ -13,6 +13,7 @@ import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -35,6 +36,14 @@ public class CustomerReviewService {
     private final CustomerReviewRepository customerReviewRepository;
     private final OrderRepository orderRepository;
     private final CeoReviewRepository ceoReviewRepository;
+
+    public void 가게리뷰_목록보기(Long storeId) {
+        List<CustomerInterface> customerReviewDto = customerReviewRepository.findByCustomerReviewToStoreId(storeId);
+        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getContent());
+        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getComment());
+        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getNickname());
+        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getStarPoint());
+    }
 
     @Transactional
     public InsertCustomerReviewRespDto 고객리뷰_등록하기(InsertCustomerReviewReqDto insertCustomerReviewReqDto, Long storeId,

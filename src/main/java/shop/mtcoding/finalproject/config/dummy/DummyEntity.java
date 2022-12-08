@@ -11,6 +11,7 @@ import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -77,6 +78,15 @@ public class DummyEntity {
                 .isClosure(false)
                 .build();
         return order;
+    }
+
+    protected OrderDetail newOrderDetail(Order order, Menu menu, int count) {
+        OrderDetail orderDetail = OrderDetail.builder()
+                .count(count)
+                .order(order)
+                .menu(menu)
+                .build();
+        return orderDetail;
     }
 
     protected CustomerReview newCustomerReview(User user, Order order, Store store, CeoReview ceoReview,

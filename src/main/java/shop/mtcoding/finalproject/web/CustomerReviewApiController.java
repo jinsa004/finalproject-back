@@ -28,6 +28,12 @@ public class CustomerReviewApiController {
         private final Logger log = LoggerFactory.getLogger(getClass());
         private final CustomerReviewService customerReviewService;
 
+        @GetMapping("/test/{storeId}")
+        public ResponseEntity<?> getCustomerReviewToStore(@PathVariable Long storeId) {
+                customerReviewService.가게리뷰_목록보기(storeId);
+                return new ResponseEntity<>(new ResponseDto<>("스토어 리뷰 잘쳐지남?", null), HttpStatus.OK);
+        }
+
         @PostMapping("/review/{orderId}/insert/{storeId}")
         public ResponseEntity<?> insertCustomerReview(
                         @RequestBody InsertCustomerReviewReqDto insertCustomerReviewReqDto,
