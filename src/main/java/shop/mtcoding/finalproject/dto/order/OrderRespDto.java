@@ -45,9 +45,13 @@ public class OrderRespDto {
             }
         }
 
-        public ShowOrderListRespDto(Order order, List<OrderDetail> orderDetailPS) {
+        public ShowOrderListRespDto(Order order, String price, List<OrderDetail> orderDetailPS) {
             this.id = order.getId();
-            this.payment = "test";
+            if (order.getPayment() == null) {
+                this.payment = "";
+            } else {
+                this.payment = order.getPayment().getContent();
+            }
             List<orderDetailRespDto> detailRespDtos = new ArrayList<>();
             for (int i = 0; i < orderDetailPS.size(); i++) {
                 detailRespDtos.add(i, new orderDetailRespDto(orderDetailPS.get(i)));
