@@ -96,6 +96,21 @@ public class StoreApiControllerTest extends DummyEntity {
         }
 
         @Test
+        public void getStoreInfo_test() throws Exception {
+                // given
+                Long storeId = 1L;
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/store/" + storeId + "/info"));
+
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.minAmount").value("10000"));
+        }
+
+        @Test
         public void detailStoreMain_test() throws Exception {
                 // given
                 Long storeId = 1L;
