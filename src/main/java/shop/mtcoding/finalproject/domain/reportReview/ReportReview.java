@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -17,6 +19,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.ReportReasonEnum;
 import shop.mtcoding.finalproject.domain.AudingTime;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.user.User;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -28,14 +33,17 @@ public class ReportReview extends AudingTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;
 
-    @Column(nullable = false)
-    private Long reviewId;
+    @OneToOne(fetch = FetchType.LAZY)
+    private CustomerReview customerReview;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private CeoReview ceoReview;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private ReportReasonEnum reason;
 
     @Column(nullable = true)
@@ -48,15 +56,17 @@ public class ReportReview extends AudingTime {
     private LocalDateTime resolvedTime;
 
     @Builder
-    public ReportReview(Long id, Long userId, Long reviewId, ReportReasonEnum reason, String adminComment,
-            boolean isResolve, LocalDateTime resolvedTime) {
+    public ReportReview(Long id, User user, CustomerReview customerReview, CeoReview ceoReview, ReportReasonEnum reason,
+            String adminComment, boolean isResolve, LocalDateTime resolvedTime, LocalDateTime createdAt) {
         this.id = id;
-        this.userId = userId;
-        this.reviewId = reviewId;
+        this.user = user;
+        this.customerReview = customerReview;
+        this.ceoReview = ceoReview;
         this.reason = reason;
         this.adminComment = adminComment;
         this.isResolve = isResolve;
         this.resolvedTime = resolvedTime;
+        this.createdAt = createdAt;
     }
 
 }
