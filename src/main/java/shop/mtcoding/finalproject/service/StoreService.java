@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
@@ -60,8 +60,8 @@ public class StoreService {
         CustomerInterface customerReviewPS = customerReviewRepository.findByStoreId(storeId);
         log.debug("디버그 : 리뷰 별점 :" + customerReviewPS.getStarPoint());
         // 3. 답글 개수 데이터(연산)
-        CeoReview ceoReviewPS = ceoReviewRepository.findByStoreId(storeId);
-        log.debug("디버그 : 답글 갯수 : " + ceoReviewPS.getId());
+        CeoReviewInterface ceoReviewPS = ceoReviewRepository.findByStoreId(storeId);
+        log.debug("디버그 : 답글 갯수 : " + ceoReviewPS.getCount());
         // 4. 좋아요 개수 데이터(연산)
         Like likePS = likeRepository.findByStoreId(storeId);
         log.debug("디버그 : 좋아요 개수 : " + likePS.getId());
