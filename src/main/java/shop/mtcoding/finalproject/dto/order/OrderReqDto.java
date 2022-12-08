@@ -1,8 +1,9 @@
 package shop.mtcoding.finalproject.dto.order;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
-import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
@@ -18,10 +19,11 @@ public class OrderReqDto {
         private String state;
         private String reason;
 
-        public Order toEntity() {
+        public Order toEntity(LocalDateTime localDateTime) {
             return Order.builder()
                     .state(CustomEnumUtil.toOrderStateEnumFormat(state))
                     .reason(reason)
+                    .completeTime(localDateTime)
                     .build();
         }
     }

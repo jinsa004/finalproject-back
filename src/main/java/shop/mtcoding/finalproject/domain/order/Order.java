@@ -93,7 +93,7 @@ public class Order extends AudingTime {
                 .user(user)
                 .store(store)
                 .payment(payment)
-                .completeTime(completeTime)
+                .completeTime(order.getCompleteTime())
                 .createdAt(createdAt)
                 .build();
     }
