@@ -1,7 +1,11 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +17,11 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepositoryQuery;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRespDto;
+import shop.mtcoding.finalproject.domain.store.Store;
+import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
@@ -28,8 +36,25 @@ public class ReportReviewService {
     private final CustomerReviewRepository customerReviewRepository;
     private final CeoReviewRepository ceoReviewRepository;
     private final UserRepository userRepository;
+    private final StoreRepository storeRepository;
+    private final ReportReviewRepositoryQuery reportRepositoryQuery;
 
     /* 승현 작업 시작 */
+
+    public List<ReportReviewRespDto> findAllByStoreId(Long storeId, Long userId) {
+
+        // 1. 가게주인이 맞는지 확인하기
+        Store storePS = storeRepository.findByUserId(userId).orElseThrow(
+                () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        if (!storePS.getUser().getId().equals(userId)) {
+            throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 2. 목록가져오기
+        List<ReportReviewRespDto> reviewRespDtos = reportRepositoryQuery.findAllByStoreId(storeId);
+
+        return reviewRespDtos;
+    }
 
     @Transactional
     public void insert(InsertReportReviewReqDto insertReportReviewReqDto) {

@@ -16,6 +16,8 @@ import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
@@ -32,7 +34,8 @@ public class DevInit extends DummyEntity {
             OrderRepository orderRepository,
             OrderDetailRepository orderDetailRepository,
             CustomerReviewRepository customerReviewRepository,
-            CeoReviewRepository ceoReviewRepository) {
+            CeoReviewRepository ceoReviewRepository,
+            ReportReviewRepository reportReviewRepository) {
 
         return (args) -> {
             User ssar = userRepository.save(newUser("ssar"));
@@ -48,6 +51,8 @@ public class DevInit extends DummyEntity {
                     .save(newCustomerReview(jinsa, order1, store, ceoReview));
             CustomerReview customerReview2 = customerReviewRepository
                     .save(newCustomerReview(jinsa, order1, store, null));
+            ReportReview reportReview1 = reportReviewRepository.save(newReportReview(ssar, customerReview, ceoReview));
+            ReportReview reportReview2 = reportReviewRepository.save(newReportReview(ssar, customerReview, ceoReview));
         };
     }
 }

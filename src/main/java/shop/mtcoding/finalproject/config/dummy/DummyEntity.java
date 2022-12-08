@@ -5,12 +5,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
+import shop.mtcoding.finalproject.config.enums.ReportReasonEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -112,5 +114,14 @@ public class DummyEntity {
                 .build();
         return ceoReview;
     }
-    
+
+    protected ReportReview newReportReview(User user, CustomerReview customerReview, CeoReview ceoReview) {
+        ReportReview reportReview = ReportReview.builder()
+                .user(user)
+                .customerReview(customerReview)
+                .ceoReview(ceoReview)
+                .reason(ReportReasonEnum.HONOR)
+                .build();
+        return reportReview;
+    }
 }
