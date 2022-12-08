@@ -29,6 +29,8 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
+import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -74,16 +76,39 @@ public class StoreApiControllerTest extends DummyEntity {
         @Autowired
         private OrderRepository orderRepository;
 
+        @Autowired
+        private LikeRepository likeRepository;
+
         @BeforeEach
         public void setUp() {
                 User ssar = userRepository.save(newUser("ssar"));
                 User jinsa = userRepository.save(newUser("jinsa"));
                 Store store = storeRepository.save(newStore(ssar));
-                Menu menu = menuRepository.save(newMenu(store));
+                Menu menu1 = menuRepository.save(newMenu(store));
+                Menu menu2 = menuRepository.save(newMenu(store));
                 Order order = orderRepository.save(newOrder(jinsa, store));
-                CeoReview CeoReview = ceoReviewRepository.save(newCeoReview(store, order));
-                CustomerReview customerReview = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order, store, CeoReview));
+                CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
+                CustomerReview customerReview1 = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order, store, ceoReview, 5.0));
+                CustomerReview customerReview2 = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order, store, ceoReview, 4.0));
+                Like like = likeRepository.save(newLike(jinsa, store));
+        }
+
+        @Test
+        public void detailStoreMain_test() throws Exception {
+                // given
+                Long storeId = 1L;
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/store/" + storeId + "/datail"));
+
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.starPoint").value(4.5));
+                resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("후라이드치킨"));
         }
 
         @Test

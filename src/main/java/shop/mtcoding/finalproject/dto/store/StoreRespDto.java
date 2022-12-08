@@ -7,13 +7,68 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
+import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.like.Like;
+import shop.mtcoding.finalproject.domain.like.LikeInterface;
+import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class StoreRespDto {
 
     /* 성진 작업 시작@!@ */
+
+    @Getter
+    @Setter
+    public static class DetailStoreMainRespDto {
+        private String name;
+        private String minAmount;
+        private String deliveryHour;
+        private String deliveryCost;
+        private String phone;
+        private Double starPoint;
+        private Long reviewCount;
+        private Long commentCount;
+        private Long likeCount;
+
+        private List<MenuDto> menuList = new ArrayList<>();
+
+        public DetailStoreMainRespDto(Store store, CustomerInterface customerReviewDto,
+                CeoReviewInterface ceoReviewDto, LikeInterface likeDto, List<Menu> menus) {
+            this.name = store.getName();
+            this.minAmount = store.getMinAmount();
+            this.deliveryHour = store.getDeliveryHour();
+            this.deliveryCost = store.getDeliveryCost();
+            this.phone = store.getPhone();
+            this.starPoint = customerReviewDto.getStarPoint();
+            this.reviewCount = customerReviewDto.getCount();
+            this.commentCount = ceoReviewDto.getCount();
+            this.likeCount = likeDto.getCount();
+            this.menuList = menus.stream().map(MenuDto::new).collect(Collectors.toList());
+        }
+
+        @Getter
+        @Setter
+        public class MenuDto {
+            private String name;
+            private String intro;
+            private String thumbnail;
+            private String price;
+            private String category;
+
+            public MenuDto(Menu menu) {
+                this.name = menu.getName();
+                this.intro = menu.getIntro();
+                this.thumbnail = menu.getThumbnail();
+                this.price = menu.getPrice();
+                this.category = menu.getCategory().getCategory();
+            }
+
+        }
+
+    }
 
     // @Getter
     // @Setter
