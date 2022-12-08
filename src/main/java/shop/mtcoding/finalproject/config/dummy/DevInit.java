@@ -38,7 +38,8 @@ public class DevInit extends DummyEntity {
             User ssar = userRepository.save(newUser("ssar"));
             User jinsa = userRepository.save(newUser("jinsa"));
             Store store = storeRepository.save(newStore(ssar));
-            Menu menu = menuRepository.save(newMenu(store));
+            Menu menu1 = menuRepository.save(newMenu(store));
+            Menu menu2 = menuRepository.save(newMenu(store));
             Order order = orderRepository.save(newOrder(jinsa, store));
             CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
             CustomerReview customerReview = customerReviewRepository

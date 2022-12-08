@@ -40,8 +40,10 @@ public class MenuService {
     public MenuListRespDto 메뉴_목록보기(Long storeId) {
         // 1. 메뉴리스트 셀렉
         List<Menu> menuList = menuRepository.findMenuListByStoreId(storeId);
+        log.debug("디버그 : 해당 가게 메뉴 : " + menuList.get(0).getName());
         // 2. DTO 응답
         MenuListRespDto menuListRespDto = new MenuListRespDto(menuList);
+        log.debug("디버그 : DTO 응답 타나?");
         return menuListRespDto;
     }
 
