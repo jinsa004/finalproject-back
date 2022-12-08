@@ -101,9 +101,8 @@ public class MenuApiControllerTest extends DummyEntity {
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
                 // then
-                // resultActions.andExpect(status().isOk());
-                // resultActions.andExpect(jsonPath("$.data.starPoint").value(4.5));
-                // resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("후라이드치킨"));
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.menus[0].name").value("후라이드치킨"));
         }
 
         /* ///////////// POST ///////////// */

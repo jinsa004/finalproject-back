@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
+import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
@@ -56,14 +57,14 @@ public class StoreRespDto {
             private String intro;
             private String thumbnail;
             private String price;
-            private String category;
+            private MenuCategoryEnum category;
 
             public MenuDto(Menu menu) {
                 this.name = menu.getName();
                 this.intro = menu.getIntro();
                 this.thumbnail = menu.getThumbnail();
                 this.price = menu.getPrice();
-                this.category = menu.getCategory().getCategory();
+                this.category = menu.getCategory();
             }
 
         }
