@@ -5,18 +5,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
+import shop.mtcoding.finalproject.config.enums.ReportReasonEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
 public class DummyEntity {
 
-    protected User newUser(String username) {
+    protected User newUser(String username, UserEnum role) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encPassword = passwordEncoder.encode("1234");
         User user = User.builder()
@@ -26,7 +28,7 @@ public class DummyEntity {
                 .phone("01011112222")
                 .photo(null)
                 .address("부산시 진구 서면 17번 길")
-                .role(username.equals("admin") ? UserEnum.ADMIN : UserEnum.CUSTOMER)
+                .role(role)
                 .isActive(true)
                 .build();
         return user;
@@ -112,5 +114,14 @@ public class DummyEntity {
                 .build();
         return ceoReview;
     }
-    
+
+    protected ReportReview newReportReview(User user, CustomerReview customerReview, CeoReview ceoReview) {
+        ReportReview reportReview = ReportReview.builder()
+                .user(user)
+                .customerReview(customerReview)
+                .ceoReview(ceoReview)
+                .reason(ReportReasonEnum.HONOR)
+                .build();
+        return reportReview;
+    }
 }

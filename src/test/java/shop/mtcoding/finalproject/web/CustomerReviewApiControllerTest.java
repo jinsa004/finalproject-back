@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
@@ -71,8 +72,8 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
 
     @BeforeEach
     public void setUp() {
-        User ssar = userRepository.save(newUser("ssar"));
-        User jinsa = userRepository.save(newUser("jinsa"));
+        User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+        User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
         Store store = storeRepository.save(newStore(ssar));
         Menu menu = menuRepository.save(newMenu(store));
         Order order = orderRepository.save(newOrder(jinsa, store));
@@ -97,7 +98,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         // when
         ResultActions resultActions = mvc
                 .perform(post("/api/review/" + orderId + "/insert/" + storeId).content(requestBody)
-                                .contentType(APPLICATION_JSON_UTF8));
+                        .contentType(APPLICATION_JSON_UTF8));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : 응답데이터 : " + responseBody);
 
@@ -113,7 +114,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         Long userId = 1L;
         // when
         ResultActions resultActions = mvc
-                        .perform(get("/api/review/" + userId));
+                .perform(get("/api/review/" + userId));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
@@ -130,7 +131,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         Long reviewId = 1L;
         // when
         ResultActions resultActions = mvc
-                        .perform(put("/api/review/" + userId + "/delete/" + reviewId));
+                .perform(put("/api/review/" + userId + "/delete/" + reviewId));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 

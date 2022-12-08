@@ -1,9 +1,10 @@
 package shop.mtcoding.finalproject.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,19 +33,21 @@ import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
-import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
-import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
+import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
 
-@Sql("classpath:db/truncate.sql") // 롤백 대신 사용 (auto_increment 초기화 + 데이터 비우기)
+@Sql("classpath:db/truncate.sql")
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
-public class OrderApiControllerTest extends DummyEntity {
+public class ReportReviewControllerTest extends DummyEntity {
 
         private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
         private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
@@ -54,6 +57,9 @@ public class OrderApiControllerTest extends DummyEntity {
 
         @Autowired
         private ObjectMapper om;
+
+        @Autowired
+        private EntityManager em;
 
         @Autowired
         private UserRepository userRepository;
@@ -71,77 +77,74 @@ public class OrderApiControllerTest extends DummyEntity {
         private CeoReviewRepository ceoReviewRepository;
 
         @Autowired
+        private OrderRepository orderRepository;
+
+        @Autowired
         private OrderDetailRepository orderDetailRepository;
 
         @Autowired
-        private OrderRepository orderRepository;
+        private ReportReviewRepository reportReviewRepository;
 
         @BeforeEach
-        public void setUp() {
+        public void serUp() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                 Store store = storeRepository.save(newStore(ssar));
                 Menu menu = menuRepository.save(newMenu(store));
-                Order order1 = orderRepository.save(newOrder(jinsa, store));
-                Order order2 = orderRepository.save(newOrder(jinsa, store));
-                OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu));
-                OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu));
-                CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order1));
-                CustomerReview customerReview = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order1, store, ceoReview));
+                Order order = orderRepository.save(newOrder(jinsa, store));
+                CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
+                CustomerReview customerReview1 = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order, store, ceoReview));
                 CustomerReview customerReview2 = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order1, store, null));
-        }
-
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-        @Test
-        public void UpdateOrderByUserIdToComplete_test() throws Exception {
-
-                // given
-                User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Long storeId = 1L;
-                Long orderId = 1L;
-                UpdateToCancleOrderReqDto updateToCancleOrderReqDto = new UpdateToCancleOrderReqDto();
-                updateToCancleOrderReqDto.setOrderId(orderId);
-                updateToCancleOrderReqDto.setReason("재고소진");
-                updateToCancleOrderReqDto.setStoreId(storeId);
-                updateToCancleOrderReqDto.setUserId(userPS.getId());
-                updateToCancleOrderReqDto.setState("주문취소");
-                String requestBody = om.writeValueAsString(updateToCancleOrderReqDto);
-                System.out.println("테스트 : " + requestBody);
-
-                // when
-                ResultActions resultActions = mvc
-                                .perform(put("/api/store/" + storeId + "/order/" + orderId + "/state")
-                                                .content(requestBody)
-                                                .contentType(APPLICATION_JSON_UTF8));
-                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : 응답데이터 : " + responseBody);
-
-                // then
-                resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data").value("주문취소"));
-
+                                .save(newCustomerReview(jinsa, order, store, null));
+                ReportReview reportReview1 = reportReviewRepository.save(newReportReview(ssar, customerReview1,
+                                ceoReview));
+                ReportReview reportReview2 = reportReviewRepository.save(newReportReview(ssar, customerReview2,
+                                ceoReview));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void findAllByStoreId_test() throws Exception {
                 // given
-                User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
                 Long storeId = 1L;
 
                 // when
-                ResultActions resultActions = mvc
-                                .perform(get("/api/store/" + storeId + "/order"));
+                ResultActions resultActions = mvc.perform(get("/api/store/" + storeId + "/review/report"));
+
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : 응답데이터 : " + responseBody);
+                System.out.println("테스트 : " + responseBody);
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.[0].orderComment").value("젓가락 빼주세요"));
+        }
 
+        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void insert_test() throws Exception {
+                // given
+                Long reviewId = 1L;
+                User userPS = userRepository.findByUsername("ssar")
+                                .orElseThrow(() -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                System.out.println("테스트 : " + userPS.getId());
+                System.out.println("테스트 : " + userPS.getUsername());
+                System.out.println("테스트 : " + userPS.getRole().getValue());
+
+                InsertReportReviewReqDto insertReportReviewReqDto = new InsertReportReviewReqDto();
+                insertReportReviewReqDto.setReason("명예훼손");
+                insertReportReviewReqDto.setUserKind("사업자 회원");
+                insertReportReviewReqDto.setUserId(userPS.getId());
+                insertReportReviewReqDto.setReviewId(reviewId);
+
+                String requestBody = om.writeValueAsString(insertReportReviewReqDto);
+                System.out.println("테스트 : " + requestBody);
+
+                // when
+                ResultActions resultActions = mvc.perform(post("/api/review/" + reviewId + "/report")
+                                .content(requestBody).contentType(APPLICATION_JSON_UTF8));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+                // then
+                resultActions.andExpect(status().isCreated());
         }
 }
