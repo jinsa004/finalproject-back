@@ -49,102 +49,102 @@ import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 public class ReportReviewControllerTest extends DummyEntity {
 
-    private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
-    private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
+        private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
+        private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
 
-    @Autowired
-    private MockMvc mvc;
+        @Autowired
+        private MockMvc mvc;
 
-    @Autowired
-    private ObjectMapper om;
+        @Autowired
+        private ObjectMapper om;
 
-    @Autowired
-    private EntityManager em;
+        @Autowired
+        private EntityManager em;
 
-    @Autowired
-    private UserRepository userRepository;
+        @Autowired
+        private UserRepository userRepository;
 
-    @Autowired
-    private StoreRepository storeRepository;
+        @Autowired
+        private StoreRepository storeRepository;
 
-    @Autowired
-    private MenuRepository menuRepository;
+        @Autowired
+        private MenuRepository menuRepository;
 
-    @Autowired
-    private CustomerReviewRepository customerReviewRepository;
+        @Autowired
+        private CustomerReviewRepository customerReviewRepository;
 
-    @Autowired
-    private CeoReviewRepository ceoReviewRepository;
+        @Autowired
+        private CeoReviewRepository ceoReviewRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+        @Autowired
+        private OrderRepository orderRepository;
 
-    @Autowired
-    private OrderDetailRepository orderDetailRepository;
+        @Autowired
+        private OrderDetailRepository orderDetailRepository;
 
-    @Autowired
-    private ReportReviewRepository reportReviewRepository;
+        @Autowired
+        private ReportReviewRepository reportReviewRepository;
 
-    @BeforeEach
-    public void serUp() {
-        User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
-        User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
-        Store store = storeRepository.save(newStore(ssar));
-        Menu menu = menuRepository.save(newMenu(store));
-        Order order = orderRepository.save(newOrder(jinsa, store));
-        CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
-        CustomerReview customerReview1 = customerReviewRepository
-                .save(newCustomerReview(jinsa, order, store, ceoReview));
-        CustomerReview customerReview2 = customerReviewRepository
-                .save(newCustomerReview(jinsa, order, store, null));
-        ReportReview reportReview1 = reportReviewRepository.save(newReportReview(ssar, customerReview1,
-                ceoReview));
-        ReportReview reportReview2 = reportReviewRepository.save(newReportReview(ssar, customerReview2,
-                ceoReview));
-    }
+        @BeforeEach
+        public void serUp() {
+                User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+                User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
+                Store store = storeRepository.save(newStore(ssar));
+                Menu menu = menuRepository.save(newMenu(store));
+                Order order = orderRepository.save(newOrder(jinsa, store));
+                CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
+                CustomerReview customerReview1 = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order, store, ceoReview));
+                CustomerReview customerReview2 = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order, store, null));
+                ReportReview reportReview1 = reportReviewRepository.save(newReportReview(ssar, customerReview1,
+                                ceoReview));
+                ReportReview reportReview2 = reportReviewRepository.save(newReportReview(ssar, customerReview2,
+                                ceoReview));
+        }
 
-    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    @Test
-    public void findAllByStoreId_test() throws Exception {
-        // given
-        Long storeId = 1L;
+        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void findAllByStoreId_test() throws Exception {
+                // given
+                Long storeId = 1L;
 
-        // when
-        ResultActions resultActions = mvc.perform(get("/api/store/" + storeId + "/review/report"));
+                // when
+                ResultActions resultActions = mvc.perform(get("/api/store/" + storeId + "/review/report"));
 
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + responseBody);
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
 
-        // then
-        resultActions.andExpect(status().isOk());
-    }
+                // then
+                resultActions.andExpect(status().isOk());
+        }
 
-    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    @Test
-    public void insert_test() throws Exception {
-        // given
-        Long reviewId = 1L;
-        User userPS = userRepository.findByUsername("ssar")
-                .orElseThrow(() -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-        System.out.println("테스트 : " + userPS.getId());
-        System.out.println("테스트 : " + userPS.getUsername());
-        System.out.println("테스트 : " + userPS.getRole().getValue());
+        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void insert_test() throws Exception {
+                // given
+                Long reviewId = 1L;
+                User userPS = userRepository.findByUsername("ssar")
+                                .orElseThrow(() -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                System.out.println("테스트 : " + userPS.getId());
+                System.out.println("테스트 : " + userPS.getUsername());
+                System.out.println("테스트 : " + userPS.getRole().getValue());
 
-        InsertReportReviewReqDto insertReportReviewReqDto = new InsertReportReviewReqDto();
-        insertReportReviewReqDto.setReason("명예훼손");
-        insertReportReviewReqDto.setUserKind("사업자 회원");
-        insertReportReviewReqDto.setUserId(userPS.getId());
-        insertReportReviewReqDto.setReviewId(reviewId);
+                InsertReportReviewReqDto insertReportReviewReqDto = new InsertReportReviewReqDto();
+                insertReportReviewReqDto.setReason("명예훼손");
+                insertReportReviewReqDto.setUserKind("사업자 회원");
+                insertReportReviewReqDto.setUserId(userPS.getId());
+                insertReportReviewReqDto.setReviewId(reviewId);
 
-        String requestBody = om.writeValueAsString(insertReportReviewReqDto);
-        System.out.println("테스트 : " + requestBody);
+                String requestBody = om.writeValueAsString(insertReportReviewReqDto);
+                System.out.println("테스트 : " + requestBody);
 
-        // when
-        ResultActions resultActions = mvc.perform(post("/api/review/" + reviewId + "/report")
-                .content(requestBody).content(APPLICATION_JSON_UTF8));
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                // when
+                ResultActions resultActions = mvc.perform(post("/api/review/" + reviewId + "/report")
+                                .content(requestBody).contentType(APPLICATION_JSON_UTF8));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
-        // then
-        resultActions.andExpect(status().isCreated());
-    }
+                // then
+                resultActions.andExpect(status().isCreated());
+        }
 }
