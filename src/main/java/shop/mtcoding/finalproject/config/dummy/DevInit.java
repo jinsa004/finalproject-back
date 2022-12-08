@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import lombok.RequiredArgsConstructor;
+import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
@@ -38,8 +39,8 @@ public class DevInit extends DummyEntity {
             ReportReviewRepository reportReviewRepository) {
 
         return (args) -> {
-            User ssar = userRepository.save(newUser("ssar"));
-            User jinsa = userRepository.save(newUser("jinsa"));
+            User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+            User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
             Store store = storeRepository.save(newStore(ssar));
             Menu menu = menuRepository.save(newMenu(store));
             Order order1 = orderRepository.save(newOrder(jinsa, store));

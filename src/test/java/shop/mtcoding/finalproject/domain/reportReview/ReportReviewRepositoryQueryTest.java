@@ -1,9 +1,5 @@
 package shop.mtcoding.finalproject.domain.reportReview;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -17,6 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
@@ -121,8 +118,8 @@ public class ReportReviewRepositoryQueryTest extends DummyEntity {
     }
 
     private void dummy_init() {
-        User ssar = userRepository.save(newUser("ssar"));
-        User jinsa = userRepository.save(newUser("jinsa"));
+        User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+        User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
         Store store = storeRepository.save(newStore(ssar));
         Menu menu = menuRepository.save(newMenu(store));
         Order order1 = orderRepository.save(newOrder(jinsa, store));

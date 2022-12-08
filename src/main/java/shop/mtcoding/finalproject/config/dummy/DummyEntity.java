@@ -18,7 +18,7 @@ import shop.mtcoding.finalproject.domain.user.User;
 
 public class DummyEntity {
 
-    protected User newUser(String username) {
+    protected User newUser(String username, UserEnum role) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encPassword = passwordEncoder.encode("1234");
         User user = User.builder()
@@ -28,7 +28,7 @@ public class DummyEntity {
                 .phone("01011112222")
                 .photo(null)
                 .address("부산시 진구 서면 17번 길")
-                .role(username.equals("admin") ? UserEnum.ADMIN : UserEnum.CUSTOMER)
+                .role(role)
                 .isActive(true)
                 .build();
         return user;

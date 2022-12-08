@@ -24,6 +24,7 @@ import org.springframework.web.util.NestedServletException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -76,8 +77,8 @@ public class StoreApiControllerTest extends DummyEntity {
 
         @BeforeEach
         public void setUp() {
-                User ssar = userRepository.save(newUser("ssar"));
-                User jinsa = userRepository.save(newUser("jinsa"));
+                User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+                User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                 Store store = storeRepository.save(newStore(ssar));
                 Menu menu = menuRepository.save(newMenu(store));
                 Order order = orderRepository.save(newOrder(jinsa, store));
@@ -90,12 +91,12 @@ public class StoreApiControllerTest extends DummyEntity {
         public void findStoreList_test() throws Exception {
                 // given
                 String address = "부산시 진구 서면 17번 길";
-                // when
-                ResultActions resultActions = mvc
-                                .perform(get("/api/storeList"));
 
+                // when
+                ResultActions resultActions = mvc.perform(get("/api/storeList"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
+
                 // then
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.stores.[0].storeName").value("그린치킨"));

@@ -2,7 +2,6 @@ package shop.mtcoding.finalproject.dto.reportReview;
 
 import lombok.Getter;
 import lombok.Setter;
-import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReview;

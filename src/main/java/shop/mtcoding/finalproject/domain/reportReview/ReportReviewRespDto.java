@@ -15,23 +15,12 @@ import lombok.Setter;
 @Setter
 public class ReportReviewRespDto {
 
+    private BigInteger reportReviewId;
     private Double starPoint;
     private String photo;
-    private BigInteger id;
+    private BigInteger orderId;
     private Timestamp createdAt;
     private Boolean isClosure;
     private Boolean isResolve;
     private String adminComment;
-
-    // public ReportReviewRespDto(CustomerReview customerReview, ReportReview
-    // reportReview) {
-    // this.starPoint = customerReview.getStarPoint();
-    // this.photo = customerReview.getPhoto();
-    // this.orderId = customerReview.getOrder().getId();
-    // this.orderCreatedAt =
-    // CustomDateUtil.toStringFormat(customerReview.getOrder().getCreatedAt());
-    // this.isClosure = customerReview.isClosure();
-    // this.isResolve = reportReview.isResolve();
-    // this.adminComment = reportReview.getAdminComment();
-    // }
 }

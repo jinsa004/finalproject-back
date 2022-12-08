@@ -23,7 +23,7 @@ public class ReportReviewRepositoryQuery {
 
         StringBuffer sb = new StringBuffer();
         sb.append(
-                "select cusr.star_point, cusr.photo, o.id, o.created_at, cusr.is_closure, repr.is_resolve, repr.admin_comment from report_reviews repr ");
+                "select repr.id report_review_id, cusr.star_point, cusr.photo, o.id order_id, o.created_at, cusr.is_closure, repr.is_resolve, repr.admin_comment from report_reviews repr ");
         sb.append("left outer join customer_reviews cusr on cusr.id = repr.customer_review_id ");
         sb.append("left outer join orders o on o.id = cusr.order_id ");
         sb.append("left outer join stores s on s.id = cusr.store_id ");
@@ -44,7 +44,7 @@ public class ReportReviewRepositoryQuery {
         List<ReportReviewRespDto> reportReviewRespDtos = result.list(query, ReportReviewRespDto.class);
 
         log.debug("디버그 : 통과?? ");
-        log.debug("디버그 : " + reportReviewRespDtos.get(0).getId());
+        log.debug("디버그 : " + reportReviewRespDtos.get(0).getReportReviewId());
         log.debug("디버그 : " + reportReviewRespDtos.get(0).getStarPoint());
         log.debug("디버그 : " + reportReviewRespDtos.get(0).getCreatedAt());
         return reportReviewRespDtos;

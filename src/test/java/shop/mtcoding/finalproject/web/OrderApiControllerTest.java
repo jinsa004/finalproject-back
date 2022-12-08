@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -77,8 +78,8 @@ public class OrderApiControllerTest extends DummyEntity {
 
         @BeforeEach
         public void setUp() {
-                User ssar = userRepository.save(newUser("ssar"));
-                User jinsa = userRepository.save(newUser("jinsa"));
+                User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+                User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                 Store store = storeRepository.save(newStore(ssar));
                 Menu menu = menuRepository.save(newMenu(store));
                 Order order1 = orderRepository.save(newOrder(jinsa, store));
