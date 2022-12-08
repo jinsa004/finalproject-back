@@ -2,6 +2,7 @@ package shop.mtcoding.finalproject.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
@@ -31,6 +35,44 @@ public class MenuService {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
+
+    /* 성진 작업 시작@@ */
+    public MenuListRespDto 메뉴_목록보기(Long storeId) {
+        // 1. 메뉴리스트 셀렉
+        List<Menu> menuList = menuRepository.findMenuListByStoreId(storeId);
+        // 2. DTO 응답
+        MenuListRespDto menuListRespDto = new MenuListRespDto(menuList);
+        return menuListRespDto;
+    }
+
+    @Getter
+    @Setter
+    public static class MenuListRespDto {
+        private List<MenuDto> menus = new ArrayList<>();
+
+        public MenuListRespDto(List<Menu> menus) {
+            this.menus = menus.stream().map((menu) -> new MenuDto(menu)).collect(Collectors.toList());
+        }
+
+        @Getter
+        @Setter
+        public class MenuDto {
+            private String name;
+            private String intro;
+            private String price;
+            private String thumbnail;
+            private MenuCategoryEnum category;
+
+            public MenuDto(Menu menu) {
+                this.name = menu.getName();
+                this.intro = menu.getIntro();
+                this.price = menu.getPrice();
+                this.thumbnail = menu.getThumbnail();
+                this.category = menu.getCategory();
+            }
+
+        }
+    }
 
     /* 승현 작업 시작 */
 
