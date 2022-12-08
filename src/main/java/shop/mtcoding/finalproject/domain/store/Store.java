@@ -65,7 +65,7 @@ public class Store extends AudingTime {
     @Column(nullable = true, length = 4)
     private String deliveryHour;
 
-    @Column(nullable = true, length = 5)
+    @Column(nullable = true, length = 4)
     private String deliveryCost;
 
     @Column(nullable = true, length = 100)
