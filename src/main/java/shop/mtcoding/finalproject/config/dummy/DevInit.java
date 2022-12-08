@@ -10,6 +10,8 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
+import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -29,7 +31,8 @@ public class DevInit extends DummyEntity {
             MenuRepository menuRepository,
             OrderRepository orderRepository,
             CustomerReviewRepository customerReviewRepository,
-            CeoReviewRepository ceoReviewRepository) {
+            CeoReviewRepository ceoReviewRepository,
+            LikeRepository likeRepository) {
 
         return (args) -> {
             User ssar = userRepository.save(newUser("ssar"));
@@ -42,6 +45,7 @@ public class DevInit extends DummyEntity {
                     .save(newCustomerReview(jinsa, order, store, ceoReview, 4.0));
             CustomerReview customerReview2 = customerReviewRepository
                     .save(newCustomerReview(jinsa, order, store, null, 5.0));
+            Like like = likeRepository.save(newLike(jinsa, store));
         };
     }
 }

@@ -8,6 +8,7 @@ import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.store.Store;
@@ -102,4 +103,11 @@ public class DummyEntity {
         return ceoReview;
     }
 
+    protected Like newLike(User user, Store store) {
+        Like like = Like.builder()
+                .user(user)
+                .store(store)
+                .build();
+        return like;
+    }
 }

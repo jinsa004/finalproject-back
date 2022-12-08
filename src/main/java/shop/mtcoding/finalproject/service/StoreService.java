@@ -57,11 +57,11 @@ public class StoreService {
                         HttpStatus.BAD_REQUEST));
         log.debug("디버그 : 가게정보 :" + storePS.getName());
         // 2. 별점 평균 데이터 및 리뷰 개수(연산)
-        CustomerInterface customerReviewPS = customerReviewRepository.findByStoreId(storeId);
-        log.debug("디버그 : 리뷰 별점 :" + customerReviewPS.getStarPoint());
+        CustomerInterface customerReviewDto = customerReviewRepository.findByStoreId(storeId);
+        log.debug("디버그 : 리뷰 별점 :" + customerReviewDto.getStarPoint());
         // 3. 답글 개수 데이터(연산)
-        CeoReviewInterface ceoReviewPS = ceoReviewRepository.findByStoreId(storeId);
-        log.debug("디버그 : 답글 갯수 : " + ceoReviewPS.getCount());
+        CeoReviewInterface ceoReviewDto = ceoReviewRepository.findByStoreId(storeId);
+        log.debug("디버그 : 답글 갯수 : " + ceoReviewDto.getCount());
         // 4. 좋아요 개수 데이터(연산)
         Like likePS = likeRepository.findByStoreId(storeId);
         log.debug("디버그 : 좋아요 개수 : " + likePS.getId());
@@ -69,8 +69,8 @@ public class StoreService {
         List<Menu> menuList = menuRepository.findAllByStoreId(storeId);
         log.debug("디버그 : 메뉴 정보 : " + menuList.get(0).getName());
         // 6. DTO 응답
-        DetailStoreMainRespDto detailStoreMainRespDto = new DetailStoreMainRespDto(storePS, customerReviewPS,
-                ceoReviewPS, likePS, menuList);
+        DetailStoreMainRespDto detailStoreMainRespDto = new DetailStoreMainRespDto(storePS, customerReviewDto,
+                ceoReviewDto, likePS, menuList);
         return detailStoreMainRespDto;
     }
 
