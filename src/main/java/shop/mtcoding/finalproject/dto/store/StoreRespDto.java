@@ -23,6 +23,29 @@ public class StoreRespDto {
 
     @Getter
     @Setter
+    public static class StoreInfoRespDto {
+        private String notice;
+        private String minAmount;
+        private String deliveryHour;
+        private String deliveryCost;
+        private String ceoName;
+        private String businessNumber;
+        private String businessAddress;
+
+        public StoreInfoRespDto(Store store) {
+            this.notice = store.getNotice();
+            this.minAmount = store.getMinAmount();
+            this.deliveryHour = store.getDeliveryHour();
+            this.deliveryCost = store.getDeliveryCost();
+            this.ceoName = store.getCeoName();
+            this.businessNumber = store.getBusinessNumber();
+            this.businessAddress = store.getBusinessAddress();
+        }
+
+    }
+
+    @Getter
+    @Setter
     public static class DetailStoreMainRespDto {
         private String name;
         private String minAmount;

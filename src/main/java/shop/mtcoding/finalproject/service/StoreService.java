@@ -1,6 +1,7 @@
 package shop.mtcoding.finalproject.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,6 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
-import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
@@ -32,6 +32,7 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreMainRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreInfoRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
@@ -50,6 +51,13 @@ public class StoreService {
     private final MenuRepository menuRepository;
 
     /* 성진 작업 시작함 */
+
+    public StoreInfoRespDto 가게_정보보기(Long storeId) {
+        // 이미 가게 상세보기에서 가게가 있는지 검증됐기 때문에 가게 정보만 셀렉해서 뿌리면 끝!
+        Optional<Store> storePS = storeRepository.findById(storeId);
+        StoreInfoRespDto storeInfoRespDto = new StoreInfoRespDto(storePS.get());
+        return storeInfoRespDto;
+    }
 
     public DetailStoreMainRespDto 가게_상세보기(Long storeId) {
         // 1. 가게가 존재하는지?
