@@ -16,6 +16,7 @@ import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.like.Like;
+import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
@@ -63,14 +64,15 @@ public class StoreService {
         CeoReviewInterface ceoReviewDto = ceoReviewRepository.findByStoreId(storeId);
         log.debug("디버그 : 답글 갯수 : " + ceoReviewDto.getCount());
         // 4. 좋아요 개수 데이터(연산)
-        Like likePS = likeRepository.findByStoreId(storeId);
-        log.debug("디버그 : 좋아요 개수 : " + likePS.getId());
+        LikeInterface likeDto = likeRepository.findByStoreId(storeId);
+        log.debug("디버그 : 좋아요 개수 : " + likeDto.getCount());
         // 5. 메뉴 테이블 데이터 셀렉(리스트)
         List<Menu> menuList = menuRepository.findAllByStoreId(storeId);
         log.debug("디버그 : 메뉴 정보 : " + menuList.get(0).getName());
         // 6. DTO 응답
         DetailStoreMainRespDto detailStoreMainRespDto = new DetailStoreMainRespDto(storePS, customerReviewDto,
-                ceoReviewDto, likePS, menuList);
+                ceoReviewDto, likeDto, menuList);
+        log.debug("디버그 : 응답 데이터 확인 : " + detailStoreMainRespDto);
         return detailStoreMainRespDto;
     }
 

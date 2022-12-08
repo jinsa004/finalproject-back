@@ -11,6 +11,7 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.like.Like;
+import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
@@ -34,17 +35,17 @@ public class StoreRespDto {
 
         private List<MenuDto> menuList = new ArrayList<>();
 
-        public DetailStoreMainRespDto(Store store, CustomerInterface customerReview,
-                CeoReviewInterface ceoReview, Like like, List<Menu> menus) {
+        public DetailStoreMainRespDto(Store store, CustomerInterface customerReviewDto,
+                CeoReviewInterface ceoReviewDto, LikeInterface likeDto, List<Menu> menus) {
             this.name = store.getName();
             this.minAmount = store.getMinAmount();
             this.deliveryHour = store.getDeliveryHour();
             this.deliveryCost = store.getDeliveryCost();
             this.phone = store.getPhone();
-            this.starPoint = customerReview.getStarPoint();
-            this.reviewCount = customerReview.getCount();
-            this.commentCount = ceoReview.getCount();
-            this.likeCount = like.getId();
+            this.starPoint = customerReviewDto.getStarPoint();
+            this.reviewCount = customerReviewDto.getCount();
+            this.commentCount = ceoReviewDto.getCount();
+            this.likeCount = likeDto.getCount();
             this.menuList = menus.stream().map(MenuDto::new).collect(Collectors.toList());
         }
 
