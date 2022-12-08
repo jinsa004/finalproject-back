@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
@@ -48,6 +50,14 @@ public class CustomerReviewService {
         List<CustomerInterface> customerInterfaces = customerReviewRepository.findByMenuNameToStoreId(storeId);
         log.debug("디버그 : 메뉴명 잘뜨남? : " + customerInterfaces.get(0).getMenuName());
         // 3. DTO 응답
+        StoreReviewListRespDto storeReviewListRespDto = new StoreReviewListRespDto(customerReviewDto,
+                customerInterfaces);
+    }
+
+    @Getter
+    @Setter
+    public static class StoreReviewListRespDto {
+
     }
 
     @Transactional
