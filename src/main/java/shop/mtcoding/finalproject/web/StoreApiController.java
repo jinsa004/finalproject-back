@@ -40,7 +40,7 @@ public class StoreApiController {
     /* 성진 작업 시작@ */
 
     @GetMapping("/store/{storeId}/datail")
-    public ResponseEntity<?> detailStore(@PathVariable Long storeId) {
+    public ResponseEntity<?> detailStoreMain(@PathVariable Long storeId) {
         DetailStoreMainRespDto detailStoreMainRespDto = storeService.가게_상세보기(storeId);
         return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 기능 성공", detailStoreMainRespDto), HttpStatus.OK);
     }
