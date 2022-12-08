@@ -32,9 +32,9 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
             "left join users u on cr.user_id = u.id where cr.store_id = :storeId) cru on cor.order_id = cru.order_id", nativeQuery = true)
     List<CustomerInterface> findByCustomerReviewToStoreId(@Param("storeId") Long storeId);
 
-    // 가게 리뷰목록보기에서 오더 디테일 안의 메뉴아이디를 가져오는 것
-    @Query(value = "select cr.order_id, om.name from customer_reviews cr inner join "
+    // 가게 리뷰목록보기에서 오더 디테일 안의 메뉴명을 가져오는 것
+    @Query(value = "select cr.order_id, om.name menuName from customer_reviews cr inner join "
             + "(select m.name, o.order_id from order_details o inner join menus m on o.menu_id = m.id) "
             + "om on cr.order_id = om.order_id where cr.store_id = :storeId", nativeQuery = true)
-    CustomerInterface findByMenuNameToStoreId(@Param("storeId") Long storeId);
+    List<CustomerInterface> findByMenuNameToStoreId(@Param("storeId") Long storeId);
 }

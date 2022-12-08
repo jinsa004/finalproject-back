@@ -38,11 +38,16 @@ public class CustomerReviewService {
     private final CeoReviewRepository ceoReviewRepository;
 
     public void 가게리뷰_목록보기(Long storeId) {
+        // 1. 가게에 맞는 리뷰 정보(작성한 유저정보 포함) + 사장님 답글 정보
         List<CustomerInterface> customerReviewDto = customerReviewRepository.findByCustomerReviewToStoreId(storeId);
         log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getContent());
         log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getComment());
         log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getNickname());
         log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getStarPoint());
+        // 2. 해당 리뷰에 맞는 메뉴명 뿌리기
+        List<CustomerInterface> customerInterfaces = customerReviewRepository.findByMenuNameToStoreId(storeId);
+        log.debug("디버그 : 메뉴명 잘뜨남? : " + customerInterfaces.get(0).getMenuName());
+        // 3. DTO 응답
     }
 
     @Transactional

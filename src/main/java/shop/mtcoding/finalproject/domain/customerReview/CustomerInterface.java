@@ -21,4 +21,7 @@ public interface CustomerInterface {
 
     // 사장님 답글
     String getComment();
+
+    // 오더 디테일 메뉴 네임
+    String getMenuName();
 }
