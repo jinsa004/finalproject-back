@@ -2,7 +2,6 @@ package shop.mtcoding.finalproject.domain.reportReview;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

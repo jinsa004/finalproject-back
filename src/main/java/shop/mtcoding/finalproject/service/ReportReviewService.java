@@ -63,6 +63,7 @@ public class ReportReviewService {
         if (insertReportReviewReqDto.getUserKind().equals(UserEnum.CUSTOMER.getValue())) {
             customerReviewPS = customerReviewRepository.findById(insertReportReviewReqDto.getReviewId()).orElseThrow(
                     () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+
             // 2. 리뷰 작성자가 본인인지 확인
             if (!customerReviewPS.getUser().getId().equals(insertReportReviewReqDto.getUserId())) {
                 throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
