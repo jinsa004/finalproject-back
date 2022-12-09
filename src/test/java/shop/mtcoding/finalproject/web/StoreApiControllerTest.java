@@ -33,6 +33,8 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
+import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -45,6 +47,7 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
+import shop.mtcoding.finalproject.dto.like.LikeReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
@@ -91,6 +94,9 @@ public class StoreApiControllerTest extends DummyEntity {
 
         @Autowired
         private ReportReviewRepository reportReviewRepository;
+
+        @Autowired
+        private LikeRepository likeRepository;
 
         @BeforeEach
         public void setUp() {
@@ -356,5 +362,71 @@ public class StoreApiControllerTest extends DummyEntity {
                 // then
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.orderCount").value(3));
+        }
+
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void insertLike_test() throws Exception {
+
+                // given
+                Long storeId = 1L;
+                User userPS = userRepository.findByUsername("jinsa").orElseThrow(
+                                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                Store storePS = storeRepository.findById(storeId).orElseThrow(
+                                () -> new CustomApiException("해당 아이디의 가게가 없습니다.", HttpStatus.BAD_REQUEST));
+                LikeReqDto likeReqDto = new LikeReqDto();
+                likeReqDto.setStoreId(storeId);
+                likeReqDto.setUserId(userPS.getId());
+                String requestBody = om.writeValueAsString(likeReqDto);
+                System.out.println("테스트 : " + requestBody);
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(post("/api/store/" + storeId + "/like/insert")
+                                                .content(requestBody)
+                                                .contentType(APPLICATION_JSON_UTF8));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isCreated());
+
+                Like likePS = likeRepository.findByUserIdAndStoreId(userPS.getId(), storeId);
+                System.out.println("테스트 : " + likePS.getUser().getId());
+                System.out.println("테스트 : " + likePS.getStore().getId());
+        }
+
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void deleteLike_test() throws Exception {
+
+                // given
+                Long storeId = 1L;
+                User userPS = userRepository.findByUsername("jinsa").orElseThrow(
+                                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                Store storePS = storeRepository.findById(storeId).orElseThrow(
+                                () -> new CustomApiException("해당 아이디의 가게가 없습니다.", HttpStatus.BAD_REQUEST));
+                Like like = likeRepository.save(newLike(userPS, storePS));
+                LikeReqDto likeReqDto = new LikeReqDto();
+                likeReqDto.setStoreId(storeId);
+                likeReqDto.setUserId(userPS.getId());
+                String requestBody = om.writeValueAsString(likeReqDto);
+                System.out.println("테스트 : " + requestBody);
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(post("/api/store/" + storeId + "/like/insert")
+                                                .content(requestBody)
+                                                .contentType(APPLICATION_JSON_UTF8));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isCreated());
+                Like likePS = likeRepository.findByUserIdAndStoreId(userPS.getId(), storeId);
+                if (likePS == null) {
+                        System.out.println("테스트 : test complete");
+                }
+
         }
 }

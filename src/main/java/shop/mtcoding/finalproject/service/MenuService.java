@@ -18,6 +18,7 @@ import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.CustomerDetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.MenuListRespDto;
@@ -34,6 +35,16 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     /* 성진 작업 시작@@ */
+
+    public CustomerDetailMenuRespDto 메뉴_상세보기(Long menuId) {
+        // 1. 해당 메뉴의 내용을 셀렉
+        Menu menuPS = menuRepository.findById(menuId).orElseThrow(
+                () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        // 2. DTO 응답
+        CustomerDetailMenuRespDto customerDetailMenuRespDto = new CustomerDetailMenuRespDto(menuPS);
+        return customerDetailMenuRespDto;
+    }
+
     public MenuListRespDto 메뉴_목록보기(Long storeId) {
         // 1. 메뉴리스트 셀렉
         List<Menu> menuList = menuRepository.findMenuListByStoreId(storeId);

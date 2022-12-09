@@ -16,6 +16,7 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
@@ -25,6 +26,7 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
+import shop.mtcoding.finalproject.dto.like.LikeReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderStatsRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
@@ -241,6 +243,31 @@ public class StoreService {
         OrderStatsRespDto orderStatsRespDto = orderRepositoryQuery.findAllOrderStatsByStoreId(findStatsReqDto);
 
         return orderStatsRespDto;
+    }
+
+    @Transactional
+    public void insertLike(LikeReqDto likeReqDto) {
+
+        // 1. 가게가 있는지 체크
+        Store storePS = storeRepository.findById(likeReqDto.getStoreId()).orElseThrow(
+                () -> new CustomApiException("해당 아이디의 가게가 없습니다.", HttpStatus.BAD_REQUEST));
+
+        // 2. 이미 좋아요가 되어있는지 체크
+        Like likePS = likeRepository.findByUserIdAndStoreId(likeReqDto.getUserId(), likeReqDto.getStoreId());
+        User userPS = userRepository.findById(likeReqDto.getUserId()).orElseThrow(
+                () -> new CustomApiException("해당 아이디의 유저가 없습니다.", HttpStatus.BAD_REQUEST));
+
+        if (likePS != null) {
+
+            // 좋아요 취소하기
+            likeRepository.deleteById(likePS.getId());
+
+        } else {
+
+            // 좋아요 추가하기
+            Like like = likeReqDto.toEntity(userPS, storePS);
+            likeRepository.save(like);
+        }
     }
 
     /* 승현 작업 종료함 */
