@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,8 @@ import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
@@ -57,6 +61,9 @@ public class OrderApiControllerTest extends DummyEntity {
         private ObjectMapper om;
 
         @Autowired
+        private EntityManager em;
+
+        @Autowired
         private UserRepository userRepository;
 
         @Autowired
@@ -72,26 +79,44 @@ public class OrderApiControllerTest extends DummyEntity {
         private CeoReviewRepository ceoReviewRepository;
 
         @Autowired
+        private OrderRepository orderRepository;
+
+        @Autowired
         private OrderDetailRepository orderDetailRepository;
 
         @Autowired
-        private OrderRepository orderRepository;
+        private ReportReviewRepository reportReviewRepository;
 
         @BeforeEach
         public void setUp() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+                User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
-                Store store = storeRepository.save(newStore(ssar));
-                Menu menu = menuRepository.save(newMenu(store));
-                Order order1 = orderRepository.save(newOrder(jinsa, store, DeliveryStateEnum.DELIVERY));
-                Order order2 = orderRepository.save(newOrder(jinsa, store, DeliveryStateEnum.DELIVERY));
-                OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu));
-                OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu));
-                CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order1));
+                Store store1 = storeRepository.save(newStore(ssar));
+                Store store2 = storeRepository.save(newStore(cos));
+                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
+                Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
+                Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
+                Order order2 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.TAKEOUT));
+                Order order3 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
+                Order order4 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.TAKEOUT));
+                Order order5 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.DELIVERY));
+                OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu1));
+                OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu1));
+                OrderDetail orderDetail3 = orderDetailRepository.save(newOrderDetail(order2, menu1));
+                OrderDetail orderDetail4 = orderDetailRepository.save(newOrderDetail(order3, menu1));
+                OrderDetail orderDetail5 = orderDetailRepository.save(newOrderDetail(order4, menu2));
+                OrderDetail orderDetail6 = orderDetailRepository.save(newOrderDetail(order5, menu2));
+                OrderDetail orderDetail7 = orderDetailRepository.save(newOrderDetail(order5, menu2));
+                CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
                 CustomerReview customerReview = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order1, store, ceoReview));
+                                .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
                 CustomerReview customerReview2 = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order1, store, null));
+                                .save(newCustomerReview(jinsa, order2, store1, null, 4.0));
+                ReportReview reportReview1 = reportReviewRepository
+                                .save(newReportReview(ssar, customerReview, ceoReview));
+                ReportReview reportReview2 = reportReviewRepository
+                                .save(newReportReview(ssar, customerReview, ceoReview));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)

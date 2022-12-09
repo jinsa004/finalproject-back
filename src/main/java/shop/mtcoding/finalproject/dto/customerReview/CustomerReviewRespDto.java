@@ -1,16 +1,81 @@
 package shop.mtcoding.finalproject.dto.customerReview;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerMenuInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class CustomerReviewRespDto {
+
+    @Getter
+    @Setter
+    public static class StoreReviewListRespDto {
+        private List<CustomerReviewDto> customerReviewDtoList = new ArrayList<>();
+
+        public StoreReviewListRespDto(List<CustomerReviewInterface> customerReviewDtos,
+                List<CustomerMenuInterface> customerMenuDtos) {
+            for (CustomerReviewInterface customerReviewDto : customerReviewDtos) {
+
+                List<CustomerMenuInterface> tempReviews = new ArrayList<>();
+
+                for (CustomerMenuInterface customerMenuDto : customerMenuDtos) {
+                    if (customerMenuDto.getOrderId() == customerReviewDto.getOrderId()) {
+                        tempReviews.add(customerMenuDto);
+                    }
+                }
+
+                customerReviewDtoList.add(new CustomerReviewDto(customerReviewDto, tempReviews));
+            }
+        }
+
+        @Getter
+        @Setter
+        public class CustomerReviewDto {
+            private Long orderId;
+            private String nickname;
+            private String uPhoto;
+            private String crPhoto;
+            private String content;
+            private Double starPoint;
+            private String comment;
+
+            private List<CustomerMenuDto> customerMenuDtos = new ArrayList<>();
+
+            public CustomerReviewDto(CustomerReviewInterface customerReviewDto, List<CustomerMenuInterface> crm) {
+                this.orderId = customerReviewDto.getOrderId();
+                this.nickname = customerReviewDto.getNickname();
+                this.uPhoto = customerReviewDto.getUPhoto();
+                this.crPhoto = customerReviewDto.getCrPhoto();
+                this.content = customerReviewDto.getContent();
+                this.starPoint = customerReviewDto.getStarPoint();
+                this.comment = customerReviewDto.getComment();
+                this.customerMenuDtos = crm.stream().map(CustomerMenuDto::new).collect(Collectors.toList());
+            }
+
+        }
+
+        @Getter
+        @Setter
+        public class CustomerMenuDto {
+            private Long orderId;
+            private String menuName;
+
+            public CustomerMenuDto(CustomerMenuInterface customerMenuDto) {
+                this.orderId = customerMenuDto.getOrderId();
+                this.menuName = customerMenuDto.getMenuName();
+            }
+
+        }
+    }
+
     @Getter
     @Setter
     public static class InsertCustomerReviewRespDto {

@@ -23,6 +23,7 @@ import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.MenuListRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
 import shop.mtcoding.finalproject.service.MenuService;
@@ -34,6 +35,14 @@ public class MenuApiController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final MenuService menuService;
+
+    /* 성진 작업 시작@@ */
+
+    @GetMapping("/store/{storeId}/menu")
+    public ResponseEntity<?> getMenuList(@PathVariable Long storeId) {
+        MenuListRespDto menuListRespDto = menuService.메뉴_목록보기(storeId);
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 목록보기 성공", menuListRespDto), HttpStatus.OK);
+    }
 
     /* 승현 작업 시작 */
 

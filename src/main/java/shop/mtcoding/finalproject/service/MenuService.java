@@ -20,6 +20,7 @@ import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.MenuListRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
 
@@ -31,6 +32,17 @@ public class MenuService {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
+
+    /* 성진 작업 시작@@ */
+    public MenuListRespDto 메뉴_목록보기(Long storeId) {
+        // 1. 메뉴리스트 셀렉
+        List<Menu> menuList = menuRepository.findMenuListByStoreId(storeId);
+        log.debug("디버그 : 해당 가게 메뉴 : " + menuList.get(0).getName());
+        // 2. DTO 응답
+        MenuListRespDto menuListRespDto = new MenuListRespDto(menuList);
+        log.debug("디버그 : DTO 응답 타나?");
+        return menuListRespDto;
+    }
 
     /* 승현 작업 시작 */
 
