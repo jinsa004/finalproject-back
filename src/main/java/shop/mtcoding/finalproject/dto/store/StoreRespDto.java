@@ -28,6 +28,7 @@ public class StoreRespDto {
         private String minAmount;
         private String deliveryHour;
         private String deliveryCost;
+        private String name;
         private String ceoName;
         private String businessNumber;
         private String businessAddress;
@@ -37,6 +38,7 @@ public class StoreRespDto {
             this.minAmount = store.getMinAmount();
             this.deliveryHour = store.getDeliveryHour();
             this.deliveryCost = store.getDeliveryCost();
+            this.name = store.getName();
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();
