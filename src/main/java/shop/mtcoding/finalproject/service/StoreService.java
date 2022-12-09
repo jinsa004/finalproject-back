@@ -20,10 +20,13 @@ import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
+import shop.mtcoding.finalproject.domain.order.OrderRepositoryQuery;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
+import shop.mtcoding.finalproject.dto.order.OrderStatsRespDto;
+import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
@@ -49,6 +52,7 @@ public class StoreService {
     private final CeoReviewRepository ceoReviewRepository;
     private final LikeRepository likeRepository;
     private final MenuRepository menuRepository;
+    private final OrderRepositoryQuery orderRepositoryQuery;
 
     /* 성진 작업 시작함 */
 
@@ -214,6 +218,29 @@ public class StoreService {
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
 
         return new DetailStoreRespDto(storePS);
+    }
+
+    public OrderStatsRespDto findStatsByStoreId(FindStatsReqDto findStatsReqDto, Long userId) {
+
+        // 1. 유저가 가진 가게 가져오기
+        Store storePS = storeRepository.findByUserId(userId).orElseThrow(
+                () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+
+        // 2. 가게상태 확인하기
+        if (storePS.isClosure()) {
+            throw new CustomApiException("사용할 수 없는 계정입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 3. 가게주인 확인하기
+        if (!storePS.getUser().getId().equals(userId)) {
+            throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 4. 통계 가져오기
+        findStatsReqDto.setStoreId(storePS.getId());
+        OrderStatsRespDto orderStatsRespDto = orderRepositoryQuery.findAllOrderStatsByStoreId(findStatsReqDto);
+
+        return orderStatsRespDto;
     }
 
     /* 승현 작업 종료함 */

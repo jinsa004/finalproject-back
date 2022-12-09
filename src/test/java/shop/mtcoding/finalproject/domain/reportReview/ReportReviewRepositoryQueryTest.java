@@ -1,32 +1,20 @@
-package shop.mtcoding.finalproject.web;
+package shop.mtcoding.finalproject.domain.reportReview;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.test.context.support.TestExecutionEvent;
-import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
-import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
@@ -37,27 +25,15 @@ import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
-import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
-import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
-import shop.mtcoding.finalproject.dto.ceoReview.CeoReviewReqDto.InsertCeoReviewReqDto;
 
-@Sql("classpath:db/truncate.sql") // 롤백 대신 사용 (auto_increment 초기화 + 데이터 비우기)
+@Import(ReportReviewRepositoryQuery.class)
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
-@SpringBootTest(webEnvironment = WebEnvironment.MOCK)
-public class CeoReviewApiControllerTest extends DummyEntity {
-        private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
-        private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
-
-        @Autowired
-        private MockMvc mvc;
-
-        @Autowired
-        private ObjectMapper om;
+@DataJpaTest
+public class ReportReviewRepositoryQueryTest extends DummyEntity {
 
         @Autowired
         private EntityManager em;
@@ -86,8 +62,63 @@ public class CeoReviewApiControllerTest extends DummyEntity {
         @Autowired
         private ReportReviewRepository reportReviewRepository;
 
+        @Autowired
+        private ReportReviewRepositoryQuery reportReviewRepositoryQuery;
+
         @BeforeEach
         public void setUp() {
+                autoincrement_reset();
+                dummy_init();
+        }
+
+        @Test
+        public void 조회_test() throws Exception {
+                // given
+                Long storeId = 1L;
+
+                // when
+                List<ReportReviewRespDto> reportReviewRespDtos = reportReviewRepositoryQuery.findAllByStoreId(storeId);
+
+                // then
+                Assertions.assertThat(reportReviewRespDtos.size()).isEqualTo(2);
+        }
+
+        private void autoincrement_reset() {
+                this.em
+                                .createNativeQuery("ALTER TABLE users ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+                this.em
+                                .createNativeQuery("ALTER TABLE stores ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+                this.em
+                                .createNativeQuery("ALTER TABLE menus ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+                this.em
+                                .createNativeQuery("ALTER TABLE orders ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+                this.em
+                                .createNativeQuery("ALTER TABLE order_details ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+                this.em
+                                .createNativeQuery("ALTER TABLE ceo_reviews ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+                this.em
+                                .createNativeQuery("ALTER TABLE customer_reviews ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+                this.em
+                                .createNativeQuery("ALTER TABLE report_reviews ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+                this.em
+                                .createNativeQuery("ALTER TABLE likes ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+
+                this.em
+                                .createNativeQuery("ALTER TABLE payments ALTER COLUMN `id` RESTART WITH 1")
+                                .executeUpdate();
+
+        }
+
+        private void dummy_init() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                 User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
@@ -117,55 +148,4 @@ public class CeoReviewApiControllerTest extends DummyEntity {
                 ReportReview reportReview2 = reportReviewRepository
                                 .save(newReportReview(ssar, customerReview, ceoReview));
         }
-
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-        @Test
-        public void insertCeoReviewByCustomerId_test() throws Exception {
-                // given
-                User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-
-                Long customerReviewId = 2L;
-                InsertCeoReviewReqDto insertCeoReviewReqDto = new InsertCeoReviewReqDto();
-                insertCeoReviewReqDto.setContent("맛있게 드셨다니 다행입니다^^");
-                insertCeoReviewReqDto.setUserId(userPS.getId());
-                insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
-
-                CustomerReview customerReviewPS = customerReviewRepository
-                                .findById(insertCeoReviewReqDto.getCustomerReviewId())
-                                .orElseThrow(() -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-                insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
-
-                String requestBody = om.writeValueAsString(insertCeoReviewReqDto);
-                System.out.println("테스트 : " + requestBody);
-
-                // when
-                ResultActions resultActions = mvc
-                                .perform(post("/api/store/" + customerReviewId + "/review")
-                                                .content(requestBody)
-                                                .contentType(APPLICATION_JSON_UTF8));
-                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : 응답데이터 : " + responseBody);
-
-                // then
-                resultActions.andExpect(status().isCreated());
-                resultActions.andExpect(jsonPath("$.data.content").value("맛있게 드셨다니 다행입니다^^"));
-        }
-
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-        @Test
-        public void findAllReviewByStoreId_test() throws Exception {
-                // given
-                Long storeId = 1L;
-
-                // when
-                ResultActions resultActions = mvc.perform(get("/api/store/" + storeId + "/review"));
-
-                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : " + responseBody);
-
-                // then
-                resultActions.andExpect(status().isOk());
-        }
-
 }

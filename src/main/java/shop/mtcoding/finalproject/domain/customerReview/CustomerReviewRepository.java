@@ -1,6 +1,7 @@
 package shop.mtcoding.finalproject.domain.customerReview;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,4 +42,13 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
                         + "(select m.name, o.order_id from order_details o inner join menus m on o.menu_id = m.id) "
                         + "om on cr.order_id = om.order_id where cr.store_id = :storeId", nativeQuery = true)
         List<CustomerMenuInterface> findByMenuNameToStoreId(@Param("storeId") Long storeId);
+
+        // @Query(value = "select * customer_reviews cr left outer join users u on
+        // cr.user_id = u.id left outer join stores s on cr.store_id = s.id left outer
+        // join order o on cr.order_id = o.id left outer join ceo_reviews ceor
+        // cr.ceo_reviews_id = ceor.id where cr.ceo_reviews_id = :ceoReviewId",
+        // nativeQuery = true)
+        @Query("select cr from CustomerReview cr join fetch cr.ceoReview c join fetch cr.store s join fetch cr.order o join fetch cr.user u where c.id = :ceoReviewId")
+        Optional<CustomerReview> findByCeoReviewId(@Param("ceoReviewId") Long ceoReviewId);
+
 }

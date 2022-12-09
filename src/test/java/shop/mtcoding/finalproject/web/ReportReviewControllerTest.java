@@ -2,8 +2,6 @@ package shop.mtcoding.finalproject.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.persistence.EntityManager;
@@ -14,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
@@ -26,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
+import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
@@ -42,13 +42,13 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
-import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewReqDto.InsertCustomerReviewReqDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
 
-@Sql("classpath:db/truncate.sql") // 롤백 대신 사용 (auto_increment 초기화 + 데이터 비우기)
+@Sql("classpath:db/truncate.sql")
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
-public class CustomerReviewApiControllerTest extends DummyEntity {
+public class ReportReviewControllerTest extends DummyEntity {
 
         private static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf-8";
         private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=utf-8";
@@ -87,7 +87,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         private ReportReviewRepository reportReviewRepository;
 
         @BeforeEach
-        public void setUp() {
+        public void serUp() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                 User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
@@ -118,79 +118,48 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                                 .save(newReportReview(ssar, customerReview, ceoReview));
         }
 
+        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
-        public void getCustomerReviewToStore_test() throws Exception {
+        public void findAllByStoreId_test() throws Exception {
                 // given
                 Long storeId = 1L;
+
                 // when
-                ResultActions resultActions = mvc
-                                .perform(get("/api/store/" + storeId + "/reviewList"));
+                ResultActions resultActions = mvc.perform(get("/api/store/" + storeId + "/review/report"));
 
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
+
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.customerReviewDtoList.[0].nickname").value("jinsa님"));
-                resultActions.andExpect(jsonPath("$.data.customerReviewDtoList.[0].customerMenuDtos.[0].menuName")
-                                .value("후라이드치킨"));
-        }
-
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-        @Test
-        public void insertCustomerReview_test() throws Exception {
-                // given
-                Long orderId = 1L;
-                Long storeId = 1L;
-                InsertCustomerReviewReqDto insertCustomerReviewReqDto = new InsertCustomerReviewReqDto();
-                insertCustomerReviewReqDto.setContent("맛잇어용");
-                insertCustomerReviewReqDto.setPhoto(null);
-                insertCustomerReviewReqDto.setStarPoint(4.0);
-
-                String requestBody = om.writeValueAsString(insertCustomerReviewReqDto);
-                System.out.println("테스트 : " + requestBody);
-                // when
-                ResultActions resultActions = mvc
-                                .perform(post("/api/review/" + orderId + "/insert/" + storeId).content(requestBody)
-                                                .contentType(APPLICATION_JSON_UTF8));
-                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : 응답데이터 : " + responseBody);
-
-                // then
-                resultActions.andExpect(status().isCreated());
-                resultActions.andExpect(jsonPath("$.data.content").value("맛잇어용"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
-        public void findByUserIdToCustomerReview_test() throws Exception {
+        public void insert_test() throws Exception {
                 // given
-                Long userId = 1L;
-                // when
-                ResultActions resultActions = mvc
-                                .perform(get("/api/review/" + userId));
-
-                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : " + responseBody);
-                // then
-                resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.user.nickname").value("ssar님"));
-        }
-
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-        @Test
-        public void deleteByUserId_test() throws Exception {
-                // given
-                Long userId = 3L;
                 Long reviewId = 1L;
+                User userPS = userRepository.findByUsername("ssar")
+                                .orElseThrow(() -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
+                System.out.println("테스트 : " + userPS.getId());
+                System.out.println("테스트 : " + userPS.getUsername());
+                System.out.println("테스트 : " + userPS.getRole().getValue());
+
+                InsertReportReviewReqDto insertReportReviewReqDto = new InsertReportReviewReqDto();
+                insertReportReviewReqDto.setReason("명예훼손");
+                insertReportReviewReqDto.setUserKind("사업자 회원");
+                insertReportReviewReqDto.setUserId(userPS.getId());
+                insertReportReviewReqDto.setReviewId(reviewId);
+
+                String requestBody = om.writeValueAsString(insertReportReviewReqDto);
+                System.out.println("테스트 : " + requestBody);
+
                 // when
-                ResultActions resultActions = mvc
-                                .perform(put("/api/review/" + userId + "/delete/" + reviewId));
+                ResultActions resultActions = mvc.perform(post("/api/review/" + reviewId + "/report")
+                                .content(requestBody).contentType(APPLICATION_JSON_UTF8));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : " + responseBody);
 
                 // then
-                resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.msg").value("리뷰 삭제하기 성공"));
-
+                resultActions.andExpect(status().isCreated());
         }
 }

@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.domain.order;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -59,9 +61,13 @@ public class Order extends AudingTime {
     @OneToOne(fetch = FetchType.LAZY)
     private Payment payment;
 
+    @Column(nullable = true)
+    private LocalDateTime completeTime;
+
     @Builder
     public Order(Long id, String comment, OrderStateEnum state, String reason, boolean isClosure,
-            DeliveryStateEnum deliveryStateEnum, User user, Store store, Payment payment) {
+            DeliveryStateEnum deliveryStateEnum, User user, Store store, Payment payment, LocalDateTime completeTime,
+            LocalDateTime createdAt) {
         this.id = id;
         this.comment = comment;
         this.state = state;
@@ -71,6 +77,23 @@ public class Order extends AudingTime {
         this.user = user;
         this.store = store;
         this.payment = payment;
+        this.completeTime = completeTime;
+        this.createdAt = createdAt;
     }
 
+    public Order update(Order order) {
+        return Order.builder()
+                .id(id)
+                .comment(comment)
+                .state(order.getState())
+                .reason(order.getReason())
+                .isClosure(isClosure)
+                .deliveryStateEnum(deliveryStateEnum)
+                .user(user)
+                .store(store)
+                .payment(payment)
+                .completeTime(order.getCompleteTime())
+                .createdAt(createdAt)
+                .build();
+    }
 }

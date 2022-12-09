@@ -51,8 +51,8 @@ public class CustomerReviewApiController {
                         @AuthenticationPrincipal LoginUser loginUser) {
                 CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.내_리뷰_목록보기(userId,
                                 loginUser);
-                return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공",
-                                CustomerReviewListRespDto), HttpStatus.OK);
+                return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공", CustomerReviewListRespDto),
+                                HttpStatus.OK);
         }
 
         @PutMapping("/review/{userId}/delete/{reviewId}")

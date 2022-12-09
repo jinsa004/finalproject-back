@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
+import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
+import shop.mtcoding.finalproject.dto.order.OrderStatsRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
@@ -110,4 +112,16 @@ public class StoreApiController {
         ApplyRespDto applyRespDto = storeService.apply(applyReqDto);
         return new ResponseEntity<>(new ResponseDto<>("입점신청 성공", applyRespDto), HttpStatus.CREATED);
     }
+
+    /* 승현 작업 시작 */
+
+    @GetMapping("/store/stats")
+    public ResponseEntity<?> findStatsByStoreId(@AuthenticationPrincipal LoginUser loginUser,
+            @RequestBody FindStatsReqDto findStatsReqDto) {
+        OrderStatsRespDto orderStatsRespDto = storeService.findStatsByStoreId(findStatsReqDto,
+                loginUser.getUser().getId());
+        return new ResponseEntity<>(new ResponseDto<>("통계보기 성공", orderStatsRespDto), HttpStatus.OK);
+    }
+
+    /* 승현 작업 종료 */
 }

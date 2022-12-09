@@ -8,6 +8,17 @@ import shop.mtcoding.finalproject.domain.user.User;
 
 public class UserRespDto {
 
+    @Getter
+    @Setter
+    public static class UserDto {
+        private Long id;
+
+        public UserDto(Long id) {
+            this.id = id;
+        }
+
+    }
+
     @Setter
     @Getter
     public static class LoginRespDto {

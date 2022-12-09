@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.JoinReqDto;
@@ -47,7 +48,7 @@ public class UserApiControllerTest extends DummyEntity {
 
     @BeforeEach
     public void setUp() {
-        User ssar = userRepository.save(newUser("ssar"));
+        User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
     }
 
     @Test
