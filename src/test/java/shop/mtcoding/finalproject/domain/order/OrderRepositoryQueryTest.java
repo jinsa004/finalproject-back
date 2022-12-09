@@ -128,8 +128,8 @@ public class OrderRepositoryQueryTest extends DummyEntity {
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                 Store store1 = storeRepository.save(newStore(ssar));
                 Store store2 = storeRepository.save(newStore(cos));
-                Menu menu1 = menuRepository.save(newMenu(store1));
-                Menu menu2 = menuRepository.save(newMenu(store2));
+                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
+                Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
                 Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
                 Order order2 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.TAKEOUT));
                 Order order3 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
@@ -144,9 +144,9 @@ public class OrderRepositoryQueryTest extends DummyEntity {
                 OrderDetail orderDetail7 = orderDetailRepository.save(newOrderDetail(order5, menu2));
                 CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
                 CustomerReview customerReview = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order1, store1, ceoReview));
+                                .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
                 CustomerReview customerReview2 = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order1, store1, null));
+                                .save(newCustomerReview(jinsa, order2, store1, null, 4.0));
                 ReportReview reportReview1 = reportReviewRepository
                                 .save(newReportReview(ssar, customerReview, ceoReview));
                 ReportReview reportReview2 = reportReviewRepository

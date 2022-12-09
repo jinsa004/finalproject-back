@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +23,10 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreMainRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreInfoRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
@@ -39,6 +42,18 @@ public class StoreApiController {
 
     /* 성진 작업 시작@ */
 
+    @GetMapping("/store/{storeId}/info")
+    public ResponseEntity<?> getStoreInfo(@PathVariable Long storeId) {
+        StoreInfoRespDto storeInfoRespDto = storeService.가게_정보보기(storeId);
+        return new ResponseEntity<>(new ResponseDto<>("가게 정보보기 기능 성공", storeInfoRespDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/store/{storeId}/detail")
+    public ResponseEntity<?> detailStoreMain(@PathVariable Long storeId) {
+        DetailStoreMainRespDto detailStoreMainRespDto = storeService.가게_상세보기(storeId);
+        return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 기능 성공", detailStoreMainRespDto), HttpStatus.OK);
+    }
+
     @GetMapping("/storeList")
     public ResponseEntity<?> findStoreList() {
         StoreListRespDto storeListRespDto = storeService.가게_목록보기();
@@ -46,6 +61,7 @@ public class StoreApiController {
                 storeListRespDto), HttpStatus.OK);
     }
 
+    /* 성진 작업 끝!@! */
     @GetMapping("/user/apply")
     public ResponseEntity<?> findByUserIdToApply(@AuthenticationPrincipal LoginUser loginUser) {
         log.debug("디버그 : 유저아이디: " + loginUser.getUser().getId());

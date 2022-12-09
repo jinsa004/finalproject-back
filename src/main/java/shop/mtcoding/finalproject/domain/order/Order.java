@@ -72,7 +72,6 @@ public class Order extends AudingTime {
         this.comment = comment;
         this.state = state;
         this.reason = reason;
-        this.deliveryStateEnum = deliveryStateEnum;
         this.isClosure = isClosure;
         this.deliveryStateEnum = deliveryStateEnum;
         this.user = user;

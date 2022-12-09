@@ -34,6 +34,7 @@ import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
@@ -88,19 +89,33 @@ public class ReportReviewControllerTest extends DummyEntity {
         @BeforeEach
         public void serUp() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+                User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
-                Store store = storeRepository.save(newStore(ssar));
-                Menu menu = menuRepository.save(newMenu(store));
-                Order order = orderRepository.save(newOrder(jinsa, store, DeliveryStateEnum.DELIVERY));
-                CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
-                CustomerReview customerReview1 = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order, store, ceoReview));
+                Store store1 = storeRepository.save(newStore(ssar));
+                Store store2 = storeRepository.save(newStore(cos));
+                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
+                Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
+                Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
+                Order order2 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.TAKEOUT));
+                Order order3 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
+                Order order4 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.TAKEOUT));
+                Order order5 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.DELIVERY));
+                OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu1));
+                OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu1));
+                OrderDetail orderDetail3 = orderDetailRepository.save(newOrderDetail(order2, menu1));
+                OrderDetail orderDetail4 = orderDetailRepository.save(newOrderDetail(order3, menu1));
+                OrderDetail orderDetail5 = orderDetailRepository.save(newOrderDetail(order4, menu2));
+                OrderDetail orderDetail6 = orderDetailRepository.save(newOrderDetail(order5, menu2));
+                OrderDetail orderDetail7 = orderDetailRepository.save(newOrderDetail(order5, menu2));
+                CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
+                CustomerReview customerReview = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
                 CustomerReview customerReview2 = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order, store, null));
-                ReportReview reportReview1 = reportReviewRepository.save(newReportReview(ssar, customerReview1,
-                                ceoReview));
-                ReportReview reportReview2 = reportReviewRepository.save(newReportReview(ssar, customerReview2,
-                                ceoReview));
+                                .save(newCustomerReview(jinsa, order2, store1, null, 4.0));
+                ReportReview reportReview1 = reportReviewRepository
+                                .save(newReportReview(ssar, customerReview, ceoReview));
+                ReportReview reportReview2 = reportReviewRepository
+                                .save(newReportReview(ssar, customerReview, ceoReview));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
