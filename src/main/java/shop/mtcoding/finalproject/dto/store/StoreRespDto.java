@@ -9,7 +9,7 @@ import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
-import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
@@ -59,7 +59,7 @@ public class StoreRespDto {
 
         private List<MenuDto> menuList = new ArrayList<>();
 
-        public DetailStoreMainRespDto(Store store, CustomerInterface customerReviewDto,
+        public DetailStoreMainRespDto(Store store, CustomerReviewInterface customerReviewDto,
                 CeoReviewInterface ceoReviewDto, LikeInterface likeDto, List<Menu> menus) {
             this.name = store.getName();
             this.minAmount = store.getMinAmount();

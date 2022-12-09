@@ -1,6 +1,6 @@
 package shop.mtcoding.finalproject.domain.customerReview;
 
-public interface CustomerInterface {
+public interface CustomerReviewInterface {
     // 리뷰갯수
     Long getCount();
 
@@ -24,4 +24,7 @@ public interface CustomerInterface {
 
     // 오더 디테일 메뉴 네임
     String getMenuName();
+
+    // 해당 주문 아이디
+    Long getOrderId();
 }

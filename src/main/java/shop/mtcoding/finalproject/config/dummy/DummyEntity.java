@@ -68,13 +68,14 @@ public class DummyEntity {
         return menu;
     }
 
-    protected Order newOrder(User user, Store store) {
+    protected Order newOrder(User user, Store store, DeliveryStateEnum deliveryStateEnum) {
         Order order = Order.builder()
+                .comment("젓가락 빼주세요")
                 .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
                 .store(store)
-                .deliveryStateEnum(DeliveryStateEnum.DELIVERY)
+                .deliveryStateEnum(deliveryStateEnum)
                 .isClosure(false)
                 .build();
         return order;

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import lombok.RequiredArgsConstructor;
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
@@ -43,8 +44,8 @@ public class DevInit extends DummyEntity {
             Store store = storeRepository.save(newStore(ssar));
             Menu menu1 = menuRepository.save(newMenu(store));
             Menu menu2 = menuRepository.save(newMenu(store));
-            Order order1 = orderRepository.save(newOrder(jinsa, store));
-            Order order2 = orderRepository.save(newOrder(jinsa, store));
+            Order order1 = orderRepository.save(newOrder(jinsa, store, DeliveryStateEnum.DELIVERY));
+            Order order2 = orderRepository.save(newOrder(jinsa, store, DeliveryStateEnum.TAKEOUT));
             CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order1));
             CustomerReview customerReview = customerReviewRepository
                     .save(newCustomerReview(jinsa, order1, store, ceoReview, 4.0));

@@ -8,15 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
-import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerMenuInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
@@ -27,6 +26,7 @@ import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewReqDto.InsertCustomerReviewReqDto;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.CustomerReviewListRespDto;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.InsertCustomerReviewRespDto;
+import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.StoreReviewListRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -39,29 +39,31 @@ public class CustomerReviewService {
     private final OrderRepository orderRepository;
     private final CeoReviewRepository ceoReviewRepository;
 
-    public void 가게리뷰_목록보기(Long storeId) {
+    public StoreReviewListRespDto 가게리뷰_목록보기(Long storeId) {
         // 1. 가게에 맞는 리뷰 정보(작성한 유저정보 포함) + 사장님 답글 정보
-        List<CustomerInterface> customerReviewDto = customerReviewRepository.findByCustomerReviewToStoreId(storeId);
-        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getContent());
-        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getComment());
-        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getNickname());
-        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDto.get(0).getStarPoint());
+        log.debug("디버그 : 서비스 진입");
+        List<CustomerReviewInterface> customerReviewDtoList = customerReviewRepository
+                .findByCustomerReviewToStoreId(storeId);
+        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getContent());
+        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getComment());
+        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getNickname());
+        log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getStarPoint());
         // 2. 해당 리뷰에 맞는 메뉴명 뿌리기
-        List<CustomerInterface> customerInterfaces = customerReviewRepository.findByMenuNameToStoreId(storeId);
-        log.debug("디버그 : 메뉴명 잘뜨남? : " + customerInterfaces.get(0).getMenuName());
+        List<CustomerMenuInterface> customerMenuDtoList = customerReviewRepository.findByMenuNameToStoreId(storeId);
+        log.debug("디버그 : 메뉴명 잘뜨남? : " + customerMenuDtoList.get(0).getMenuName());
         // 3. DTO 응답
-        StoreReviewListRespDto storeReviewListRespDto = new StoreReviewListRespDto(customerReviewDto,
-                customerInterfaces);
-    }
+        log.debug("디버그 : DTO응답 진입전");
+        StoreReviewListRespDto storeReviewListRespDto = new StoreReviewListRespDto(customerReviewDtoList,
+                customerMenuDtoList);
+        log.debug("디버그 : DTO 매핑됐나? "
+                + storeReviewListRespDto.getCustomerReviewDtosList().get(0).getCustomerMenuDtos().get(1).getMenuName());
 
-    @Getter
-    @Setter
-    public static class StoreReviewListRespDto {
-
+        return storeReviewListRespDto;
     }
 
     @Transactional
-    public InsertCustomerReviewRespDto 고객리뷰_등록하기(InsertCustomerReviewReqDto insertCustomerReviewReqDto, Long storeId,
+    public InsertCustomerReviewRespDto 고객리뷰_등록하기(InsertCustomerReviewReqDto insertCustomerReviewReqDto,
+            Long storeId,
             Long orderId, LoginUser loginUser) {
         // 0. 해당 가게가 있는지 검증
         Store storePS = storeRepository.findById(storeId)
