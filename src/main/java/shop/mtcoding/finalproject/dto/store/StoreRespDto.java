@@ -136,7 +136,7 @@ public class StoreRespDto {
 
     }
 
-    // 강사님이 짜주신 로직!!
+    // 강사님이 짜주신 로직!!(해당 가게에 있는 모든 리뷰의 목록을 띄우는 방식)
     // @Getter
     // @Setter
     // public static class StoreListRespDto {

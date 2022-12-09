@@ -253,9 +253,9 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.name").value("후라이드 치킨"));
-                resultActions.andExpect(jsonPath("$.data.intro").value("후라이드 치킨 소개글"));
-                resultActions.andExpect(jsonPath("$.data.price").value("19000"));
+                resultActions.andExpect(jsonPath("$.data.name").value("후라이드치킨"));
+                resultActions.andExpect(jsonPath("$.data.intro").value("깨끗한 기름으로 튀겼습니다."));
+                resultActions.andExpect(jsonPath("$.data.price").value("18,000원"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
