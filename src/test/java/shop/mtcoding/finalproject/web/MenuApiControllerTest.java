@@ -148,7 +148,6 @@ public class MenuApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Dummy_apply(userPS);
 
                 InsertMenuReqDto insertMenuReqDto = new InsertMenuReqDto();
                 insertMenuReqDto.setThumbnail("test");
@@ -184,7 +183,8 @@ public class MenuApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Store storePS = Dummy_apply(userPS);
+                Store storePS = storeRepository.findByUserId(userPS.getId())
+                                .orElseThrow(() -> new CustomApiException("해당 아이디의 가게가 없습니다.", HttpStatus.BAD_REQUEST));
 
                 InsertMenuReqDto insertMenuReqDto = new InsertMenuReqDto();
                 insertMenuReqDto.setThumbnail("test");
@@ -229,7 +229,8 @@ public class MenuApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Store storePS = Dummy_apply(userPS);
+                Store storePS = storeRepository.findByUserId(userPS.getId())
+                                .orElseThrow(() -> new CustomApiException("해당 아이디의 가게가 없습니다.", HttpStatus.BAD_REQUEST));
 
                 InsertMenuReqDto insertMenuReqDto = new InsertMenuReqDto();
                 insertMenuReqDto.setThumbnail("test");
@@ -267,7 +268,8 @@ public class MenuApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Store storePS = Dummy_apply(userPS);
+                Store storePS = storeRepository.findByUserId(userPS.getId())
+                                .orElseThrow(() -> new CustomApiException("해당 아이디의 가게가 없습니다.", HttpStatus.BAD_REQUEST));
 
                 InsertMenuReqDto insertMenuReqDto = new InsertMenuReqDto();
                 insertMenuReqDto.setThumbnail("test");
@@ -299,7 +301,8 @@ public class MenuApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                Store storePS = Dummy_apply(userPS);
+                Store storePS = storeRepository.findByUserId(userPS.getId())
+                                .orElseThrow(() -> new CustomApiException("해당 아이디의 가게가 없습니다.", HttpStatus.BAD_REQUEST));
 
                 InsertMenuReqDto insertMenuReqDto = new InsertMenuReqDto();
                 insertMenuReqDto.setThumbnail("test");
@@ -320,17 +323,7 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.[0].name").value("후라이드 치킨"));
+                resultActions.andExpect(jsonPath("$.data.[0].name").value("후라이드치킨"));
                 resultActions.andExpect(jsonPath("$.data.[1].name").value("후라이드 치킨"));
-                resultActions.andExpect(jsonPath("$.data.[2].name").value("후라이드 치킨"));
-        }
-
-        public Store Dummy_apply(User userPS) {
-                ApplyReqDto applyReqDto = new ApplyReqDto();
-                applyReqDto.setCeoName("테스터");
-                applyReqDto.setBusinessAddress("부산시 부산진구 혜도빌딩 4층 423호");
-                applyReqDto.setBusinessNumber("0101112222");
-                Store storePS = storeRepository.save(applyReqDto.toEntity(applyReqDto, userPS));
-                return storePS;
         }
 }
