@@ -18,7 +18,7 @@ public class CustomerReviewRespDto {
     @Getter
     @Setter
     public static class StoreReviewListRespDto {
-        private List<CustomerReviewDto> customerReviewDtosList = new ArrayList<>();
+        private List<CustomerReviewDto> customerReviewDtoList = new ArrayList<>();
 
         public StoreReviewListRespDto(List<CustomerReviewInterface> customerReviewDtos,
                 List<CustomerMenuInterface> customerMenuDtos) {
@@ -32,7 +32,7 @@ public class CustomerReviewRespDto {
                     }
                 }
 
-                customerReviewDtosList.add(new CustomerReviewDto(customerReviewDto, tempReviews));
+                customerReviewDtoList.add(new CustomerReviewDto(customerReviewDto, tempReviews));
             }
         }
 

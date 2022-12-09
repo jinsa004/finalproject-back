@@ -29,10 +29,10 @@ public class CustomerReviewApiController {
         private final Logger log = LoggerFactory.getLogger(getClass());
         private final CustomerReviewService customerReviewService;
 
-        @GetMapping("/test/{storeId}")
+        @GetMapping("/store/{storeId}/reviewList")
         public ResponseEntity<?> getCustomerReviewToStore(@PathVariable Long storeId) {
                 StoreReviewListRespDto storeReviewListRespDto = customerReviewService.가게리뷰_목록보기(storeId);
-                return new ResponseEntity<>(new ResponseDto<>("스토어 리뷰 잘쳐지남?", storeReviewListRespDto), HttpStatus.OK);
+                return new ResponseEntity<>(new ResponseDto<>("가게 리뷰 목록보기 성공", storeReviewListRespDto), HttpStatus.OK);
         }
 
         @PostMapping("/review/{orderId}/insert/{storeId}")
