@@ -44,8 +44,8 @@ public class DummyEntity {
                 .businessAddress("부산시 진구 서면 17번 길")
                 .openTime("2")
                 .closeTime("4")
-                .deliveryHour("30분")
-                .deliveryCost("2000원")
+                .deliveryHour("30")
+                .deliveryCost("2000")
                 .intro("그린 치킨입니다.")
                 .notice("리뷰 이벤트중입니다.")
                 .isOpend(true)
@@ -60,7 +60,7 @@ public class DummyEntity {
                 .name("후라이드치킨")
                 .thumbnail(null)
                 .intro("깨끗한 기름으로 튀겼습니다.")
-                .price("18,000원")
+                .price("18000")
                 .category(MenuCategoryEnum.MAIN)
                 .isClosure(false)
                 .store(store)
@@ -68,14 +68,14 @@ public class DummyEntity {
         return menu;
     }
 
-    protected Order newOrder(User user, Store store) {
+    protected Order newOrder(User user, Store store, DeliveryStateEnum deliveryStateEnum) {
         Order order = Order.builder()
                 .comment("젓가락 빼주세요")
                 .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
                 .store(store)
-                .deliveryStateEnum(DeliveryStateEnum.DELIVERY)
+                .deliveryStateEnum(deliveryStateEnum)
                 .isClosure(false)
                 .build();
         return order;

@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
@@ -41,7 +42,6 @@ import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
-import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
 
 @Sql("classpath:db/truncate.sql")
 @ActiveProfiles("test")
@@ -91,7 +91,7 @@ public class ReportReviewControllerTest extends DummyEntity {
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                 Store store = storeRepository.save(newStore(ssar));
                 Menu menu = menuRepository.save(newMenu(store));
-                Order order = orderRepository.save(newOrder(jinsa, store));
+                Order order = orderRepository.save(newOrder(jinsa, store, DeliveryStateEnum.DELIVERY));
                 CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
                 CustomerReview customerReview1 = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order, store, ceoReview));
