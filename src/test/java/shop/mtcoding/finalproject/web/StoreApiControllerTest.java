@@ -24,6 +24,7 @@ import org.springframework.web.util.NestedServletException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
@@ -34,10 +35,13 @@ import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
+import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
@@ -75,13 +79,17 @@ public class StoreApiControllerTest extends DummyEntity {
         @Autowired
         private OrderRepository orderRepository;
 
+        @Autowired
+        private OrderDetailRepository orderDetailRepository;
+
         @BeforeEach
         public void setUp() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                 Store store = storeRepository.save(newStore(ssar));
                 Menu menu = menuRepository.save(newMenu(store));
-                Order order = orderRepository.save(newOrder(jinsa, store));
+                Order order = orderRepository.save(newOrder(jinsa, store, DeliveryStateEnum.DELIVERY));
+                OrderDetail orderDetail = orderDetailRepository.save(newOrderDetail(order, menu));
                 CeoReview CeoReview = ceoReviewRepository.save(newCeoReview(store, order));
                 CustomerReview customerReview = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order, store, CeoReview));
@@ -263,5 +271,30 @@ public class StoreApiControllerTest extends DummyEntity {
                 // then
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.ceoName").value("cos"));
+        }
+
+        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void findStatsByStoreId_test() throws Exception {
+
+                // given
+                Long storeId = 1L;
+                FindStatsReqDto findStatsReqDto = new FindStatsReqDto();
+                findStatsReqDto.setStoreId(storeId);
+                findStatsReqDto.setStartTime("2022-12-09");
+                findStatsReqDto.setEndTime("2022-12-09");
+                String requestBody = om.writeValueAsString(findStatsReqDto);
+                System.out.println("테스트 : " + requestBody);
+
+                // when
+                ResultActions resultActions = mvc.perform(get("/api/store/stats")
+                                .content(requestBody)
+                                .contentType(APPLICATION_JSON_UTF8));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.orderCount").value(1));
         }
 }

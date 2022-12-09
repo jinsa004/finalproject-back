@@ -10,6 +10,17 @@ import shop.mtcoding.finalproject.util.CustomEnumUtil;
 public class OrderReqDto {
 
     /* 승현 작업 시작 */
+
+    @Getter
+    @Setter
+    public static class FindStatsReqDto {
+
+        private Long storeId;
+        private String startTime;
+        private String endTime;
+
+    }
+
     @Getter
     @Setter
     public static class UpdateToCancleOrderReqDto {

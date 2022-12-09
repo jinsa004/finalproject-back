@@ -63,43 +63,34 @@ public class ReportReviewService {
         if (insertReportReviewReqDto.getUserKind().equals(UserEnum.CUSTOMER.getValue())) {
             customerReviewPS = customerReviewRepository.findById(insertReportReviewReqDto.getReviewId()).orElseThrow(
                     () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-            log.debug("디버그 : 테스트) CUSTOMER");
+
             // 2. 리뷰 작성자가 본인인지 확인
             if (!customerReviewPS.getUser().getId().equals(insertReportReviewReqDto.getUserId())) {
-                log.debug("디버그 : 테스트) CUSTOMER - 권한없음");
                 throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
             }
 
-            log.debug("디버그 : 테스트) CUSTOMER - 상대리뷰 가져오기");
             // 3. 상대 리뷰 가져오기
             ceoReviewPS = customerReviewPS.getCeoReview();
-            log.debug("디버그 : 테스트) CUSTOMER - 상대리뷰 가져오기 : 성공");
 
         } else {
             ceoReviewPS = ceoReviewRepository.findById(insertReportReviewReqDto.getReviewId()).orElseThrow(
                     () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-            log.debug("디버그 : 테스트) CEO");
+
             // 2. 리뷰 작성자가 본인인지 확인
             if (!ceoReviewPS.getStore().getUser().getId().equals(insertReportReviewReqDto.getUserId())) {
-                log.debug("디버그 : 테스트) CEO - 권한없음");
                 throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
             }
 
             // 3. 상대 리뷰 가져오기
-            log.debug("디버그 : 테스트) CEO - 상대리뷰 가져오기");
             customerReviewPS = customerReviewRepository.findByCeoReviewId(ceoReviewPS.getId()).orElseThrow(
                     () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-            log.debug("디버그 : 테스트) CEO - 상대리뷰 가져오기 : 성공");
 
         }
 
         // 4. 신고리뷰 생성
-        log.debug("디버그 : 테스트) 유저정보 가져오기");
         User userPS = userRepository.findById(insertReportReviewReqDto.getUserId()).orElseThrow(
                 () -> new CustomApiException("해당 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-        log.debug("디버그 : 테스트) 신고");
         reportReviewRepository.save(insertReportReviewReqDto.toEntity(userPS, customerReviewPS, ceoReviewPS));
-        log.debug("디버그 : 테스트) 신고 - 성공ㄴ");
 
     }
     /* 승현 작업 종료 */
