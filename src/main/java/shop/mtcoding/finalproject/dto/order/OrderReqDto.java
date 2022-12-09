@@ -13,7 +13,7 @@ public class OrderReqDto {
 
     @Getter
     @Setter
-    public static class FindOrderStatsReqDto {
+    public static class FindStatsReqDto {
 
         private Long storeId;
         private String startTime;
