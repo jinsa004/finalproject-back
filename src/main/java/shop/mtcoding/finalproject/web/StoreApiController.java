@@ -46,7 +46,7 @@ public class StoreApiController {
         return new ResponseEntity<>(new ResponseDto<>("가게 정보보기 기능 성공", storeInfoRespDto), HttpStatus.OK);
     }
 
-    @GetMapping("/store/{storeId}/datail")
+    @GetMapping("/store/{storeId}/detail")
     public ResponseEntity<?> detailStoreMain(@PathVariable Long storeId) {
         DetailStoreMainRespDto detailStoreMainRespDto = storeService.가게_상세보기(storeId);
         return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 기능 성공", detailStoreMainRespDto), HttpStatus.OK);
