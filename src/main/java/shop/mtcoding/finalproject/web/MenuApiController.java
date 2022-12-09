@@ -38,7 +38,6 @@ public class MenuApiController {
     private final MenuService menuService;
 
     /* 성진 작업 시작@@ */
-
     @GetMapping("/menu/{menuId}/detail")
     public ResponseEntity<?> getDetailMenu(@PathVariable Long menuId) {
         CustomerDetailMenuRespDto customerDetailMenuRespDto = menuService.메뉴_상세보기(menuId);
