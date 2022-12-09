@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
+import shop.mtcoding.finalproject.dto.like.LikeReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderStatsRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
@@ -121,6 +122,15 @@ public class StoreApiController {
         OrderStatsRespDto orderStatsRespDto = storeService.findStatsByStoreId(findStatsReqDto,
                 loginUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>("통계보기 성공", orderStatsRespDto), HttpStatus.OK);
+    }
+
+    @PostMapping("/store/{storeId}/like/insert")
+    public ResponseEntity<?> insertLike(@AuthenticationPrincipal LoginUser loginUser,
+            @PathVariable Long storeId, @RequestBody LikeReqDto likeReqDto) {
+        likeReqDto.setStoreId(storeId);
+        likeReqDto.setUserId(loginUser.getUser().getId());
+        storeService.insertLike(likeReqDto);
+        return new ResponseEntity<>(new ResponseDto<>("좋아요 수정 성공", null), HttpStatus.CREATED);
     }
 
     /* 승현 작업 종료 */
