@@ -12,6 +12,24 @@ import shop.mtcoding.finalproject.domain.menu.Menu;
 public class MenuRespDto {
 
     /* 성진 작업 시작 */
+
+    @Getter
+    @Setter
+    public static class CustomerDetailMenuRespDto {
+        private String name;
+        private String thumbnail;
+        private String intro;
+        private String price;
+
+        public CustomerDetailMenuRespDto(Menu menu) {
+            this.name = menu.getName();
+            this.thumbnail = menu.getThumbnail();
+            this.intro = menu.getIntro();
+            this.price = menu.getPrice();
+        }
+
+    }
+
     @Getter
     @Setter
     public static class MenuListRespDto {
