@@ -50,6 +50,7 @@ public class CustomerReviewRespDto {
             private List<CustomerMenuDto> customerMenuDtos = new ArrayList<>();
 
             public CustomerReviewDto(CustomerReviewInterface customerReviewDto, List<CustomerMenuInterface> crm) {
+                this.orderId = customerReviewDto.getOrderId();
                 this.nickname = customerReviewDto.getNickname();
                 this.uPhoto = customerReviewDto.getUPhoto();
                 this.crPhoto = customerReviewDto.getCrPhoto();

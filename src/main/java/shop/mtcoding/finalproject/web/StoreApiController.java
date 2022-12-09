@@ -55,7 +55,8 @@ public class StoreApiController {
     @GetMapping("/storeList")
     public ResponseEntity<?> findStoreList() {
         StoreListRespDto storeListRespDto = storeService.가게_목록보기();
-        return new ResponseEntity<>(new ResponseDto<>("가게 목록보기 기능 완료", storeListRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>("가게 목록보기 기능 완료",
+                storeListRespDto), HttpStatus.OK);
     }
 
     /* 성진 작업 끝!@! */

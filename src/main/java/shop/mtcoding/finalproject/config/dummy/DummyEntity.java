@@ -55,9 +55,9 @@ public class DummyEntity {
         return store;
     }
 
-    protected Menu newMenu(Store store) {
+    protected Menu newMenu(Store store, String name) {
         Menu menu = Menu.builder()
-                .name("후라이드치킨")
+                .name(name)
                 .thumbnail(null)
                 .intro("깨끗한 기름으로 튀겼습니다.")
                 .price("18,000원")

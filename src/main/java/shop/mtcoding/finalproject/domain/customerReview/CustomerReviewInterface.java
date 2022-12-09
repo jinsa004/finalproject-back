@@ -27,4 +27,6 @@ public interface CustomerReviewInterface {
 
     // 해당 주문 아이디
     Long getOrderId();
+
+    Long getStoreId();
 }
