@@ -126,6 +126,21 @@ public class MenuApiControllerTest extends DummyEntity {
         }
 
         @Test
+        public void getDetailMenu_test() throws Exception {
+                // given
+                Long menuId = 1L;
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/menu/" + menuId + "/detail"));
+
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.name").value("후라이드치킨"));
+        }
+
+        @Test
         public void getMenuList_test() throws Exception {
                 // given
                 Long storeId = 1L;
