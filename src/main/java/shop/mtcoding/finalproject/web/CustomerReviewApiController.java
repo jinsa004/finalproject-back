@@ -19,6 +19,7 @@ import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewReqDto.InsertCustomerReviewReqDto;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.CustomerReviewListRespDto;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.InsertCustomerReviewRespDto;
+import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.StoreReviewListRespDto;
 import shop.mtcoding.finalproject.service.CustomerReviewService;
 
 @RequiredArgsConstructor
@@ -27,6 +28,12 @@ import shop.mtcoding.finalproject.service.CustomerReviewService;
 public class CustomerReviewApiController {
         private final Logger log = LoggerFactory.getLogger(getClass());
         private final CustomerReviewService customerReviewService;
+
+        @GetMapping("/store/{storeId}/reviewList")
+        public ResponseEntity<?> getCustomerReviewToStore(@PathVariable Long storeId) {
+                StoreReviewListRespDto storeReviewListRespDto = customerReviewService.가게리뷰_목록보기(storeId);
+                return new ResponseEntity<>(new ResponseDto<>("가게 리뷰 목록보기 성공", storeReviewListRespDto), HttpStatus.OK);
+        }
 
         @PostMapping("/review/{orderId}/insert/{storeId}")
         public ResponseEntity<?> insertCustomerReview(

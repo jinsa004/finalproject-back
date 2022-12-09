@@ -11,6 +11,7 @@ import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
+import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -36,14 +37,15 @@ public class DummyEntity {
         Store store = Store.builder()
                 .name("그린치킨")
                 .phone("01011112222")
+                .minAmount("10000")
                 .thumbnail(null)
                 .ceoName("cos")
                 .businessNumber("112233")
                 .businessAddress("부산시 진구 서면 17번 길")
                 .openTime("2")
                 .closeTime("4")
-                .deliveryHour("30분")
-                .deliveryCost("2000원")
+                .deliveryHour("30")
+                .deliveryCost("2000")
                 .intro("그린 치킨입니다.")
                 .notice("리뷰 이벤트중입니다.")
                 .isOpend(true)
@@ -66,16 +68,26 @@ public class DummyEntity {
         return menu;
     }
 
-    protected Order newOrder(User user, Store store) {
+    protected Order newOrder(User user, Store store, DeliveryStateEnum deliveryStateEnum) {
         Order order = Order.builder()
+                .comment("젓가락 빼주세요")
                 .state(OrderStateEnum.COMPLETE)
                 .reason(null)
                 .user(user)
                 .store(store)
-                .deliveryStateEnum(DeliveryStateEnum.DELIVERY)
+                .deliveryStateEnum(deliveryStateEnum)
                 .isClosure(false)
                 .build();
         return order;
+    }
+
+    protected OrderDetail newOrderDetail(Order order, Menu menu, int count) {
+        OrderDetail orderDetail = OrderDetail.builder()
+                .count(count)
+                .order(order)
+                .menu(menu)
+                .build();
+        return orderDetail;
     }
 
     protected CustomerReview newCustomerReview(User user, Order order, Store store, CeoReview ceoReview,

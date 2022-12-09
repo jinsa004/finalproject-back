@@ -24,6 +24,7 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreMainRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreInfoRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
@@ -39,7 +40,13 @@ public class StoreApiController {
 
     /* 성진 작업 시작@ */
 
-    @GetMapping("/store/{storeId}/datail")
+    @GetMapping("/store/{storeId}/info")
+    public ResponseEntity<?> getStoreInfo(@PathVariable Long storeId) {
+        StoreInfoRespDto storeInfoRespDto = storeService.가게_정보보기(storeId);
+        return new ResponseEntity<>(new ResponseDto<>("가게 정보보기 기능 성공", storeInfoRespDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/store/{storeId}/detail")
     public ResponseEntity<?> detailStoreMain(@PathVariable Long storeId) {
         DetailStoreMainRespDto detailStoreMainRespDto = storeService.가게_상세보기(storeId);
         return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 기능 성공", detailStoreMainRespDto), HttpStatus.OK);
