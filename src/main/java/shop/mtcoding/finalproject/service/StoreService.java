@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
-import shop.mtcoding.finalproject.domain.customerReview.CustomerInterface;
+import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
@@ -66,7 +66,7 @@ public class StoreService {
                         HttpStatus.BAD_REQUEST));
         log.debug("디버그 : 가게정보 :" + storePS.getName());
         // 2. 별점 평균 데이터 및 리뷰 개수(연산)
-        CustomerInterface customerReviewDto = customerReviewRepository.findByStoreId(storeId);
+        CustomerReviewInterface customerReviewDto = customerReviewRepository.findByStoreId(storeId);
         log.debug("디버그 : 리뷰 별점 :" + customerReviewDto.getStarPoint());
         // 3. 답글 개수 데이터(연산)
         CeoReviewInterface ceoReviewDto = ceoReviewRepository.findByStoreId(storeId);

@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -75,7 +76,7 @@ public class CeoReviewApiControllerTest extends DummyEntity {
                 User jinsa = userRepository.save(newUser("jinsa"));
                 Store store = storeRepository.save(newStore(ssar));
                 Menu menu = menuRepository.save(newMenu(store));
-                Order order = orderRepository.save(newOrder(jinsa, store));
+                Order order = orderRepository.save(newOrder(jinsa, store, DeliveryStateEnum.DELIVERY));
                 CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
                 CustomerReview customerReview = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order, store, ceoReview, 4.0));
