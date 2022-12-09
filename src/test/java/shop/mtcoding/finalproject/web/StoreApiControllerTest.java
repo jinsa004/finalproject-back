@@ -24,6 +24,7 @@ import org.springframework.web.util.NestedServletException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -86,7 +87,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 Store store = storeRepository.save(newStore(ssar));
                 Menu menu1 = menuRepository.save(newMenu(store));
                 Menu menu2 = menuRepository.save(newMenu(store));
-                Order order = orderRepository.save(newOrder(jinsa, store));
+                Order order = orderRepository.save(newOrder(jinsa, store, DeliveryStateEnum.DELIVERY));
                 CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store, order));
                 CustomerReview customerReview1 = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order, store, ceoReview, 5.0));
