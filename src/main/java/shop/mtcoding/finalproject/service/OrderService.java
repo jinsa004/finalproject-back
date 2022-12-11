@@ -3,9 +3,11 @@ package shop.mtcoding.finalproject.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.jaxb.SpringDataJaxb.OrderDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +26,10 @@ import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
+import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -36,6 +40,52 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final StoreRepository storeRepository;
+    private final UserRepository userRepository;
+
+    public OrderHistoryListRespDto 주문내역_목록보기(Long userId) {
+        // 1. 해당 유저id로 user정보 셀렉 1셀렉
+        User userPS = userRepository.findById(userId).orElseThrow(
+                () -> new CustomApiException("해당 유저 정보가 없습니다.", HttpStatus.BAD_REQUEST));
+        // 2. 해당 유저id로 Order 셀렉 2셀렉
+        List<Order> orderList = orderRepository.findAllByUserId(userId);
+        // 3. 주문내역이 없다면
+        if (orderList.size() == 0) {
+            throw new CustomApiException("주문 내역이 없습니다.", HttpStatus.BAD_REQUEST);
+        }
+        // 4. DTO 응답
+        OrderHistoryListRespDto orderHistoryListRespDto = new OrderHistoryListRespDto(orderList);
+        return orderHistoryListRespDto;
+    }
+
+    @Getter
+    @Setter
+    public static class OrderHistoryListRespDto {
+        private List<OrderDto> orders;
+
+        public OrderHistoryListRespDto(List<Order> orders) {
+            this.orders = orders.stream().map((order) -> new OrderDto(order)).collect(Collectors.toList());
+        }
+
+        @Getter
+        @Setter
+        public class OrderDto {
+            private String name;
+            private String intro;
+            private String thumbnail;
+            private String deliveryState;
+            private String createdAt;
+
+            public OrderDto(Order order) {
+                this.name = order.getStore().getName();
+                this.intro = order.getStore().getIntro();
+                this.thumbnail = order.getStore().getThumbnail();
+                this.deliveryState = order.getDeliveryStateEnum().getState();
+                this.createdAt = CustomDateUtil.toStringFormat(order.getCreatedAt());
+            }
+
+        }
+
+    }
 
     // "/api/order/{userId}"
     @Transactional
