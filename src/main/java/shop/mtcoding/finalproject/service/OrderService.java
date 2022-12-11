@@ -24,7 +24,9 @@ import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
+import shop.mtcoding.finalproject.dto.order.OrderRespDto.OrderHistoryListRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
 
 @Transactional(readOnly = true)
@@ -36,6 +38,31 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final StoreRepository storeRepository;
+    private final UserRepository userRepository;
+
+    /* 성진 작업 시작 */
+    public OrderHistoryListRespDto 주문내역_목록보기(Long userId) {
+        // 1. 해당 유저id로 user정보 셀렉 1셀렉
+        log.debug("디버그 : 유저 정보 셀렉 전");
+        User userPS = userRepository.findById(userId).orElseThrow(
+                () -> new CustomApiException("해당 유저 정보가 없습니다.", HttpStatus.BAD_REQUEST));
+        log.debug("디버그 : 유저 정보 셀렉 후");
+        // 2. 해당 유저id로 Order 셀렉 2셀렉
+        log.debug("디버그 : 오더 정보 셀렉 전");
+        List<Order> orderList = orderRepository.findAllByUserId(userId);
+        log.debug("디버그 : 오더 정보 셀렉 후");
+        // 3. 주문내역이 없다면
+        log.debug("디버그 : 주문 정보 검증 전");
+        if (orderList.size() == 0) {
+            throw new CustomApiException("주문 내역이 없습니다.", HttpStatus.BAD_REQUEST);
+        }
+        log.debug("디버그 : 주문 정보 검증 후");
+        // 4. DTO 응답
+        log.debug("디버그 : DTO응답 전");
+        OrderHistoryListRespDto orderHistoryListRespDto = new OrderHistoryListRespDto(orderList);
+        log.debug("디버그 : DTO응답 후");
+        return orderHistoryListRespDto;
+    }
 
     // "/api/order/{userId}"
     @Transactional
