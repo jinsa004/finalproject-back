@@ -39,15 +39,13 @@ public class CustomerReviewService {
         private final OrderRepository orderRepository;
         private final CeoReviewRepository ceoReviewRepository;
 
-        public StoreReviewListRespDto 가게리뷰_목록보기(Long storeId) {
+        // 가게상세보기 -> 가게리뷰 목록보기 기능
+        public StoreReviewListRespDto storeCustomerReviewList(Long storeId) {
                 // 1. 가게에 맞는 리뷰 정보(작성한 유저정보 포함) + 사장님 답글 정보
                 log.debug("디버그 : 서비스 진입");
                 List<CustomerReviewInterface> customerReviewDtoList = customerReviewRepository
                                 .findByCustomerReviewToStoreId(storeId);
                 log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getContent());
-                log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getComment());
-                log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getNickname());
-                log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getStarPoint());
                 // 2. 해당 리뷰에 맞는 메뉴명 뿌리기
                 List<CustomerMenuInterface> customerMenuDtoList = customerReviewRepository
                                 .findByMenuNameToStoreId(storeId);
@@ -63,10 +61,9 @@ public class CustomerReviewService {
                 return storeReviewListRespDto;
         }
 
-        @Transactional
-        public InsertCustomerReviewRespDto 고객리뷰_등록하기(InsertCustomerReviewReqDto insertCustomerReviewReqDto,
-                        Long storeId,
-                        Long orderId, LoginUser loginUser) {
+        @Transactional // 고객 리뷰 등록하기 기능
+        public InsertCustomerReviewRespDto saveCustomerReview(InsertCustomerReviewReqDto insertCustomerReviewReqDto,
+                        Long storeId, Long orderId, LoginUser loginUser) {
                 // 0. 해당 가게가 있는지 검증
                 Store storePS = storeRepository.findById(storeId)
                                 .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않았습니다.",
@@ -89,7 +86,8 @@ public class CustomerReviewService {
                 return new InsertCustomerReviewRespDto(customerReviewPS);
         }
 
-        public CustomerReviewListRespDto 내_리뷰_목록보기(Long userId, LoginUser loginUser) {
+        // 내 리뷰 목록보기 기능(앱 사용자입장)
+        public CustomerReviewListRespDto MyCustomerReviewList(Long userId, LoginUser loginUser) {
                 // 1 해당 유저의 review가 있는지 체크
                 User userPS = userRepository.findById(userId)
                                 .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.",
@@ -107,7 +105,8 @@ public class CustomerReviewService {
                 return new CustomerReviewListRespDto(customerReviewList, orderPS, userPS);
         }
 
-        public void 내_리뷰_삭제하기(Long reviewId, Long userId, LoginUser loginUser) {
+        // 내 리뷰 삭제하기(앱 사용자 입장)
+        public void deleteMyCustomerReview(Long reviewId, Long userId, LoginUser loginUser) {
                 // 1 해당 유저의 review가 있는지 체크
                 log.debug("디버그 : 유저 정보 체크 전");
                 User userPS = userRepository.findById(userId)

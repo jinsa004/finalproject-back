@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
+import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewReqDto.InsertCustomerReviewReqDto;
 import shop.mtcoding.finalproject.dto.customerReview.CustomerReviewRespDto.CustomerReviewListRespDto;
@@ -29,36 +30,53 @@ public class CustomerReviewApiController {
         private final Logger log = LoggerFactory.getLogger(getClass());
         private final CustomerReviewService customerReviewService;
 
-        @GetMapping("/store/{storeId}/reviewList")
-        public ResponseEntity<?> getCustomerReviewToStore(@PathVariable Long storeId) {
-                StoreReviewListRespDto storeReviewListRespDto = customerReviewService.가게리뷰_목록보기(storeId);
+        @GetMapping("/user/{userId}/store/{storeId}/review/list")
+        public ResponseEntity<?> getCustomerReviewToStore(@PathVariable Long storeId, @PathVariable Long userId,
+                        @AuthenticationPrincipal LoginUser loginUser) {
+                // 요청 userId값과 세션 값 비교 후 검증
+                if (userId != loginUser.getUser().getId()) {
+                        throw new CustomApiException("권한이 없습니다", HttpStatus.OK);
+                }
+                StoreReviewListRespDto storeReviewListRespDto = customerReviewService.storeCustomerReviewList(storeId);
                 return new ResponseEntity<>(new ResponseDto<>("가게 리뷰 목록보기 성공", storeReviewListRespDto), HttpStatus.OK);
         }
 
-        @PostMapping("/review/{orderId}/insert/{storeId}")
+        @PostMapping("/user/{userId}/store/{storeId}/oreder/{orderId}/review/save")
         public ResponseEntity<?> insertCustomerReview(
                         @RequestBody InsertCustomerReviewReqDto insertCustomerReviewReqDto,
-                        @PathVariable Long orderId, @PathVariable Long storeId,
+                        @PathVariable Long orderId, @PathVariable Long storeId, @PathVariable Long userId,
                         @AuthenticationPrincipal LoginUser loginUser) {
+                // 요청 userId값과 세션 값 비교 후 검증
+                // if (userId != loginUser.getUser().getId()) {
+                // throw new CustomApiException("권한이 없습니다", HttpStatus.FORBIDDEN);
+                // }
                 InsertCustomerReviewRespDto insertCustomerReviewRespDto = customerReviewService
-                                .고객리뷰_등록하기(insertCustomerReviewReqDto, storeId, orderId, loginUser);
+                                .saveCustomerReview(insertCustomerReviewReqDto, storeId, orderId, loginUser);
                 return new ResponseEntity<>(new ResponseDto<>("리뷰 등록하기 완료", insertCustomerReviewRespDto),
                                 HttpStatus.CREATED);
         }
 
-        @GetMapping("/review/{userId}")
+        @GetMapping("/user/{userId}/review/list")
         public ResponseEntity<?> findByUserIdToCustomerReview(@PathVariable Long userId,
                         @AuthenticationPrincipal LoginUser loginUser) {
-                CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.내_리뷰_목록보기(userId,
+                // 요청 userId값과 세션 값 비교 후 검증
+                if (userId != loginUser.getUser().getId()) {
+                        throw new CustomApiException("권한이 없습니다", HttpStatus.FORBIDDEN);
+                }
+                CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.MyCustomerReviewList(userId,
                                 loginUser);
                 return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공", CustomerReviewListRespDto),
                                 HttpStatus.OK);
         }
 
-        @PutMapping("/review/{userId}/delete/{reviewId}")
+        @PutMapping("/user/{userId}/review/{reviewId}/delete")
         public ResponseEntity<?> deleteCustomerReview(@PathVariable Long userId, @PathVariable Long reviewId,
                         @AuthenticationPrincipal LoginUser loginUser) {
-                customerReviewService.내_리뷰_삭제하기(reviewId, userId, loginUser);
+                // 요청 userId값과 세션 값 비교 후 검증
+                if (userId != loginUser.getUser().getId()) {
+                        throw new CustomApiException("권한이 없습니다", HttpStatus.FORBIDDEN);
+                }
+                customerReviewService.deleteMyCustomerReview(reviewId, userId, loginUser);
                 return new ResponseEntity<>(new ResponseDto<>("리뷰 삭제하기 성공", null), HttpStatus.OK);
         }
 }

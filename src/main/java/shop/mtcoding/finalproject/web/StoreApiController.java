@@ -43,7 +43,7 @@ public class StoreApiController {
 
     /* 성진 작업 시작@ */
 
-    @GetMapping("/store/{storeId}/info")
+    @GetMapping("/user/{userId}/store/{storeId}/insert")
     public ResponseEntity<?> getStoreInfo(@PathVariable Long storeId) {
         StoreInfoRespDto storeInfoRespDto = storeService.가게_정보보기(storeId);
         return new ResponseEntity<>(new ResponseDto<>("가게 정보보기 기능 성공", storeInfoRespDto), HttpStatus.OK);
