@@ -9,11 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
+import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
 
@@ -77,6 +80,16 @@ public class User extends AudingTime {
 
     public void 회원비활성화() {
         this.isActive = false;
+    }
+
+    public void updateRole(UserEnum userEnum) {
+        this.updateRole(userEnum);
+    }
+
+    public void checkAccount(Long userId) {
+        if (!this.id.equals(userId)) {
+            throw new CustomApiException("권한이 없습니다", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
