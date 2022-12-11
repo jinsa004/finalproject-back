@@ -2,13 +2,46 @@ package shop.mtcoding.finalproject.dto.order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class OrderRespDto {
+
+    /* 성진 작업 시작 */
+    @Getter
+    @Setter
+    public static class OrderHistoryListRespDto {
+        private List<OrderDto> orders;
+
+        public OrderHistoryListRespDto(List<Order> orders) {
+            this.orders = orders.stream().map((order) -> new OrderDto(order)).collect(Collectors.toList());
+        }
+
+        @Getter
+        @Setter
+        public class OrderDto {
+            private String name;
+            private String intro;
+            private String thumbnail;
+            private String deliveryState;
+            private String createdAt;
+
+            public OrderDto(Order order) {
+                this.name = order.getStore().getName();
+                this.intro = order.getStore().getIntro();
+                this.thumbnail = order.getStore().getThumbnail();
+                this.deliveryState = order.getDeliveryStateEnum().getState();
+                this.createdAt = CustomDateUtil.toStringFormat(order.getCreatedAt());
+            }
+
+        }
+
+    }
 
     /* 승현 작업 시작 */
 
