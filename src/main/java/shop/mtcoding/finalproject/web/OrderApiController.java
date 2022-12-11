@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
+import shop.mtcoding.finalproject.dto.order.OrderRespDto.OrderHistoryListRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
 import shop.mtcoding.finalproject.service.OrderService;
 
@@ -25,6 +26,12 @@ import shop.mtcoding.finalproject.service.OrderService;
 public class OrderApiController {
 
     private final OrderService orderService;
+
+    @GetMapping("/order/history/list")
+    public ResponseEntity<?> getOrderHistoryList(@AuthenticationPrincipal LoginUser loginUser) {
+        OrderHistoryListRespDto orderHistoryListRespDto = orderService.주문내역_목록보기(loginUser.getUser().getId());
+        return new ResponseEntity<>(new ResponseDto<>("주문내역 목록보기 성공", orderHistoryListRespDto), HttpStatus.OK);
+    }
 
     /* 승현 작업 시작 */
 
