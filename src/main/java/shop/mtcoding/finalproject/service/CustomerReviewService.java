@@ -64,23 +64,23 @@ public class CustomerReviewService {
         @Transactional // 고객 리뷰 등록하기 기능
         public InsertCustomerReviewRespDto saveCustomerReview(InsertCustomerReviewReqDto insertCustomerReviewReqDto,
                         Long storeId, Long orderId, LoginUser loginUser) {
-                // 0. 해당 가게가 있는지 검증
+                // 1. 해당 가게가 있는지 검증
                 Store storePS = storeRepository.findById(storeId)
                                 .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않았습니다.",
                                                 HttpStatus.BAD_REQUEST));
-                // 1. 해당 가게에 order를 했는지 검증
+                // 2. 해당 가게에 order를 했는지 검증
                 Order orderPS = orderRepository.findById(orderId)
                                 .orElseThrow(() -> new CustomApiException("해당 가게에 주문하지 않았습니다.",
                                                 HttpStatus.BAD_REQUEST));
-                // 2. order의 userId와 세션의 userId가 같은지 검증
+                // 3. order의 userId와 세션의 userId가 같은지 검증
                 if (orderPS.getUser().getId() != loginUser.getUser().getId()) {
                         throw new CustomApiException("리뷰를 작성할 권한이 없습니다.", HttpStatus.FORBIDDEN);
                 }
-                // 3. 배달완료가 되었는지 체크
+                // 4. 배달완료가 되었는지 체크
                 if (OrderStateEnum.valueOf(orderPS.getState().toString()) != OrderStateEnum.COMPLETE) {
                         throw new CustomApiException("배달이 완료되지 않았습니다.", HttpStatus.FORBIDDEN);
                 }
-                // 4. 핵심로직
+                // 5. 핵심로직
                 CustomerReview customerReview = insertCustomerReviewReqDto.toEntity(loginUser.getUser(), storePS);
                 CustomerReview customerReviewPS = customerReviewRepository.save(customerReview);
                 return new InsertCustomerReviewRespDto(customerReviewPS);
@@ -92,10 +92,7 @@ public class CustomerReviewService {
                 User userPS = userRepository.findById(userId)
                                 .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.",
                                                 HttpStatus.BAD_REQUEST));
-                // 2 유저 권한체크
-                if (userPS.getId() != loginUser.getUser().getId()) {
-                        throw new CustomApiException("해당 리뷰를 관리할 권한이 없습니다.", HttpStatus.FORBIDDEN);
-                }
+                // 2 주문 내역체크
                 Order orderPS = orderRepository.findById(userPS.getId())
                                 .orElseThrow(() -> new CustomApiException("주문내역이 없습니다.", HttpStatus.BAD_REQUEST));
                 // 3 핵심로직 내 리뷰 목록보기
@@ -107,25 +104,13 @@ public class CustomerReviewService {
 
         // 내 리뷰 삭제하기(앱 사용자 입장)
         public void deleteMyCustomerReview(Long reviewId, Long userId, LoginUser loginUser) {
-                // 1 해당 유저의 review가 있는지 체크
-                log.debug("디버그 : 유저 정보 체크 전");
-                User userPS = userRepository.findById(userId)
-                                .orElseThrow(() -> new CustomApiException("유저 정보가 없습니다.",
-                                                HttpStatus.BAD_REQUEST));
-                log.debug("디버그 : 유저 정보 체크 후");
-                // 2 유저 권한체크
-                log.debug("디버그 : 유저 권한 체크 전 ");
-                if (userPS.getId() != loginUser.getUser().getId()) {
-                        throw new CustomApiException("해당 리뷰를 관리할 권한이 없습니다.", HttpStatus.FORBIDDEN);
-                }
-                log.debug("디버그 : 유저 권한 체크 후");
-                // 3 핵심로직 해당 리뷰 셀렉
+                // 1 핵심로직 해당 리뷰 셀렉
                 log.debug("디버그 : 리뷰 정보 체크 전");
                 CustomerReview customerReviewPS = customerReviewRepository.findById(reviewId)
                                 .orElseThrow(() -> new CustomApiException("리뷰 정보가 없습니다.",
                                                 HttpStatus.BAD_REQUEST));
                 log.debug("디버그 : 리뷰 정보 체크 후");
-                // 4 리뷰 비활성화하기
+                // 2 리뷰 비활성화하기
                 customerReviewPS.비활성화하기();
         }
 }
