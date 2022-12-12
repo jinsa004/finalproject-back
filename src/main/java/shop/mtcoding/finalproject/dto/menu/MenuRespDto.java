@@ -32,10 +32,10 @@ public class MenuRespDto {
 
     @Getter
     @Setter
-    public static class MenuListRespDto {
+    public static class CustomerMenuListRespDto {
         private List<MenuDto> menus = new ArrayList<>();
 
-        public MenuListRespDto(List<Menu> menus) {
+        public CustomerMenuListRespDto(List<Menu> menus) {
             this.menus = menus.stream().map((menu) -> new MenuDto(menu)).collect(Collectors.toList());
         }
 
@@ -63,7 +63,7 @@ public class MenuRespDto {
 
     @Getter
     @Setter
-    public static class UpdateMenuRespDto {
+    public static class CeoUpdateMenuRespDto {
 
         private MenuCategoryEnum category;
         private String name;
@@ -72,7 +72,7 @@ public class MenuRespDto {
         private String thumbnail;
         private boolean isClosure;
 
-        public UpdateMenuRespDto(Menu menu) {
+        public CeoUpdateMenuRespDto(Menu menu) {
             this.category = menu.getCategory();
             this.name = menu.getName();
             this.intro = menu.getIntro();
@@ -85,7 +85,7 @@ public class MenuRespDto {
 
     @Getter
     @Setter
-    public static class DetailMenuRespDto {
+    public static class CeoDetailMenuRespDto {
 
         private MenuCategoryEnum category;
         private String name;
@@ -94,7 +94,7 @@ public class MenuRespDto {
         private String thumbnail;
         private boolean isClosure;
 
-        public DetailMenuRespDto(Menu menu) {
+        public CeoDetailMenuRespDto(Menu menu) {
             this.category = menu.getCategory();
             this.name = menu.getName();
             this.intro = menu.getIntro();
@@ -107,7 +107,7 @@ public class MenuRespDto {
 
     @Getter
     @Setter
-    public static class ShowMenuRespDto {
+    public static class CeoShowMenuRespDto {
 
         private Long id;
         private String thumbnail;
@@ -115,7 +115,7 @@ public class MenuRespDto {
         private String price;
         private boolean isClosure;
 
-        public ShowMenuRespDto(Menu menu) {
+        public CeoShowMenuRespDto(Menu menu) {
             this.id = menu.getId();
             this.thumbnail = menu.getThumbnail();
             this.name = menu.getName();
@@ -127,7 +127,7 @@ public class MenuRespDto {
 
     @Getter
     @Setter
-    public static class InsertMenuRespDto {
+    public static class CeoInsertMenuRespDto {
 
         private MenuCategoryEnum category;
         private String name;
@@ -136,7 +136,7 @@ public class MenuRespDto {
         private String thumbnail;
         private boolean isClosure;
 
-        public InsertMenuRespDto(Menu menu) {
+        public CeoInsertMenuRespDto(Menu menu) {
             this.category = menu.getCategory();
             this.name = menu.getName();
             this.intro = menu.getIntro();
