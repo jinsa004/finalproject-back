@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +25,13 @@ import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.reportReview.ReportCeoInfoRespDto;
-import shop.mtcoding.finalproject.dto.reportReview.ReportCustomerInfoRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCustomerInfoRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.ResolveReportReviewReqDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.DetailReportReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ReportReviewListRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ResolveReportReviewRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -45,8 +48,20 @@ public class ReportReviewService {
 
     /* 성진 작업 시작 */
 
+    public ResolveReportReviewRespDto resolveReportReview(ResolveReportReviewReqDto resolveReportReviewReqDto,
+            Long reportReviewId) {
+        // 1. 해당 신고 리뷰가 존재하는지 체크
+        ReportReview reportReviewPS = reportReviewRepository.findById(reportReviewId)
+                .orElseThrow(() -> new CustomApiException("신고 리뷰가 없습니다", HttpStatus.BAD_REQUEST));
+        // 2. 해당 신고 리뷰 처분
+        reportReviewPS.resolve(resolveReportReviewReqDto);
+        // 3. DTO 응답
+        ResolveReportReviewRespDto resolveReportReviewRespDto = new ResolveReportReviewRespDto(reportReviewPS);
+        return resolveReportReviewRespDto;
+    }
+
     public DetailReportReviewRespDto detailReportReview(Long reportReviewId) {
-        // 1. 해당 신고가 있는지 검색
+        // 1. 해당 신고 리뷰가 있는지 체크
         ReportReview reportReviewPS = reportReviewRepository.findById(reportReviewId)
                 .orElseThrow(() -> new CustomApiException("신고 리뷰가 없습니다.", HttpStatus.BAD_REQUEST));
         // 2. 신고리뷰 셀렉

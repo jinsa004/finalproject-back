@@ -22,6 +22,7 @@ import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.ResolveReportReviewReqDto;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -69,4 +70,9 @@ public class ReportReview extends AudingTime {
         this.createdAt = createdAt;
     }
 
+    public void resolve(ResolveReportReviewReqDto resolveReportReviewReqDto) {
+        this.adminComment = resolveReportReviewReqDto.getAdminComment();
+        this.resolvedTime = createdAt;
+        this.isResolve = true;
+    }
 }
