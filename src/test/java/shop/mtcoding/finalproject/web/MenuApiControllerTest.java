@@ -102,7 +102,7 @@ public class MenuApiControllerTest extends DummyEntity {
                 // when
                 ResultActions resultActions = mvc
                                 .perform(get("/api/user/" + userId + "/store/" + storeId + "/menu/" + menuId
-                                                + "/info"));
+                                                + "/detail"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
 
@@ -117,7 +117,6 @@ public class MenuApiControllerTest extends DummyEntity {
                 // given
                 Long userId = 2L;
                 Long storeId = 1L;
-
                 // when
                 ResultActions resultActions = mvc
                                 .perform(get("/api/user/" + userId + "/store/" + storeId + "/menu/list"));

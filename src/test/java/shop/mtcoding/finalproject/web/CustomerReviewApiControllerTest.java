@@ -118,14 +118,15 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                                 .save(newReportReview(ssar, customerReview, ceoReview));
         }
 
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getCustomerReviewToStore_test() throws Exception {
                 // given
                 Long storeId = 1L;
+                Long userId = 3L;
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/store/" + storeId + "/reviewList"));
-
+                                .perform(get("/api/user/" + userId + "/store/" + storeId + "/review/list"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
                 // then
@@ -139,8 +140,9 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
         @Test
         public void insertCustomerReview_test() throws Exception {
                 // given
-                Long orderId = 1L;
+                Long userId = 3L;
                 Long storeId = 1L;
+                Long orderId = 3L;
                 InsertCustomerReviewReqDto insertCustomerReviewReqDto = new InsertCustomerReviewReqDto();
                 insertCustomerReviewReqDto.setContent("맛잇어용");
                 insertCustomerReviewReqDto.setPhoto(null);
@@ -150,7 +152,9 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 System.out.println("테스트 : " + requestBody);
                 // when
                 ResultActions resultActions = mvc
-                                .perform(post("/api/review/" + orderId + "/insert/" + storeId).content(requestBody)
+                                .perform(post("/api/user/" + userId + "/store/" + storeId + "/order/" + orderId
+                                                + "/review/save")
+                                                .content(requestBody)
                                                 .contentType(APPLICATION_JSON_UTF8));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : 응답데이터 : " + responseBody);
@@ -160,20 +164,19 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.content").value("맛잇어용"));
         }
 
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void findByUserIdToCustomerReview_test() throws Exception {
                 // given
-                Long userId = 1L;
+                Long userId = 3L;
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/review/" + userId));
-
+                                .perform(get("/api/user/" + userId + "/review/list"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.user.nickname").value("ssar님"));
+                resultActions.andExpect(jsonPath("$.data.user.nickname").value("jinsa님"));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -184,7 +187,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 Long reviewId = 1L;
                 // when
                 ResultActions resultActions = mvc
-                                .perform(put("/api/review/" + userId + "/delete/" + reviewId));
+                                .perform(put("/api/user/" + userId + "/review/" + reviewId + "/delete/"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
 
