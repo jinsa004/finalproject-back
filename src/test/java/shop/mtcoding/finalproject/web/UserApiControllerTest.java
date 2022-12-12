@@ -84,7 +84,7 @@ public class UserApiControllerTest extends DummyEntity {
         Long userId = 1L;
         // when
         ResultActions resultActions = mvc
-                .perform(get("/api/user/" + userId));
+                .perform(get("/api/user/" + userId + "/detail"));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
         // then
