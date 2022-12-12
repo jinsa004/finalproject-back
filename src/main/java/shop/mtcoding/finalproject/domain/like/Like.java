@@ -32,8 +32,7 @@ public class Like {
     private Store store;
 
     @Builder
-    public Like(Long id, User user, Store store) {
-        this.id = id;
+    public Like(User user, Store store) {
         this.user = user;
         this.store = store;
     }

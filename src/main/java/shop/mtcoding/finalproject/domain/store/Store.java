@@ -13,11 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
+import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.user.User;
 
@@ -163,4 +166,23 @@ public class Store extends AudingTime {
                 .build();
     }
 
+    public void updateClosure(Boolean isClosure) {
+        this.isClosure = isClosure;
+    }
+
+    public void updateAccept(Boolean isAccept) {
+        this.isAccept = isAccept;
+    }
+
+    public void checkCeo(Long userId) {
+        if (!this.user.getId().equals(userId)) {
+            throw new CustomApiException("권한이 없습니다", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public void checkStoreBusinessState() {
+        if (!this.isAccept || this.isClosure) {
+            throw new CustomApiException("가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
