@@ -34,7 +34,7 @@ public class OrderApiController {
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
         log.debug("디버그 : 컨트롤러 응답 전");
-        OrderHistoryListRespDto orderHistoryListRespDto = orderService.주문내역_목록보기(userId);
+        OrderHistoryListRespDto orderHistoryListRespDto = orderService.orderHistoryList(userId);
         return new ResponseEntity<>(new ResponseDto<>("주문내역 목록보기 성공", orderHistoryListRespDto), HttpStatus.OK);
     }
 
@@ -44,18 +44,16 @@ public class OrderApiController {
     public ResponseEntity<?> UpdateOrderByUserIdToComplete(@PathVariable Long storeId, @PathVariable Long orderId,
             @RequestBody UpdateToCancleOrderReqDto updateToCancleOrderReqDto, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        updateToCancleOrderReqDto.setUserId(userId);
-        updateToCancleOrderReqDto.setOrderId(orderId);
-        updateToCancleOrderReqDto.setStoreId(storeId);
-        String state = orderService.updatToState(updateToCancleOrderReqDto);
+        loginUser.getUser().checkAccount(userId);
+        String state = orderService.updatToState(updateToCancleOrderReqDto, userId, storeId, orderId);
         return new ResponseEntity<>(new ResponseDto<>("주문상태 변경완료", state), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/{storeId}/order")
-    public ResponseEntity<?> findAllByStoreId(@PathVariable Long storeId,
+    public ResponseEntity<?> findAllByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        List<ShowOrderListRespDto> showOrderListRespDtoList = orderService.findAllByStoreId(storeId,
-                loginUser.getUser().getId());
+        loginUser.getUser().checkAccount(userId);
+        List<ShowOrderListRespDto> showOrderListRespDtoList = orderService.findAllByStoreId(storeId, userId);
         return new ResponseEntity<>(new ResponseDto<>("주문 목록보기 완료", showOrderListRespDtoList), HttpStatus.OK);
     }
 

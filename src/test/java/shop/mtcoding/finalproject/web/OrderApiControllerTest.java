@@ -123,10 +123,10 @@ public class OrderApiControllerTest extends DummyEntity {
         @Test
         public void getOrderHistoryList_test() throws Exception {
                 // given
-
+                Long userId = 3L;
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/order/history/list"));
+                                .perform(get("/api/user/" + userId + "/order/history/list"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : 응답데이터 : " + responseBody);
 
@@ -144,6 +144,7 @@ public class OrderApiControllerTest extends DummyEntity {
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
                 Long storeId = 1L;
+                Long userId = 1L;
                 Long orderId = 1L;
                 UpdateToCancleOrderReqDto updateToCancleOrderReqDto = new UpdateToCancleOrderReqDto();
                 updateToCancleOrderReqDto.setOrderId(orderId);
@@ -156,7 +157,8 @@ public class OrderApiControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(put("/api/store/" + storeId + "/order/" + orderId + "/state")
+                                .perform(put("/api/user/" + userId + "/store/" + storeId + "/order/" + orderId
+                                                + "/state")
                                                 .content(requestBody)
                                                 .contentType(APPLICATION_JSON_UTF8));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -175,10 +177,11 @@ public class OrderApiControllerTest extends DummyEntity {
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
                 Long storeId = 1L;
+                Long userId = 1L;
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/store/" + storeId + "/order"));
+                                .perform(get("/api/user/" + userId + "/store/" + storeId + "/order"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : 응답데이터 : " + responseBody);
 
