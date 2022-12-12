@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoInfoRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCustomerInfoRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
+
 @Repository
 public class ReportReviewRepositoryQuery {
 
@@ -19,7 +23,7 @@ public class ReportReviewRepositoryQuery {
         @Autowired
         private EntityManager em;
 
-        public ReportCeoReviewRespDto findByReportReviewIdToCeo(Long reportReviewId) {
+        public ReportCeoInfoRespDto findByReportReviewIdToCeo(Long reportReviewId) {
 
                 StringBuffer sb = new StringBuffer();
                 sb.append(
@@ -39,13 +43,13 @@ public class ReportReviewRepositoryQuery {
 
                 log.debug("디버그 : 통과?? ");
 
-                ReportCeoReviewRespDto reportCeoReviewRespDto = result.uniqueResult(query,
-                                ReportCeoReviewRespDto.class);
+                ReportCeoInfoRespDto reportCeoReviewRespDto = result.uniqueResult(query,
+                                ReportCeoInfoRespDto.class);
 
                 return reportCeoReviewRespDto;
         }
 
-        public ReportCustomerReviewRespDto findByReportReviewId(Long reportReviewId) {
+        public ReportCustomerInfoRespDto findByReportReviewId(Long reportReviewId) {
 
                 StringBuffer sb = new StringBuffer();
                 sb.append(
@@ -65,13 +69,13 @@ public class ReportReviewRepositoryQuery {
 
                 log.debug("디버그 : 통과?? ");
 
-                ReportCustomerReviewRespDto reportCustomerReviewRespDto = result.uniqueResult(query,
-                                ReportCustomerReviewRespDto.class);
+                ReportCustomerInfoRespDto reportCustomerReviewRespDto = result.uniqueResult(query,
+                                ReportCustomerInfoRespDto.class);
 
                 return reportCustomerReviewRespDto;
         }
 
-        public List<ReportReviewRespDto> findAllByStoreId(Long storeId) {
+        public List<ReportCeoReviewRespDto> findAllByStoreId(Long storeId) {
 
                 StringBuffer sb = new StringBuffer();
                 sb.append(
@@ -93,7 +97,8 @@ public class ReportReviewRepositoryQuery {
 
                 log.debug("디버그 : 통과?? ");
 
-                List<ReportReviewRespDto> reportReviewRespDtos = result.list(query, ReportReviewRespDto.class);
+                List<ReportCeoReviewRespDto> reportReviewRespDtos = result.list(query,
+                                ReportCeoReviewRespDto.class);
 
                 log.debug("디버그 : 통과?? ");
                 log.debug("디버그 : " + reportReviewRespDtos.get(0).getReportReviewId());

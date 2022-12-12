@@ -1,4 +1,4 @@
-package shop.mtcoding.finalproject.domain.reportReview;
+package shop.mtcoding.finalproject.dto.reportReview;
 
 import java.math.BigInteger;
 
@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ReportCustomerReviewRespDto {
+public class ReportCustomerInfoRespDto {
     private BigInteger id;
     private String reason;
     private String content;

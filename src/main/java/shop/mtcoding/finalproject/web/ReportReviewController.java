@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
-import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRespDto;
 import shop.mtcoding.finalproject.dto.ResponseDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
 import shop.mtcoding.finalproject.service.ReportReviewService;
 
@@ -40,7 +40,7 @@ public class ReportReviewController {
     public ResponseEntity<?> findAllByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
-        List<ReportReviewRespDto> reportReviewRespDtos = reportReviewService.findAllByStoreId(storeId,
+        List<ReportCeoReviewRespDto> reportReviewRespDtos = reportReviewService.findAllByStoreId(storeId,
                 userId);
         return new ResponseEntity<>(new ResponseDto<>("신고한 리뷰 목록보기 완료", reportReviewRespDtos), HttpStatus.OK);
     }

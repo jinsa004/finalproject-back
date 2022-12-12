@@ -29,6 +29,9 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoInfoRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCustomerInfoRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
 
 @Import(ReportReviewRepositoryQuery.class)
 @ActiveProfiles("test")
@@ -77,7 +80,7 @@ public class ReportReviewRepositoryQueryTest extends DummyEntity {
                 Long reportReviewId = 1L;
 
                 // when
-                ReportCeoReviewRespDto reportCeoReviewRespDto = reportReviewRepositoryQuery
+                ReportCeoInfoRespDto reportCeoReviewRespDto = reportReviewRepositoryQuery
                                 .findByReportReviewIdToCeo(reportReviewId);
 
                 // then
@@ -91,7 +94,7 @@ public class ReportReviewRepositoryQueryTest extends DummyEntity {
                 Long reportReviewId = 1L;
 
                 // when
-                ReportCustomerReviewRespDto reportCustomerReviewRespDto = reportReviewRepositoryQuery
+                ReportCustomerInfoRespDto reportCustomerReviewRespDto = reportReviewRepositoryQuery
                                 .findByReportReviewId(reportReviewId);
 
                 // then
@@ -104,7 +107,8 @@ public class ReportReviewRepositoryQueryTest extends DummyEntity {
                 Long storeId = 1L;
 
                 // when
-                List<ReportReviewRespDto> reportReviewRespDtos = reportReviewRepositoryQuery.findAllByStoreId(storeId);
+                List<ReportCeoReviewRespDto> reportReviewRespDtos = reportReviewRepositoryQuery
+                                .findAllByStoreId(storeId);
 
                 // then
                 Assertions.assertThat(reportReviewRespDtos.size()).isEqualTo(2);
