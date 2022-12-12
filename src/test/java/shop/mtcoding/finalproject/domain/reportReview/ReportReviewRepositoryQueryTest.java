@@ -29,6 +29,9 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoInfoRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCustomerInfoRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
 
 @Import(ReportReviewRepositoryQuery.class)
 @ActiveProfiles("test")
@@ -72,12 +75,40 @@ public class ReportReviewRepositoryQueryTest extends DummyEntity {
         }
 
         @Test
+        public void findByReportReviewIdToCeo_test() throws Exception {
+                // given
+                Long reportReviewId = 1L;
+
+                // when
+                ReportCeoInfoRespDto reportCeoReviewRespDto = reportReviewRepositoryQuery
+                                .findByReportReviewIdToCeo(reportReviewId);
+
+                // then
+                Assertions.assertThat(reportCeoReviewRespDto.getStoreName()).isEqualTo("그린치킨");
+                Assertions.assertThat(reportCeoReviewRespDto.getComment()).isEqualTo("고 마워 요");
+        }
+
+        @Test
+        public void findByReportReviewId_test() throws Exception {
+                // given
+                Long reportReviewId = 1L;
+
+                // when
+                ReportCustomerInfoRespDto reportCustomerReviewRespDto = reportReviewRepositoryQuery
+                                .findByReportReviewId(reportReviewId);
+
+                // then
+                Assertions.assertThat(reportCustomerReviewRespDto.getNickname()).isEqualTo("jinsa님");
+        }
+
+        @Test
         public void 조회_test() throws Exception {
                 // given
                 Long storeId = 1L;
 
                 // when
-                List<ReportReviewRespDto> reportReviewRespDtos = reportReviewRepositoryQuery.findAllByStoreId(storeId);
+                List<ReportCeoReviewRespDto> reportReviewRespDtos = reportReviewRepositoryQuery
+                                .findAllByStoreId(storeId);
 
                 // then
                 Assertions.assertThat(reportReviewRespDtos.size()).isEqualTo(2);
