@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,9 @@ import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.ResolveReportReviewReqDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.DetailReportReviewRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ResolveReportReviewRespDto;
 import shop.mtcoding.finalproject.service.ReportReviewService;
 
 @RequiredArgsConstructor
@@ -28,6 +31,14 @@ public class ReportReviewController {
     private final ReportReviewService reportReviewService;
 
     /* 성진 작업 시작@ */
+
+    @PutMapping("/admin/review/{reportReviewId}/resolve")
+    public ResponseEntity<?> resolveReportReview(@RequestBody ResolveReportReviewReqDto resolveReportReviewReqDto,
+            @PathVariable Long reportReviewId) {
+        ResolveReportReviewRespDto resolveReportReviewRespDto = reportReviewService
+                .resolveReportReview(resolveReportReviewReqDto, reportReviewId);
+        return new ResponseEntity<>(new ResponseDto<>("신고리뷰 처리하기 기능 성공", resolveReportReviewRespDto), HttpStatus.OK);
+    }
 
     @GetMapping("/admin/review/{reportReviewId}/report/detail")
     public ResponseEntity<?> getDetailReportReview(@PathVariable Long reportReviewId) {

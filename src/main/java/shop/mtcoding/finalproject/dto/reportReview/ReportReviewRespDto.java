@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
+import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class ReportReviewRespDto {
 
@@ -16,12 +17,13 @@ public class ReportReviewRespDto {
     public static class ResolveReportReviewRespDto {
         private String adminComment;
         private boolean isResolve;
+        private String resolvedTime;
 
         public ResolveReportReviewRespDto(ReportReview reportReviewPS) {
             this.adminComment = reportReviewPS.getAdminComment();
             this.isResolve = reportReviewPS.isResolve();
+            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getResolvedTime());
         }
-
     }
 
     @Getter
