@@ -27,7 +27,7 @@ public class OrderRespDto {
         public class OrderDto {
             private String name;
             private String intro;
-            private String thumbnail;
+            private byte[] thumbnail;
             private String deliveryState;
             private String createdAt;
 

@@ -39,7 +39,7 @@ public class CustomerReview extends AudingTime {
     private Double starPoint;
 
     @Column(nullable = true)
-    private String photo;
+    private Long photo;
 
     @Column(nullable = false)
     private boolean isClosure;
@@ -57,7 +57,7 @@ public class CustomerReview extends AudingTime {
     private CeoReview ceoReview;
 
     @Builder
-    public CustomerReview(Long id, String content, Double starPoint, String photo, boolean isClosure, User user,
+    public CustomerReview(Long id, String content, Double starPoint, Long photo, boolean isClosure, User user,
             Store store, Order order, CeoReview ceoReview, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;

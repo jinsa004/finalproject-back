@@ -45,7 +45,7 @@ public class Store extends AudingTime {
     private String phone;
 
     @Column(nullable = true)
-    private String thumbnail; // 사진 타입
+    private Long thumbnail; // 사진 타입
 
     @Column(nullable = false, length = 20)
     private String ceoName;

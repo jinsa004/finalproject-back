@@ -1,12 +1,15 @@
 package shop.mtcoding.finalproject.domain.user;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.springframework.http.HttpStatus;
@@ -45,8 +48,10 @@ public class User extends AudingTime {
     @Column(nullable = false, length = 20)
     private String phone;
 
-    @Column(nullable = true)
-    private String photo; // 사진 포맷 무엇으로 할지?
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(nullable = true, columnDefinition = "LONGBLOB")
+    private byte[] photo; // 사진 포맷 무엇으로 할지?
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -57,7 +62,7 @@ public class User extends AudingTime {
     private boolean isActive; // 계정활성화여부
 
     @Builder
-    public User(Long id, String address, String username, String password, String nickname, String phone, String photo,
+    public User(Long id, String address, String username, String password, String nickname, String phone, byte[] photo,
             UserEnum role, boolean isActive) {
         this.id = id;
         this.address = address;

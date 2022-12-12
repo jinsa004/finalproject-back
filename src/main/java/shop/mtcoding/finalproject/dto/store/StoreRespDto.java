@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
-
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
@@ -15,6 +13,7 @@ import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
+import shop.mtcoding.finalproject.util.Base64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class StoreRespDto {
@@ -87,7 +86,7 @@ public class StoreRespDto {
             public MenuDto(Menu menu) {
                 this.name = menu.getName();
                 this.intro = menu.getIntro();
-                this.thumbnail = menu.getThumbnail();
+                this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
                 this.price = menu.getPrice();
                 this.category = menu.getCategory();
             }
@@ -127,7 +126,7 @@ public class StoreRespDto {
                 this.storeName = store.getName();
                 this.deliveryCost = store.getDeliveryCost();
                 this.intro = store.getIntro();
-                this.thumbnail = store.getThumbnail();
+                this.thumbnail = Base64ConvertUtil.convertToString(store.getThumbnail());
                 this.count = customerReviewInterfacePS.getCount();
                 this.starPoint = customerReviewInterfacePS.getStarPoint();
             }
@@ -241,7 +240,7 @@ public class StoreRespDto {
             this.category = store.getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = store.getThumbnail();
+            this.thumbnail = Base64ConvertUtil.convertToString(store.getThumbnail());
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();
@@ -278,7 +277,7 @@ public class StoreRespDto {
             this.category = store.getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = store.getThumbnail();
+            this.thumbnail = Base64ConvertUtil.convertToString(store.getThumbnail());
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();
@@ -315,7 +314,7 @@ public class StoreRespDto {
             this.category = store.getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = store.getThumbnail();
+            this.thumbnail = Base64ConvertUtil.convertToString(store.getThumbnail());
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();

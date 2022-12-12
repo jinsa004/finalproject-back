@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.persistence.EntityManager;
+import javax.xml.bind.DatatypeConverter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -195,7 +196,7 @@ public class MenuApiControllerTest extends DummyEntity {
                 Long userId = 1L;
                 Long menuId = 1L;
                 CeoUpdateMenuReqDto ceoUpdateMenuReqDto = new CeoUpdateMenuReqDto();
-                ceoUpdateMenuReqDto.setThumbnail("not null");
+                ceoUpdateMenuReqDto.setThumbnail(null);
                 ceoUpdateMenuReqDto.setName("간장치킨");
                 ceoUpdateMenuReqDto.setIntro("간장치킨 소개글");
                 ceoUpdateMenuReqDto.setCategory("메인 메뉴");
@@ -224,7 +225,7 @@ public class MenuApiControllerTest extends DummyEntity {
                 // given
                 Long userId = 1L;
                 CeoInsertMenuReqDto ceoInsertMenuReqDto = new CeoInsertMenuReqDto();
-                ceoInsertMenuReqDto.setThumbnail("test");
+                ceoInsertMenuReqDto.setThumbnail(null);
                 ceoInsertMenuReqDto.setName("간장치킨");
                 ceoInsertMenuReqDto.setIntro("간장치킨 소개글");
                 ceoInsertMenuReqDto.setCategory("메인 메뉴");

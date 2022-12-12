@@ -30,7 +30,7 @@ public class UserReqDto {
         private String password;
         private String address;
         private String nickname;
-        private String photo;
+        private Byte[] photo;
         private String phone;
         private boolean isActive;
 
@@ -56,7 +56,7 @@ public class UserReqDto {
         private String address;
         private String nickname;
         private String phone;
-        private String photo;
+        private byte[] photo;
     }
 
 }

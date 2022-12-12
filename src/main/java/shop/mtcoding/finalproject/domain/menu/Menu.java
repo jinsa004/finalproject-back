@@ -35,7 +35,7 @@ public class Menu {
     private String name;
 
     @Column(nullable = true)
-    private String thumbnail; // 사진타입?
+    private Long thumbnail; // 사진타입?
 
     @Column(nullable = true, length = 100)
     private String intro;
@@ -54,7 +54,7 @@ public class Menu {
     private Store store;
 
     @Builder
-    public Menu(Long id, String name, String thumbnail, String intro, String price,
+    public Menu(Long id, String name, Long thumbnail, String intro, String price,
             MenuCategoryEnum category, boolean isClosure, Store store) {
         this.id = id;
         this.name = name;

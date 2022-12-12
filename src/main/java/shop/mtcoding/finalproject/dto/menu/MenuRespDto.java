@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.domain.menu.Menu;
+import shop.mtcoding.finalproject.util.Base64ConvertUtil;
 
 public class MenuRespDto {
 
@@ -23,7 +24,7 @@ public class MenuRespDto {
 
         public CustomerDetailMenuRespDto(Menu menu) {
             this.name = menu.getName();
-            this.thumbnail = menu.getThumbnail();
+            this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
         }
@@ -52,7 +53,7 @@ public class MenuRespDto {
                 this.name = menu.getName();
                 this.intro = menu.getIntro();
                 this.price = menu.getPrice();
-                this.thumbnail = menu.getThumbnail();
+                this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
                 this.category = menu.getCategory();
             }
 
@@ -77,7 +78,7 @@ public class MenuRespDto {
             this.name = menu.getName();
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
-            this.thumbnail = menu.getThumbnail();
+            this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
             this.isClosure = menu.isClosure();
         }
 
@@ -99,7 +100,7 @@ public class MenuRespDto {
             this.name = menu.getName();
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
-            this.thumbnail = menu.getThumbnail();
+            this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
             this.isClosure = menu.isClosure();
         }
 
@@ -133,7 +134,7 @@ public class MenuRespDto {
         private String name;
         private String intro;
         private String price;
-        private String thumbnail;
+        private byte[] thumbnail;
         private boolean isClosure;
 
         public CeoInsertMenuRespDto(Menu menu) {

@@ -54,7 +54,7 @@ public class UserRespDto {
         private String username;
         private String address;
         private String nickname;
-        private String photo;
+        private byte[] photo;
         private String phone;
 
         public UpdateUserRespDto(User user) {
@@ -76,7 +76,7 @@ public class UserRespDto {
         private String address;
         private String nickname;
         private String phone;
-        private String photo;
+        private byte[] photo;
 
         public DetailUserRespDto(User user) {
             this.username = user.getUsername();
