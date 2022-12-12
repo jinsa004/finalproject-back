@@ -45,6 +45,7 @@ import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.like.LikeReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.AdminUpdateStoreApplyAcceptReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
@@ -257,6 +258,25 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.[1].accept").value(false));
         }
 
+        @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void updateByStoreIdToAccept_test() throws Exception {
+                // given
+                AdminUpdateStoreApplyAcceptReqDto adminUpdateStoreApplyAcceptReqDto = new AdminUpdateStoreApplyAcceptReqDto();
+                adminUpdateStoreApplyAcceptReqDto.setAccept(true);
+                String requestBody = om.writeValueAsString(adminUpdateStoreApplyAcceptReqDto);
+                System.out.println("테스트 : " + requestBody);
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/user/store/apply/list"));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+        }
+
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void delete_test() throws Exception {
@@ -370,13 +390,13 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.businessNumber").value("112233"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void apply_test() throws Exception {
                 // given
-                Long userId = 2L;
+                Long userId = 3L;
                 CeoApplyStoreReqDto ceoApplyStoreReqDto = new CeoApplyStoreReqDto();
-                ceoApplyStoreReqDto.setCeoName("jinsa");
+                ceoApplyStoreReqDto.setCeoName("admin");
                 ceoApplyStoreReqDto.setBusinessAddress("부산시 부산진구 혜도빌딩 4층 423호");
                 ceoApplyStoreReqDto.setBusinessNumber("0101112222");
                 String requestBody = om.writeValueAsString(ceoApplyStoreReqDto);
@@ -394,7 +414,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(status().isCreated());
                 resultActions.andExpect(jsonPath("$.data.businessAddress").value("부산시 부산진구 혜도빌딩 4층 423호"));
                 resultActions.andExpect(jsonPath("$.data.businessNumber").value("0101112222"));
-                resultActions.andExpect(jsonPath("$.data.ceoName").value("jinsa"));
+                resultActions.andExpect(jsonPath("$.data.ceoName").value("admin"));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)

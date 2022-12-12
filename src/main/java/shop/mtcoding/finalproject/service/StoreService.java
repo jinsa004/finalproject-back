@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -28,6 +29,7 @@ import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderStatsRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.AdminUpdateStoreApplyAcceptReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
@@ -204,10 +206,16 @@ public class StoreService {
     }
 
     @Transactional
-    public void updateByStoreIdToAccept(Long storeId) {
+    public void updateByStoreIdToAccept(AdminUpdateStoreApplyAcceptReqDto adminUpdateStoreApplyAcceptReqDto,
+            Long storeId) {
         Store storePS = storeRepository.findById(storeId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-        storePS.updateAccept(true);
+        storePS.updateAccept(adminUpdateStoreApplyAcceptReqDto.isAccept());
         storeRepository.save(storePS);
+
+        User userPS = userRepository.findById(storePS.getUser().getId()).orElseThrow(
+                () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+        userPS.updateRole(adminUpdateStoreApplyAcceptReqDto.isAccept());
+        userRepository.save(userPS);
     }
 }

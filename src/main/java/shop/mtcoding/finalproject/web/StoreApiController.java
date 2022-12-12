@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.AdminUpdateStoreApplyAcceptReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
@@ -84,9 +85,10 @@ public class StoreApiController {
 
     @PutMapping("/user/store/{storeId}/apply/accept")
     public ResponseEntity<?> updateByStoreIdToAccept(@AuthenticationPrincipal LoginUser loginUser,
-            @PathVariable Long storeId) {
+            @PathVariable Long storeId,
+            @RequestBody AdminUpdateStoreApplyAcceptReqDto adminUpdateStoreApplyAcceptReqDto) {
         loginUser.getUser().checkRole();
-        storeService.updateByStoreIdToAccept(storeId);
+        storeService.updateByStoreIdToAccept(adminUpdateStoreApplyAcceptReqDto, storeId);
         return new ResponseEntity<>(new ResponseDto<>("입점 신청 처리 완료", null), HttpStatus.OK);
     }
 

@@ -13,6 +13,13 @@ import shop.mtcoding.finalproject.util.CustomEnumUtil;
 public class StoreReqDto {
 
     /* 승현 작업 시작 */
+
+    @Getter
+    @Setter
+    public static class AdminUpdateStoreApplyAcceptReqDto {
+        private boolean isAccept;
+    }
+
     @Getter
     @Setter
     public static class CeoUpdateStoreBusinessStateReqDto {

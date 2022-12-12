@@ -82,8 +82,10 @@ public class User extends AudingTime {
         this.isActive = false;
     }
 
-    public void updateRole(UserEnum userEnum) {
-        this.updateRole(userEnum);
+    public void updateRole(Boolean isAccept) {
+        if (isAccept)
+            this.role = UserEnum.CEO;
+        this.role = UserEnum.CUSTOMER;
     }
 
     public void checkAccount(Long userId) {
