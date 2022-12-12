@@ -1,15 +1,28 @@
 package shop.mtcoding.finalproject.dto.reportReview;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
-import shop.mtcoding.finalproject.config.enums.ReportReasonEnum;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 
 public class ReportReviewRespDto {
+
+    @Getter
+    @Setter
+    public static class ResolveReportReviewRespDto {
+        private String adminComment;
+        private boolean isResolve;
+
+        public ResolveReportReviewRespDto(ReportReview reportReviewPS) {
+            this.adminComment = reportReviewPS.getAdminComment();
+            this.isResolve = reportReviewPS.isResolve();
+        }
+
+    }
 
     @Getter
     @Setter
