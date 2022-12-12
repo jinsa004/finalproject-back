@@ -23,9 +23,9 @@ import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.CustomerDetailMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.CustomerMenuListRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
-import shop.mtcoding.finalproject.dto.menu.MenuRespDto.MenuListRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
 import shop.mtcoding.finalproject.service.MenuService;
@@ -55,8 +55,8 @@ public class MenuApiController {
         if (userId != loginUser.getUser().getId()) {
             throw new CustomApiException("권한이 없습니다", HttpStatus.OK);
         }
-        MenuListRespDto menuListRespDto = menuService.menuList(storeId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 목록보기 성공", menuListRespDto), HttpStatus.OK);
+        CustomerMenuListRespDto customerMenuListRespDto = menuService.menuList(storeId);
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 목록보기 성공", customerMenuListRespDto), HttpStatus.OK);
     }
 
     /* 승현 작업 시작 */

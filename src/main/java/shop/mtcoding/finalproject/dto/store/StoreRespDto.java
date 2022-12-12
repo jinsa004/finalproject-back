@@ -10,8 +10,6 @@ import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
-import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
-import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
@@ -23,7 +21,7 @@ public class StoreRespDto {
 
     @Getter
     @Setter
-    public static class StoreInfoRespDto {
+    public static class CustomerStoreInfoRespDto {
         private String notice;
         private String minAmount;
         private String deliveryHour;
@@ -33,7 +31,7 @@ public class StoreRespDto {
         private String businessNumber;
         private String businessAddress;
 
-        public StoreInfoRespDto(Store store) {
+        public CustomerStoreInfoRespDto(Store store) {
             this.notice = store.getNotice();
             this.minAmount = store.getMinAmount();
             this.deliveryHour = store.getDeliveryHour();
@@ -48,7 +46,7 @@ public class StoreRespDto {
 
     @Getter
     @Setter
-    public static class DetailStoreMainRespDto {
+    public static class CustomerDetailStoreMainRespDto {
         private String name;
         private String minAmount;
         private String deliveryHour;
@@ -61,7 +59,7 @@ public class StoreRespDto {
 
         private List<MenuDto> menuList = new ArrayList<>();
 
-        public DetailStoreMainRespDto(Store store, CustomerReviewInterface customerReviewDto,
+        public CustomerDetailStoreMainRespDto(Store store, CustomerReviewInterface customerReviewDto,
                 CeoReviewInterface ceoReviewDto, LikeInterface likeDto, List<Menu> menus) {
             this.name = store.getName();
             this.minAmount = store.getMinAmount();
@@ -98,10 +96,10 @@ public class StoreRespDto {
 
     @Getter
     @Setter
-    public static class StoreListRespDto {
+    public static class CustomerStoreListRespDto {
         private List<StoreDto> stores = new ArrayList<>();
 
-        public StoreListRespDto(List<Store> storesPS, List<CustomerReviewInterface> customerReviewInterfacePS) {
+        public CustomerStoreListRespDto(List<Store> storesPS, List<CustomerReviewInterface> customerReviewInterfacePS) {
             for (Store store : storesPS) {
                 for (CustomerReviewInterface customerReviewInterface : customerReviewInterfacePS) {
                     if (customerReviewInterface.getStoreId() == store.getId()) {
@@ -197,22 +195,13 @@ public class StoreRespDto {
 
     // }
 
+    /* 성진 작업 종료 */
+
     /* 승현 작업 시작 */
-    
-    @Getter
-    @Setter
-    public static class UpdateBusinessStateRespDto {
-
-        private boolean isOpend;
-
-        public UpdateBusinessStateRespDto(Store store) {
-            this.isOpend = store.isOpend();
-        }
-    }
 
     @Getter
     @Setter
-    public static class UpdateStoreRespDto {
+    public static class CeoUpdateStoreRespDto {
         private StoreCategoryEnum category;
         private String name;
         private String phone;
@@ -228,7 +217,7 @@ public class StoreRespDto {
         private String intro;
         private String notice;
 
-        public UpdateStoreRespDto(Store store) {
+        public CeoUpdateStoreRespDto(Store store) {
             this.category = store.getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
@@ -249,7 +238,7 @@ public class StoreRespDto {
 
     @Getter
     @Setter
-    public static class DetailStoreRespDto {
+    public static class CeoDetailStoreRespDto {
         private StoreCategoryEnum category;
         private String name;
         private String phone;
@@ -265,7 +254,7 @@ public class StoreRespDto {
         private String intro;
         private String notice;
 
-        public DetailStoreRespDto(Store store) {
+        public CeoDetailStoreRespDto(Store store) {
             this.category = store.getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
@@ -286,7 +275,7 @@ public class StoreRespDto {
 
     @Getter
     @Setter
-    public static class InsertStoreRespDto {
+    public static class CeoInsertStoreRespDto {
         private StoreCategoryEnum category;
         private String name;
         private String phone;
@@ -302,7 +291,7 @@ public class StoreRespDto {
         private String intro;
         private String notice;
 
-        public InsertStoreRespDto(Store store) {
+        public CeoInsertStoreRespDto(Store store) {
             this.category = store.getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
@@ -323,7 +312,7 @@ public class StoreRespDto {
 
     @Getter
     @Setter
-    public static class ApplyRespDto {
+    public static class CeoApplyStoreRespDto {
 
         private String ceoName;
         private String businessNumber;
@@ -331,7 +320,7 @@ public class StoreRespDto {
         private String createTime;
         private boolean accept;
 
-        public ApplyRespDto(Store store) {
+        public CeoApplyStoreRespDto(Store store) {
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();

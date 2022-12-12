@@ -63,7 +63,11 @@ public class CustomerReviewService {
 
         @Transactional // 고객 리뷰 등록하기 기능
         public InsertCustomerReviewRespDto saveCustomerReview(InsertCustomerReviewReqDto insertCustomerReviewReqDto,
-                        Long storeId, Long orderId, LoginUser loginUser) {
+                        Long storeId, Long orderId, Long userId) {
+                // 0. 해당 유저가 존재하는지 검증
+                User userPS = userRepository.findById(userId)
+                                .orElseThrow(() -> new CustomApiException("해당 유저가 존재하지 않았습니다.",
+                                                HttpStatus.BAD_REQUEST));
                 // 1. 해당 가게가 있는지 검증
                 Store storePS = storeRepository.findById(storeId)
                                 .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않았습니다.",
@@ -73,7 +77,7 @@ public class CustomerReviewService {
                                 .orElseThrow(() -> new CustomApiException("해당 가게에 주문하지 않았습니다.",
                                                 HttpStatus.BAD_REQUEST));
                 // 3. order의 userId와 세션의 userId가 같은지 검증
-                if (orderPS.getUser().getId() != loginUser.getUser().getId()) {
+                if (orderPS.getUser().getId() != userId) {
                         throw new CustomApiException("리뷰를 작성할 권한이 없습니다.", HttpStatus.FORBIDDEN);
                 }
                 // 4. 배달완료가 되었는지 체크
@@ -81,7 +85,7 @@ public class CustomerReviewService {
                         throw new CustomApiException("배달이 완료되지 않았습니다.", HttpStatus.FORBIDDEN);
                 }
                 // 5. 핵심로직
-                CustomerReview customerReview = insertCustomerReviewReqDto.toEntity(loginUser.getUser(), storePS);
+                CustomerReview customerReview = insertCustomerReviewReqDto.toEntity(userPS, storePS);
                 CustomerReview customerReviewPS = customerReviewRepository.save(customerReview);
                 return new InsertCustomerReviewRespDto(customerReviewPS);
         }

@@ -31,35 +31,33 @@ public class UserApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final UserService userService;
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> userDetail(@PathVariable Long userId) {
-        DetailUserRespDto detailUserRespDto = userService.회원상세보기(userId);
-        return new ResponseEntity<>(new ResponseDto<>("유저 상세보기 완료", detailUserRespDto), HttpStatus.OK);
-    }
-
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody JoinReqDto joinReqDto) {
         log.debug("디버그 : UserApiController join 실행됨");
-        JoinRespDto joinRespDto = userService.회원가입(joinReqDto);
+        JoinRespDto joinRespDto = userService.join(joinReqDto);
         return new ResponseEntity<>(new ResponseDto<>("회원가입성공", joinRespDto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/user/{userId}")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> userDetail(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
+        DetailUserRespDto detailUserRespDto = userService.detailUser(userId);
+        return new ResponseEntity<>(new ResponseDto<>("유저 상세보기 완료", detailUserRespDto), HttpStatus.OK);
+    }
+
+    @PutMapping("/user/{userId}/update")
     public ResponseEntity<?> updateByUserId(@RequestBody UpdateUserReqDto updateUserReqDto,
             @PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
-        // 요청 userId값과 세션 값 비교 후 검증
-        if (userId != loginUser.getUser().getId()) {
-            throw new CustomApiException("권한이 없습니다", HttpStatus.FORBIDDEN);
-        }
+        loginUser.getUser().checkAccount(userId);
         // 핵심로직
-        updateUserReqDto.setId(userId);
-        UpdateUserRespDto UpdateUserRespDto = userService.회원수정(updateUserReqDto);
+        UpdateUserRespDto UpdateUserRespDto = userService.updateUser(updateUserReqDto, userId);
         return new ResponseEntity<>(new ResponseDto<>("회원수정성공", UpdateUserRespDto), HttpStatus.OK);
     }
 
     @PutMapping("/user/{userId}/delete")
     public ResponseEntity<?> deleteByUserId(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
-        userService.회원탈퇴하기(userId);
+        loginUser.getUser().checkAccount(userId);
+        userService.deleteUser(userId);
         return new ResponseEntity<>(new ResponseDto<>("회원 비활성화 완료", null), HttpStatus.OK);
     }
 

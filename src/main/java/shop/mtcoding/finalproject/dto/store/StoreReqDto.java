@@ -15,9 +15,8 @@ public class StoreReqDto {
     /* 승현 작업 시작 */
     @Getter
     @Setter
-    public static class UpdateBusinessStateReqDto {
+    public static class CeoUpdateStoreBusinessStateReqDto {
 
-        private Long userId;
         private boolean isOpend;
 
         public Store toEntity() {
@@ -25,13 +24,12 @@ public class StoreReqDto {
                     .isOpend(this.isOpend)
                     .build();
         }
+
     }
 
     @Getter
     @Setter
-    public static class UpdateStoreReqDto {
-
-        private Long userId;
+    public static class CeoUpdateStoreReqDto {
 
         @NotBlank(message = "카테고리는 필수입니다.")
         private String category;
@@ -87,9 +85,7 @@ public class StoreReqDto {
 
     @Getter
     @Setter
-    public static class InsertStoreReqDto {
-
-        private Long userId;
+    public static class CeoInsertStoreReqDto {
 
         @NotBlank(message = "카테고리는 필수입니다.")
         private String category;
@@ -141,13 +137,12 @@ public class StoreReqDto {
                     .notice(notice)
                     .build();
         }
+
     }
 
     @Getter
     @Setter
-    public static class ApplyReqDto {
-
-        private Long userId;
+    public static class CeoApplyStoreReqDto {
 
         @NotBlank(message = "사업자명은 필수입니다.")
         @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,20}$", message = "이름은 특수문자를 포함하지 않은 2~20자리여야 합니다.")
@@ -163,11 +158,11 @@ public class StoreReqDto {
         @Size(min = 10, max = 10)
         private String businessAddress;
 
-        public Store toEntity(ApplyReqDto applyReqDto, User user) {
+        public Store toEntity(CeoApplyStoreReqDto ceoApplyStoreReqDto, User user) {
             return Store.builder()
-                    .ceoName(applyReqDto.getCeoName())
-                    .businessNumber(applyReqDto.getBusinessNumber())
-                    .businessAddress(applyReqDto.getBusinessAddress())
+                    .ceoName(ceoApplyStoreReqDto.getCeoName())
+                    .businessNumber(ceoApplyStoreReqDto.getBusinessNumber())
+                    .businessAddress(ceoApplyStoreReqDto.getBusinessAddress())
                     .user(user)
                     .isOpend(false)
                     .isAccept(false)

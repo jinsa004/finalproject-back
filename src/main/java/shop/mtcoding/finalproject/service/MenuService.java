@@ -19,9 +19,9 @@ import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.CustomerDetailMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuRespDto.CustomerMenuListRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
-import shop.mtcoding.finalproject.dto.menu.MenuRespDto.MenuListRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
 import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
 
@@ -46,14 +46,14 @@ public class MenuService {
     }
 
     // 메뉴 목록보기(사용자 앱 입장)
-    public MenuListRespDto menuList(Long storeId) {
+    public CustomerMenuListRespDto menuList(Long storeId) {
         // 1. 메뉴리스트 셀렉
         List<Menu> menuList = menuRepository.findMenuListByStoreId(storeId);
         log.debug("디버그 : 해당 가게 메뉴 : " + menuList.get(0).getName());
         // 2. DTO 응답
-        MenuListRespDto menuListRespDto = new MenuListRespDto(menuList);
+        CustomerMenuListRespDto customerMenuListRespDto = new CustomerMenuListRespDto(menuList);
         log.debug("디버그 : DTO 응답 타나?");
-        return menuListRespDto;
+        return customerMenuListRespDto;
     }
 
     /* 승현 작업 시작 */

@@ -47,11 +47,11 @@ public class CustomerReviewApiController {
                         @PathVariable Long orderId, @PathVariable Long storeId, @PathVariable Long userId,
                         @AuthenticationPrincipal LoginUser loginUser) {
                 // 요청 userId값과 세션 값 비교 후 검증
-                // if (userId != loginUser.getUser().getId()) {
-                // throw new CustomApiException("권한이 없습니다", HttpStatus.FORBIDDEN);
-                // }
+                if (userId != loginUser.getUser().getId()) {
+                        throw new CustomApiException("권한이 없습니다", HttpStatus.FORBIDDEN);
+                }
                 InsertCustomerReviewRespDto insertCustomerReviewRespDto = customerReviewService
-                                .saveCustomerReview(insertCustomerReviewReqDto, storeId, orderId, loginUser);
+                                .saveCustomerReview(insertCustomerReviewReqDto, storeId, orderId, userId);
                 return new ResponseEntity<>(new ResponseDto<>("리뷰 등록하기 완료", insertCustomerReviewRespDto),
                                 HttpStatus.CREATED);
         }
