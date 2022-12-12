@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
+
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
@@ -198,6 +200,24 @@ public class StoreRespDto {
     /* 성진 작업 종료 */
 
     /* 승현 작업 시작 */
+
+    @Getter
+    @Setter
+    public static class AdminShowApplyStoreRespDto {
+        private Long id;
+        private String username;
+        private String businessNumber;
+        private String ceoName;
+        private boolean isAccept;
+
+        public AdminShowApplyStoreRespDto(Store store) {
+            this.id = store.getId();
+            this.username = store.getUser().getUsername();
+            this.businessNumber = store.getBusinessNumber();
+            this.ceoName = store.getCeoName();
+            this.isAccept = store.isAccept();
+        }
+    }
 
     @Getter
     @Setter

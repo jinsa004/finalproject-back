@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -27,10 +29,12 @@ import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderStatsRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.AdminUpdateStoreApplyAcceptReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.AdminShowApplyStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoApplyStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoDetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoInsertStoreRespDto;
@@ -190,5 +194,28 @@ public class StoreService {
         } else {
             likeRepository.save(Like.builder().user(userPS).store(storePS).build());
         }
+    }
+
+    public List<AdminShowApplyStoreRespDto> findAllToApplyList() {
+        List<Store> stores = storeRepository.findAll();
+        List<AdminShowApplyStoreRespDto> adminShowApplyStoreRespDtos = new ArrayList<>();
+        for (int i = 0; i < stores.size(); i++) {
+            adminShowApplyStoreRespDtos.add(i, new AdminShowApplyStoreRespDto(stores.get(i)));
+        }
+        return adminShowApplyStoreRespDtos;
+    }
+
+    @Transactional
+    public void updateByStoreIdToAccept(AdminUpdateStoreApplyAcceptReqDto adminUpdateStoreApplyAcceptReqDto,
+            Long storeId) {
+        Store storePS = storeRepository.findById(storeId).orElseThrow(
+                () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+        storePS.updateAccept(adminUpdateStoreApplyAcceptReqDto.isAccept());
+        storeRepository.save(storePS);
+
+        User userPS = userRepository.findById(storePS.getUser().getId()).orElseThrow(
+                () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+        userPS.updateRole(adminUpdateStoreApplyAcceptReqDto.isAccept());
+        userRepository.save(userPS);
     }
 }

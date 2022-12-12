@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.AdminUpdateStoreApplyAcceptReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
@@ -75,6 +76,24 @@ public class StoreApiController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/admin/store/apply/list")
+    public ResponseEntity<?> findAllToApplyList(@AuthenticationPrincipal LoginUser loginUser) {
+        // log.debug("디버그 : loginUser.getAuthorities() : " +
+        // loginUser.getAuthorities());
+        // loginUser.getUser().checkRole();
+        return new ResponseEntity<>(new ResponseDto<>("입점 신청 가게목록 보기 완료", storeService.findAllToApplyList()),
+                HttpStatus.OK);
+    }
+
+    @PutMapping("/admin/store/{storeId}/apply/accept")
+    public ResponseEntity<?> updateByStoreIdToAccept(@AuthenticationPrincipal LoginUser loginUser,
+            @PathVariable Long storeId,
+            @RequestBody AdminUpdateStoreApplyAcceptReqDto adminUpdateStoreApplyAcceptReqDto) {
+        // loginUser.getUser().checkRole();
+        storeService.updateByStoreIdToAccept(adminUpdateStoreApplyAcceptReqDto, storeId);
+        return new ResponseEntity<>(new ResponseDto<>("입점 신청 처리 완료", null), HttpStatus.OK);
+    }
+
     @PutMapping("/user/{userId}/store/update/close")
     public ResponseEntity<?> delete(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
@@ -122,5 +141,4 @@ public class StoreApiController {
         storeService.insertLike(userId, storeId);
         return new ResponseEntity<>(new ResponseDto<>("좋아요 수정 성공", null), HttpStatus.CREATED);
     }
-
 }
