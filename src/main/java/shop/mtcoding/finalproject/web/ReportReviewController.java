@@ -26,6 +26,14 @@ public class ReportReviewController {
 
     private final ReportReviewService reportReviewService;
 
+    /* 성진 작업 시작@ */
+
+    @GetMapping("/admin/review/report/list")
+    public ResponseEntity<?> getReportReviewList() {
+        return new ResponseEntity<>(new ResponseDto<>("신고리뷰 목록보기 기능 성공", reportReviewService.reportReviewList()),
+                HttpStatus.OK);
+    }
+
     /* 승현 작업 시작 */
     // 내 신고리뷰 목록보기
     @GetMapping("/user/{userId}/store/{storeId}/review/report")

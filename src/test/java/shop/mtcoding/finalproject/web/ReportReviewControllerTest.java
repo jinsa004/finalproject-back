@@ -91,6 +91,7 @@ public class ReportReviewControllerTest extends DummyEntity {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                 User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
+                User jina = userRepository.save(newUser("jina", UserEnum.ADMIN));
                 Store store1 = storeRepository.save(newStore(ssar));
                 Store store2 = storeRepository.save(newStore(cos));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
@@ -116,6 +117,21 @@ public class ReportReviewControllerTest extends DummyEntity {
                                 .save(newReportReview(ssar, customerReview, ceoReview));
                 ReportReview reportReview2 = reportReviewRepository
                                 .save(newReportReview(ssar, customerReview, ceoReview));
+        }
+
+        @WithUserDetails(value = "jina", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void getReportReviewList_test() throws Exception {
+                // given
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/admin/review/report/list"));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
