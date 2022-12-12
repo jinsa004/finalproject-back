@@ -2,6 +2,7 @@ package shop.mtcoding.finalproject.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,6 +45,7 @@ import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.ResolveReportReviewReqDto;
 
 @Sql("classpath:db/truncate.sql")
 @ActiveProfiles("test")
@@ -118,6 +120,30 @@ public class ReportReviewControllerTest extends DummyEntity {
                                 .save(newReportReview(ssar, customerReview, ceoReview));
                 ReportReview reportReview2 = reportReviewRepository
                                 .save(newReportReview(ssar, customerReview, ceoReview));
+        }
+
+        @WithUserDetails(value = "jina", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void resolveReportReview_test() throws Exception {
+                // given
+                Long reportReviewId = 1L;
+                ResolveReportReviewReqDto resolveReportReviewReqDto = new ResolveReportReviewReqDto();
+                resolveReportReviewReqDto.setAdminComment("쌍방 욕설로 인한 기각처리");
+
+                String requestBody = om.writeValueAsString(resolveReportReviewReqDto);
+                System.out.println("테스트 : " + requestBody);
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(put("/api/admin/review/" + reportReviewId + "/resolve").content(requestBody)
+                                                .contentType(APPLICATION_JSON_UTF8));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.adminComment").value("쌍방 욕설로 인한 기각처리"));
+                resultActions.andExpect(jsonPath("$.data.resolve").value(true));
         }
 
         @WithUserDetails(value = "jina", setupBefore = TestExecutionEvent.TEST_EXECUTION)
