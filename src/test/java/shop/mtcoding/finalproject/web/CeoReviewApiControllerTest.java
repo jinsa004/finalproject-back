@@ -124,7 +124,7 @@ public class CeoReviewApiControllerTest extends DummyEntity {
                 // given
                 User userPS = userRepository.findByUsername("ssar").orElseThrow(
                                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-
+                Long userId = 1L;
                 Long customerReviewId = 2L;
                 InsertCeoReviewReqDto insertCeoReviewReqDto = new InsertCeoReviewReqDto();
                 insertCeoReviewReqDto.setContent("맛있게 드셨다니 다행입니다^^");
@@ -141,7 +141,7 @@ public class CeoReviewApiControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(post("/api/store/" + customerReviewId + "/review")
+                                .perform(post("/api/user/" + userId + "/store/" + customerReviewId + "/review")
                                                 .content(requestBody)
                                                 .contentType(APPLICATION_JSON_UTF8));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -157,9 +157,10 @@ public class CeoReviewApiControllerTest extends DummyEntity {
         public void findAllReviewByStoreId_test() throws Exception {
                 // given
                 Long storeId = 1L;
+                Long userId = 1L;
 
                 // when
-                ResultActions resultActions = mvc.perform(get("/api/store/" + storeId + "/review"));
+                ResultActions resultActions = mvc.perform(get("/api/user/" + userId + "/store/" + storeId + "/review"));
 
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);

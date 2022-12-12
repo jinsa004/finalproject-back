@@ -56,14 +56,15 @@ public class CeoReviewService {
     }
 
     @Transactional
-    public InsertCeoReviewRespDto insertByCustomerReviewId(InsertCeoReviewReqDto insertCeoReviewReqDto) {
+    public InsertCeoReviewRespDto insertByCustomerReviewId(InsertCeoReviewReqDto insertCeoReviewReqDto, Long userId,
+            Long customerReviewId) {
 
         // 1. 리뷰상태 확인
-        CustomerReview customerReviewPS = customerReviewRepository.findById(insertCeoReviewReqDto.getCustomerReviewId())
+        CustomerReview customerReviewPS = customerReviewRepository.findById(customerReviewId)
                 .orElseThrow(() -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
         // 2. 주문한 가게 주인이 맞는지 확인
-        if (!customerReviewPS.getOrder().getStore().getUser().getId().equals(insertCeoReviewReqDto.getUserId())) {
+        if (!customerReviewPS.getOrder().getStore().getUser().getId().equals(userId)) {
             throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
         }
 

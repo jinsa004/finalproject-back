@@ -14,8 +14,8 @@ import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
-import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
@@ -25,20 +25,19 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
-import shop.mtcoding.finalproject.dto.order.OrderStatsRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.InsertStoreReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateBusinessStateReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.UpdateStoreReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.ApplyRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreMainRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailStoreRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.InsertStoreRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreInfoRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreListRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateBusinessStateRespDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.UpdateStoreRespDto;
+import shop.mtcoding.finalproject.dto.order.OrderStatsRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoApplyStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoDetailStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoInsertStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoUpdateStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerDetailStoreMainRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreInfoRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreListRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -54,16 +53,13 @@ public class StoreService {
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
 
-    /* 성진 작업 시작함 */
-
-    public StoreInfoRespDto 가게_정보보기(Long storeId) {
+    public CustomerStoreInfoRespDto 가게_정보보기(Long storeId) {
         // 이미 가게 상세보기에서 가게가 있는지 검증됐기 때문에 가게 정보만 셀렉해서 뿌리면 끝!
         Optional<Store> storePS = storeRepository.findById(storeId);
-        StoreInfoRespDto storeInfoRespDto = new StoreInfoRespDto(storePS.get());
-        return storeInfoRespDto;
+        return new CustomerStoreInfoRespDto(storePS.get());
     }
 
-    public DetailStoreMainRespDto 가게_상세보기(Long storeId) {
+    public CustomerDetailStoreMainRespDto 가게_상세보기(Long storeId) {
         // 1. 가게가 존재하는지?
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("해당 가게 내역이 없습니다.",
@@ -81,14 +77,12 @@ public class StoreService {
         // 5. 메뉴 테이블 데이터 셀렉(리스트)
         List<Menu> menuList = menuRepository.findAllByStoreId(storeId);
         log.debug("디버그 : 메뉴 정보 : " + menuList.get(0).getName());
+
         // 6. DTO 응답
-        DetailStoreMainRespDto detailStoreMainRespDto = new DetailStoreMainRespDto(storePS, customerReviewDto,
-                ceoReviewDto, likeDto, menuList);
-        log.debug("디버그 : 응답 데이터 확인 : " + detailStoreMainRespDto);
-        return detailStoreMainRespDto;
+        return new CustomerDetailStoreMainRespDto(storePS, customerReviewDto, ceoReviewDto, likeDto, menuList);
     }
 
-    public StoreListRespDto 가게_목록보기() {
+    public CustomerStoreListRespDto 가게_목록보기() {
         // 1 가게 정보 1셀렉 가게리스트
         List<Store> storeList = storeRepository.findAll();
         log.debug("디버그 : 스토어리스트 : " + storeList);
@@ -97,8 +91,7 @@ public class StoreService {
         List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
         log.debug("디버그 : 리뷰리스트 후: " + customerReviewList);
         // 3 DTO 응답
-        StoreListRespDto storeListRespDto = new StoreListRespDto(storeList, customerReviewList);
-        return storeListRespDto;
+        return new CustomerStoreListRespDto(storeList, customerReviewList);
     }
 
     // public StoreListRespDto 가게_목록보기() {
@@ -116,132 +109,86 @@ public class StoreService {
     // return storeListRespDto;
     // }
 
-    /* 성진 작업 끝!@! */
-
-    /* 승현 작업 시작함 */
-
     @Transactional
-    public UpdateBusinessStateRespDto updateToBusinessState(UpdateBusinessStateReqDto updateBusinessStateReqDto) {
-        log.debug("디버그 : " + updateBusinessStateReqDto.isOpend());
-        // 1. 해당 id의 점포가 있는지 찾기
-        Store store = storeRepository.findByUserId(updateBusinessStateReqDto.getUserId()).orElseThrow(
+    public void updateToBusinessState(CeoUpdateStoreBusinessStateReqDto ceoUpdateStoreBusinessStateReqDto,
+            Long userId) {
+        Store store = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-        log.debug("디버그 : " + store.isOpend());
-
-        // 2. 심사중인 점포일 경우 예외처리 해버리기
-        // if (!store.isAccept() || storePS.isClosure()) {
-        // throw new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        // }
-
-        // 3. 해당 점포의 내용 업데이트하기
-        Store storePS = storeRepository.save(store.update(updateBusinessStateReqDto.toEntity()));
-        log.debug("디버그 : " + storePS.isOpend());
-
-        // 4. 처리된 내용 보여주기
-        return new UpdateBusinessStateRespDto(storePS);
+        store.checkStoreBusinessState();
+        storeRepository.save(store.update(ceoUpdateStoreBusinessStateReqDto.toEntity()));
     }
 
     @Transactional
-    public InsertStoreRespDto insert(InsertStoreReqDto insertStoreReqDto) {
-
-        // 1. 해당 id의 점포가 있는지 찾기
-        Store store = storeRepository.findByUserId(insertStoreReqDto.getUserId()).orElseThrow(
+    public CeoInsertStoreRespDto insert(CeoInsertStoreReqDto ceoInsertStoreReqDto, Long userId) {
+        Store store = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-
-        // 2. 심사중인 점포일 경우 예외처리 해버리기 < 나중에 통합적으로 체크하는거 구현하기
-        // if (!store.isAccept() || storePS.isClosure()) {
-        // throw new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        // }
-
-        // 3. 해당 점포의 내용 업데이트하기
-        Store storePS = storeRepository.save(store.update(insertStoreReqDto.toEntity()));
-
-        // 4. 처리된 내용 보여주기
-        return new InsertStoreRespDto(storePS);
+        store.checkStoreBusinessState();
+        return new CeoInsertStoreRespDto(storeRepository.save(store.update(ceoInsertStoreReqDto.toEntity())));
     }
 
     @Transactional
-    public UpdateStoreRespDto update(UpdateStoreReqDto updateStoreReqDto) {
-        // 1. 해당 id의 점포가 있는지 찾기
-        Store store = storeRepository.findByUserId(updateStoreReqDto.getUserId()).orElseThrow(
+    public CeoUpdateStoreRespDto update(CeoUpdateStoreReqDto ceoUpdateStoreReqDto, Long userId) {
+        Store store = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-
-        // 2. 심사중인 점포일 경우 예외처리 해버리기 (빼야겠다)
-        // if (!store.isAccept() || storePS.isClosure()) {
-        // throw new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        // }
-
-        // 3. 해당 점포의 내용 업데이트하기
-        Store storePS = storeRepository.save(store.update(updateStoreReqDto.toEntity()));
-
-        // 4. 처리된 내용 보여주기
-        return new UpdateStoreRespDto(storePS);
+        store.checkStoreBusinessState();
+        return new CeoUpdateStoreRespDto(storeRepository.save(store.update(ceoUpdateStoreReqDto.toEntity())));
     }
 
     @Transactional
     public void updateByUserIdToClose(Long id) {
-        // 1. 해당 id의 점포가 있는지 찾기
         Store store = storeRepository.findByUserId(id).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-
-        // 2. 심사중인 점포일 경우 예외처리 해버리기 (빼야겠다)
-        // if (!store.isAccept() || storePS.isClosure()) {
-        // throw new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        // }
-
-        // 3. 해당 점포의 내용 업데이트하기
+        store.checkStoreBusinessState();
         storeRepository.save(store.close(store));
     }
 
     @Transactional
-    public ApplyRespDto apply(ApplyReqDto applyReqDto) {
-        User userPS = userRepository.findById(applyReqDto.getUserId()).orElseThrow(
+    public CeoApplyStoreRespDto apply(CeoApplyStoreReqDto ceoApplyStoreReqDto, Long userId) {
+        User userPS = userRepository.findById(userId).orElseThrow(
                 () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-
-        // 이미 만들어져 있는지 체크하기
-        if (!storeRepository.findByUserId(applyReqDto.getUserId()).isEmpty()) {
+        if (!storeRepository.findByUserId(userId).isEmpty()) {
             throw new CustomApiException("사용할 수 없는 계정입니다.", HttpStatus.BAD_REQUEST);
         }
-
-        Store storePS = storeRepository.save(applyReqDto.toEntity(applyReqDto, userPS));
-        return new ApplyRespDto(storePS);
+        return new CeoApplyStoreRespDto(
+                storeRepository.save(ceoApplyStoreReqDto.toEntity(ceoApplyStoreReqDto, userPS)));
     }
 
-    public ApplyRespDto findByUserIdToApply(Long userId) {
+    public CeoApplyStoreRespDto findByUserIdToApply(Long userId) {
         Store storePS = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-        return new ApplyRespDto(storePS);
+        return new CeoApplyStoreRespDto(storePS);
     }
 
-    public DetailStoreRespDto findByUserId(Long userId) {
+    public CeoDetailStoreRespDto findByUserId(Long userId) {
         Store storePS = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-
-        return new DetailStoreRespDto(storePS);
+        storePS.checkStoreBusinessState();
+        return new CeoDetailStoreRespDto(storePS);
     }
 
     public OrderStatsRespDto findStatsByStoreId(FindStatsReqDto findStatsReqDto, Long userId) {
-
-        // 1. 유저가 가진 가게 가져오기
         Store storePS = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-
-        // 2. 가게상태 확인하기
-        if (storePS.isClosure()) {
-            throw new CustomApiException("사용할 수 없는 계정입니다.", HttpStatus.BAD_REQUEST);
-        }
-
-        // 3. 가게주인 확인하기
-        if (!storePS.getUser().getId().equals(userId)) {
-            throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
-        }
-
-        // 4. 통계 가져오기
+        storePS.checkStoreBusinessState();
+        storePS.checkCeo(userId);
         findStatsReqDto.setStoreId(storePS.getId());
-        OrderStatsRespDto orderStatsRespDto = orderRepositoryQuery.findAllOrderStatsByStoreId(findStatsReqDto);
-
-        return orderStatsRespDto;
+        return orderRepositoryQuery.findAllOrderStatsByStoreId(findStatsReqDto);
     }
 
-    /* 승현 작업 종료함 */
+    @Transactional
+    public void insertLike(Long userId, Long storeId) {
+        Store storePS = storeRepository.findById(storeId).orElseThrow(
+                () -> new CustomApiException("해당 아이디의 가게가 없습니다.", HttpStatus.BAD_REQUEST));
+        storePS.checkStoreBusinessState();
+        User userPS = userRepository.findById(userId).orElseThrow(
+                () -> new CustomApiException("해당 아이디의 유저가 없습니다.", HttpStatus.BAD_REQUEST));
+
+        Like likePS = likeRepository.findByUserIdAndStoreId(userId, storePS.getId());
+
+        if (likePS != null) {
+            likeRepository.deleteById(likePS.getId());
+        } else {
+            likeRepository.save(Like.builder().user(userPS).store(storePS).build());
+        }
+    }
 }

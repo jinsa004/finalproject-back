@@ -6,8 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Optional;
-
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +48,6 @@ import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreReqDto.ApplyReqDto;
 
 @Sql("classpath:db/truncate.sql") // 롤백 대신 사용 (auto_increment 초기화 + 데이터 비우기)
 @ActiveProfiles("test")
@@ -125,13 +122,15 @@ public class MenuApiControllerTest extends DummyEntity {
                                 .save(newReportReview(ssar, customerReview, ceoReview));
         }
 
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getDetailMenu_test() throws Exception {
                 // given
                 Long menuId = 1L;
+                Long userId = 3L;
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/menu/" + menuId + "/detail"));
+                                .perform(get("/api/user/" + userId + "/menu/" + menuId + "/detail"));
 
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
@@ -140,13 +139,15 @@ public class MenuApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.name").value("후라이드치킨"));
         }
 
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getMenuList_test() throws Exception {
                 // given
                 Long storeId = 1L;
+                Long userId = 3L;
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/store/" + storeId + "/menu"));
+                                .perform(get("/api/user/" + userId + "/store/" + storeId + "/menu"));
 
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);

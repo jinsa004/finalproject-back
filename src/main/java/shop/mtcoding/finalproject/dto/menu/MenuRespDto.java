@@ -32,10 +32,10 @@ public class MenuRespDto {
 
     @Getter
     @Setter
-    public static class MenuListRespDto {
+    public static class CustomerMenuListRespDto {
         private List<MenuDto> menus = new ArrayList<>();
 
-        public MenuListRespDto(List<Menu> menus) {
+        public CustomerMenuListRespDto(List<Menu> menus) {
             this.menus = menus.stream().map((menu) -> new MenuDto(menu)).collect(Collectors.toList());
         }
 
