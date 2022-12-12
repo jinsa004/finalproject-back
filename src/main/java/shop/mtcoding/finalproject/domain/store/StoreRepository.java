@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
+    @Query("select s from Store s join fetch Like l on l.store.id = s.id join fetch User u on u.id = l.user,id where u.id = :userId")
+    Optional<Store> findByUserIdToLikeStore(@Param("userId") Long userId);
+
     @Query("select s from Store s join fetch s.user u where s.user.id = :userId and s.isClosure = false")
     Optional<Store> findByUserId(@Param("userId") Long userId);
 

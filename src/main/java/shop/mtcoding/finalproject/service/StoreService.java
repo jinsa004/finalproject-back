@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -56,6 +55,11 @@ public class StoreService {
     private final LikeRepository likeRepository;
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
+
+    public void 찜한가게_목록보기(Long userId) {
+        // userId를 컨트롤러에서 검증하기 있기 때문에 셀렉해서 뿌리면 끝!
+        // List<Store> storeList = storeRepository
+    }
 
     public CustomerStoreInfoRespDto 가게_정보보기(Long storeId) {
         // 이미 가게 상세보기에서 가게가 있는지 검증됐기 때문에 가게 정보만 셀렉해서 뿌리면 끝!
