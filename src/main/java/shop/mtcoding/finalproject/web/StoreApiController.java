@@ -32,6 +32,12 @@ public class StoreApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreService storeService;
 
+    @GetMapping("/like/store/list/{userId}")
+    public ResponseEntity<?> getLikeStroeList(@PathVariable Long userId) {
+        storeService.찜한가게_목록보기(userId);
+        return new ResponseEntity<>(new ResponseDto<>("zz나올리가있냐", null), HttpStatus.OK);
+    }
+
     @GetMapping("/user/{userId}/store/{storeId}/info")
     public ResponseEntity<?> getStoreInfo(@PathVariable Long userId, @PathVariable Long storeId,
             @AuthenticationPrincipal LoginUser loginUser) {

@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
-
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
+import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
@@ -20,6 +19,43 @@ import shop.mtcoding.finalproject.util.CustomDateUtil;
 public class StoreRespDto {
 
     /* 성진 작업 시작@!@ */
+
+    public static class LikeStoreListRespDto {
+        private List<LikeDto> likes = new ArrayList<>();
+
+        public LikeStoreListRespDto(List<Like> likeList, List<CustomerReviewInterface> customerReviewInterfaceList) {
+            for (Like like : likeList) {
+                for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
+                    if (customerReviewInterface.getStoreId() == like.getStore().getId()) {
+                        likes.add(new LikeDto(like, customerReviewInterface));
+                    }
+                }
+            }
+        }
+
+        @Getter
+        @Setter
+        public class LikeDto {
+            private Long storeId;
+            private String storeName;
+            private String deliveryCost;
+            private String intro;
+            private String thumbnail;
+            private Long count;
+            private Double starPoint;
+
+            public LikeDto(Like like, CustomerReviewInterface customerReviewInterfacePS) {
+                this.storeId = like.getStore().getId();
+                this.storeName = like.getStore().getName();
+                this.deliveryCost = like.getStore().getDeliveryCost();
+                this.intro = like.getStore().getIntro();
+                this.thumbnail = like.getStore().getThumbnail();
+                this.count = customerReviewInterfacePS.getCount();
+                this.starPoint = customerReviewInterfacePS.getStarPoint();
+            }
+
+        }
+    }
 
     @Getter
     @Setter
@@ -101,9 +137,10 @@ public class StoreRespDto {
     public static class CustomerStoreListRespDto {
         private List<StoreDto> stores = new ArrayList<>();
 
-        public CustomerStoreListRespDto(List<Store> storesPS, List<CustomerReviewInterface> customerReviewInterfacePS) {
+        public CustomerStoreListRespDto(List<Store> storesPS,
+                List<CustomerReviewInterface> customerReviewInterfaceList) {
             for (Store store : storesPS) {
-                for (CustomerReviewInterface customerReviewInterface : customerReviewInterfacePS) {
+                for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
                     if (customerReviewInterface.getStoreId() == store.getId()) {
                         stores.add(new StoreDto(store, customerReviewInterface));
                     }

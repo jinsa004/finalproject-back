@@ -41,6 +41,7 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoUpdateStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerDetailStoreMainRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreInfoRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreListRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.LikeStoreListRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -56,9 +57,14 @@ public class StoreService {
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
 
-    public void 찜한가게_목록보기(Long userId) {
-        // userId를 컨트롤러에서 검증하기 있기 때문에 셀렉해서 뿌리면 끝!
-        // List<Store> storeList = storeRepository
+    public LikeStoreListRespDto 찜한가게_목록보기(Long userId) {
+        // 1. 찜한 가게 목록보기 join fetch를 이용한 기능
+        List<Like> likeList = likeRepository.findByUserIdToLikeStore(userId);
+        // 2. 평균별점, 리뷰개수 연산데이터
+        List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
+        // 3. DTO 응답
+        LikeStoreListRespDto likeStoreListRespDto = new LikeStoreListRespDto(likeList, customerReviewList);
+        return likeStoreListRespDto;
     }
 
     public CustomerStoreInfoRespDto 가게_정보보기(Long storeId) {
