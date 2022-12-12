@@ -20,6 +20,7 @@ import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
@@ -45,6 +46,7 @@ public class DevInit extends DummyEntity {
                         User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                         User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                         User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
+                        User jina = userRepository.save(newUser("jina", UserEnum.ADMIN));
                         Store store1 = storeRepository.save(newStore(ssar));
                         Store store2 = storeRepository.save(newStore(cos));
                         Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
@@ -68,6 +70,10 @@ public class DevInit extends DummyEntity {
                                         .save(newCustomerReview(jinsa, order2, store2, null, 4.0));
                         Like like1 = likeRepository.save(newLike(jinsa, store2));
                         Like like2 = likeRepository.save(newLike(jinsa, store1));
+                        ReportReview reportReview1 = reportReviewRepository
+                                        .save(newReportReview(ssar, customerReview, ceoReview));
+                        ReportReview reportReview2 = reportReviewRepository
+                                        .save(newReportReview(ssar, customerReview, ceoReview));
                 };
         }
 }
