@@ -40,6 +40,14 @@ public class OrderService {
     private final UserRepository userRepository;
 
     /* 성진 작업 시작 */
+    public void deleteOrderHistory(Long orderId) {
+        // 1. 주문 내역 셀렉
+        Order orderPS = orderRepository.findById(orderId)
+                .orElseThrow(() -> new CustomApiException("주문 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+        // 2. 주문 내역을 가리기 isClosure false
+        orderPS.delete(orderPS);
+    }
+
     public OrderHistoryListRespDto orderHistoryList(Long userId) {
         // 1. 해당 유저id로 user정보 셀렉 1셀렉
         log.debug("디버그 : 유저 정보 셀렉 전");
