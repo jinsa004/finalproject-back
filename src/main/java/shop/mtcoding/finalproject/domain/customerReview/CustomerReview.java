@@ -2,12 +2,14 @@ package shop.mtcoding.finalproject.domain.customerReview;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -38,8 +40,11 @@ public class CustomerReview extends AudingTime {
     @Column(nullable = false)
     private Double starPoint;
 
+    // @Lob
+    // @Basic(fetch = FetchType.LAZY)
+    // @Column(nullable = true, columnDefinition = "LONGBLOB")
     @Column(nullable = true)
-    private Long photo;
+    private byte[] photo;
 
     @Column(nullable = false)
     private boolean isClosure;
@@ -57,7 +62,7 @@ public class CustomerReview extends AudingTime {
     private CeoReview ceoReview;
 
     @Builder
-    public CustomerReview(Long id, String content, Double starPoint, Long photo, boolean isClosure, User user,
+    public CustomerReview(Long id, String content, Double starPoint, byte[] photo, boolean isClosure, User user,
             Store store, Order order, CeoReview ceoReview, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;

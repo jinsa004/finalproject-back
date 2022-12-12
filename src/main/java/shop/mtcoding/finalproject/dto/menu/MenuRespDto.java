@@ -118,7 +118,7 @@ public class MenuRespDto {
 
         public CeoShowMenuRespDto(Menu menu) {
             this.id = menu.getId();
-            this.thumbnail = menu.getThumbnail();
+            this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
             this.name = menu.getName();
             this.price = menu.getPrice();
             this.isClosure = menu.isClosure;

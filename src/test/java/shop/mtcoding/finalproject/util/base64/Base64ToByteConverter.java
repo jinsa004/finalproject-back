@@ -12,12 +12,11 @@ public class Base64ToByteConverter {
     public void convert_test() throws Exception {
 
         // 프론트에서 이걸 진행 (결과값 : String)
-        String test = "test65ToByte";
-        byte[] resultByte = Base64ConvertUtil.convertToByte(Base64.getEncoder().encodeToString(test.getBytes()));
+        String test = "1234567tre";
 
         // 디비에 넣을 때 (결과값 : byte[])
-        String resultTestToByte = resultByte.toString();
-        System.out.println("테스트 : test : " + resultTestToByte);
+        byte[] resultByte = Base64ConvertUtil.convertToByte(test);
+        System.out.println("테스트 : test : " + resultByte);
 
         // 프론트한테 줄 때 (결과값 : String)
         String resultString = Base64ConvertUtil.convertToString(resultByte);

@@ -2,6 +2,7 @@ package shop.mtcoding.finalproject.domain.store;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -44,8 +46,10 @@ public class Store extends AudingTime {
     @Column(nullable = true, length = 11)
     private String phone;
 
-    @Column(nullable = true)
-    private Long thumbnail; // 사진 타입
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(nullable = true, columnDefinition = "LONGBLOB")
+    private byte[] thumbnail; // 사진 타입
 
     @Column(nullable = false, length = 20)
     private String ceoName;
@@ -90,7 +94,7 @@ public class Store extends AudingTime {
     private User user;
 
     @Builder
-    public Store(Long id, StoreCategoryEnum category, String name, String phone, String thumbnail, String ceoName,
+    public Store(Long id, StoreCategoryEnum category, String name, String phone, byte[] thumbnail, String ceoName,
             String businessNumber, String businessAddress, String openTime, String closeTime, String minAmount,
             String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend, boolean isAccept,
             boolean isClosure, LocalDateTime createdAt, User user) {

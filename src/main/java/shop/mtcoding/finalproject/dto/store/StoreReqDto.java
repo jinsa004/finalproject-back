@@ -135,7 +135,7 @@ public class StoreReqDto {
                     .category(CustomEnumUtil.toStoreCategoryEnumFormat(category))
                     .name(name)
                     .phone(phone)
-                    .thumbnail(Base64ConvertUtil.convertToByte(category))
+                    .thumbnail(Base64ConvertUtil.convertToByte(thumbnail))
                     .openTime(openTime)
                     .closeTime(closeTime)
                     .minAmount(minAmount)

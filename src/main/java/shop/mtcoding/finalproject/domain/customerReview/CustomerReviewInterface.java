@@ -11,7 +11,7 @@ public interface CustomerReviewInterface {
     String getNickname();
 
     // 유저 프로필사진
-    Long getUPhoto();
+    byte[] getUPhoto();
 
     // 리뷰 사진
     String getCrPhoto();

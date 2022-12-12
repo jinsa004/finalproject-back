@@ -51,7 +51,7 @@ public class User extends AudingTime {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(nullable = true, columnDefinition = "LONGBLOB")
-    private byte[] photo; // 사진 포맷 무엇으로 할지?
+    private byte[] photo;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
