@@ -19,12 +19,15 @@ import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository
 import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepositoryQuery;
-import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRespDto;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoInfoRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCustomerInfoRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.DetailReportReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ReportReviewListRespDto;
 
 @Transactional(readOnly = true)
@@ -41,6 +44,22 @@ public class ReportReviewService {
     private final ReportReviewRepositoryQuery reportRepositoryQuery;
 
     /* 성진 작업 시작 */
+
+    public DetailReportReviewRespDto detailReportReview(Long reportReviewId) {
+        // 1. 해당 신고가 있는지 검색
+        ReportReview reportReviewPS = reportReviewRepository.findById(reportReviewId)
+                .orElseThrow(() -> new CustomApiException("신고 리뷰가 없습니다.", HttpStatus.BAD_REQUEST));
+        // 2. 신고리뷰 셀렉
+        ReportCustomerInfoRespDto reportCustomerReviewRespDto = reportRepositoryQuery
+                .findByReportReviewId(reportReviewId);
+        // 3. 해당 리뷰 관련자 셀렉
+        ReportCeoInfoRespDto reportCeoReviewRespDto = reportRepositoryQuery.findByReportReviewIdToCeo(reportReviewId);
+        // 4. DTO 응답
+        DetailReportReviewRespDto detailReportReviewRespDto = new DetailReportReviewRespDto(reportCustomerReviewRespDto,
+                reportCeoReviewRespDto);
+        return detailReportReviewRespDto;
+    }
+
     public ReportReviewListRespDto reportReviewList() {
         // 1. 신고리뷰 목록찾기
         List<ReportReview> reportReviewList = new ArrayList<>();
@@ -51,7 +70,7 @@ public class ReportReviewService {
     }
 
     /* 승현 작업 시작 */
-    public List<ReportReviewRespDto> findAllByStoreId(Long storeId, Long userId) {
+    public List<ReportCeoReviewRespDto> findAllByStoreId(Long storeId, Long userId) {
 
         // 1. 가게주인이 맞는지 확인하기
         Store storePS = storeRepository.findByUserId(userId).orElseThrow(
@@ -61,7 +80,7 @@ public class ReportReviewService {
         }
 
         // 2. 목록가져오기
-        List<ReportReviewRespDto> reviewRespDtos = reportRepositoryQuery.findAllByStoreId(storeId);
+        List<ReportCeoReviewRespDto> reviewRespDtos = reportRepositoryQuery.findAllByStoreId(storeId);
 
         return reviewRespDtos;
     }

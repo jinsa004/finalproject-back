@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
-import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRespDto;
 import shop.mtcoding.finalproject.dto.ResponseDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.DetailReportReviewRespDto;
 import shop.mtcoding.finalproject.service.ReportReviewService;
 
 @RequiredArgsConstructor
@@ -27,6 +28,12 @@ public class ReportReviewController {
     private final ReportReviewService reportReviewService;
 
     /* 성진 작업 시작@ */
+
+    @GetMapping("/admin/review/{reportReviewId}/report/detail")
+    public ResponseEntity<?> getDetailReportReview(@PathVariable Long reportReviewId) {
+        DetailReportReviewRespDto detailReportReviewRespDto = reportReviewService.detailReportReview(reportReviewId);
+        return new ResponseEntity<>(new ResponseDto<>("신고리뷰 상세보기 기능 성공", detailReportReviewRespDto), HttpStatus.OK);
+    }
 
     @GetMapping("/admin/review/report/list")
     public ResponseEntity<?> getReportReviewList() {
@@ -40,7 +47,7 @@ public class ReportReviewController {
     public ResponseEntity<?> findAllByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
-        List<ReportReviewRespDto> reportReviewRespDtos = reportReviewService.findAllByStoreId(storeId,
+        List<ReportCeoReviewRespDto> reportReviewRespDtos = reportReviewService.findAllByStoreId(storeId,
                 userId);
         return new ResponseEntity<>(new ResponseDto<>("신고한 리뷰 목록보기 완료", reportReviewRespDtos), HttpStatus.OK);
     }

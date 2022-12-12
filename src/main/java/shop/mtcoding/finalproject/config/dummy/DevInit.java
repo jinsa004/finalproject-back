@@ -73,7 +73,7 @@ public class DevInit extends DummyEntity {
                         ReportReview reportReview1 = reportReviewRepository
                                         .save(newReportReview(ssar, customerReview, ceoReview));
                         ReportReview reportReview2 = reportReviewRepository
-                                        .save(newReportReview(ssar, customerReview, ceoReview));
+                                        .save(newReportReview(jinsa, customerReview2, ceoReview));
                 };
         }
 }

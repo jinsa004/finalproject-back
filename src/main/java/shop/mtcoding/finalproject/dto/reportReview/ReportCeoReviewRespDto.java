@@ -1,4 +1,4 @@
-package shop.mtcoding.finalproject.domain.reportReview;
+package shop.mtcoding.finalproject.dto.reportReview;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -12,8 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ReportReviewRespDto {
-
+public class ReportCeoReviewRespDto {
     private BigInteger reportReviewId;
     private Double starPoint;
     private String photo;
