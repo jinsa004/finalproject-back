@@ -123,10 +123,10 @@ public class ReportReviewControllerTest extends DummyEntity {
         public void findAllByStoreId_test() throws Exception {
                 // given
                 Long storeId = 1L;
-
+                Long userId = 1L;
                 // when
-                ResultActions resultActions = mvc.perform(get("/api/store/" + storeId + "/review/report"));
-
+                ResultActions resultActions = mvc
+                                .perform(get("/api/user/" + userId + "/store/" + storeId + "/review/report"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
 
@@ -139,6 +139,7 @@ public class ReportReviewControllerTest extends DummyEntity {
         public void insert_test() throws Exception {
                 // given
                 Long reviewId = 1L;
+                Long userId = 1L;
                 User userPS = userRepository.findByUsername("ssar")
                                 .orElseThrow(() -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
                 System.out.println("테스트 : " + userPS.getId());
@@ -155,8 +156,9 @@ public class ReportReviewControllerTest extends DummyEntity {
                 System.out.println("테스트 : " + requestBody);
 
                 // when
-                ResultActions resultActions = mvc.perform(post("/api/review/" + reviewId + "/report")
-                                .content(requestBody).contentType(APPLICATION_JSON_UTF8));
+                ResultActions resultActions = mvc
+                                .perform(post("/api/user/" + userId + "/review/" + reviewId + "/report")
+                                                .content(requestBody).contentType(APPLICATION_JSON_UTF8));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
                 // then
