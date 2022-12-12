@@ -98,7 +98,9 @@ public class StoreApiControllerTest extends DummyEntity {
         public void setUp() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
+                User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
                 Store store1 = storeRepository.save(newStore(ssar));
+                Store store2 = storeRepository.save(newStore(jinsa));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
                 Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
                 Order order2 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.TAKEOUT));
@@ -231,6 +233,28 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
+        }
+
+        @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void findAllToApplyList_test() throws Exception {
+                // given
+                Store storePS = storeRepository.findByUserId(2L).get();
+                storePS.updateAccept(false);
+                storeRepository.save(storePS);
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/user/store/apply/list"));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.[0].username").value("ssar"));
+                resultActions.andExpect(jsonPath("$.data.[0].accept").value(true));
+                resultActions.andExpect(jsonPath("$.data.[1].username").value("jinsa"));
+                resultActions.andExpect(jsonPath("$.data.[1].accept").value(false));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)

@@ -92,4 +92,9 @@ public class User extends AudingTime {
         }
     }
 
+    public void checkRole() {
+        if (!this.role.equals(UserEnum.ADMIN)) {
+            throw new CustomApiException("권한이 없습니다", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

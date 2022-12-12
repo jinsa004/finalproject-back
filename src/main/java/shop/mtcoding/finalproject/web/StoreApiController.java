@@ -75,6 +75,21 @@ public class StoreApiController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/user/store/apply/list")
+    public ResponseEntity<?> findAllToApplyList(@AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkRole();
+        return new ResponseEntity<>(new ResponseDto<>("입점 신청 가게목록 보기 완료", storeService.findAllToApplyList()),
+                HttpStatus.OK);
+    }
+
+    @PutMapping("/user/store/{storeId}/apply/accept")
+    public ResponseEntity<?> updateByStoreIdToAccept(@AuthenticationPrincipal LoginUser loginUser,
+            @PathVariable Long storeId) {
+        loginUser.getUser().checkRole();
+        storeService.updateByStoreIdToAccept(storeId);
+        return new ResponseEntity<>(new ResponseDto<>("입점 신청 처리 완료", null), HttpStatus.OK);
+    }
+
     @PutMapping("/user/{userId}/store/update/close")
     public ResponseEntity<?> delete(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
@@ -122,5 +137,4 @@ public class StoreApiController {
         storeService.insertLike(userId, storeId);
         return new ResponseEntity<>(new ResponseDto<>("좋아요 수정 성공", null), HttpStatus.CREATED);
     }
-
 }

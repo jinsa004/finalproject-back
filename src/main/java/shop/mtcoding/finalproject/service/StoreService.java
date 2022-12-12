@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.AdminShowApplyStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoApplyStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoDetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoInsertStoreRespDto;
@@ -190,5 +192,22 @@ public class StoreService {
         } else {
             likeRepository.save(Like.builder().user(userPS).store(storePS).build());
         }
+    }
+
+    public List<AdminShowApplyStoreRespDto> findAllToApplyList() {
+        List<Store> stores = storeRepository.findAll();
+        List<AdminShowApplyStoreRespDto> adminShowApplyStoreRespDtos = new ArrayList<>();
+        for (int i = 0; i < stores.size(); i++) {
+            adminShowApplyStoreRespDtos.add(i, new AdminShowApplyStoreRespDto(stores.get(i)));
+        }
+        return adminShowApplyStoreRespDtos;
+    }
+
+    @Transactional
+    public void updateByStoreIdToAccept(Long storeId) {
+        Store storePS = storeRepository.findById(storeId).orElseThrow(
+                () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+        storePS.updateAccept(true);
+        storeRepository.save(storePS);
     }
 }
