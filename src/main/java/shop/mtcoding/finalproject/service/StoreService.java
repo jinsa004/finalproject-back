@@ -60,10 +60,13 @@ public class StoreService {
     public LikeStoreListRespDto 찜한가게_목록보기(Long userId) {
         // 1. 찜한 가게 목록보기 join fetch를 이용한 기능
         List<Like> likeList = likeRepository.findByUserIdToLikeStore(userId);
+        log.debug("디버그 : 가게 목록보자 : " + likeList.get(0).getStore().getName());
         // 2. 평균별점, 리뷰개수 연산데이터
         List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
+        log.debug("디버그 : 너가 문제니 연산데이터? : 1번가게 별점" + customerReviewList.get(0).getStarPoint());
         // 3. DTO 응답
         LikeStoreListRespDto likeStoreListRespDto = new LikeStoreListRespDto(likeList, customerReviewList);
+        log.debug("디버그 : " + likeStoreListRespDto);
         return likeStoreListRespDto;
     }
 
