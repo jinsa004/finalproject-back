@@ -29,18 +29,18 @@ public class MenuApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final MenuService menuService;
 
-    @GetMapping("/user/{userId}/store/{storeId}/menu/{menuId}/info")
+    @GetMapping("/user/{userId}/store/{storeId}/menu/{menuId}/detail")
     public ResponseEntity<?> getDetailMenu(@PathVariable Long userId, @PathVariable Long storeId,
             @PathVariable Long menuId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 상세보기 성공", menuService.메뉴_상세보기(menuId)), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 상세보기 성공", menuService.detailMenu(menuId)), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/{storeId}/menu/list")
     public ResponseEntity<?> getMenuList(@PathVariable Long userId, @PathVariable Long storeId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 목록보기 성공", menuService.메뉴_목록보기(storeId)), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 목록보기 성공", menuService.menuList(storeId)), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/menu/list")
