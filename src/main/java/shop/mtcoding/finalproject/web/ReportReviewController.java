@@ -39,11 +39,12 @@ public class ReportReviewController {
 
     // 해당 리뷰 신고하기
     @PostMapping("/user/{userId}/review/{reviewId}/report")
-    public ResponseEntity<?> insert(@PathVariable Long reviewId,
+    public ResponseEntity<?> insert(@PathVariable Long reviewId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser,
             @RequestBody InsertReportReviewReqDto insertReportReviewReqDto) {
+        loginUser.getUser().checkAccount(userId);
         insertReportReviewReqDto.setReviewId(reviewId);
-        insertReportReviewReqDto.setUserId(loginUser.getUser().getId());
+        insertReportReviewReqDto.setUserId(userId);
         reportReviewService.insert(insertReportReviewReqDto);
         return new ResponseEntity<>(new ResponseDto<>("리뷰 신고 완료", null), HttpStatus.CREATED);
     }
