@@ -152,7 +152,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 System.out.println("테스트 : " + requestBody);
                 // when
                 ResultActions resultActions = mvc
-                                .perform(post("/api/user/" + userId + "/store/" + storeId + "/order/" + orderId
+                                .perform(post("/api/user/" + userId + "/store/" + storeId + "/oreder/" + orderId
                                                 + "/review/save")
                                                 .content(requestBody)
                                                 .contentType(APPLICATION_JSON_UTF8));
