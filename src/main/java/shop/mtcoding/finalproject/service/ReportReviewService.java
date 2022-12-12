@@ -54,18 +54,18 @@ public class ReportReviewService {
     }
 
     @Transactional
-    public void insert(InsertReportReviewReqDto insertReportReviewReqDto) {
+    public void insert(InsertReportReviewReqDto insertReportReviewReqDto, Long reviewId, Long userId) {
 
         // 1. 리뷰가 있는지 확인
         CustomerReview customerReviewPS = null;
         CeoReview ceoReviewPS = null;
 
         if (insertReportReviewReqDto.getUserKind().equals(UserEnum.CUSTOMER.getValue())) {
-            customerReviewPS = customerReviewRepository.findById(insertReportReviewReqDto.getReviewId()).orElseThrow(
+            customerReviewPS = customerReviewRepository.findById(reviewId).orElseThrow(
                     () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
             // 2. 리뷰 작성자가 본인인지 확인
-            if (!customerReviewPS.getUser().getId().equals(insertReportReviewReqDto.getUserId())) {
+            if (!customerReviewPS.getUser().getId().equals(userId)) {
                 throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
             }
 
@@ -73,11 +73,11 @@ public class ReportReviewService {
             ceoReviewPS = customerReviewPS.getCeoReview();
 
         } else {
-            ceoReviewPS = ceoReviewRepository.findById(insertReportReviewReqDto.getReviewId()).orElseThrow(
+            ceoReviewPS = ceoReviewRepository.findById(reviewId).orElseThrow(
                     () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
             // 2. 리뷰 작성자가 본인인지 확인
-            if (!ceoReviewPS.getStore().getUser().getId().equals(insertReportReviewReqDto.getUserId())) {
+            if (!ceoReviewPS.getStore().getUser().getId().equals(userId)) {
                 throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
             }
 
@@ -88,7 +88,7 @@ public class ReportReviewService {
         }
 
         // 4. 신고리뷰 생성
-        User userPS = userRepository.findById(insertReportReviewReqDto.getUserId()).orElseThrow(
+        User userPS = userRepository.findById(userId).orElseThrow(
                 () -> new CustomApiException("해당 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
         reportReviewRepository.save(insertReportReviewReqDto.toEntity(userPS, customerReviewPS, ceoReviewPS));
 

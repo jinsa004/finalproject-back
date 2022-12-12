@@ -10,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
@@ -25,6 +23,7 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
+import shop.mtcoding.finalproject.dto.order.OrderReqDto.InsertOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.OrderHistoryListRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
@@ -70,27 +69,6 @@ public class OrderService {
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("가게 정보가 없습니다.", HttpStatus.BAD_REQUEST));
         orderRepository.save(insertOrderReqDto.toEntity(loginUser.getUser(), storePS, payment));
-    }
-
-    @Getter
-    @Setter
-    public static class InsertOrderReqDto {
-        // 결제수단 1(카카오페이), 메뉴/수량(오더디테일리스트),
-        private String comment;
-        private String paymentName;
-        private List<OrderDetail> orderDetailList;
-
-        public Order toEntity(User user, Store store, Payment payment) {
-            return Order.builder()
-                    .comment(comment)
-                    .state(OrderStateEnum.ORDER)
-                    .reason(null)
-                    .user(user)
-                    .store(store)
-                    .payment(payment)
-                    .build();
-        }
-
     }
 
     /* 승현 작업 시작 */
