@@ -125,13 +125,15 @@ public class MenuApiControllerTest extends DummyEntity {
                                 .save(newReportReview(ssar, customerReview, ceoReview));
         }
 
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getDetailMenu_test() throws Exception {
                 // given
                 Long menuId = 1L;
+                Long userId = 3L;
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/menu/" + menuId + "/detail"));
+                                .perform(get("/api/user/" + userId + "/menu/" + menuId + "/detail"));
 
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
@@ -140,13 +142,15 @@ public class MenuApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.name").value("후라이드치킨"));
         }
 
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getMenuList_test() throws Exception {
                 // given
                 Long storeId = 1L;
+                Long userId = 3L;
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/store/" + storeId + "/menu"));
+                                .perform(get("/api/user/" + userId + "/store/" + storeId + "/menu"));
 
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);

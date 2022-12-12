@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
+import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
@@ -38,15 +39,23 @@ public class MenuApiController {
     private final MenuService menuService;
 
     /* 성진 작업 시작@@ */
-    @GetMapping("/menu/{menuId}/detail")
-    public ResponseEntity<?> getDetailMenu(@PathVariable Long menuId) {
-        CustomerDetailMenuRespDto customerDetailMenuRespDto = menuService.메뉴_상세보기(menuId);
+    @GetMapping("/user/{userId}/menu/{menuId}/detail")
+    public ResponseEntity<?> getDetailMenu(@PathVariable Long menuId, @PathVariable Long userId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        if (userId != loginUser.getUser().getId()) {
+            throw new CustomApiException("권한이 없습니다", HttpStatus.OK);
+        }
+        CustomerDetailMenuRespDto customerDetailMenuRespDto = menuService.detailMenu(menuId);
         return new ResponseEntity<>(new ResponseDto<>("메뉴 상세보기 성공", customerDetailMenuRespDto), HttpStatus.OK);
     }
 
-    @GetMapping("/store/{storeId}/menu")
-    public ResponseEntity<?> getMenuList(@PathVariable Long storeId) {
-        MenuListRespDto menuListRespDto = menuService.메뉴_목록보기(storeId);
+    @GetMapping("/user/{userId}/store/{storeId}/menu")
+    public ResponseEntity<?> getMenuList(@PathVariable Long storeId, @PathVariable Long userId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        if (userId != loginUser.getUser().getId()) {
+            throw new CustomApiException("권한이 없습니다", HttpStatus.OK);
+        }
+        MenuListRespDto menuListRespDto = menuService.menuList(storeId);
         return new ResponseEntity<>(new ResponseDto<>("메뉴 목록보기 성공", menuListRespDto), HttpStatus.OK);
     }
 

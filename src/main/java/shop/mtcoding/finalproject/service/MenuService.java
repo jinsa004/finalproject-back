@@ -35,8 +35,8 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     /* 성진 작업 시작@@ */
-
-    public CustomerDetailMenuRespDto 메뉴_상세보기(Long menuId) {
+    // 메뉴 상세보기(사용자 앱 입장)
+    public CustomerDetailMenuRespDto detailMenu(Long menuId) {
         // 1. 해당 메뉴의 내용을 셀렉
         Menu menuPS = menuRepository.findById(menuId).orElseThrow(
                 () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
@@ -45,7 +45,8 @@ public class MenuService {
         return customerDetailMenuRespDto;
     }
 
-    public MenuListRespDto 메뉴_목록보기(Long storeId) {
+    // 메뉴 목록보기(사용자 앱 입장)
+    public MenuListRespDto menuList(Long storeId) {
         // 1. 메뉴리스트 셀렉
         List<Menu> menuList = menuRepository.findMenuListByStoreId(storeId);
         log.debug("디버그 : 해당 가게 메뉴 : " + menuList.get(0).getName());
