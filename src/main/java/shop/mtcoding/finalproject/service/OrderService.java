@@ -40,8 +40,15 @@ public class OrderService {
     private final UserRepository userRepository;
 
     /* 성진 작업 시작 */
-    public void detailOrderHistory(Long orderId) {
-        // 1. 해당 주문내역 상세보기 셀렉 (Order와 OrderDetail, 가게명, 가게번호, 유저주소, 유저 전화번호?)
+    public void detailOrderHistory(Long orderId, Long userId) {
+        // 1. 유저 정보(유저 주소, 유저 번호) 셀렉
+        User userPS = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomApiException("해당 유저정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        // 2. 해당 주문내역 상세보기 셀렉 (Order와 Store join fetch)
+        Order orderPS = orderRepository.findByOrderId(orderId);
+        // 3. orderId에 맞는 orderDetail 셀렉
+        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrderIdToOrderHistory(orderPS.getId());
+        // 4. DTO 응답
     }
 
     @Transactional
