@@ -40,6 +40,10 @@ public class OrderService {
     private final UserRepository userRepository;
 
     /* 성진 작업 시작 */
+    public void detailOrderHistory(Long orderId) {
+        // 1. 해당 주문내역 상세보기 셀렉 (Order와 OrderDetail, 가게명, 가게번호, 유저주소, 유저 전화번호?)
+    }
+
     @Transactional
     public void deleteOrderHistory(Long orderId) {
         // 1. 주문 내역 셀렉
