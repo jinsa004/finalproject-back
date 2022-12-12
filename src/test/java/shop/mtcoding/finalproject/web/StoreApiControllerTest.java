@@ -246,7 +246,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/user/store/apply/list"));
+                                .perform(get("/api/admin/store/apply/list"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
 
@@ -269,7 +269,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/user/store/apply/list"));
+                                .perform(get("/api/admin/store/apply/list"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
 

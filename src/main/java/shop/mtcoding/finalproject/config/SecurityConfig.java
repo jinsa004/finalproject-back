@@ -53,8 +53,8 @@ public class SecurityConfig {
         http.httpBasic().disable();
         http.apply(new MyCustomDsl());
         http.authorizeHttpRequests()
+                .antMatchers("/api/admin/**").hasRole("" + UserEnum.ADMIN)
                 .antMatchers("/api/user/**").authenticated()
-                .antMatchers("/api/admin/**").hasRole("ROLE_" + UserEnum.ADMIN)
                 .anyRequest().permitAll();
 
         return http.build();

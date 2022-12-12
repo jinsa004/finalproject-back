@@ -76,18 +76,20 @@ public class StoreApiController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/user/store/apply/list")
+    @GetMapping("/admin/store/apply/list")
     public ResponseEntity<?> findAllToApplyList(@AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkRole();
+        // log.debug("디버그 : loginUser.getAuthorities() : " +
+        // loginUser.getAuthorities());
+        // loginUser.getUser().checkRole();
         return new ResponseEntity<>(new ResponseDto<>("입점 신청 가게목록 보기 완료", storeService.findAllToApplyList()),
                 HttpStatus.OK);
     }
 
-    @PutMapping("/user/store/{storeId}/apply/accept")
+    @PutMapping("/admin/store/{storeId}/apply/accept")
     public ResponseEntity<?> updateByStoreIdToAccept(@AuthenticationPrincipal LoginUser loginUser,
             @PathVariable Long storeId,
             @RequestBody AdminUpdateStoreApplyAcceptReqDto adminUpdateStoreApplyAcceptReqDto) {
-        loginUser.getUser().checkRole();
+        // loginUser.getUser().checkRole();
         storeService.updateByStoreIdToAccept(adminUpdateStoreApplyAcceptReqDto, storeId);
         return new ResponseEntity<>(new ResponseDto<>("입점 신청 처리 완료", null), HttpStatus.OK);
     }
