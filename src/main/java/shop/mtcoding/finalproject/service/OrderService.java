@@ -40,6 +40,7 @@ public class OrderService {
     private final UserRepository userRepository;
 
     /* 성진 작업 시작 */
+    @Transactional
     public void deleteOrderHistory(Long orderId) {
         // 1. 주문 내역 셀렉
         Order orderPS = orderRepository.findById(orderId)

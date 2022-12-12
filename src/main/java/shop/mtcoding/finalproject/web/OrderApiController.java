@@ -33,7 +33,7 @@ public class OrderApiController {
     public ResponseEntity<?> deleteOrderHistory(@PathVariable Long orderId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
-        orderService.deleteOrderHistory(null);
+        orderService.deleteOrderHistory(orderId);
         return new ResponseEntity<>(new ResponseDto<>("주문내역 삭제하기 성공", null), HttpStatus.OK);
     }
 
