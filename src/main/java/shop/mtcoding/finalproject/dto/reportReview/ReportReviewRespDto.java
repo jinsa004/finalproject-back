@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
+import shop.mtcoding.finalproject.config.enums.ReportReasonEnum;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 
 public class ReportReviewRespDto {

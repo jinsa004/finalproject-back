@@ -2,6 +2,7 @@ package shop.mtcoding.finalproject.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.persistence.EntityManager;
@@ -121,6 +122,24 @@ public class ReportReviewControllerTest extends DummyEntity {
 
         @WithUserDetails(value = "jina", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
+        public void getDetailReportReview_test() throws Exception {
+                // given
+                Long reportReviewId = 1L;
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/admin/review/" + reportReviewId + "/report/detail"));
+
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.reason").value("HONOR"));
+
+        }
+
+        @WithUserDetails(value = "jina", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
         public void getReportReviewList_test() throws Exception {
                 // given
 
@@ -132,6 +151,7 @@ public class ReportReviewControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.reportReviews.[0].reason").value("명예훼손"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
