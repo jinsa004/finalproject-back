@@ -1,5 +1,7 @@
 package shop.mtcoding.finalproject.dto.reportReview;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
@@ -9,6 +11,12 @@ import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
 public class ReportReviewReqDto {
+
+    @Getter
+    @Setter
+    public static class ResolveReportReviewReqDto {
+        private String adminComment;
+    }
 
     @Getter
     @Setter
