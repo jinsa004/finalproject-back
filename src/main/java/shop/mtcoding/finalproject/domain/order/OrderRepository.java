@@ -10,7 +10,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // @Query("select cr from CustomerReview cr where cr.user.id = :reviewId")
     // List<Order> findReviewListByUserId(@Param("reviewId") Long reviewId);
 
-    @Query("select o from Order o join fetch Store s on o.store.id = s.id where o.id = :orderId and isClosure = true")
+    @Query("select o from Order o join fetch o.store s where o.isClosure = false and o.id = :orderId")
     Order findByOrderId(@Param("orderId") Long orderId);
 
     @Query("select o from Order o join fetch Store s on o.store.id = s.id where o.user.id = :userId and isClosure = true")
