@@ -72,6 +72,33 @@ public class ReportReviewRepositoryQueryTest extends DummyEntity {
         }
 
         @Test
+        public void findByReportReviewIdToCeo_test() throws Exception {
+                // given
+                Long reportReviewId = 1L;
+
+                // when
+                ReportCeoReviewRespDto reportCeoReviewRespDto = reportReviewRepositoryQuery
+                                .findByReportReviewIdToCeo(reportReviewId);
+
+                // then
+                Assertions.assertThat(reportCeoReviewRespDto.getStoreName()).isEqualTo("그린치킨");
+                Assertions.assertThat(reportCeoReviewRespDto.getComment()).isEqualTo("고 마워 요");
+        }
+
+        @Test
+        public void findByReportReviewId_test() throws Exception {
+                // given
+                Long reportReviewId = 1L;
+
+                // when
+                ReportCustomerReviewRespDto reportCustomerReviewRespDto = reportReviewRepositoryQuery
+                                .findByReportReviewId(reportReviewId);
+
+                // then
+                Assertions.assertThat(reportCustomerReviewRespDto.getNickname()).isEqualTo("jinsa님");
+        }
+
+        @Test
         public void 조회_test() throws Exception {
                 // given
                 Long storeId = 1L;

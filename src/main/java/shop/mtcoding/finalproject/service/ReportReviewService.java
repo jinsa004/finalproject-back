@@ -41,6 +41,15 @@ public class ReportReviewService {
     private final ReportReviewRepositoryQuery reportRepositoryQuery;
 
     /* 성진 작업 시작 */
+
+    public void detailReportReview(Long reportReviewId) {
+        // 1. 신고리뷰 셀렉
+        ReportReview reportReviewPS = reportReviewRepository.findById(reportReviewId)
+                .orElseThrow(() -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        // 2. DTO 응답
+
+    }
+
     public ReportReviewListRespDto reportReviewList() {
         // 1. 신고리뷰 목록찾기
         List<ReportReview> reportReviewList = new ArrayList<>();
