@@ -32,17 +32,22 @@ public class StoreApiController {
     private final StoreService storeService;
 
     @GetMapping("/user/{userId}/store/{storeId}/info")
-    public ResponseEntity<?> getStoreInfo(@PathVariable Long userId, @PathVariable Long storeId) {
+    public ResponseEntity<?> getStoreInfo(@PathVariable Long userId, @PathVariable Long storeId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
         return new ResponseEntity<>(new ResponseDto<>("가게 정보보기 기능 성공", storeService.가게_정보보기(storeId)), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userId}/store/{storeId}/info/detail")
-    public ResponseEntity<?> detailStoreMain(@PathVariable Long userId, @PathVariable Long storeId) {
+    @GetMapping("/user/{userId}/store/{storeId}/detail")
+    public ResponseEntity<?> detailStoreMain(@PathVariable Long userId, @PathVariable Long storeId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
         return new ResponseEntity<>(new ResponseDto<>("가게 상세보기 기능 성공", storeService.가게_상세보기(storeId)), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/list")
-    public ResponseEntity<?> findStoreList(@PathVariable Long userId) {
+    public ResponseEntity<?> findStoreList(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
         return new ResponseEntity<>(new ResponseDto<>("가게 목록보기 기능 완료",
                 storeService.가게_목록보기()), HttpStatus.OK);
     }
