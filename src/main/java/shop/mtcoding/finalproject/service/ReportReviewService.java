@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepositoryQuery;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRespDto;
@@ -23,6 +25,7 @@ import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ReportReviewListRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -36,6 +39,16 @@ public class ReportReviewService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReportReviewRepositoryQuery reportRepositoryQuery;
+
+    /* 성진 작업 시작 */
+    public ReportReviewListRespDto reportReviewList() {
+        // 1. 신고리뷰 목록찾기
+        List<ReportReview> reportReviewList = new ArrayList<>();
+        reportReviewList = reportReviewRepository.findAllByUser();
+        // 2. DTO 응답
+        ReportReviewListRespDto reportReviewListRespDto = new ReportReviewListRespDto(reportReviewList);
+        return reportReviewListRespDto;
+    }
 
     /* 승현 작업 시작 */
     public List<ReportReviewRespDto> findAllByStoreId(Long storeId, Long userId) {

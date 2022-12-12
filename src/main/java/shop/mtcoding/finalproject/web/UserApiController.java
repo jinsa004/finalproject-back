@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
-import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.JoinReqDto;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
