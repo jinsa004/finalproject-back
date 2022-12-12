@@ -54,7 +54,7 @@ public class ReportReviewService {
     }
 
     @Transactional
-    public void insert(InsertReportReviewReqDto insertReportReviewReqDto, Long reviewId, Long userId) {
+    public void insertReportReview(InsertReportReviewReqDto insertReportReviewReqDto, Long reviewId, Long userId) {
 
         // 1. 리뷰가 있는지 확인
         CustomerReview customerReviewPS = null;

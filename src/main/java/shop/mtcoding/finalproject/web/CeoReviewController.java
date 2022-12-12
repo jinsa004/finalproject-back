@@ -27,21 +27,21 @@ public class CeoReviewController {
 
     private final CeoReviewService ceoReviewService;
 
-    @GetMapping("/store/{storeId}/review")
-    public ResponseEntity<?> findAllReviewByStoreId(@PathVariable Long storeId,
-            @AuthenticationPrincipal LoginUser loginUser) {
-        List<ShowReviewRespDto> showReviewRespDto = ceoReviewService.findAllReviewByStoreId(storeId);
-        return new ResponseEntity<>(new ResponseDto<>("가게별 리뷰목록보기 성공", showReviewRespDto), HttpStatus.OK);
-    }
-
-    @PostMapping("/store/{customerReviewId}/review")
-    public ResponseEntity<?> insertCeoReviewByCustomerId(@PathVariable Long customerReviewId,
+    @PostMapping("/user/{userId}/store/{customerReviewId}/review")
+    public ResponseEntity<?> insertCeoReviewByCustomerId(@PathVariable Long customerReviewId, @PathVariable Long userId,
             @RequestBody InsertCeoReviewReqDto insertCeoReviewReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        insertCeoReviewReqDto.setUserId(loginUser.getUser().getId());
-        insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
+        loginUser.getUser().checkAccount(userId);
         InsertCeoReviewRespDto insertCeoReviewRespDto = ceoReviewService
-                .insertByCustomerReviewId(insertCeoReviewReqDto);
+                .insertByCustomerReviewId(insertCeoReviewReqDto, userId, customerReviewId);
         return new ResponseEntity<>(new ResponseDto<>("사장님 리뷰달기 성공", insertCeoReviewRespDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user/{userId}/store/{storeId}/review")
+    public ResponseEntity<?> findAllReviewByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
+        List<ShowReviewRespDto> showReviewRespDto = ceoReviewService.findAllReviewByStoreId(storeId);
+        return new ResponseEntity<>(new ResponseDto<>("가게별 리뷰목록보기 성공", showReviewRespDto), HttpStatus.OK);
     }
 }

@@ -91,7 +91,7 @@ public class CustomerReviewService {
         }
 
         // 내 리뷰 목록보기 기능(앱 사용자입장)
-        public CustomerReviewListRespDto MyCustomerReviewList(Long userId, LoginUser loginUser) {
+        public CustomerReviewListRespDto myCustomerReviewList(Long userId, LoginUser loginUser) {
                 // 1 해당 유저의 review가 있는지 체크
                 User userPS = userRepository.findById(userId)
                                 .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.",

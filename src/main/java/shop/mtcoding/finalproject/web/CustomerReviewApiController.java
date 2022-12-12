@@ -63,7 +63,7 @@ public class CustomerReviewApiController {
                 if (userId != loginUser.getUser().getId()) {
                         throw new CustomApiException("권한이 없습니다", HttpStatus.FORBIDDEN);
                 }
-                CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.MyCustomerReviewList(userId,
+                CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.myCustomerReviewList(userId,
                                 loginUser);
                 return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공", CustomerReviewListRespDto),
                                 HttpStatus.OK);
