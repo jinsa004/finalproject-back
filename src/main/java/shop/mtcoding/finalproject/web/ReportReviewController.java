@@ -17,6 +17,7 @@ import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.DetailReportReviewRespDto;
 import shop.mtcoding.finalproject.service.ReportReviewService;
 
 @RequiredArgsConstructor
@@ -27,6 +28,12 @@ public class ReportReviewController {
     private final ReportReviewService reportReviewService;
 
     /* 성진 작업 시작@ */
+
+    @GetMapping("/admin/review/{reportReviewId}/report/detail")
+    public ResponseEntity<?> getDetailReportReview(@PathVariable Long reportReviewId) {
+        DetailReportReviewRespDto detailReportReviewRespDto = reportReviewService.detailReportReview(reportReviewId);
+        return new ResponseEntity<>(new ResponseDto<>("신고리뷰 상세보기 기능 성공", detailReportReviewRespDto), HttpStatus.OK);
+    }
 
     @GetMapping("/admin/review/report/list")
     public ResponseEntity<?> getReportReviewList() {
