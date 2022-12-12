@@ -20,6 +20,7 @@ import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
@@ -69,6 +70,8 @@ public class DevInit extends DummyEntity {
                                         .save(newCustomerReview(jinsa, order2, store2, null, 4.0));
                         Like like1 = likeRepository.save(newLike(jinsa, store2));
                         Like like2 = likeRepository.save(newLike(jinsa, store1));
+                        ReportReview reportReview1 = reportReviewRepository
+                                        .save(newReportReview(jinsa, customerReview, ceoReview));
                 };
         }
 }

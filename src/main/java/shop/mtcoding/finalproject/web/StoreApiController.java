@@ -78,9 +78,6 @@ public class StoreApiController {
 
     @GetMapping("/admin/store/apply/list")
     public ResponseEntity<?> findAllToApplyList(@AuthenticationPrincipal LoginUser loginUser) {
-        // log.debug("디버그 : loginUser.getAuthorities() : " +
-        // loginUser.getAuthorities());
-        // loginUser.getUser().checkRole();
         return new ResponseEntity<>(new ResponseDto<>("입점 신청 가게목록 보기 완료", storeService.findAllToApplyList()),
                 HttpStatus.OK);
     }
