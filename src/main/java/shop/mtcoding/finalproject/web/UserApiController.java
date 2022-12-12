@@ -37,7 +37,7 @@ public class UserApiController {
         return new ResponseEntity<>(new ResponseDto<>("회원가입성공", joinRespDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{userId}/detail")
     public ResponseEntity<?> userDetail(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
         DetailUserRespDto detailUserRespDto = userService.detailUser(userId);
