@@ -28,7 +28,7 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
-    public JoinRespDto 회원가입(JoinReqDto joinReqDto) {
+    public JoinRespDto join(JoinReqDto joinReqDto) {
         // 1. 비밀번호 암호화
         String rawPassword = joinReqDto.getPassword();
         String encPassword = passwordEncoder.encode(rawPassword);
@@ -40,11 +40,11 @@ public class UserService {
     }
 
     @Transactional
-    public UpdateUserRespDto 회원수정(UpdateUserReqDto updateUserReqDto) {
+    public UpdateUserRespDto updateUser(UpdateUserReqDto updateUserReqDto, Long userId) {
         // 1. 값이 있는지 검증
-        Optional<User> userOP = userRepository.findById(updateUserReqDto.getId());
+        Optional<User> userOP = userRepository.findById(userId);
         if (!userOP.isPresent()) {
-            userRepository.findById(updateUserReqDto.getId())
+            userRepository.findById(userId)
                     .orElseThrow(() -> (new CustomApiException("해당 id의 유저 정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST)));
         }
         // 2. 비밀번호 암호화
@@ -58,7 +58,7 @@ public class UserService {
         return new UpdateUserRespDto(userPS);
     }
 
-    public DetailUserRespDto 회원상세보기(Long userId) {
+    public DetailUserRespDto detailUser(Long userId) {
         // 1. 값이 있는지 검증
         User userPS = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomApiException("회원정보가 없습니다", HttpStatus.BAD_REQUEST));
@@ -67,7 +67,8 @@ public class UserService {
         return detailUserRespDto;
     }
 
-    public void 회원탈퇴하기(Long userId) {
+    @Transactional
+    public void deleteUser(Long userId) {
         // 1. 회원 값이 존재하는지 검증
         User userPS = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomApiException("회원정보가 없습니다.", HttpStatus.BAD_REQUEST));

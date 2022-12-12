@@ -1,7 +1,5 @@
 package shop.mtcoding.finalproject.web;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,15 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
-import shop.mtcoding.finalproject.dto.menu.MenuReqDto.InsertMenuReqDto;
-import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuReqDto;
-import shop.mtcoding.finalproject.dto.menu.MenuReqDto.UpdateMenuStateReqDto;
-import shop.mtcoding.finalproject.dto.menu.MenuRespDto.CustomerDetailMenuRespDto;
-import shop.mtcoding.finalproject.dto.menu.MenuRespDto.DetailMenuRespDto;
-import shop.mtcoding.finalproject.dto.menu.MenuRespDto.InsertMenuRespDto;
-import shop.mtcoding.finalproject.dto.menu.MenuRespDto.MenuListRespDto;
-import shop.mtcoding.finalproject.dto.menu.MenuRespDto.ShowMenuRespDto;
-import shop.mtcoding.finalproject.dto.menu.MenuRespDto.UpdateMenuRespDto;
+import shop.mtcoding.finalproject.dto.menu.MenuReqDto.CeoInsertMenuReqDto;
+import shop.mtcoding.finalproject.dto.menu.MenuReqDto.CeoUpdateMenuReqDto;
+import shop.mtcoding.finalproject.dto.menu.MenuReqDto.CeoUpdateMenuStateReqDto;
 import shop.mtcoding.finalproject.service.MenuService;
 
 @RequiredArgsConstructor
@@ -37,62 +29,59 @@ public class MenuApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final MenuService menuService;
 
-    /* 성진 작업 시작@@ */
-    @GetMapping("/menu/{menuId}/detail")
-    public ResponseEntity<?> getDetailMenu(@PathVariable Long menuId) {
-        CustomerDetailMenuRespDto customerDetailMenuRespDto = menuService.메뉴_상세보기(menuId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 상세보기 성공", customerDetailMenuRespDto), HttpStatus.OK);
+    @GetMapping("/user/{userId}/store/{storeId}/menu/{menuId}/detail")
+    public ResponseEntity<?> getDetailMenu(@PathVariable Long userId, @PathVariable Long storeId,
+            @PathVariable Long menuId, @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 상세보기 성공", menuService.detailMenu(menuId)), HttpStatus.OK);
     }
 
-    @GetMapping("/store/{storeId}/menu")
-    public ResponseEntity<?> getMenuList(@PathVariable Long storeId) {
-        MenuListRespDto menuListRespDto = menuService.메뉴_목록보기(storeId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 목록보기 성공", menuListRespDto), HttpStatus.OK);
-    }
-
-    /* 승현 작업 시작 */
-
-    @PutMapping("/store/menu/{menuId}/state")
-    public ResponseEntity<?> updateByMenuIdToState(@PathVariable Long menuId,
-            @RequestBody UpdateMenuStateReqDto updateMenuStateReqDto,
+    @GetMapping("/user/{userId}/store/{storeId}/menu/list")
+    public ResponseEntity<?> getMenuList(@PathVariable Long userId, @PathVariable Long storeId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        updateMenuStateReqDto.setUserId(loginUser.getUser().getId());
-        updateMenuStateReqDto.setId(menuId);
-        menuService.updateByMenuIdToState(updateMenuStateReqDto);
+        loginUser.getUser().checkAccount(userId);
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 목록보기 성공", menuService.menuList(storeId)), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}/store/menu/list")
+    public ResponseEntity<?> findAll(@PathVariable Long userId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
+        return new ResponseEntity<>(new ResponseDto<>("사장님 가게 메뉴 전체보기 성공", menuService.findAll(userId)), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}/store/menu/{menuId}/info")
+    public ResponseEntity<?> findById(@PathVariable Long userId, @PathVariable Long menuId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
+        return new ResponseEntity<>(new ResponseDto<>("사장님 메뉴 상세보기 성공", menuService.findById(menuId)), HttpStatus.OK);
+    }
+
+    @PutMapping("/user/{userId}/store/menu/{menuId}/update/state")
+    public ResponseEntity<?> updateByMenuIdToState(@PathVariable Long userId, @PathVariable Long menuId,
+            @RequestBody CeoUpdateMenuStateReqDto ceoUpdateMenuStateReqDto,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
+        menuService.updateByMenuIdToState(ceoUpdateMenuStateReqDto, userId, menuId);
         return new ResponseEntity<>(new ResponseDto<>("메뉴 보이기 수정 완료", null), HttpStatus.OK);
     }
 
-    @PutMapping("/store/menu/{menuId}")
-    public ResponseEntity<?> updateByMenuId(@PathVariable Long menuId,
-            @RequestBody UpdateMenuReqDto updateMenuReqDto,
+    @PutMapping("/user/{userId}/store/menu/{menuId}/update")
+    public ResponseEntity<?> updateByMenuId(@PathVariable Long userId, @PathVariable Long menuId,
+            @RequestBody CeoUpdateMenuReqDto ceoUpdateMenuReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        updateMenuReqDto.setUserId(loginUser.getUser().getId());
-        updateMenuReqDto.setId(menuId);
-        UpdateMenuRespDto updateMenuRespDto = menuService.updateByMenuId(updateMenuReqDto);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 수정 성공", updateMenuRespDto), HttpStatus.OK);
+        loginUser.getUser().checkAccount(userId);
+        return new ResponseEntity<>(
+                new ResponseDto<>("메뉴 수정 성공", menuService.updateByMenuId(ceoUpdateMenuReqDto, userId, menuId)),
+                HttpStatus.OK);
     }
 
-    @PostMapping("/store/menu")
-    public ResponseEntity<?> insert(@RequestBody InsertMenuReqDto insertMenuReqDto,
+    @PostMapping("/user/{userId}/store/menu/save")
+    public ResponseEntity<?> insert(@RequestBody CeoInsertMenuReqDto ceoInsertMenuReqDto, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        insertMenuReqDto.setUserId(loginUser.getUser().getId());
-        InsertMenuRespDto insertMenuRespDto = menuService.insert(insertMenuReqDto);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 추가 성공", insertMenuRespDto), HttpStatus.CREATED);
+        loginUser.getUser().checkAccount(userId);
+        return new ResponseEntity<>(new ResponseDto<>("메뉴 추가 성공", menuService.insert(ceoInsertMenuReqDto, userId)),
+                HttpStatus.CREATED);
     }
-
-    @GetMapping("/store/menu")
-    public ResponseEntity<?> findAll(@AuthenticationPrincipal LoginUser loginUser) {
-        List<ShowMenuRespDto> showMenuRespDtos = menuService.findAll(loginUser.getUser().getId());
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 전체보기 성공", showMenuRespDtos), HttpStatus.OK);
-    }
-
-    @GetMapping("/store/menu/{menuId}")
-    public ResponseEntity<?> findById(@PathVariable Long menuId,
-            @AuthenticationPrincipal LoginUser loginUser) {
-        DetailMenuRespDto detailMenuRespDto = menuService.findById(menuId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 상세보기 성공", detailMenuRespDto), HttpStatus.OK);
-    }
-
-    /* 승현 작업 종료 */
 
 }

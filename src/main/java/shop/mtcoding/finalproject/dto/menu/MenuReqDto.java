@@ -16,9 +16,8 @@ public class MenuReqDto {
 
     @Getter
     @Setter
-    public static class UpdateMenuStateReqDto {
-        private Long userId;
-        private Long id;
+    public static class CeoUpdateMenuStateReqDto {
+
         private boolean isClosure;
 
         public Menu toEntity() {
@@ -31,11 +30,7 @@ public class MenuReqDto {
 
     @Getter
     @Setter
-    public static class UpdateMenuReqDto {
-
-        private Long userId;
-
-        private Long id;
+    public static class CeoUpdateMenuReqDto {
 
         private String thumbnail;
 
@@ -73,9 +68,7 @@ public class MenuReqDto {
 
     @Getter
     @Setter
-    public static class InsertMenuReqDto {
-
-        private Long userId;
+    public static class CeoInsertMenuReqDto {
 
         private String thumbnail;
 

@@ -11,11 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
+import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.store.Store;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -91,6 +94,18 @@ public class Menu {
                 .isClosure(menu.isClosure)
                 .store(store)
                 .build();
+    }
+
+    public void checkClosure() {
+        if (this.isClosure) {
+            throw new CustomApiException("권한이 없습니다", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public void checkWriter(Long userId) {
+        if (!this.store.getUser().getId().equals(userId)) {
+            throw new CustomApiException("권한이 없습니다", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
