@@ -134,6 +134,24 @@ public class StoreApiControllerTest extends DummyEntity {
                                 .save(newReportReview(jinsa, customerReview2, ceoReview));
         }
 
+        @WithUserDetails(value = "hoho", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void getStoreName_test() throws Exception {
+                // given
+                Long userId = 5L;
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/user/" + userId + "/store/name"));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.code").value(1));
+                resultActions.andExpect(jsonPath("$.msg").value("가게없는 유저"));
+        }
+
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getLikeStroeList_test() throws Exception {
