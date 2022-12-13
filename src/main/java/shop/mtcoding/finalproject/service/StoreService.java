@@ -111,21 +111,6 @@ public class StoreService {
         return new CustomerStoreListRespDto(storeList, customerReviewList);
     }
 
-    // public StoreListRespDto 가게_목록보기() {
-    // // 1 가게 정보 1셀렉 가게리스트
-    // List<Store> storeList = storeRepository.findAll();
-    // log.debug("디버그 : 스토어리스트 : " + storeList);
-    // // 2 리뷰 별점 셀렉해서 평균내기(평균은 쿼리로 작성) 리뷰리스트
-    // log.debug("디버그 : 리뷰리스트 전");
-    // List<CustomerReview> customerReviewList =
-    // customerReviewRepository.starPointAverageToStore();
-    // log.debug("디버그 : 리뷰리스트 후: " + customerReviewList);
-    // // 3 DTO 응답
-    // StoreListRespDto storeListRespDto = new StoreListRespDto(storeList,
-    // customerReviewList);
-    // return storeListRespDto;
-    // }
-
     @Transactional
     public void updateToBusinessState(CeoUpdateStoreBusinessStateReqDto ceoUpdateStoreBusinessStateReqDto,
             Long userId) {

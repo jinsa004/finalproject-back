@@ -46,7 +46,7 @@ public class StoreRespDto {
             private String storeName;
             private String deliveryCost;
             private String intro;
-            private String thumbnail;
+            private byte[] thumbnail;
             private Long count;
             private Double starPoint;
 
