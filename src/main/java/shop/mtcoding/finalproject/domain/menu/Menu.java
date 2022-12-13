@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.domain.menu;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -34,8 +36,10 @@ public class Menu {
     @Column(nullable = false, length = 60)
     private String name;
 
-    @Column(nullable = true)
-    private String thumbnail; // 사진타입?
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(nullable = true, columnDefinition = "LONGBLOB")
+    private byte[] thumbnail;
 
     @Column(nullable = true, length = 100)
     private String intro;
@@ -54,7 +58,7 @@ public class Menu {
     private Store store;
 
     @Builder
-    public Menu(Long id, String name, String thumbnail, String intro, String price,
+    public Menu(Long id, String name, byte[] thumbnail, String intro, String price,
             MenuCategoryEnum category, boolean isClosure, Store store) {
         this.id = id;
         this.name = name;

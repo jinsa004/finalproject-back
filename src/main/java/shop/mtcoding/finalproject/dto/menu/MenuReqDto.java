@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
+import shop.mtcoding.finalproject.util.Base64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
 public class MenuReqDto {
@@ -56,7 +57,7 @@ public class MenuReqDto {
 
         public Menu toEntity() {
             return Menu.builder()
-                    .thumbnail(thumbnail)
+                    .thumbnail(Base64ConvertUtil.convertToByte(thumbnail))
                     .name(name)
                     .category(CustomEnumUtil.toMenuCategoryEnumFormat(category))
                     .price(price)
@@ -94,7 +95,7 @@ public class MenuReqDto {
 
         public Menu toEntity(Store store) {
             return Menu.builder()
-                    .thumbnail(thumbnail)
+                    .thumbnail(Base64ConvertUtil.convertToByte(thumbnail))
                     .name(name)
                     .category(CustomEnumUtil.toMenuCategoryEnumFormat(category))
                     .price(price)

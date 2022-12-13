@@ -75,8 +75,8 @@ public class OrderRepositoryQueryTest extends DummyEntity {
                 // given
                 FindStatsReqDto findStatsReqDto = new FindStatsReqDto();
                 findStatsReqDto.setStoreId(1L);
-                findStatsReqDto.setStartTime("2022-12-12");
-                findStatsReqDto.setEndTime("2022-12-12");
+                findStatsReqDto.setStartTime("2022-12-13");
+                findStatsReqDto.setEndTime("2022-12-13");
 
                 // when
                 OrderStatsRespDto orderStatsRespDto = orderRepositoryQuery.findAllOrderStatsByStoreId(findStatsReqDto);
