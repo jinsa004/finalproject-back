@@ -96,4 +96,8 @@ public class Order extends AudingTime {
                 .createdAt(createdAt)
                 .build();
     }
+
+    public void delete(Order order) {
+        this.isClosure = false;
+    }
 }
