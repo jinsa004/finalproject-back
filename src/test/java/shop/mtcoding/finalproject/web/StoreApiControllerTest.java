@@ -150,7 +150,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.likes.[1].starPoint").value(5.0));
         }
 
-        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getStoreInfo_test() throws Exception {
                 // given
@@ -168,7 +168,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.minAmount").value("10000"));
         }
 
-        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void detailStoreMain_test() throws Exception {
                 // given
@@ -187,12 +187,10 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("후라이드"));
         }
 
-        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void findStoreList_test() throws Exception {
                 // given
-                String adress = "부산시 진구 서면 17번 길";
-                Long storeId = 1L;
                 Long userId = 3L;
 
                 // when
@@ -445,7 +443,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.ceoName").value("admin"));
         }
 
-        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void insertLike_test() throws Exception {
                 // given
