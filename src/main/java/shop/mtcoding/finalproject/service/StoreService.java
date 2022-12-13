@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -42,6 +41,7 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoUpdateStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerDetailStoreMainRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreInfoRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreListRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.LikeStoreListRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -56,6 +56,19 @@ public class StoreService {
     private final LikeRepository likeRepository;
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
+
+    public LikeStoreListRespDto 찜한가게_목록보기(Long userId) {
+        // 1. 찜한 가게 목록보기 join fetch를 이용한 기능
+        List<Like> likeList = likeRepository.findByUserIdToLikeStore(userId);
+        log.debug("디버그 : 가게 목록보자 : " + likeList.get(0).getStore().getName());
+        // 2. 평균별점, 리뷰개수 연산데이터
+        List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
+        log.debug("디버그 : 너가 문제니 연산데이터? : 1번가게 별점" + customerReviewList.get(0).getStarPoint());
+        // 3. DTO 응답
+        LikeStoreListRespDto likeStoreListRespDto = new LikeStoreListRespDto(likeList, customerReviewList);
+        log.debug("디버그 : " + likeStoreListRespDto);
+        return likeStoreListRespDto;
+    }
 
     public CustomerStoreInfoRespDto 가게_정보보기(Long storeId) {
         // 이미 가게 상세보기에서 가게가 있는지 검증됐기 때문에 가게 정보만 셀렉해서 뿌리면 끝!
