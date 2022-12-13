@@ -40,10 +40,9 @@ public class CustomerReview extends AudingTime {
     @Column(nullable = false)
     private Double starPoint;
 
-    // @Lob
-    // @Basic(fetch = FetchType.LAZY)
-    // @Column(nullable = true, columnDefinition = "LONGBLOB")
-    @Column(nullable = true)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(nullable = true, columnDefinition = "LONGBLOB")
     private byte[] photo;
 
     @Column(nullable = false)
