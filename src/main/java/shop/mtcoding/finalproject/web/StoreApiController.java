@@ -38,7 +38,7 @@ public class StoreApiController {
     @GetMapping("/user/{userId}/store/name")
     public ResponseEntity<?> getStoreName(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        StoreNameRespDto storeNameRespDto = storeService.가게등록확인(userId, loginUser);
+        StoreNameRespDto storeNameRespDto = storeService.checkStoreName(userId, loginUser);
         if (storeNameRespDto.getName().equals("")) {
             return new ResponseEntity<>(new ResponseDto<>(1, "가게없는 유저", null), HttpStatus.OK);
         }
@@ -48,7 +48,7 @@ public class StoreApiController {
     @GetMapping("/user/{userId}/like/store/list")
     public ResponseEntity<?> getLikeStroeList(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        LikeStoreListRespDto likeStoreListRespDto = storeService.찜한가게_목록보기(userId);
+        LikeStoreListRespDto likeStoreListRespDto = storeService.likeStoreList(userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "찜한가게 목록보기 완료", likeStoreListRespDto), HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class StoreApiController {
     public ResponseEntity<?> getStoreInfo(@PathVariable Long userId, @PathVariable Long storeId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "가게 정보보기 기능 성공", storeService.가게_정보보기(storeId)),
+        return new ResponseEntity<>(new ResponseDto<>(1, "가게 정보보기 기능 성공", storeService.customerStoreInfo(storeId)),
                 HttpStatus.OK);
     }
 
@@ -64,7 +64,7 @@ public class StoreApiController {
     public ResponseEntity<?> detailStoreMain(@PathVariable Long userId, @PathVariable Long storeId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "가게 상세보기 기능 성공", storeService.가게_상세보기(storeId)),
+        return new ResponseEntity<>(new ResponseDto<>(1, "가게 상세보기 기능 성공", storeService.customerDetailStore(storeId)),
                 HttpStatus.OK);
     }
 
@@ -72,7 +72,7 @@ public class StoreApiController {
     public ResponseEntity<?> findStoreList(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "가게 목록보기 기능 완료",
-                storeService.가게_목록보기()), HttpStatus.OK);
+                storeService.customerStoreList()), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/apply")
