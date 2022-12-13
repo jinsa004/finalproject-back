@@ -29,6 +29,22 @@ public class OrderApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final OrderService orderService;
 
+    @GetMapping("/user/{userId}/order/{orderId}/history/detail")
+    public ResponseEntity<?> getOrderHistoryDetail(@PathVariable Long orderId, @PathVariable Long userId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
+        return new ResponseEntity<>(new ResponseDto<>("주문내역 상세보기 성공", orderService.detailOrderHistory(orderId, userId)),
+                HttpStatus.OK);
+    }
+
+    @PutMapping("/user/{userId}/order/{orderId}/history/delete")
+    public ResponseEntity<?> deleteOrderHistory(@PathVariable Long orderId, @PathVariable Long userId,
+            @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkAccount(userId);
+        orderService.deleteOrderHistory(orderId);
+        return new ResponseEntity<>(new ResponseDto<>("주문내역 삭제하기 성공", null), HttpStatus.OK);
+    }
+
     @GetMapping("/user/{userId}/order/history/list")
     public ResponseEntity<?> getOrderHistoryList(@PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {

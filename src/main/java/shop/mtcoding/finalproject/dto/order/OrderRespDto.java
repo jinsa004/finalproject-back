@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.dto.order;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,11 +9,57 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
+import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class OrderRespDto {
 
     /* 성진 작업 시작 */
+
+    @Getter
+    @Setter
+    public static class DetailOrderHistoryRespDto {// 나중에 페이먼트 필요함
+        private String customerAddress;
+        private String customerPhone;
+        private String storeName;
+        private String storePhone;
+        private String deliveryCost;
+        private Long orderId;
+        private List<orderDetailDto> orderDetailDtos = new ArrayList<>();
+
+        public DetailOrderHistoryRespDto(User user, Order order, List<OrderDetail> orderDetailList) {
+            this.customerAddress = user.getAddress();
+            this.customerPhone = user.getPhone();
+            this.storeName = order.getStore().getName();
+            this.storePhone = order.getStore().getPhone();
+            this.deliveryCost = order.getStore().getDeliveryCost();
+            this.orderId = order.getId();
+            this.orderDetailDtos = orderDetailList.stream().map((orderDetail) -> new orderDetailDto(orderDetail))
+                    .collect(Collectors.toList());
+        }
+
+        @Getter
+        @Setter
+        public class orderDetailDto {
+            private String orderState;
+            private LocalDateTime createdAt;
+            private String comment;
+            private String menuName;
+            private String price;
+            private int count;
+
+            public orderDetailDto(OrderDetail orderDetail) {
+                this.orderState = orderDetail.getOrder().getState().getState();
+                this.createdAt = orderDetail.getOrder().getCreatedAt();
+                this.comment = orderDetail.getOrder().getComment();
+                this.menuName = orderDetail.getMenu().getName();
+                this.price = orderDetail.getMenu().getPrice();
+                this.count = orderDetail.getCount();
+            }
+
+        }
+    }
+
     @Getter
     @Setter
     public static class OrderHistoryListRespDto {
