@@ -3,11 +3,13 @@ package shop.mtcoding.finalproject.util;
 public class Base64ConvertUtil {
 
     public static byte[] convertToByte(String image) {
-        if (image.isEmpty() || image.equals(""))
-            return null;
+        try {
+            byte[] bytes = image.getBytes();
+            return bytes;
 
-        byte[] bytes = image.getBytes();
-        return bytes;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static String convertToString(byte[] image) {

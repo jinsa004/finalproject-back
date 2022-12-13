@@ -12,7 +12,7 @@ public class Base64ToByteConverter {
     public void convert_test() throws Exception {
 
         // 프론트에서 이걸 진행 (결과값 : String)
-        String test = "1234567tre";
+        String test = null;
 
         // 디비에 넣을 때 (결과값 : byte[])
         byte[] resultByte = Base64ConvertUtil.convertToByte(test);
