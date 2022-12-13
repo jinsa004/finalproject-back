@@ -35,7 +35,8 @@ public class CustomerReviewApiController {
                 loginUser.getUser().checkAccount(userId);
                 StoreReviewListRespDto storeReviewListRespDto = customerReviewService.storeCustomerReviewList(storeId);
                 log.debug("디버그 : dto응답 내용" + storeReviewListRespDto.getCustomerReviewDtoList().get(0).getContent());
-                return new ResponseEntity<>(new ResponseDto<>("가게 리뷰 목록보기 성공", storeReviewListRespDto), HttpStatus.OK);
+                return new ResponseEntity<>(new ResponseDto<>(1, "가게 리뷰 목록보기 성공", storeReviewListRespDto),
+                                HttpStatus.OK);
         }
 
         @PostMapping("/user/{userId}/store/{storeId}/order/{orderId}/review/save")
@@ -46,7 +47,7 @@ public class CustomerReviewApiController {
                 loginUser.getUser().checkAccount(userId);
                 InsertCustomerReviewRespDto insertCustomerReviewRespDto = customerReviewService
                                 .saveCustomerReview(insertCustomerReviewReqDto, storeId, orderId, userId);
-                return new ResponseEntity<>(new ResponseDto<>("리뷰 등록하기 완료", insertCustomerReviewRespDto),
+                return new ResponseEntity<>(new ResponseDto<>(1, "리뷰 등록하기 완료", insertCustomerReviewRespDto),
                                 HttpStatus.CREATED);
         }
 
@@ -56,7 +57,7 @@ public class CustomerReviewApiController {
                 loginUser.getUser().checkAccount(userId);
                 CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.myCustomerReviewList(userId,
                                 loginUser);
-                return new ResponseEntity<>(new ResponseDto<>("내 리뷰 목록보기 성공", CustomerReviewListRespDto),
+                return new ResponseEntity<>(new ResponseDto<>(1, "내 리뷰 목록보기 성공", CustomerReviewListRespDto),
                                 HttpStatus.OK);
         }
 
@@ -65,6 +66,6 @@ public class CustomerReviewApiController {
                         @AuthenticationPrincipal LoginUser loginUser) {
                 loginUser.getUser().checkAccount(userId);
                 customerReviewService.deleteMyCustomerReview(reviewId, userId, loginUser);
-                return new ResponseEntity<>(new ResponseDto<>("리뷰 삭제하기 성공", null), HttpStatus.OK);
+                return new ResponseEntity<>(new ResponseDto<>(1, "리뷰 삭제하기 성공", null), HttpStatus.OK);
         }
 }
