@@ -47,14 +47,14 @@ public class MenuRespDto {
             private String intro;
             private int price;
             private String thumbnail;
-            private MenuCategoryEnum category;
+            private String category;
 
             public MenuDto(Menu menu) {
                 this.name = menu.getName();
                 this.intro = menu.getIntro();
                 this.price = menu.getPrice();
                 this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
-                this.category = menu.getCategory();
+                this.category = menu.getCategory().getCategory();
             }
 
         }
@@ -66,7 +66,7 @@ public class MenuRespDto {
     @Setter
     public static class CeoUpdateMenuRespDto {
 
-        private MenuCategoryEnum category;
+        private String category;
         private String name;
         private String intro;
         private int price;
@@ -74,7 +74,7 @@ public class MenuRespDto {
         private boolean isClosure;
 
         public CeoUpdateMenuRespDto(Menu menu) {
-            this.category = menu.getCategory();
+            this.category = menu.getCategory().getCategory();
             this.name = menu.getName();
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
@@ -88,7 +88,7 @@ public class MenuRespDto {
     @Setter
     public static class CeoDetailMenuRespDto {
 
-        private MenuCategoryEnum category;
+        private String category;
         private String name;
         private String intro;
         private int price;
@@ -96,7 +96,7 @@ public class MenuRespDto {
         private boolean isClosure;
 
         public CeoDetailMenuRespDto(Menu menu) {
-            this.category = menu.getCategory();
+            this.category = menu.getCategory().getCategory();
             this.name = menu.getName();
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
@@ -130,7 +130,7 @@ public class MenuRespDto {
     @Setter
     public static class CeoInsertMenuRespDto {
 
-        private MenuCategoryEnum category;
+        private String category;
         private String name;
         private String intro;
         private int price;
@@ -138,7 +138,7 @@ public class MenuRespDto {
         private boolean isClosure;
 
         public CeoInsertMenuRespDto(Menu menu) {
-            this.category = menu.getCategory();
+            this.category = menu.getCategory().getCategory();
             this.name = menu.getName();
             this.intro = menu.getIntro();
             this.price = menu.getPrice();

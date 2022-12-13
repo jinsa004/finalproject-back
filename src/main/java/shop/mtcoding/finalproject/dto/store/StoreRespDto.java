@@ -121,14 +121,14 @@ public class StoreRespDto {
             private String intro;
             private String thumbnail;
             private int price;
-            private MenuCategoryEnum category;
+            private String category;
 
             public MenuDto(Menu menu) {
                 this.name = menu.getName();
                 this.intro = menu.getIntro();
                 this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
                 this.price = menu.getPrice();
-                this.category = menu.getCategory();
+                this.category = menu.getCategory().getCategory();
             }
 
         }
@@ -262,7 +262,7 @@ public class StoreRespDto {
     @Getter
     @Setter
     public static class CeoUpdateStoreRespDto {
-        private StoreCategoryEnum category;
+        private String category;
         private String name;
         private String phone;
         private String thumbnail;
@@ -278,7 +278,7 @@ public class StoreRespDto {
         private String notice;
 
         public CeoUpdateStoreRespDto(Store store) {
-            this.category = store.getCategory();
+            this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
             this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
@@ -299,7 +299,7 @@ public class StoreRespDto {
     @Getter
     @Setter
     public static class CeoDetailStoreRespDto {
-        private StoreCategoryEnum category;
+        private String category;
         private String name;
         private String phone;
         private String thumbnail;
@@ -315,7 +315,7 @@ public class StoreRespDto {
         private String notice;
 
         public CeoDetailStoreRespDto(Store store) {
-            this.category = store.getCategory();
+            this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
             this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
@@ -336,7 +336,7 @@ public class StoreRespDto {
     @Getter
     @Setter
     public static class CeoInsertStoreRespDto {
-        private StoreCategoryEnum category;
+        private String category;
         private String name;
         private String phone;
         private String thumbnail;
@@ -352,7 +352,7 @@ public class StoreRespDto {
         private String notice;
 
         public CeoInsertStoreRespDto(Store store) {
-            this.category = store.getCategory();
+            this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
             this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());

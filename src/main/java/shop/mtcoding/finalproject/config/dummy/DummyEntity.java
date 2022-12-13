@@ -6,6 +6,7 @@ import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.ReportReasonEnum;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
@@ -37,6 +38,7 @@ public class DummyEntity {
 
     protected Store newStore(User user) {
         Store store = Store.builder()
+                .category(StoreCategoryEnum.CHICKEN)
                 .name("그린치킨")
                 .phone("01011112222")
                 .minAmount(10000)

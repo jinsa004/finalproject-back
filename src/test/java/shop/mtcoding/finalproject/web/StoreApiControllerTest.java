@@ -370,7 +370,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.category").value("CHICKEN"));
+                resultActions.andExpect(jsonPath("$.data.category").value("치킨"));
                 resultActions.andExpect(jsonPath("$.data.name").value("양념이 맛있는 치킨집"));
                 resultActions.andExpect(jsonPath("$.data.thumbnail")
                                 .value("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC"));
@@ -409,7 +409,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.category").value("PIZZA"));
+                resultActions.andExpect(jsonPath("$.data.category").value("피자"));
                 resultActions.andExpect(jsonPath("$.data.name").value("맛좋은 피자집"));
                 resultActions.andExpect(jsonPath("$.data.intro").value("치즈가 쭉쭉 늘어나는 맛좋은 피자집"));
                 resultActions.andExpect(jsonPath("$.data.ceoName").value("cos"));

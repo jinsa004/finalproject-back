@@ -43,7 +43,7 @@ public class OrderRespDto {
         @Setter
         public class orderDetailDto {
             private String orderState;
-            private LocalDateTime createdAt;
+            private String createdAt;
             private String comment;
             private String menuName;
             private int price;
@@ -51,7 +51,7 @@ public class OrderRespDto {
 
             public orderDetailDto(OrderDetail orderDetail) {
                 this.orderState = orderDetail.getOrder().getState().getState();
-                this.createdAt = orderDetail.getOrder().getCreatedAt();
+                this.createdAt = CustomDateUtil.toStringFormat(orderDetail.getOrder().getCreatedAt());
                 this.comment = orderDetail.getOrder().getComment();
                 this.menuName = orderDetail.getMenu().getName();
                 this.price = orderDetail.getMenu().getPrice();
