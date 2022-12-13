@@ -47,8 +47,10 @@ public class DevInit extends DummyEntity {
                         User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                         User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                         User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
+                        User hoho = userRepository.save(newUser("hoho", UserEnum.CEO));
                         Store store1 = storeRepository.save(newStore(ssar));
                         Store store2 = storeRepository.save(newStore(cos));
+                        Store store3 = storeRepository.save(newApplyStore(hoho));
                         Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
                         Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
                         Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));

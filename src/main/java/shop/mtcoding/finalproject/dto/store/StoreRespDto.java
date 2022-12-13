@@ -21,6 +21,17 @@ public class StoreRespDto {
 
     @Getter
     @Setter
+    public static class StoreNameRespDto {
+        private String name;
+
+        public StoreNameRespDto(Store store) {
+            this.name = store.getName();
+        }
+
+    }
+
+    @Getter
+    @Setter
     public static class LikeStoreListRespDto {
         private List<LikeDto> likes = new ArrayList<>();
 
@@ -41,7 +52,7 @@ public class StoreRespDto {
             private String storeName;
             private int deliveryCost;
             private String intro;
-            private String thumbnail;
+            private byte[] thumbnail;
             private Long count;
             private Double starPoint;
 

@@ -39,7 +39,7 @@ public class UserApiController {
 
     @GetMapping("/user/{userId}/detail")
     public ResponseEntity<?> userDetail(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         DetailUserRespDto detailUserRespDto = userService.detailUser(userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "유저 상세보기 완료", detailUserRespDto), HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class UserApiController {
     @PutMapping("/user/{userId}/update")
     public ResponseEntity<?> updateByUserId(@RequestBody UpdateUserReqDto updateUserReqDto,
             @PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         // 핵심로직
         UpdateUserRespDto UpdateUserRespDto = userService.updateUser(updateUserReqDto, userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "회원수정성공", UpdateUserRespDto), HttpStatus.OK);
@@ -55,7 +55,7 @@ public class UserApiController {
 
     @PutMapping("/user/{userId}/delete")
     public ResponseEntity<?> deleteByUserId(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         userService.deleteUser(userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "회원 비활성화 완료", null), HttpStatus.OK);
     }

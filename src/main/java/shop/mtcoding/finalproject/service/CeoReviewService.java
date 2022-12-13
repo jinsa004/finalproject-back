@@ -38,10 +38,6 @@ public class CeoReviewService {
         // 1. 가게 상태 확인하기
         Store storePS = storeRepository.findById(storeId).orElseThrow(
                 () -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-        // 폐업, 미승인 상태일때 익셉션
-        // if (storePS.isClosure() || !storePS.isAccept()) {
-        // throw new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        // }
 
         // 2. 리뷰 목록 가져오기
         List<CustomerReview> customerReviewPS = customerReviewRepository.findAllByStoreId(storeId);
