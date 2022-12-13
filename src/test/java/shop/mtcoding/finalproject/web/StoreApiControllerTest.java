@@ -155,7 +155,7 @@ public class StoreApiControllerTest extends DummyEntity {
         public void getStoreInfo_test() throws Exception {
                 // given
                 Long storeId = 1L;
-                Long userId = 3L;
+                Long userId = 2L;
 
                 // when
                 ResultActions resultActions = mvc
@@ -173,7 +173,7 @@ public class StoreApiControllerTest extends DummyEntity {
         public void detailStoreMain_test() throws Exception {
                 // given
                 Long storeId = 1L;
-                Long userId = 3L;
+                Long userId = 2L;
 
                 // when
                 ResultActions resultActions = mvc
@@ -193,7 +193,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 // given
                 String adress = "부산시 진구 서면 17번 길";
                 Long storeId = 1L;
-                Long userId = 3L;
+                Long userId = 2L;
 
                 // when
                 ResultActions resultActions = mvc
@@ -449,7 +449,7 @@ public class StoreApiControllerTest extends DummyEntity {
         @Test
         public void insertLike_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 2L;
                 Long storeId = 1L;
 
                 // when

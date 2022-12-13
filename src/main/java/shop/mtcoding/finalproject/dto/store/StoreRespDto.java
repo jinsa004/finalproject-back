@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
-import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
-import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
 import shop.mtcoding.finalproject.domain.like.Like;
@@ -43,7 +41,7 @@ public class StoreRespDto {
             private String storeName;
             private int deliveryCost;
             private String intro;
-            private byte[] thumbnail;
+            private String thumbnail;
             private Long count;
             private Double starPoint;
 
