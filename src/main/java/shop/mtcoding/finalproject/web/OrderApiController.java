@@ -33,8 +33,8 @@ public class OrderApiController {
     public ResponseEntity<?> getOrderHistoryDetail(@PathVariable Long orderId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
-        orderService.detailOrderHistory(orderId, userId);
-        return new ResponseEntity<>(new ResponseDto<>("주문내역 상세보기 성공", null), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>("주문내역 상세보기 성공", orderService.detailOrderHistory(orderId, userId)),
+                HttpStatus.OK);
     }
 
     @PutMapping("/user/{userId}/order/{orderId}/history/delete")
