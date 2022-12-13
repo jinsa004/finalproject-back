@@ -52,7 +52,7 @@ public class StoreRespDto {
             private String storeName;
             private int deliveryCost;
             private String intro;
-            private String thumbnail;
+            private byte[] thumbnail;
             private Long count;
             private Double starPoint;
 
