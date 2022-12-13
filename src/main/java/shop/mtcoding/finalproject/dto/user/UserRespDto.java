@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 
 public class UserRespDto {
 
@@ -54,7 +55,7 @@ public class UserRespDto {
         private String username;
         private String address;
         private String nickname;
-        private byte[] photo;
+        private String photo;
         private String phone;
 
         public UpdateUserRespDto(User user) {
@@ -62,7 +63,7 @@ public class UserRespDto {
             this.username = user.getUsername();
             this.address = user.getAddress();
             this.nickname = user.getNickname();
-            this.photo = user.getPhoto();
+            this.photo = CustomBase64ConvertUtil.convertToString(user.getPhoto());
             this.phone = user.getPhone();
         }
 
@@ -76,7 +77,7 @@ public class UserRespDto {
         private String address;
         private String nickname;
         private String phone;
-        private byte[] photo;
+        private String photo;
 
         public DetailUserRespDto(User user) {
             this.username = user.getUsername();
@@ -84,7 +85,7 @@ public class UserRespDto {
             this.address = user.getAddress();
             this.nickname = user.getNickname();
             this.phone = user.getPhone();
-            this.photo = user.getPhoto();
+            this.photo = CustomBase64ConvertUtil.convertToString(user.getPhoto());
         }
 
     }

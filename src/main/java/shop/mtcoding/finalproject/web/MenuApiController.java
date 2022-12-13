@@ -32,55 +32,57 @@ public class MenuApiController {
     @GetMapping("/user/{userId}/store/{storeId}/menu/{menuId}/detail")
     public ResponseEntity<?> getDetailMenu(@PathVariable Long userId, @PathVariable Long storeId,
             @PathVariable Long menuId, @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 상세보기 성공", menuService.detailMenu(menuId)), HttpStatus.OK);
+        loginUser.getUser().checkUser(userId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "메뉴 상세보기 성공", menuService.detailMenu(menuId)), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/{storeId}/menu/list")
     public ResponseEntity<?> getMenuList(@PathVariable Long userId, @PathVariable Long storeId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 목록보기 성공", menuService.menuList(storeId)), HttpStatus.OK);
+        loginUser.getUser().checkUser(userId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "메뉴 목록보기 성공", menuService.menuList(storeId)), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/menu/list")
     public ResponseEntity<?> findAll(@PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
-        return new ResponseEntity<>(new ResponseDto<>("사장님 가게 메뉴 전체보기 성공", menuService.findAll(userId)), HttpStatus.OK);
+        loginUser.getUser().checkUser(userId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "사장님 가게 메뉴 전체보기 성공", menuService.findAll(userId)),
+                HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/menu/{menuId}/info")
     public ResponseEntity<?> findById(@PathVariable Long userId, @PathVariable Long menuId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
-        return new ResponseEntity<>(new ResponseDto<>("사장님 메뉴 상세보기 성공", menuService.findById(menuId)), HttpStatus.OK);
+        loginUser.getUser().checkUser(userId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "사장님 메뉴 상세보기 성공", menuService.findById(menuId)),
+                HttpStatus.OK);
     }
 
     @PutMapping("/user/{userId}/store/menu/{menuId}/update/state")
     public ResponseEntity<?> updateByMenuIdToState(@PathVariable Long userId, @PathVariable Long menuId,
             @RequestBody CeoUpdateMenuStateReqDto ceoUpdateMenuStateReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         menuService.updateByMenuIdToState(ceoUpdateMenuStateReqDto, userId, menuId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 보이기 수정 완료", null), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "메뉴 보이기 수정 완료", null), HttpStatus.OK);
     }
 
     @PutMapping("/user/{userId}/store/menu/{menuId}/update")
     public ResponseEntity<?> updateByMenuId(@PathVariable Long userId, @PathVariable Long menuId,
             @RequestBody CeoUpdateMenuReqDto ceoUpdateMenuReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         return new ResponseEntity<>(
-                new ResponseDto<>("메뉴 수정 성공", menuService.updateByMenuId(ceoUpdateMenuReqDto, userId, menuId)),
+                new ResponseDto<>(1, "메뉴 수정 성공", menuService.updateByMenuId(ceoUpdateMenuReqDto, userId, menuId)),
                 HttpStatus.OK);
     }
 
     @PostMapping("/user/{userId}/store/menu/save")
     public ResponseEntity<?> insert(@RequestBody CeoInsertMenuReqDto ceoInsertMenuReqDto, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
-        return new ResponseEntity<>(new ResponseDto<>("메뉴 추가 성공", menuService.insert(ceoInsertMenuReqDto, userId)),
+        loginUser.getUser().checkUser(userId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "메뉴 추가 성공", menuService.insert(ceoInsertMenuReqDto, userId)),
                 HttpStatus.CREATED);
     }
 

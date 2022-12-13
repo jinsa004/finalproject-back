@@ -22,6 +22,7 @@ import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -80,7 +81,7 @@ public class User extends AudingTime {
         this.address = updateUserReqDto.getAddress();
         this.nickname = updateUserReqDto.getNickname();
         this.phone = updateUserReqDto.getPhone();
-        this.photo = updateUserReqDto.getPhoto();
+        this.photo = CustomBase64ConvertUtil.convertToByte(updateUserReqDto.getPhoto());
     }
 
     public void 회원비활성화() {
@@ -93,7 +94,7 @@ public class User extends AudingTime {
         this.role = UserEnum.CUSTOMER;
     }
 
-    public void checkAccount(Long userId) {
+    public void checkUser(Long userId) {
         if (!this.id.equals(userId)) {
             throw new CustomApiException("권한이 없습니다", HttpStatus.BAD_REQUEST);
         }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -42,6 +43,7 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerDetailStoreMain
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreInfoRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.LikeStoreListRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreNameRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -57,7 +59,20 @@ public class StoreService {
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
 
-    public LikeStoreListRespDto 찜한가게_목록보기(Long userId) {
+    public StoreNameRespDto checkStoreName(Long userId, LoginUser loginUser) {
+        // 1. 유저의 role이 CEO인지 체크
+        if (loginUser.getUser().getRole().getValue() != "사업자 회원") {
+            throw new CustomApiException("사업자 회원이 아닙니다.", HttpStatus.BAD_REQUEST);
+        }
+        // 2. 가게 셀렉
+        Store storePS = storeRepository.findByUserId(loginUser.getUser().getId())
+                .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않습니다", HttpStatus.BAD_GATEWAY));
+        // 3. DTO 응답
+        StoreNameRespDto storeNameRespDto = new StoreNameRespDto(storePS);
+        return storeNameRespDto;
+    }
+
+    public LikeStoreListRespDto likeStoreList(Long userId) {
         // 1. 찜한 가게 목록보기 join fetch를 이용한 기능
         List<Like> likeList = likeRepository.findByUserIdToLikeStore(userId);
         log.debug("디버그 : 가게 목록보자 : " + likeList.get(0).getStore().getName());
@@ -70,13 +85,13 @@ public class StoreService {
         return likeStoreListRespDto;
     }
 
-    public CustomerStoreInfoRespDto 가게_정보보기(Long storeId) {
+    public CustomerStoreInfoRespDto customerStoreInfo(Long storeId) {
         // 이미 가게 상세보기에서 가게가 있는지 검증됐기 때문에 가게 정보만 셀렉해서 뿌리면 끝!
         Optional<Store> storePS = storeRepository.findById(storeId);
         return new CustomerStoreInfoRespDto(storePS.get());
     }
 
-    public CustomerDetailStoreMainRespDto 가게_상세보기(Long storeId) {
+    public CustomerDetailStoreMainRespDto customerDetailStore(Long storeId) {
         // 1. 가게가 존재하는지?
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("해당 가게 내역이 없습니다.",
@@ -99,7 +114,7 @@ public class StoreService {
         return new CustomerDetailStoreMainRespDto(storePS, customerReviewDto, ceoReviewDto, likeDto, menuList);
     }
 
-    public CustomerStoreListRespDto 가게_목록보기() {
+    public CustomerStoreListRespDto customerStoreList() {
         // 1 가게 정보 1셀렉 가게리스트
         List<Store> storeList = storeRepository.findAll();
         log.debug("디버그 : 스토어리스트 : " + storeList);

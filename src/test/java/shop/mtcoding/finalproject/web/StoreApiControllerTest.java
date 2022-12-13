@@ -103,8 +103,10 @@ public class StoreApiControllerTest extends DummyEntity {
                 User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                 User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
+                User hoho = userRepository.save(newUser("hoho", UserEnum.CEO));
                 Store store1 = storeRepository.save(newStore(ssar));
                 Store store2 = storeRepository.save(newStore(cos));
+                Store store3 = storeRepository.save(newApplyStore(hoho));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
                 Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
                 Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
@@ -132,6 +134,24 @@ public class StoreApiControllerTest extends DummyEntity {
                                 .save(newReportReview(jinsa, customerReview2, ceoReview));
         }
 
+        @WithUserDetails(value = "hoho", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void getStoreName_test() throws Exception {
+                // given
+                Long userId = 5L;
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/user/" + userId + "/store/name"));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.code").value(1));
+                resultActions.andExpect(jsonPath("$.msg").value("가게없는 유저"));
+        }
+
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getLikeStroeList_test() throws Exception {
@@ -140,7 +160,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/like/store/list/" + userId));
+                                .perform(get("/api/user/" + userId + "/like/store/list"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
 
@@ -354,9 +374,9 @@ public class StoreApiControllerTest extends DummyEntity {
                 ceoInsertStoreReqDto.setThumbnail("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC");
                 ceoInsertStoreReqDto.setOpenTime("10");
                 ceoInsertStoreReqDto.setCloseTime("10");
-                ceoInsertStoreReqDto.setMinAmount("12000");
+                ceoInsertStoreReqDto.setMinAmount(12000);
                 ceoInsertStoreReqDto.setDeliveryHour("50");
-                ceoInsertStoreReqDto.setDeliveryCost("3000");
+                ceoInsertStoreReqDto.setDeliveryCost(3000);
                 ceoInsertStoreReqDto.setIntro("맛있는 치킨집");
                 ceoInsertStoreReqDto.setNotice("깨끗한 기름을 사용하여 맛있는 치킨을 만듭니다.");
                 String requestBody = om.writeValueAsString(ceoInsertStoreReqDto);
@@ -372,7 +392,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.category").value("CHICKEN"));
+                resultActions.andExpect(jsonPath("$.data.category").value("치킨"));
                 resultActions.andExpect(jsonPath("$.data.name").value("양념이 맛있는 치킨집"));
                 resultActions.andExpect(jsonPath("$.data.thumbnail")
                                 .value("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC"));
@@ -393,9 +413,9 @@ public class StoreApiControllerTest extends DummyEntity {
                 ceoUpdateStoreReqDto.setThumbnail("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC");
                 ceoUpdateStoreReqDto.setOpenTime("10");
                 ceoUpdateStoreReqDto.setCloseTime("10");
-                ceoUpdateStoreReqDto.setMinAmount("12000");
+                ceoUpdateStoreReqDto.setMinAmount(12000);
                 ceoUpdateStoreReqDto.setDeliveryHour("50");
-                ceoUpdateStoreReqDto.setDeliveryCost("3000");
+                ceoUpdateStoreReqDto.setDeliveryCost(3000);
                 ceoUpdateStoreReqDto.setIntro("치즈가 쭉쭉 늘어나는 맛좋은 피자집");
                 ceoUpdateStoreReqDto.setNotice("직접 손수 만든 반죽으로 맛있는 피자를 만듭니다.");
                 String requestBody = om.writeValueAsString(ceoUpdateStoreReqDto);
@@ -411,7 +431,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.category").value("PIZZA"));
+                resultActions.andExpect(jsonPath("$.data.category").value("피자"));
                 resultActions.andExpect(jsonPath("$.data.name").value("맛좋은 피자집"));
                 resultActions.andExpect(jsonPath("$.data.intro").value("치즈가 쭉쭉 늘어나는 맛좋은 피자집"));
                 resultActions.andExpect(jsonPath("$.data.ceoName").value("cos"));

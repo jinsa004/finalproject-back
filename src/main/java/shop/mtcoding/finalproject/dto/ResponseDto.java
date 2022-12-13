@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ResponseDto<T> {
+    private final int code;
     private final String msg;
     private final T data;
 }

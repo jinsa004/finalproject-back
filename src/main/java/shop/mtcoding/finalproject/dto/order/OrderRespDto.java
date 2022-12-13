@@ -1,6 +1,5 @@
 package shop.mtcoding.finalproject.dto.order;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +9,7 @@ import lombok.Setter;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class OrderRespDto {
@@ -23,7 +23,7 @@ public class OrderRespDto {
         private String customerPhone;
         private String storeName;
         private String storePhone;
-        private String deliveryCost;
+        private int deliveryCost;
         private Long orderId;
         private List<orderDetailDto> orderDetailDtos = new ArrayList<>();
 
@@ -42,15 +42,15 @@ public class OrderRespDto {
         @Setter
         public class orderDetailDto {
             private String orderState;
-            private LocalDateTime createdAt;
+            private String createdAt;
             private String comment;
             private String menuName;
-            private String price;
+            private int price;
             private int count;
 
             public orderDetailDto(OrderDetail orderDetail) {
                 this.orderState = orderDetail.getOrder().getState().getState();
-                this.createdAt = orderDetail.getOrder().getCreatedAt();
+                this.createdAt = CustomDateUtil.toStringFormat(orderDetail.getOrder().getCreatedAt());
                 this.comment = orderDetail.getOrder().getComment();
                 this.menuName = orderDetail.getMenu().getName();
                 this.price = orderDetail.getMenu().getPrice();
@@ -74,14 +74,14 @@ public class OrderRespDto {
         public class OrderDto {
             private String name;
             private String intro;
-            private byte[] thumbnail;
+            private String thumbnail;
             private String deliveryState;
             private String createdAt;
 
             public OrderDto(Order order) {
                 this.name = order.getStore().getName();
                 this.intro = order.getStore().getIntro();
-                this.thumbnail = order.getStore().getThumbnail();
+                this.thumbnail = CustomBase64ConvertUtil.convertToString(order.getStore().getThumbnail());
                 this.deliveryState = order.getDeliveryStateEnum().getState();
                 this.createdAt = CustomDateUtil.toStringFormat(order.getCreatedAt());
             }
@@ -99,10 +99,10 @@ public class OrderRespDto {
         private Long id;
         private String payment;
         private List<orderDetailRespDto> orderList;
-        private String deliveryPrice;
+        private int deliveryPrice;
         private String orderComment;
         private String deliveryState;
-        private String userAdress;
+        private String userAddress;
         private String userPhone;
         private String orderTime;
         private String deliveryHour;
@@ -115,7 +115,7 @@ public class OrderRespDto {
             private Long id;
             private int count;
             private String menuName;
-            private String price;
+            private int price;
 
             public orderDetailRespDto(OrderDetail orderDetail) {
                 this.id = orderDetail.getId();
@@ -139,7 +139,7 @@ public class OrderRespDto {
             this.orderList = detailRespDtos;
             this.deliveryPrice = order.getStore().getDeliveryCost();
             this.orderComment = order.getComment();
-            this.userAdress = order.getUser().getAddress();
+            this.userAddress = order.getUser().getAddress();
             this.userPhone = order.getUser().getPhone();
             this.orderTime = order.getCreatedAt().toString();
             this.deliveryHour = order.getStore().getDeliveryHour();

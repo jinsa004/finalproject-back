@@ -37,18 +37,18 @@ public class ReportReviewController {
             @PathVariable Long reportReviewId) {
         ResolveReportReviewRespDto resolveReportReviewRespDto = reportReviewService
                 .resolveReportReview(resolveReportReviewReqDto, reportReviewId);
-        return new ResponseEntity<>(new ResponseDto<>("신고리뷰 처리하기 기능 성공", resolveReportReviewRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "신고리뷰 처리하기 기능 성공", resolveReportReviewRespDto), HttpStatus.OK);
     }
 
     @GetMapping("/admin/review/{reportReviewId}/report/detail")
     public ResponseEntity<?> getDetailReportReview(@PathVariable Long reportReviewId) {
         DetailReportReviewRespDto detailReportReviewRespDto = reportReviewService.detailReportReview(reportReviewId);
-        return new ResponseEntity<>(new ResponseDto<>("신고리뷰 상세보기 기능 성공", detailReportReviewRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "신고리뷰 상세보기 기능 성공", detailReportReviewRespDto), HttpStatus.OK);
     }
 
     @GetMapping("/admin/review/report/list")
     public ResponseEntity<?> getReportReviewList() {
-        return new ResponseEntity<>(new ResponseDto<>("신고리뷰 목록보기 기능 성공", reportReviewService.reportReviewList()),
+        return new ResponseEntity<>(new ResponseDto<>(1, "신고리뷰 목록보기 기능 성공", reportReviewService.reportReviewList()),
                 HttpStatus.OK);
     }
 
@@ -57,10 +57,10 @@ public class ReportReviewController {
     @GetMapping("/user/{userId}/store/{storeId}/review/report")
     public ResponseEntity<?> findAllByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         List<ReportCeoReviewRespDto> reportReviewRespDtos = reportReviewService.findAllByStoreId(storeId,
                 userId);
-        return new ResponseEntity<>(new ResponseDto<>("신고한 리뷰 목록보기 완료", reportReviewRespDtos), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "신고한 리뷰 목록보기 완료", reportReviewRespDtos), HttpStatus.OK);
     }
 
     // 해당 리뷰 신고하기
@@ -68,9 +68,9 @@ public class ReportReviewController {
     public ResponseEntity<?> insert(@PathVariable Long reviewId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser,
             @RequestBody InsertReportReviewReqDto insertReportReviewReqDto) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         reportReviewService.insertReportReview(insertReportReviewReqDto, reviewId, userId);
-        return new ResponseEntity<>(new ResponseDto<>("리뷰 신고 완료", null), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseDto<>(1, "리뷰 신고 완료", null), HttpStatus.CREATED);
     }
 
     /* 승현 작업 종료 */

@@ -200,7 +200,7 @@ public class MenuApiControllerTest extends DummyEntity {
                 ceoUpdateMenuReqDto.setName("간장치킨");
                 ceoUpdateMenuReqDto.setIntro("간장치킨 소개글");
                 ceoUpdateMenuReqDto.setCategory("메인 메뉴");
-                ceoUpdateMenuReqDto.setPrice("21500");
+                ceoUpdateMenuReqDto.setPrice(21500);
                 String requestBody = om.writeValueAsString(ceoUpdateMenuReqDto);
                 System.out.println("테스트 : " + requestBody);
 
@@ -229,7 +229,7 @@ public class MenuApiControllerTest extends DummyEntity {
                 ceoInsertMenuReqDto.setName("간장치킨");
                 ceoInsertMenuReqDto.setIntro("간장치킨 소개글");
                 ceoInsertMenuReqDto.setCategory("메인 메뉴");
-                ceoInsertMenuReqDto.setPrice("21000");
+                ceoInsertMenuReqDto.setPrice(21000);
                 String requestBody = om.writeValueAsString(ceoInsertMenuReqDto);
                 System.out.println("테스트 : " + requestBody);
 

@@ -6,6 +6,7 @@ import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.ReportReasonEnum;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
@@ -37,9 +38,10 @@ public class DummyEntity {
 
     protected Store newStore(User user) {
         Store store = Store.builder()
+                .category(StoreCategoryEnum.CHICKEN)
                 .name("그린치킨")
                 .phone("01011112222")
-                .minAmount("10000")
+                .minAmount(10000)
                 .thumbnail(null)
                 .ceoName("cos")
                 .businessNumber("112233")
@@ -47,7 +49,30 @@ public class DummyEntity {
                 .openTime("2")
                 .closeTime("4")
                 .deliveryHour("30")
-                .deliveryCost("2000")
+                .deliveryCost(2000)
+                .intro("그린 치킨입니다.")
+                .notice("리뷰 이벤트중입니다.")
+                .isOpend(true)
+                .isAccept(true)
+                .user(user)
+                .build();
+        return store;
+    }
+
+    protected Store newApplyStore(User user) {
+        Store store = Store.builder()
+                .category(StoreCategoryEnum.CHICKEN)
+                .name("")
+                .phone("01011112222")
+                .minAmount(10000)
+                .thumbnail(null)
+                .ceoName("cos")
+                .businessNumber("112233")
+                .businessAddress("부산시 진구 서면 17번 길")
+                .openTime("2")
+                .closeTime("4")
+                .deliveryHour("30")
+                .deliveryCost(2000)
                 .intro("그린 치킨입니다.")
                 .notice("리뷰 이벤트중입니다.")
                 .isOpend(true)
@@ -62,7 +87,7 @@ public class DummyEntity {
                 .name(name)
                 .thumbnail(null)
                 .intro("깨끗한 기름으로 튀겼습니다.")
-                .price("18000")
+                .price(18000)
                 .category(MenuCategoryEnum.MAIN)
                 .isClosure(false)
                 .store(store)
