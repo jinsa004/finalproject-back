@@ -57,7 +57,7 @@ public class ReportReviewController {
     @GetMapping("/user/{userId}/store/{storeId}/review/report")
     public ResponseEntity<?> findAllByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         List<ReportCeoReviewRespDto> reportReviewRespDtos = reportReviewService.findAllByStoreId(storeId,
                 userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "신고한 리뷰 목록보기 완료", reportReviewRespDtos), HttpStatus.OK);
@@ -68,7 +68,7 @@ public class ReportReviewController {
     public ResponseEntity<?> insert(@PathVariable Long reviewId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser,
             @RequestBody InsertReportReviewReqDto insertReportReviewReqDto) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         reportReviewService.insertReportReview(insertReportReviewReqDto, reviewId, userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "리뷰 신고 완료", null), HttpStatus.CREATED);
     }

@@ -94,7 +94,7 @@ public class User extends AudingTime {
         this.role = UserEnum.CUSTOMER;
     }
 
-    public void checkAccount(Long userId) {
+    public void checkUser(Long userId) {
         if (!this.id.equals(userId)) {
             throw new CustomApiException("권한이 없습니다", HttpStatus.BAD_REQUEST);
         }

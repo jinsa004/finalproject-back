@@ -17,7 +17,7 @@ public class JwtProcess {
                 .withSubject(loginUser.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
                 .withClaim("id", loginUser.getUser().getId())
-                .withClaim("role", loginUser.getUser().getRole().getValue())
+                .withClaim("role", loginUser.getUser().getRole().name())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
         return JwtProperties.TOKEN_PREFIX + jwtToken; // 앞에 +는 Bearer를 붙여주는 것
