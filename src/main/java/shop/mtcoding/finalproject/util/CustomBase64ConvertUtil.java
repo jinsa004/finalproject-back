@@ -1,6 +1,6 @@
 package shop.mtcoding.finalproject.util;
 
-public class Base64ConvertUtil {
+public class CustomBase64ConvertUtil {
 
     public static byte[] convertToByte(String image) {
         try {

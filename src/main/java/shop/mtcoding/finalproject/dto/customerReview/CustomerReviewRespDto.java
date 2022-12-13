@@ -11,7 +11,7 @@ import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.user.User;
-import shop.mtcoding.finalproject.util.Base64ConvertUtil;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class CustomerReviewRespDto {
@@ -53,7 +53,7 @@ public class CustomerReviewRespDto {
             public CustomerReviewDto(CustomerReviewInterface customerReviewDto, List<CustomerMenuInterface> crm) {
                 this.orderId = customerReviewDto.getOrderId();
                 this.nickname = customerReviewDto.getNickname();
-                this.uPhoto = Base64ConvertUtil.convertToString(customerReviewDto.getUPhoto());
+                this.uPhoto = CustomBase64ConvertUtil.convertToString(customerReviewDto.getUPhoto());
                 this.crPhoto = customerReviewDto.getCrPhoto();
                 this.content = customerReviewDto.getContent();
                 this.starPoint = customerReviewDto.getStarPoint();
@@ -86,7 +86,7 @@ public class CustomerReviewRespDto {
 
         public InsertCustomerReviewRespDto(CustomerReview customerReview) {
             this.content = customerReview.getContent();
-            this.photo = Base64ConvertUtil.convertToString(customerReview.getPhoto());
+            this.photo = CustomBase64ConvertUtil.convertToString(customerReview.getPhoto());
             this.starPoint = customerReview.getStarPoint();
         }
 
@@ -146,7 +146,7 @@ public class CustomerReviewRespDto {
 
             public CustomerReviewDto(CustomerReview customerReview) {
                 this.content = customerReview.getContent();
-                this.photo = Base64ConvertUtil.convertToString(customerReview.getPhoto());
+                this.photo = CustomBase64ConvertUtil.convertToString(customerReview.getPhoto());
                 this.starPoint = customerReview.getStarPoint();
                 this.createdAt = CustomDateUtil.toStringFormat(customerReview.getCreatedAt());
                 this.comment = customerReview.getCeoReview().getContent();

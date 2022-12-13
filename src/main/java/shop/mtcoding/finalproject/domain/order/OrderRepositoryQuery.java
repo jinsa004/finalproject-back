@@ -20,14 +20,14 @@ public class OrderRepositoryQuery {
 
         StringBuffer sb = new StringBuffer();
         sb.append("select count(o.id) order_count, ");
-        sb.append("(select sum(convert(m.price, int)) from order_details od ");
+        sb.append("(select sum(m.price) from order_details od ");
         sb.append("left outer join menus m on m.id = od.menu_id ");
         sb.append("left outer join orders o on o.id = od.order_id ");
         sb.append("where o.store_id = :storeId ");
         sb.append("and o.state = 'COMPLETE' ");
         sb.append("and o.created_at >= :startTime ");
         sb.append("and o.created_at <= :endTime) order_amount, ");
-        sb.append("(select sum(convert(m.price, int)) / 10 from order_details od ");
+        sb.append("(select sum(m.price) / 10 from order_details od ");
         sb.append("left outer join menus m on m.id = od.menu_id ");
         sb.append("left outer join orders o on o.id = od.order_id ");
         sb.append("where o.store_id = :storeId ");
@@ -39,7 +39,7 @@ public class OrderRepositoryQuery {
         sb.append("and state = 'COMPLETE' ");
         sb.append("and created_at >= :startTime ");
         sb.append("and created_at <= :endTime) delivery_count, ");
-        sb.append("(select sum(convert(m.price, int)) from order_details od ");
+        sb.append("(select sum(m.price) from order_details od ");
         sb.append("left outer join menus m on m.id = od.menu_id ");
         sb.append("left outer join orders o on o.id = od.order_id ");
         sb.append("where o.store_id = :storeId and o.delivery_state_enum = 'DELIVERY' ");
@@ -51,7 +51,7 @@ public class OrderRepositoryQuery {
         sb.append("and state = 'COMPLETE' ");
         sb.append("and created_at >= :startTime ");
         sb.append("and created_at <= :endTime) take_out_count, ");
-        sb.append("(select sum(convert(m.price, int)) from order_details od  ");
+        sb.append("(select sum(m.price) from order_details od  ");
         sb.append("left outer join menus m on m.id = od.menu_id ");
         sb.append("left outer join orders o on o.id = od.order_id where o.store_id = :storeId ");
         sb.append("and o.state = 'COMPLETE' ");

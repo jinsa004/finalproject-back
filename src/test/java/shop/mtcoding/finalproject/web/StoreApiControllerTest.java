@@ -153,7 +153,7 @@ public class StoreApiControllerTest extends DummyEntity {
         public void getStoreInfo_test() throws Exception {
                 // given
                 Long storeId = 1L;
-                Long userId = 2L;
+                Long userId = 3L;
 
                 // when
                 ResultActions resultActions = mvc
@@ -171,7 +171,7 @@ public class StoreApiControllerTest extends DummyEntity {
         public void detailStoreMain_test() throws Exception {
                 // given
                 Long storeId = 1L;
-                Long userId = 2L;
+                Long userId = 3L;
 
                 // when
                 ResultActions resultActions = mvc
@@ -181,8 +181,8 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.starPoint").value(4.5));
-                resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("후라이드치킨"));
+                resultActions.andExpect(jsonPath("$.data.starPoint").value(5.0));
+                resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("후라이드"));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -191,7 +191,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 // given
                 String adress = "부산시 진구 서면 17번 길";
                 Long storeId = 1L;
-                Long userId = 2L;
+                Long userId = 3L;
 
                 // when
                 ResultActions resultActions = mvc
@@ -267,9 +267,6 @@ public class StoreApiControllerTest extends DummyEntity {
         @Test
         public void findAllToApplyList_test() throws Exception {
                 // given
-                Store storePS = storeRepository.findByUserId(2L).get();
-                storePS.updateAccept(false);
-                storeRepository.save(storePS);
 
                 // when
                 ResultActions resultActions = mvc
@@ -281,8 +278,8 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.[0].username").value("ssar"));
                 resultActions.andExpect(jsonPath("$.data.[0].accept").value(true));
-                resultActions.andExpect(jsonPath("$.data.[1].username").value("jinsa"));
-                resultActions.andExpect(jsonPath("$.data.[1].accept").value(false));
+                resultActions.andExpect(jsonPath("$.data.[1].username").value("cos"));
+                resultActions.andExpect(jsonPath("$.data.[1].accept").value(true));
         }
 
         @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -355,9 +352,9 @@ public class StoreApiControllerTest extends DummyEntity {
                 ceoInsertStoreReqDto.setThumbnail("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC");
                 ceoInsertStoreReqDto.setOpenTime("10");
                 ceoInsertStoreReqDto.setCloseTime("10");
-                ceoInsertStoreReqDto.setMinAmount("12000");
+                ceoInsertStoreReqDto.setMinAmount(12000);
                 ceoInsertStoreReqDto.setDeliveryHour("50");
-                ceoInsertStoreReqDto.setDeliveryCost("3000");
+                ceoInsertStoreReqDto.setDeliveryCost(3000);
                 ceoInsertStoreReqDto.setIntro("맛있는 치킨집");
                 ceoInsertStoreReqDto.setNotice("깨끗한 기름을 사용하여 맛있는 치킨을 만듭니다.");
                 String requestBody = om.writeValueAsString(ceoInsertStoreReqDto);
@@ -394,9 +391,9 @@ public class StoreApiControllerTest extends DummyEntity {
                 ceoUpdateStoreReqDto.setThumbnail("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC");
                 ceoUpdateStoreReqDto.setOpenTime("10");
                 ceoUpdateStoreReqDto.setCloseTime("10");
-                ceoUpdateStoreReqDto.setMinAmount("12000");
+                ceoUpdateStoreReqDto.setMinAmount(12000);
                 ceoUpdateStoreReqDto.setDeliveryHour("50");
-                ceoUpdateStoreReqDto.setDeliveryCost("3000");
+                ceoUpdateStoreReqDto.setDeliveryCost(3000);
                 ceoUpdateStoreReqDto.setIntro("치즈가 쭉쭉 늘어나는 맛좋은 피자집");
                 ceoUpdateStoreReqDto.setNotice("직접 손수 만든 반죽으로 맛있는 피자를 만듭니다.");
                 String requestBody = om.writeValueAsString(ceoUpdateStoreReqDto);
@@ -423,7 +420,7 @@ public class StoreApiControllerTest extends DummyEntity {
         @Test
         public void apply_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 4L;
                 CeoApplyStoreReqDto ceoApplyStoreReqDto = new CeoApplyStoreReqDto();
                 ceoApplyStoreReqDto.setCeoName("admin");
                 ceoApplyStoreReqDto.setBusinessAddress("부산시 부산진구 혜도빌딩 4층 423호");
@@ -450,7 +447,7 @@ public class StoreApiControllerTest extends DummyEntity {
         @Test
         public void insertLike_test() throws Exception {
                 // given
-                Long userId = 2L;
+                Long userId = 3L;
                 Long storeId = 1L;
 
                 // when

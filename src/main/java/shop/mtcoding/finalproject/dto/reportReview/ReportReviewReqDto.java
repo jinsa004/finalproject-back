@@ -1,7 +1,5 @@
 package shop.mtcoding.finalproject.dto.reportReview;
 
-import java.time.LocalDateTime;
-
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;

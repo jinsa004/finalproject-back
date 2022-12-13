@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.domain.menu.Menu;
-import shop.mtcoding.finalproject.util.Base64ConvertUtil;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 
 public class MenuRespDto {
 
@@ -20,11 +20,11 @@ public class MenuRespDto {
         private String name;
         private String thumbnail;
         private String intro;
-        private String price;
+        private int price;
 
         public CustomerDetailMenuRespDto(Menu menu) {
             this.name = menu.getName();
-            this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
+            this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
         }
@@ -45,7 +45,7 @@ public class MenuRespDto {
         public class MenuDto {
             private String name;
             private String intro;
-            private String price;
+            private int price;
             private String thumbnail;
             private MenuCategoryEnum category;
 
@@ -53,7 +53,7 @@ public class MenuRespDto {
                 this.name = menu.getName();
                 this.intro = menu.getIntro();
                 this.price = menu.getPrice();
-                this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
+                this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
                 this.category = menu.getCategory();
             }
 
@@ -69,7 +69,7 @@ public class MenuRespDto {
         private MenuCategoryEnum category;
         private String name;
         private String intro;
-        private String price;
+        private int price;
         private String thumbnail;
         private boolean isClosure;
 
@@ -78,7 +78,7 @@ public class MenuRespDto {
             this.name = menu.getName();
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
-            this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
+            this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
             this.isClosure = menu.isClosure();
         }
 
@@ -91,7 +91,7 @@ public class MenuRespDto {
         private MenuCategoryEnum category;
         private String name;
         private String intro;
-        private String price;
+        private int price;
         private String thumbnail;
         private boolean isClosure;
 
@@ -100,7 +100,7 @@ public class MenuRespDto {
             this.name = menu.getName();
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
-            this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
+            this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
             this.isClosure = menu.isClosure();
         }
 
@@ -113,12 +113,12 @@ public class MenuRespDto {
         private Long id;
         private String thumbnail;
         private String name;
-        private String price;
+        private int price;
         private boolean isClosure;
 
         public CeoShowMenuRespDto(Menu menu) {
             this.id = menu.getId();
-            this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
+            this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
             this.name = menu.getName();
             this.price = menu.getPrice();
             this.isClosure = menu.isClosure;
@@ -133,8 +133,8 @@ public class MenuRespDto {
         private MenuCategoryEnum category;
         private String name;
         private String intro;
-        private String price;
-        private byte[] thumbnail;
+        private int price;
+        private String thumbnail;
         private boolean isClosure;
 
         public CeoInsertMenuRespDto(Menu menu) {
@@ -142,7 +142,7 @@ public class MenuRespDto {
             this.name = menu.getName();
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
-            this.thumbnail = menu.getThumbnail();
+            this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
             this.isClosure = menu.isClosure();
         }
 

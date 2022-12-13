@@ -66,14 +66,14 @@ public class Store extends AudingTime {
     @Column(nullable = true, length = 2)
     private String closeTime;
 
-    @Column(nullable = true, length = 5)
-    private String minAmount;
+    @Column(nullable = false)
+    private int minAmount;
 
     @Column(nullable = true, length = 4)
     private String deliveryHour;
 
-    @Column(nullable = true, length = 4)
-    private String deliveryCost;
+    @Column(nullable = false)
+    private int deliveryCost;
 
     @Column(nullable = true, length = 100)
     private String intro;
@@ -95,8 +95,8 @@ public class Store extends AudingTime {
 
     @Builder
     public Store(Long id, StoreCategoryEnum category, String name, String phone, byte[] thumbnail, String ceoName,
-            String businessNumber, String businessAddress, String openTime, String closeTime, String minAmount,
-            String deliveryHour, String deliveryCost, String intro, String notice, boolean isOpend, boolean isAccept,
+            String businessNumber, String businessAddress, String openTime, String closeTime, int minAmount,
+            String deliveryHour, int deliveryCost, String intro, String notice, boolean isOpend, boolean isAccept,
             boolean isClosure, LocalDateTime createdAt, User user) {
         this.id = id;
         this.category = category;

@@ -4,7 +4,7 @@ import java.util.Base64;
 
 import org.junit.jupiter.api.Test;
 
-import shop.mtcoding.finalproject.util.Base64ConvertUtil;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 
 public class Base64ToByteConverter {
 
@@ -15,11 +15,11 @@ public class Base64ToByteConverter {
         String test = null;
 
         // 디비에 넣을 때 (결과값 : byte[])
-        byte[] resultByte = Base64ConvertUtil.convertToByte(test);
+        byte[] resultByte = CustomBase64ConvertUtil.convertToByte(test);
         System.out.println("테스트 : test : " + resultByte);
 
         // 프론트한테 줄 때 (결과값 : String)
-        String resultString = Base64ConvertUtil.convertToString(resultByte);
+        String resultString = CustomBase64ConvertUtil.convertToString(resultByte);
         System.out.println("테스트 : test : " + resultString);
     }
 

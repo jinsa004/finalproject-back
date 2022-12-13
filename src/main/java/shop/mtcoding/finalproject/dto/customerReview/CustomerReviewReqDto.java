@@ -6,7 +6,7 @@ import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
-import shop.mtcoding.finalproject.util.Base64ConvertUtil;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 
 public class CustomerReviewReqDto {
     @Getter
@@ -20,7 +20,7 @@ public class CustomerReviewReqDto {
             return CustomerReview.builder()
                     .content(content)
                     .starPoint(starPoint)
-                    .photo(Base64ConvertUtil.convertToByte(photo))
+                    .photo(CustomBase64ConvertUtil.convertToByte(photo))
                     .order(order)
                     .user(user)
                     .store(store)
