@@ -140,7 +140,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/like/store/list/" + userId));
+                                .perform(get("/api/user/" + userId + "/like/store/list"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
 

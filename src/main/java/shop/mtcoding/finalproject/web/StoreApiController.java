@@ -33,7 +33,14 @@ public class StoreApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreService storeService;
 
-    @GetMapping("/like/store/list/{userId}")
+    // 사업자 회원이 로그인 시 자신의 가게가 등록되어있다면 메인페이지, 없다면 가게등록 페이지로 보내기 위한 기능
+    @GetMapping("/user/{userId}/")
+    public ResponseEntity<?> getStoreName() {
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "가게있는 유저", null), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}/like/store/list")
     public ResponseEntity<?> getLikeStroeList(@PathVariable Long userId) {
         LikeStoreListRespDto likeStoreListRespDto = storeService.찜한가게_목록보기(userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "찜한가게 목록보기 완료", likeStoreListRespDto), HttpStatus.OK);
