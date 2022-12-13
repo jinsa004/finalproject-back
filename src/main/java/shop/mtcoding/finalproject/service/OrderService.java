@@ -25,6 +25,7 @@ import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.InsertOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
+import shop.mtcoding.finalproject.dto.order.OrderRespDto.DetailOrderHistoryRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.OrderHistoryListRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
 
@@ -40,6 +41,28 @@ public class OrderService {
     private final UserRepository userRepository;
 
     /* 성진 작업 시작 */
+    public DetailOrderHistoryRespDto detailOrderHistory(Long orderId, Long userId) {
+        // 1. 유저 정보(유저 주소, 유저 번호) 셀렉
+        log.debug("디버그 : 유저 셀렉 전");
+        User userPS = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomApiException("해당 유저정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        log.debug("디버그 : 유저 셀렉 후" + userPS.getUsername());
+        // 2. 해당 주문내역 상세보기 셀렉 (Order와 Store join fetch)
+        log.debug("디버그 : 오더 셀렉 전");
+        Order orderPS = orderRepository.findByOrderId(orderId);
+        log.debug("디버그 : 오더 셀렉 후" + orderPS.getComment());
+        // 3. orderId에 맞는 orderDetail 셀렉
+        log.debug("디버그 : 오더디테일 셀렉 전");
+        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrderIdToOrderHistory(orderPS.getId());
+        log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.size());
+        log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(0).getMenu().getName());
+        log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(1).getMenu().getName());
+        // 4. DTO 응답
+        DetailOrderHistoryRespDto detailOrderHistoryRespDto = new DetailOrderHistoryRespDto(userPS, orderPS,
+                orderDetailList);
+        return detailOrderHistoryRespDto;
+    }
+
     @Transactional
     public void deleteOrderHistory(Long orderId) {
         // 1. 주문 내역 셀렉

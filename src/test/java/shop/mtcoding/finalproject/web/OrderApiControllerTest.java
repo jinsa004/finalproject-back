@@ -121,6 +121,24 @@ public class OrderApiControllerTest extends DummyEntity {
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
+        public void getOrderHistoryDetail_test() throws Exception {
+                // given
+                Long userId = 3L;
+                Long orderId = 1L;
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/user/" + userId + "/order/" + orderId + "/history/detail"));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : 응답데이터 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.storeName").value("그린치킨"));
+                resultActions.andExpect(jsonPath("$.data.orderDetailDtos.[0].orderState").value("배달완료"));
+        }
+
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
         public void deleteOrderHistory_test() throws Exception {
                 // given
                 Long userId = 3L;
