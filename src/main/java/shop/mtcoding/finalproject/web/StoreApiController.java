@@ -22,6 +22,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreReqDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.LikeStoreListRespDto;
 import shop.mtcoding.finalproject.service.StoreService;
 
 @RequiredArgsConstructor
@@ -31,6 +32,13 @@ public class StoreApiController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreService storeService;
+
+    @GetMapping("/like/store/list/{userId}")
+    public ResponseEntity<?> getLikeStroeList(@PathVariable Long userId) {
+        LikeStoreListRespDto likeStoreListRespDto = storeService.찜한가게_목록보기(userId);
+
+        return new ResponseEntity<>(new ResponseDto<>("zz나올리가있냐", likeStoreListRespDto), HttpStatus.OK);
+    }
 
     @GetMapping("/user/{userId}/store/{storeId}/info")
     public ResponseEntity<?> getStoreInfo(@PathVariable Long userId, @PathVariable Long storeId,
