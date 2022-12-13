@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
-import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.JoinReqDto;
 import shop.mtcoding.finalproject.dto.user.UserReqDto.UpdateUserReqDto;
@@ -38,7 +37,7 @@ public class UserApiController {
         return new ResponseEntity<>(new ResponseDto<>("회원가입성공", joinRespDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{userId}/detail")
     public ResponseEntity<?> userDetail(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
         DetailUserRespDto detailUserRespDto = userService.detailUser(userId);
