@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -42,6 +43,7 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerDetailStoreMain
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreInfoRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.LikeStoreListRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreNameRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -56,6 +58,19 @@ public class StoreService {
     private final LikeRepository likeRepository;
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
+
+    public StoreNameRespDto 가게등록확인(Long userId, LoginUser loginUser) {
+        // 1. 유저의 role이 CEO인지 체크
+        if (loginUser.getUser().getRole().getValue() != "사업자 회원") {
+            throw new CustomApiException("사업자 회원이 아닙니다.", HttpStatus.BAD_REQUEST);
+        }
+        // 2. 가게 셀렉
+        Store storePS = storeRepository.findByUserId(loginUser.getUser().getId())
+                .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않습니다", HttpStatus.BAD_GATEWAY));
+        // 3. DTO 응답
+        StoreNameRespDto storeNameRespDto = new StoreNameRespDto(storePS);
+        return storeNameRespDto;
+    }
 
     public LikeStoreListRespDto 찜한가게_목록보기(Long userId) {
         // 1. 찜한 가게 목록보기 join fetch를 이용한 기능

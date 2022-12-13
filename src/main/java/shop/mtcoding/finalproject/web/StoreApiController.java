@@ -23,6 +23,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.LikeStoreListRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreNameRespDto;
 import shop.mtcoding.finalproject.service.StoreService;
 
 @RequiredArgsConstructor
@@ -34,14 +35,19 @@ public class StoreApiController {
     private final StoreService storeService;
 
     // 사업자 회원이 로그인 시 자신의 가게가 등록되어있다면 메인페이지, 없다면 가게등록 페이지로 보내기 위한 기능
-    @GetMapping("/user/{userId}/")
-    public ResponseEntity<?> getStoreName() {
-
-        return new ResponseEntity<>(new ResponseDto<>(1, "가게있는 유저", null), HttpStatus.OK);
+    @GetMapping("/user/{userId}/store/name")
+    public ResponseEntity<?> getStoreName(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkUser(userId);
+        StoreNameRespDto storeNameRespDto = storeService.가게등록확인(userId, loginUser);
+        if (storeNameRespDto.getName().equals("")) {
+            return new ResponseEntity<>(new ResponseDto<>(1, "가게없는 유저", null), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ResponseDto<>(1, "가게있는 유저", storeNameRespDto), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/like/store/list")
-    public ResponseEntity<?> getLikeStroeList(@PathVariable Long userId) {
+    public ResponseEntity<?> getLikeStroeList(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
+        loginUser.getUser().checkUser(userId);
         LikeStoreListRespDto likeStoreListRespDto = storeService.찜한가게_목록보기(userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "찜한가게 목록보기 완료", likeStoreListRespDto), HttpStatus.OK);
     }

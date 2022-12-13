@@ -59,6 +59,29 @@ public class DummyEntity {
         return store;
     }
 
+    protected Store newApplyStore(User user) {
+        Store store = Store.builder()
+                .category(StoreCategoryEnum.CHICKEN)
+                .name("")
+                .phone("01011112222")
+                .minAmount(10000)
+                .thumbnail(null)
+                .ceoName("cos")
+                .businessNumber("112233")
+                .businessAddress("부산시 진구 서면 17번 길")
+                .openTime("2")
+                .closeTime("4")
+                .deliveryHour("30")
+                .deliveryCost(2000)
+                .intro("그린 치킨입니다.")
+                .notice("리뷰 이벤트중입니다.")
+                .isOpend(true)
+                .isAccept(true)
+                .user(user)
+                .build();
+        return store;
+    }
+
     protected Menu newMenu(Store store, String name) {
         Menu menu = Menu.builder()
                 .name(name)
