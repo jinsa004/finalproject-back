@@ -352,7 +352,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 ceoInsertStoreReqDto.setCategory("치킨");
                 ceoInsertStoreReqDto.setName("양념이 맛있는 치킨집");
                 ceoInsertStoreReqDto.setPhone("0510001234");
-                ceoInsertStoreReqDto.setThumbnail(null);
+                ceoInsertStoreReqDto.setThumbnail("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC");
                 ceoInsertStoreReqDto.setOpenTime("10");
                 ceoInsertStoreReqDto.setCloseTime("10");
                 ceoInsertStoreReqDto.setMinAmount("12000");
@@ -375,6 +375,8 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.category").value("CHICKEN"));
                 resultActions.andExpect(jsonPath("$.data.name").value("양념이 맛있는 치킨집"));
+                resultActions.andExpect(jsonPath("$.data.thumbnail")
+                                .value("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC"));
                 resultActions.andExpect(jsonPath("$.data.intro").value("맛있는 치킨집"));
                 resultActions.andExpect(jsonPath("$.data.ceoName").value("cos"));
                 resultActions.andExpect(jsonPath("$.data.businessNumber").value("112233"));
@@ -389,7 +391,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 ceoUpdateStoreReqDto.setName("맛좋은 피자집");
                 ceoUpdateStoreReqDto.setCategory("피자");
                 ceoUpdateStoreReqDto.setPhone("0510001234");
-                ceoUpdateStoreReqDto.setThumbnail(null);
+                ceoUpdateStoreReqDto.setThumbnail("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC");
                 ceoUpdateStoreReqDto.setOpenTime("10");
                 ceoUpdateStoreReqDto.setCloseTime("10");
                 ceoUpdateStoreReqDto.setMinAmount("12000");

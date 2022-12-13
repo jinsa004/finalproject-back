@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.util.Base64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
 public class StoreReqDto {
@@ -78,7 +79,7 @@ public class StoreReqDto {
                     .category(CustomEnumUtil.toStoreCategoryEnumFormat(category))
                     .name(name)
                     .phone(phone)
-                    .thumbnail(thumbnail)
+                    .thumbnail(Base64ConvertUtil.convertToByte(thumbnail))
                     .openTime(openTime)
                     .closeTime(closeTime)
                     .minAmount(minAmount)
@@ -134,7 +135,7 @@ public class StoreReqDto {
                     .category(CustomEnumUtil.toStoreCategoryEnumFormat(category))
                     .name(name)
                     .phone(phone)
-                    .thumbnail(thumbnail)
+                    .thumbnail(Base64ConvertUtil.convertToByte(thumbnail))
                     .openTime(openTime)
                     .closeTime(closeTime)
                     .minAmount(minAmount)
