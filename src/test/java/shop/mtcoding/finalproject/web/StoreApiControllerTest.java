@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -148,7 +150,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.likes.[1].starPoint").value(5.0));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getStoreInfo_test() throws Exception {
                 // given
@@ -166,7 +168,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.minAmount").value("10000"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void detailStoreMain_test() throws Exception {
                 // given
@@ -181,11 +183,11 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.starPoint").value(4.5));
-                resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("후라이드치킨"));
+                resultActions.andExpect(jsonPath("$.data.starPoint").value(5.0));
+                resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("후라이드"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void findStoreList_test() throws Exception {
                 // given
@@ -267,9 +269,6 @@ public class StoreApiControllerTest extends DummyEntity {
         @Test
         public void findAllToApplyList_test() throws Exception {
                 // given
-                Store storePS = storeRepository.findByUserId(2L).get();
-                storePS.updateAccept(false);
-                storeRepository.save(storePS);
 
                 // when
                 ResultActions resultActions = mvc
@@ -281,8 +280,8 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.[0].username").value("ssar"));
                 resultActions.andExpect(jsonPath("$.data.[0].accept").value(true));
-                resultActions.andExpect(jsonPath("$.data.[1].username").value("jinsa"));
-                resultActions.andExpect(jsonPath("$.data.[1].accept").value(false));
+                resultActions.andExpect(jsonPath("$.data.[1].username").value("cos"));
+                resultActions.andExpect(jsonPath("$.data.[1].accept").value(true));
         }
 
         @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -423,7 +422,7 @@ public class StoreApiControllerTest extends DummyEntity {
         @Test
         public void apply_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 4L;
                 CeoApplyStoreReqDto ceoApplyStoreReqDto = new CeoApplyStoreReqDto();
                 ceoApplyStoreReqDto.setCeoName("admin");
                 ceoApplyStoreReqDto.setBusinessAddress("부산시 부산진구 혜도빌딩 4층 423호");
@@ -446,7 +445,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.ceoName").value("admin"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void insertLike_test() throws Exception {
                 // given
