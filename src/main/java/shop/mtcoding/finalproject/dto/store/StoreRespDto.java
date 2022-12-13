@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
@@ -20,6 +23,8 @@ public class StoreRespDto {
 
     /* 성진 작업 시작@!@ */
 
+    @Getter
+    @Setter
     public static class LikeStoreListRespDto {
         private List<LikeDto> likes = new ArrayList<>();
 

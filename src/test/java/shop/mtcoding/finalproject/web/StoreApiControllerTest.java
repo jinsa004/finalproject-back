@@ -30,6 +30,7 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.like.LikeRepository;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
@@ -43,7 +44,6 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
-import shop.mtcoding.finalproject.dto.like.LikeReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.AdminUpdateStoreApplyAcceptReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
@@ -98,27 +98,54 @@ public class StoreApiControllerTest extends DummyEntity {
         @BeforeEach
         public void setUp() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+                User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                 User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
                 Store store1 = storeRepository.save(newStore(ssar));
-                Store store2 = storeRepository.save(newStore(jinsa));
-                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
+                Store store2 = storeRepository.save(newStore(cos));
+                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
+                Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
                 Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
                 Order order2 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.TAKEOUT));
                 Order order3 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
+                Order order4 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.TAKEOUT));
+                Order order5 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.DELIVERY));
                 OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                 OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                 OrderDetail orderDetail3 = orderDetailRepository.save(newOrderDetail(order2, menu1));
                 OrderDetail orderDetail4 = orderDetailRepository.save(newOrderDetail(order3, menu1));
+                OrderDetail orderDetail5 = orderDetailRepository.save(newOrderDetail(order4, menu2));
+                OrderDetail orderDetail6 = orderDetailRepository.save(newOrderDetail(order5, menu2));
+                OrderDetail orderDetail7 = orderDetailRepository.save(newOrderDetail(order5, menu2));
                 CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
                 CustomerReview customerReview = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
                 CustomerReview customerReview2 = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order2, store1, null, 4.0));
+                                .save(newCustomerReview(jinsa, order2, store2, null, 4.0));
+                Like like1 = likeRepository.save(newLike(jinsa, store2));
+                Like like2 = likeRepository.save(newLike(jinsa, store1));
                 ReportReview reportReview1 = reportReviewRepository
                                 .save(newReportReview(ssar, customerReview, ceoReview));
                 ReportReview reportReview2 = reportReviewRepository
-                                .save(newReportReview(ssar, customerReview, ceoReview));
+                                .save(newReportReview(jinsa, customerReview2, ceoReview));
+        }
+
+        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void getLikeStroeList_test() throws Exception {
+                // given
+                Long userId = 3L;
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/like/store/list/" + userId));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.likes.[0].starPoint").value(4.0));
+                resultActions.andExpect(jsonPath("$.data.likes.[1].starPoint").value(5.0));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)

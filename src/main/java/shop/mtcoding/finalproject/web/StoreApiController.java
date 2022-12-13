@@ -36,6 +36,7 @@ public class StoreApiController {
     @GetMapping("/like/store/list/{userId}")
     public ResponseEntity<?> getLikeStroeList(@PathVariable Long userId) {
         LikeStoreListRespDto likeStoreListRespDto = storeService.찜한가게_목록보기(userId);
+
         return new ResponseEntity<>(new ResponseDto<>("zz나올리가있냐", likeStoreListRespDto), HttpStatus.OK);
     }
 
