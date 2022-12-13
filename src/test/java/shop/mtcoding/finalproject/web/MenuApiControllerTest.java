@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.persistence.EntityManager;
-import javax.xml.bind.DatatypeConverter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +25,7 @@ import org.springframework.web.util.NestedServletException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
@@ -86,10 +86,18 @@ public class MenuApiControllerTest extends DummyEntity {
         @BeforeEach
         public void setUp() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+                User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
-                Store store1 = storeRepository.save(newStore(ssar));
-                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
-                Menu menu2 = menuRepository.save(newMenu(store1, "양념치킨"));
+                User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
+                User hoho = userRepository.save(newUser("hoho", UserEnum.CEO));
+                User haha = userRepository.save(newUser("haha", UserEnum.CEO));
+                Store store1 = storeRepository.save(newStore(ssar, StoreCategoryEnum.CHICKEN));
+                Store store2 = storeRepository.save(newStore(cos, StoreCategoryEnum.CHICKEN));
+                Store store3 = storeRepository.save(newApplyStore(hoho));
+                Store store4 = storeRepository.save(newStore(haha, StoreCategoryEnum.PIZZA));
+                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
+                Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
+                Menu menu3 = menuRepository.save(newMenu(store4, "페퍼로니피자"));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
