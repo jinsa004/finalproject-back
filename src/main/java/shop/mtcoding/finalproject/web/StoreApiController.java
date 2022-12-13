@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.FindStatsReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.AdminUpdateStoreApplyAcceptReqDto;
@@ -36,7 +37,7 @@ public class StoreApiController {
     private final StoreService storeService;
 
     @GetMapping("/user/{userId}/store/{category}/list")
-    public ResponseEntity<?> getCategoryStoreList(@PathVariable String category, @PathVariable Long userId,
+    public ResponseEntity<?> getCategoryStoreList(@PathVariable StoreCategoryEnum category, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
         CategoryStoreListRespDto categoryStoreListRespDto = storeService.categoryStoreList(category);

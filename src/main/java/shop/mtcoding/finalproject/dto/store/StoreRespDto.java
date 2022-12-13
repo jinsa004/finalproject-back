@@ -51,7 +51,7 @@ public class StoreRespDto {
                 this.storeName = store.getName();
                 this.deliveryCost = store.getDeliveryCost();
                 this.intro = store.getIntro();
-                this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+                this.thumbnail = store.getThumbnail();
                 this.count = customerReviewInterfacePS.getCount();
                 this.starPoint = customerReviewInterfacePS.getStarPoint();
             }
@@ -102,7 +102,7 @@ public class StoreRespDto {
                 this.storeName = like.getStore().getName();
                 this.deliveryCost = like.getStore().getDeliveryCost();
                 this.intro = like.getStore().getIntro();
-                this.thumbnail = CustomBase64ConvertUtil.convertToString(like.getStore().getThumbnail());
+                this.thumbnail = like.getStore().getThumbnail();
                 this.count = customerReviewInterfacePS.getCount();
                 this.starPoint = customerReviewInterfacePS.getStarPoint();
             }
@@ -157,7 +157,7 @@ public class StoreRespDto {
             this.minAmount = store.getMinAmount();
             this.deliveryHour = store.getDeliveryHour();
             this.deliveryCost = store.getDeliveryCost();
-            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = store.getThumbnail();
             this.phone = store.getPhone();
             this.starPoint = customerReviewDto.getStarPoint();
             this.reviewCount = customerReviewDto.getCount();
@@ -219,7 +219,7 @@ public class StoreRespDto {
                 this.storeName = store.getName();
                 this.deliveryCost = store.getDeliveryCost();
                 this.intro = store.getIntro();
-                this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+                this.thumbnail = store.getThumbnail();
                 this.count = customerReviewInterfacePS.getCount();
                 this.starPoint = customerReviewInterfacePS.getStarPoint();
             }
@@ -333,7 +333,7 @@ public class StoreRespDto {
             this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = store.getThumbnail();
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();
@@ -370,7 +370,7 @@ public class StoreRespDto {
             this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = store.getThumbnail();
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();
@@ -407,7 +407,7 @@ public class StoreRespDto {
             this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = store.getThumbnail();
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();

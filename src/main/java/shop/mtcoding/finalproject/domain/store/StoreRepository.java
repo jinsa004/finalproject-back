@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
+
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
-    @Query("select s from Store s where s.category = :category and s.isClosure = false")
-    List<Store> findAllByCategory(@Param("category") String category);
+    @Query("select s from Store s where category = :category and isClosure = false")
+    List<Store> findAllByCategory(@Param("category") StoreCategoryEnum category);
 
     @Query("select s from Store s join fetch s.user u where s.user.id = :userId and s.isClosure = false")
     Optional<Store> findByUserId(@Param("userId") Long userId);

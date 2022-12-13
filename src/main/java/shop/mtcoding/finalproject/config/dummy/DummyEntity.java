@@ -36,13 +36,13 @@ public class DummyEntity {
         return user;
     }
 
-    protected Store newStore(User user) {
+    protected Store newStore(User user, StoreCategoryEnum category) {
         Store store = Store.builder()
-                .category(StoreCategoryEnum.CHICKEN)
+                .category(category)
                 .name("그린치킨")
                 .phone("01011112222")
                 .minAmount(10000)
-                .thumbnail(null)
+                .thumbnail("assets/images/category/간장치킨.jpg")
                 .ceoName("cos")
                 .businessNumber("112233")
                 .businessAddress("부산시 진구 서면 17번 길")

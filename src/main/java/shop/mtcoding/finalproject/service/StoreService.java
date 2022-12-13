@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -60,9 +61,11 @@ public class StoreService {
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
 
-    public CategoryStoreListRespDto categoryStoreList(String category) {
+    public CategoryStoreListRespDto categoryStoreList(StoreCategoryEnum category) {
         // 1. 가게정보 카테고리에 맞는 값을 셀렉
+        log.debug("디버그 : 카테고리 가게 셀렉 전");
         List<Store> storeList = storeRepository.findAllByCategory(category);
+        log.debug("디버그 : 카테고리 가게 셀렉 후" + storeList.get(0).getName());
         // 2. 가게 목록보기에 필요한 연산데이터(리뷰 개수, 평균 별점)
         List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
         // 3. DTO 응답
