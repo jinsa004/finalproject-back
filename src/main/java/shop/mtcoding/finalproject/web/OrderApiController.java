@@ -33,7 +33,8 @@ public class OrderApiController {
     public ResponseEntity<?> getOrderHistoryDetail(@PathVariable Long orderId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
-        return new ResponseEntity<>(new ResponseDto<>("주문내역 상세보기 성공", orderService.detailOrderHistory(orderId, userId)),
+        return new ResponseEntity<>(
+                new ResponseDto<>(1, "주문내역 상세보기 성공", orderService.detailOrderHistory(orderId, userId)),
                 HttpStatus.OK);
     }
 
@@ -42,7 +43,7 @@ public class OrderApiController {
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
         orderService.deleteOrderHistory(orderId);
-        return new ResponseEntity<>(new ResponseDto<>("주문내역 삭제하기 성공", null), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "주문내역 삭제하기 성공", null), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/order/history/list")
@@ -51,7 +52,7 @@ public class OrderApiController {
         loginUser.getUser().checkAccount(userId);
         log.debug("디버그 : 컨트롤러 응답 전");
         OrderHistoryListRespDto orderHistoryListRespDto = orderService.orderHistoryList(userId);
-        return new ResponseEntity<>(new ResponseDto<>("주문내역 목록보기 성공", orderHistoryListRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "주문내역 목록보기 성공", orderHistoryListRespDto), HttpStatus.OK);
     }
 
     /* 승현 작업 시작 */
@@ -62,7 +63,7 @@ public class OrderApiController {
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
         String state = orderService.updatToState(updateToCancleOrderReqDto, userId, storeId, orderId);
-        return new ResponseEntity<>(new ResponseDto<>("주문상태 변경완료", state), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "주문상태 변경완료", state), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/{storeId}/order")
@@ -70,7 +71,7 @@ public class OrderApiController {
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
         List<ShowOrderListRespDto> showOrderListRespDtoList = orderService.findAllByStoreId(storeId, userId);
-        return new ResponseEntity<>(new ResponseDto<>("주문 목록보기 완료", showOrderListRespDtoList), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "주문 목록보기 완료", showOrderListRespDtoList), HttpStatus.OK);
     }
 
     /* 승현 작업 종료 */

@@ -44,8 +44,8 @@ public class Menu {
     @Column(nullable = true, length = 100)
     private String intro;
 
-    @Column(nullable = false, length = 20)
-    private String price;
+    @Column(nullable = false)
+    private int price;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -58,7 +58,7 @@ public class Menu {
     private Store store;
 
     @Builder
-    public Menu(Long id, String name, byte[] thumbnail, String intro, String price,
+    public Menu(Long id, String name, byte[] thumbnail, String intro, int price,
             MenuCategoryEnum category, boolean isClosure, Store store) {
         this.id = id;
         this.name = name;

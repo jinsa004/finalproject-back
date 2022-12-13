@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import shop.mtcoding.finalproject.config.enums.MenuCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
@@ -17,7 +14,7 @@ import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
-import shop.mtcoding.finalproject.util.Base64ConvertUtil;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class StoreRespDto {
@@ -44,7 +41,7 @@ public class StoreRespDto {
         public class LikeDto {
             private Long storeId;
             private String storeName;
-            private String deliveryCost;
+            private int deliveryCost;
             private String intro;
             private byte[] thumbnail;
             private Long count;
@@ -55,7 +52,7 @@ public class StoreRespDto {
                 this.storeName = like.getStore().getName();
                 this.deliveryCost = like.getStore().getDeliveryCost();
                 this.intro = like.getStore().getIntro();
-                this.thumbnail = like.getStore().getThumbnail();
+                this.thumbnail = CustomBase64ConvertUtil.convertToString(like.getStore().getThumbnail());
                 this.count = customerReviewInterfacePS.getCount();
                 this.starPoint = customerReviewInterfacePS.getStarPoint();
             }
@@ -67,9 +64,9 @@ public class StoreRespDto {
     @Setter
     public static class CustomerStoreInfoRespDto {
         private String notice;
-        private String minAmount;
+        private int minAmount;
         private String deliveryHour;
-        private String deliveryCost;
+        private int deliveryCost;
         private String name;
         private String ceoName;
         private String businessNumber;
@@ -92,9 +89,9 @@ public class StoreRespDto {
     @Setter
     public static class CustomerDetailStoreMainRespDto {
         private String name;
-        private String minAmount;
+        private int minAmount;
         private String deliveryHour;
-        private String deliveryCost;
+        private int deliveryCost;
         private String phone;
         private Double starPoint;
         private Long reviewCount;
@@ -123,15 +120,15 @@ public class StoreRespDto {
             private String name;
             private String intro;
             private String thumbnail;
-            private String price;
-            private MenuCategoryEnum category;
+            private int price;
+            private String category;
 
             public MenuDto(Menu menu) {
                 this.name = menu.getName();
                 this.intro = menu.getIntro();
-                this.thumbnail = Base64ConvertUtil.convertToString(menu.getThumbnail());
+                this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
                 this.price = menu.getPrice();
-                this.category = menu.getCategory();
+                this.category = menu.getCategory().getCategory();
             }
 
         }
@@ -159,7 +156,7 @@ public class StoreRespDto {
         public class StoreDto {
             private Long storeId;
             private String storeName;
-            private String deliveryCost;
+            private int deliveryCost;
             private String intro;
             private String thumbnail;
             private Long count;
@@ -170,7 +167,7 @@ public class StoreRespDto {
                 this.storeName = store.getName();
                 this.deliveryCost = store.getDeliveryCost();
                 this.intro = store.getIntro();
-                this.thumbnail = Base64ConvertUtil.convertToString(store.getThumbnail());
+                this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
                 this.count = customerReviewInterfacePS.getCount();
                 this.starPoint = customerReviewInterfacePS.getStarPoint();
             }
@@ -265,7 +262,7 @@ public class StoreRespDto {
     @Getter
     @Setter
     public static class CeoUpdateStoreRespDto {
-        private StoreCategoryEnum category;
+        private String category;
         private String name;
         private String phone;
         private String thumbnail;
@@ -274,17 +271,17 @@ public class StoreRespDto {
         private String businessAddress;
         private String openTime;
         private String closeTime;
-        private String minAmount;
+        private int minAmount;
         private String deliveryHour;
-        private String deliveryCost;
+        private int deliveryCost;
         private String intro;
         private String notice;
 
         public CeoUpdateStoreRespDto(Store store) {
-            this.category = store.getCategory();
+            this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = Base64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();
@@ -302,7 +299,7 @@ public class StoreRespDto {
     @Getter
     @Setter
     public static class CeoDetailStoreRespDto {
-        private StoreCategoryEnum category;
+        private String category;
         private String name;
         private String phone;
         private String thumbnail;
@@ -311,17 +308,17 @@ public class StoreRespDto {
         private String businessAddress;
         private String openTime;
         private String closeTime;
-        private String minAmount;
+        private int minAmount;
         private String deliveryHour;
-        private String deliveryCost;
+        private int deliveryCost;
         private String intro;
         private String notice;
 
         public CeoDetailStoreRespDto(Store store) {
-            this.category = store.getCategory();
+            this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = Base64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();
@@ -339,7 +336,7 @@ public class StoreRespDto {
     @Getter
     @Setter
     public static class CeoInsertStoreRespDto {
-        private StoreCategoryEnum category;
+        private String category;
         private String name;
         private String phone;
         private String thumbnail;
@@ -348,17 +345,17 @@ public class StoreRespDto {
         private String businessAddress;
         private String openTime;
         private String closeTime;
-        private String minAmount;
+        private int minAmount;
         private String deliveryHour;
-        private String deliveryCost;
+        private int deliveryCost;
         private String intro;
         private String notice;
 
         public CeoInsertStoreRespDto(Store store) {
-            this.category = store.getCategory();
+            this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = Base64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();

@@ -34,14 +34,14 @@ public class UserApiController {
     public ResponseEntity<?> join(@RequestBody JoinReqDto joinReqDto) {
         log.debug("디버그 : UserApiController join 실행됨");
         JoinRespDto joinRespDto = userService.join(joinReqDto);
-        return new ResponseEntity<>(new ResponseDto<>("회원가입성공", joinRespDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseDto<>(1, "회원가입성공", joinRespDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/user/{userId}/detail")
     public ResponseEntity<?> userDetail(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
         DetailUserRespDto detailUserRespDto = userService.detailUser(userId);
-        return new ResponseEntity<>(new ResponseDto<>("유저 상세보기 완료", detailUserRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "유저 상세보기 완료", detailUserRespDto), HttpStatus.OK);
     }
 
     @PutMapping("/user/{userId}/update")
@@ -50,14 +50,14 @@ public class UserApiController {
         loginUser.getUser().checkAccount(userId);
         // 핵심로직
         UpdateUserRespDto UpdateUserRespDto = userService.updateUser(updateUserReqDto, userId);
-        return new ResponseEntity<>(new ResponseDto<>("회원수정성공", UpdateUserRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "회원수정성공", UpdateUserRespDto), HttpStatus.OK);
     }
 
     @PutMapping("/user/{userId}/delete")
     public ResponseEntity<?> deleteByUserId(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkAccount(userId);
         userService.deleteUser(userId);
-        return new ResponseEntity<>(new ResponseDto<>("회원 비활성화 완료", null), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "회원 비활성화 완료", null), HttpStatus.OK);
     }
 
 }
