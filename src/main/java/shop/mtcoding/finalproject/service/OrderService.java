@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
@@ -57,6 +59,23 @@ public class OrderService {
         log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(0).getMenu().getName());
         log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(1).getMenu().getName());
         // 4. DTO 응답
+    }
+
+    @Getter
+    @Setter
+    public static class DetailOrderHistoryRespDto {
+        private String customerAddress;
+        private String customerPhone;
+        private String storeName;
+        private String storePhone;
+        private String deliveryCost;
+        private Long orderId;
+        private String orderState;
+        private String createdAt;
+        private String comment;
+        private String menuName;
+        private String price;
+        private String count;
     }
 
     @Transactional
