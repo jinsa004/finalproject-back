@@ -21,6 +21,47 @@ public class StoreRespDto {
 
     @Getter
     @Setter
+    public static class CategoryStoreListRespDto {
+        private List<StoreDto> stores = new ArrayList<>();
+
+        public CategoryStoreListRespDto(List<Store> storesPS,
+                List<CustomerReviewInterface> customerReviewInterfaceList) {
+            for (Store store : storesPS) {
+                for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
+                    if (customerReviewInterface.getStoreId() == store.getId()) {
+                        stores.add(new StoreDto(store, customerReviewInterface));
+                    }
+                }
+            }
+        }
+
+        @Getter
+        @Setter
+        public class StoreDto {
+            private Long storeId;
+            private String storeName;
+            private int deliveryCost;
+            private String intro;
+            private String thumbnail;
+            private Long count;
+            private Double starPoint;
+
+            public StoreDto(Store store, CustomerReviewInterface customerReviewInterfacePS) {
+                this.storeId = store.getId();
+                this.storeName = store.getName();
+                this.deliveryCost = store.getDeliveryCost();
+                this.intro = store.getIntro();
+                this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+                this.count = customerReviewInterfacePS.getCount();
+                this.starPoint = customerReviewInterfacePS.getStarPoint();
+            }
+
+        }
+
+    }
+
+    @Getter
+    @Setter
     public static class StoreNameRespDto {
         private String name;
 

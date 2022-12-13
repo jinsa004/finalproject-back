@@ -35,6 +35,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.AdminShowApplyStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.CategoryStoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoApplyStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoDetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoInsertStoreRespDto;
@@ -58,6 +59,16 @@ public class StoreService {
     private final LikeRepository likeRepository;
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
+
+    public CategoryStoreListRespDto categoryStoreList(String category) {
+        // 1. 가게정보 카테고리에 맞는 값을 셀렉
+        List<Store> storeList = storeRepository.findAllByCategory(category);
+        // 2. 가게 목록보기에 필요한 연산데이터(리뷰 개수, 평균 별점)
+        List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
+        // 3. DTO 응답
+        CategoryStoreListRespDto categoryStoreListRespDto = new CategoryStoreListRespDto(storeList, customerReviewList);
+        return categoryStoreListRespDto;
+    }
 
     public StoreNameRespDto checkStoreName(Long userId, LoginUser loginUser) {
         // 1. 유저의 role이 CEO인지 체크
