@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -148,7 +150,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.likes.[1].starPoint").value(5.0));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getStoreInfo_test() throws Exception {
                 // given
@@ -166,7 +168,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.minAmount").value("10000"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void detailStoreMain_test() throws Exception {
                 // given
@@ -185,7 +187,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("후라이드"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void findStoreList_test() throws Exception {
                 // given
@@ -443,7 +445,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.ceoName").value("admin"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void insertLike_test() throws Exception {
                 // given
