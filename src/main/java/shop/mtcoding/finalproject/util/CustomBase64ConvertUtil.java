@@ -16,7 +16,7 @@ public class CustomBase64ConvertUtil {
         if (image == null)
             return "";
 
-        String coverted = new String(image);
-        return coverted;
+        String converted = new String(image);
+        return converted;
     }
 }
