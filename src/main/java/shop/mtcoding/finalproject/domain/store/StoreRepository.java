@@ -11,6 +11,9 @@ import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
+    @Query("select s from Store s join fetch s.user u where s.user.id = :userId")
+    Optional<Store> findByUserIdToStoreCheck(@Param("userId") Long userId);
+
     // 실제 사용자가 가게 목록보기에 사용되는 가게 목록보기 기능 (가게 셀렉)
     @Query("select s from Store s where isClosure = false and isAccept = true")
     List<Store> findAllToAcceptStoreList();

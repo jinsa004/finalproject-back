@@ -86,10 +86,13 @@ public class StoreService {
             throw new CustomApiException("사업자 회원이 아닙니다.", HttpStatus.BAD_REQUEST);
         }
         // 2. 가게 셀렉
-        Store storePS = storeRepository.findByUserId(loginUser.getUser().getId())
+        Store storePS = storeRepository.findByUserIdToStoreCheck(loginUser.getUser().getId())
                 .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않습니다", HttpStatus.BAD_GATEWAY));
+        log.debug("디버그 : 가게 정보 들고오나? : " + storePS.getId());
+        log.debug("디버그 : 가게 정보 들고오나? : " + storePS.getName());
         // 3. DTO 응답
         StoreNameRespDto storeNameRespDto = new StoreNameRespDto(storePS);
+        log.debug("디버그 : DTO에 담겨서 들고오나? : " + storeNameRespDto.getName());
         return storeNameRespDto;
     }
 

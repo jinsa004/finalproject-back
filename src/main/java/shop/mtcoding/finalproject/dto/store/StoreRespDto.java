@@ -79,6 +79,10 @@ public class StoreRespDto {
         private String name;
 
         public StoreNameRespDto(Store store) {
+            if (store.getName() == null) {
+                this.name = "";
+                return;
+            }
             this.name = store.getName();
         }
 
