@@ -140,8 +140,6 @@ public class OrderService {
         LocalDateTime date = LocalDateTime.now();
         List<Order> orderPS = orderRepository.findAllByStoreId(storeId,
                 date.format(DateTimeFormatter.ISO_LOCAL_DATE) + " 23:59:59");
-        // List<OrderDetail> orderDetails =
-        // orderDetailRepository.findAllByOrderId(orderPS.get(0).getId());
         // 3. Dto에 담기
         List<ShowOrderListRespDto> showOrderListRespDtos = new ArrayList<>();
         for (int i = 0; i < orderPS.size(); i++) {

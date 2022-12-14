@@ -32,7 +32,7 @@ public class OrderApiController {
     @GetMapping("/user/{userId}/order/{orderId}/history/detail")
     public ResponseEntity<?> getOrderHistoryDetail(@PathVariable Long orderId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         return new ResponseEntity<>(
                 new ResponseDto<>(1, "주문내역 상세보기 성공", orderService.detailOrderHistory(orderId, userId)),
                 HttpStatus.OK);
@@ -41,7 +41,7 @@ public class OrderApiController {
     @PutMapping("/user/{userId}/order/{orderId}/history/delete")
     public ResponseEntity<?> deleteOrderHistory(@PathVariable Long orderId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         orderService.deleteOrderHistory(orderId);
         return new ResponseEntity<>(new ResponseDto<>(1, "주문내역 삭제하기 성공", null), HttpStatus.OK);
     }
@@ -49,7 +49,7 @@ public class OrderApiController {
     @GetMapping("/user/{userId}/order/history/list")
     public ResponseEntity<?> getOrderHistoryList(@PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         log.debug("디버그 : 컨트롤러 응답 전");
         OrderHistoryListRespDto orderHistoryListRespDto = orderService.orderHistoryList(userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "주문내역 목록보기 성공", orderHistoryListRespDto), HttpStatus.OK);
@@ -61,7 +61,7 @@ public class OrderApiController {
     public ResponseEntity<?> UpdateOrderByUserIdToComplete(@PathVariable Long storeId, @PathVariable Long orderId,
             @RequestBody UpdateToCancleOrderReqDto updateToCancleOrderReqDto, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         String state = orderService.updatToState(updateToCancleOrderReqDto, userId, storeId, orderId);
         return new ResponseEntity<>(new ResponseDto<>(1, "주문상태 변경완료", state), HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class OrderApiController {
     @GetMapping("/user/{userId}/store/{storeId}/order")
     public ResponseEntity<?> findAllByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
-        loginUser.getUser().checkAccount(userId);
+        loginUser.getUser().checkUser(userId);
         List<ShowOrderListRespDto> showOrderListRespDtoList = orderService.findAllByStoreId(storeId, userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "주문 목록보기 완료", showOrderListRespDtoList), HttpStatus.OK);
     }

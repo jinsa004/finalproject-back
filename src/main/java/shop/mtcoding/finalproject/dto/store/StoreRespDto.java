@@ -21,6 +21,17 @@ public class StoreRespDto {
 
     @Getter
     @Setter
+    public static class StoreNameRespDto {
+        private String name;
+
+        public StoreNameRespDto(Store store) {
+            this.name = store.getName();
+        }
+
+    }
+
+    @Getter
+    @Setter
     public static class LikeStoreListRespDto {
         private List<LikeDto> likes = new ArrayList<>();
 
@@ -91,6 +102,7 @@ public class StoreRespDto {
         private String deliveryHour;
         private int deliveryCost;
         private String phone;
+        private String thumbnail;
         private Double starPoint;
         private Long reviewCount;
         private Long commentCount;
@@ -104,6 +116,7 @@ public class StoreRespDto {
             this.minAmount = store.getMinAmount();
             this.deliveryHour = store.getDeliveryHour();
             this.deliveryCost = store.getDeliveryCost();
+            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
             this.phone = store.getPhone();
             this.starPoint = customerReviewDto.getStarPoint();
             this.reviewCount = customerReviewDto.getCount();
