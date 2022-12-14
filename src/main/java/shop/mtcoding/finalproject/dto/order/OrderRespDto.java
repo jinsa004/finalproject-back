@@ -9,7 +9,6 @@ import lombok.Setter;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.user.User;
-import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class OrderRespDto {
@@ -94,6 +93,21 @@ public class OrderRespDto {
 
     @Getter
     @Setter
+    public static class DetailOrderStateRespDto {
+        private String deliveryHour;
+        private String orderState;
+        private String reason;
+
+        public DetailOrderStateRespDto(Order order) {
+            this.deliveryHour = order.getDeliveryHour();
+            this.orderState = order.getState().getState();
+            this.reason = order.getReason();
+        }
+
+    }
+
+    @Getter
+    @Setter
     public static class ShowOrderListRespDto {
 
         private Long id;
@@ -142,7 +156,7 @@ public class OrderRespDto {
             this.userAddress = order.getUser().getAddress();
             this.userPhone = order.getUser().getPhone();
             this.orderTime = order.getCreatedAt().toString();
-            this.deliveryHour = order.getStore().getDeliveryHour();
+            this.deliveryHour = order.getDeliveryHour();
             this.deliveryState = order.getDeliveryStateEnum().getState();
             this.orderState = order.getState().getState();
             if (order.getCompleteTime() == null) {

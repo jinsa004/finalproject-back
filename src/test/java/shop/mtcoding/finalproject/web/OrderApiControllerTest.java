@@ -201,11 +201,9 @@ public class OrderApiControllerTest extends DummyEntity {
                 Long userId = 1L;
                 Long orderId = 1L;
                 UpdateToCancleOrderReqDto updateToCancleOrderReqDto = new UpdateToCancleOrderReqDto();
-                updateToCancleOrderReqDto.setOrderId(orderId);
                 updateToCancleOrderReqDto.setReason("재고소진");
-                updateToCancleOrderReqDto.setStoreId(storeId);
-                updateToCancleOrderReqDto.setUserId(userPS.getId());
                 updateToCancleOrderReqDto.setState("주문취소");
+                updateToCancleOrderReqDto.setDeliveryTime("30");
                 String requestBody = om.writeValueAsString(updateToCancleOrderReqDto);
                 System.out.println("테스트 : " + requestBody);
 
@@ -220,7 +218,7 @@ public class OrderApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data").value("주문취소"));
+                resultActions.andExpect(jsonPath("$.data.orderState").value("주문취소"));
 
         }
 

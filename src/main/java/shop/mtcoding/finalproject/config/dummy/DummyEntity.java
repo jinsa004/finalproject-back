@@ -105,6 +105,7 @@ public class DummyEntity {
                 .store(store)
                 .deliveryStateEnum(deliveryStateEnum)
                 .isClosure(false)
+                .deliveryHour(store.getDeliveryHour())
                 .build();
         return order;
     }

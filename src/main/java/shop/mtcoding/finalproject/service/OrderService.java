@@ -27,6 +27,7 @@ import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.InsertOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.DetailOrderHistoryRespDto;
+import shop.mtcoding.finalproject.dto.order.OrderRespDto.DetailOrderStateRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.OrderHistoryListRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
 
@@ -107,8 +108,8 @@ public class OrderService {
     /* 승현 작업 시작 */
 
     @Transactional
-    public String updatToState(UpdateToCancleOrderReqDto updateToCancleOrderReqDto, Long userId, Long storeId,
-            Long orderId) {
+    public DetailOrderStateRespDto updatToState(UpdateToCancleOrderReqDto updateToCancleOrderReqDto, Long userId,
+            Long storeId, Long orderId) {
         // 1. 가게 주인이 맞는지 체크하기
         Store storePS = storeRepository.findById(storeId).orElseThrow(
                 () -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
@@ -126,7 +127,7 @@ public class OrderService {
         }
         // 4. 업데이트 하기
         Order orderPS = orderRepository.save(order.update(updateToCancleOrderReqDto.toEntity(complateTime)));
-        return orderPS.getState().getState();
+        return new DetailOrderStateRespDto(orderPS);
     }
 
     public List<ShowOrderListRespDto> findAllByStoreId(Long storeId, Long userId) {

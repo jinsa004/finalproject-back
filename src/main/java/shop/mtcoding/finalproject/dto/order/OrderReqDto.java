@@ -52,17 +52,17 @@ public class OrderReqDto {
     @Getter
     @Setter
     public static class UpdateToCancleOrderReqDto {
-        private Long userId;
-        private Long storeId;
-        private Long orderId;
+
         private String state;
         private String reason;
+        private String deliveryTime;
 
         public Order toEntity(LocalDateTime localDateTime) {
             return Order.builder()
                     .state(CustomEnumUtil.toOrderStateEnumFormat(state))
                     .reason(reason)
                     .completeTime(localDateTime)
+                    .deliveryHour(deliveryTime)
                     .build();
         }
     }
