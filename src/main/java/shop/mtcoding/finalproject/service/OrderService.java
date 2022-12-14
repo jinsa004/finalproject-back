@@ -1,6 +1,7 @@
 package shop.mtcoding.finalproject.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,7 +137,9 @@ public class OrderService {
             throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
         }
         // 2. 목록 받아오기
-        List<Order> orderPS = orderRepository.findAllByStoreId(storeId);
+        LocalDateTime date = LocalDateTime.now();
+        List<Order> orderPS = orderRepository.findAllByStoreId(storeId,
+                date.format(DateTimeFormatter.ISO_LOCAL_DATE) + " 23:59:59");
         // 3. Dto에 담기
         List<ShowOrderListRespDto> showOrderListRespDtos = new ArrayList<>();
         for (int i = 0; i < orderPS.size(); i++) {

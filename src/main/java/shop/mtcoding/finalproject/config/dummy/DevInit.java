@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
+import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
@@ -79,19 +80,32 @@ public class DevInit extends DummyEntity {
                         Menu menu9 = menuRepository.save(newMenu(store9, "초밥"));
                         Menu menu10 = menuRepository.save(newMenu(store10, "보쌈"));
                         Menu menu11 = menuRepository.save(newMenu(store11, "전복죽"));
-                        Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
-                        Order order2 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.TAKEOUT));
-                        Order order3 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
-                        Order order4 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.TAKEOUT));
-                        Order order5 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.DELIVERY));
-                        Order order6 = orderRepository.save(newOrder(jinsa, store4, DeliveryStateEnum.DELIVERY));
-                        Order order7 = orderRepository.save(newOrder(jinsa, store5, DeliveryStateEnum.DELIVERY));
-                        Order order8 = orderRepository.save(newOrder(jinsa, store6, DeliveryStateEnum.DELIVERY));
-                        Order order9 = orderRepository.save(newOrder(jinsa, store7, DeliveryStateEnum.DELIVERY));
-                        Order order10 = orderRepository.save(newOrder(jinsa, store8, DeliveryStateEnum.DELIVERY));
-                        Order order11 = orderRepository.save(newOrder(jinsa, store9, DeliveryStateEnum.DELIVERY));
-                        Order order12 = orderRepository.save(newOrder(jinsa, store10, DeliveryStateEnum.DELIVERY));
-                        Order order13 = orderRepository.save(newOrder(jinsa, store11, DeliveryStateEnum.DELIVERY));
+                        Order order1 = orderRepository.save(
+                                        newOrder(jinsa, store1, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order2 = orderRepository.save(
+                                        newOrder(jinsa, store1, OrderStateEnum.COMPLETE, DeliveryStateEnum.TAKEOUT));
+                        Order order3 = orderRepository.save(
+                                        newOrder(jinsa, store1, OrderStateEnum.CHECK, DeliveryStateEnum.DELIVERY));
+                        Order order4 = orderRepository.save(
+                                        newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.TAKEOUT));
+                        Order order5 = orderRepository.save(
+                                        newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order6 = orderRepository.save(
+                                        newOrder(jinsa, store4, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order7 = orderRepository.save(
+                                        newOrder(jinsa, store5, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order8 = orderRepository.save(
+                                        newOrder(jinsa, store6, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order9 = orderRepository.save(
+                                        newOrder(jinsa, store7, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order10 = orderRepository.save(
+                                        newOrder(jinsa, store8, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order11 = orderRepository.save(
+                                        newOrder(jinsa, store9, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order12 = orderRepository.save(
+                                        newOrder(jinsa, store10, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order13 = orderRepository.save(
+                                        newOrder(jinsa, store11, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
                         OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                         OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                         OrderDetail orderDetail3 = orderDetailRepository.save(newOrderDetail(order2, menu1));

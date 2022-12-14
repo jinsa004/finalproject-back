@@ -42,6 +42,7 @@ public class MenuRespDto {
         @Getter
         @Setter
         public class MenuDto {
+            private Long id;
             private String name;
             private String intro;
             private int price;
@@ -49,6 +50,7 @@ public class MenuRespDto {
             private String category;
 
             public MenuDto(Menu menu) {
+                this.id = menu.getId();
                 this.name = menu.getName();
                 this.intro = menu.getIntro();
                 this.price = menu.getPrice();

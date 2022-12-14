@@ -143,7 +143,8 @@ public class OrderRespDto {
             this.userPhone = order.getUser().getPhone();
             this.orderTime = order.getCreatedAt().toString();
             this.deliveryHour = order.getStore().getDeliveryHour();
-            this.deliveryState = order.getState().getState();
+            this.deliveryState = order.getDeliveryStateEnum().getState();
+            this.orderState = order.getState().getState();
             if (order.getCompleteTime() == null) {
                 this.completeTime = "";
             } else {
