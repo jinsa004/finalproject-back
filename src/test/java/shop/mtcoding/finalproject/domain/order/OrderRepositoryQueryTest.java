@@ -1,5 +1,8 @@
 package shop.mtcoding.finalproject.domain.order;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.EntityManager;
 
 import org.assertj.core.api.Assertions;
@@ -12,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
+import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -75,14 +79,16 @@ public class OrderRepositoryQueryTest extends DummyEntity {
                 // given
                 FindStatsReqDto findStatsReqDto = new FindStatsReqDto();
                 findStatsReqDto.setStoreId(1L);
-                findStatsReqDto.setStartTime("2022-12-13");
-                findStatsReqDto.setEndTime("2022-12-13");
+                LocalDateTime date = LocalDateTime.now();
+                String today = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
+                findStatsReqDto.setStartTime(today);
+                findStatsReqDto.setEndTime(today);
 
                 // when
                 OrderStatsRespDto orderStatsRespDto = orderRepositoryQuery.findAllOrderStatsByStoreId(findStatsReqDto);
 
                 // then
-                Assertions.assertThat(orderStatsRespDto.getOrderCount()).isEqualTo("3");
+                Assertions.assertThat(orderStatsRespDto.getOrderCount()).isEqualTo("2");
 
                 // Assertions.assertThat(reportReviewRespDtos.size()).isEqualTo(2);
         }
@@ -130,11 +136,16 @@ public class OrderRepositoryQueryTest extends DummyEntity {
                 Store store2 = storeRepository.save(newStore(cos));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
                 Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
-                Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
-                Order order2 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.TAKEOUT));
-                Order order3 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
-                Order order4 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.TAKEOUT));
-                Order order5 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.DELIVERY));
+                Order order1 = orderRepository
+                                .save(newOrder(jinsa, store1, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                Order order2 = orderRepository
+                                .save(newOrder(jinsa, store1, OrderStateEnum.COMPLETE, DeliveryStateEnum.TAKEOUT));
+                Order order3 = orderRepository
+                                .save(newOrder(jinsa, store1, OrderStateEnum.CHECK, DeliveryStateEnum.DELIVERY));
+                Order order4 = orderRepository
+                                .save(newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.TAKEOUT));
+                Order order5 = orderRepository
+                                .save(newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
                 OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                 OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                 OrderDetail orderDetail3 = orderDetailRepository.save(newOrderDetail(order2, menu1));

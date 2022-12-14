@@ -16,6 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("select o from Order o join fetch Store s on o.store.id = s.id where o.user.id = :userId and o.isClosure = false")
     List<Order> findAllByUserId(@Param("userId") Long userId);
 
-    @Query(value = "select * from orders od left outer join users u on od.user_id = u.id left outer join stores s on od.store_id = s.id where s.id = :storeId", nativeQuery = true)
-    List<Order> findAllByStoreId(@Param("storeId") Long storeId);
+    @Query(value = "select * from orders od left outer join users u on od.user_id = u.id left outer join stores s on od.store_id = s.id where od.store_id = :storeId and od.state != 'CANCEL' and od.state != 'COMPLETE' and od.created_at <= :date", nativeQuery = true)
+    List<Order> findAllByStoreId(@Param("storeId") Long storeId, @Param("date") String date);
+    // String date);
 }
