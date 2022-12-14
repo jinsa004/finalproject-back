@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -49,11 +50,36 @@ public class DevInit extends DummyEntity {
                         User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
                         User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
                         User hoho = userRepository.save(newUser("hoho", UserEnum.CEO));
-                        Store store1 = storeRepository.save(newStore(ssar));
-                        Store store2 = storeRepository.save(newStore(cos));
+                        User haha = userRepository.save(newUser("haha", UserEnum.CEO));
+                        User koko = userRepository.save(newUser("koko", UserEnum.CEO));
+                        User kaka = userRepository.save(newUser("kaka", UserEnum.CEO));
+                        User hihi = userRepository.save(newUser("hihi", UserEnum.CEO));
+                        User kiki = userRepository.save(newUser("kiki", UserEnum.CEO));
+                        User papa = userRepository.save(newUser("papa", UserEnum.CEO));
+                        User popo = userRepository.save(newUser("popo", UserEnum.CEO));
+                        User pepe = userRepository.save(newUser("pepe", UserEnum.CEO));
+                        Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN));
+                        Store store2 = storeRepository.save(newStore(cos, "레드치킨", StoreCategoryEnum.CHICKEN));
                         Store store3 = storeRepository.save(newApplyStore(hoho));
+                        Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA));
+                        Store store5 = storeRepository.save(newStore(koko, "그린버거", StoreCategoryEnum.BURGER));
+                        Store store6 = storeRepository.save(newStore(kaka, "그린분식", StoreCategoryEnum.SCHOOLFOOD));
+                        Store store7 = storeRepository.save(newStore(hihi, "그린한식", StoreCategoryEnum.KRFOOD));
+                        Store store8 = storeRepository.save(newStore(kiki, "그린중식", StoreCategoryEnum.CNFOOD));
+                        Store store9 = storeRepository.save(newStore(papa, "그린일식", StoreCategoryEnum.JPFOOD));
+                        Store store10 = storeRepository.save(newStore(popo, "그린보쌈", StoreCategoryEnum.BOSSAM));
+                        Store store11 = storeRepository.save(newStore(pepe, "그린죽", StoreCategoryEnum.PORRIDGE));
                         Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
-                        Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
+                        Menu menu2 = menuRepository.save(newMenu(store1, "간장치킨"));
+                        Menu menu3 = menuRepository.save(newMenu(store2, "간장치킨"));
+                        Menu menu4 = menuRepository.save(newMenu(store4, "페퍼로니피자"));
+                        Menu menu5 = menuRepository.save(newMenu(store5, "치즈버거"));
+                        Menu menu6 = menuRepository.save(newMenu(store6, "떡볶이"));
+                        Menu menu7 = menuRepository.save(newMenu(store7, "비빔밥"));
+                        Menu menu8 = menuRepository.save(newMenu(store8, "짜장면"));
+                        Menu menu9 = menuRepository.save(newMenu(store9, "초밥"));
+                        Menu menu10 = menuRepository.save(newMenu(store10, "보쌈"));
+                        Menu menu11 = menuRepository.save(newMenu(store11, "전복죽"));
                         Order order1 = orderRepository.save(
                                         newOrder(jinsa, store1, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
                         Order order2 = orderRepository.save(
@@ -64,6 +90,22 @@ public class DevInit extends DummyEntity {
                                         newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.TAKEOUT));
                         Order order5 = orderRepository.save(
                                         newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order6 = orderRepository.save(
+                                        newOrder(jinsa, store4, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order7 = orderRepository.save(
+                                        newOrder(jinsa, store5, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order8 = orderRepository.save(
+                                        newOrder(jinsa, store6, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order9 = orderRepository.save(
+                                        newOrder(jinsa, store7, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order10 = orderRepository.save(
+                                        newOrder(jinsa, store8, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order11 = orderRepository.save(
+                                        newOrder(jinsa, store9, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order12 = orderRepository.save(
+                                        newOrder(jinsa, store10, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                        Order order13 = orderRepository.save(
+                                        newOrder(jinsa, store11, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
                         OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                         OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                         OrderDetail orderDetail3 = orderDetailRepository.save(newOrderDetail(order2, menu1));
@@ -71,13 +113,24 @@ public class DevInit extends DummyEntity {
                         OrderDetail orderDetail5 = orderDetailRepository.save(newOrderDetail(order4, menu2));
                         OrderDetail orderDetail6 = orderDetailRepository.save(newOrderDetail(order5, menu2));
                         OrderDetail orderDetail7 = orderDetailRepository.save(newOrderDetail(order5, menu2));
+                        OrderDetail orderDetail8 = orderDetailRepository.save(newOrderDetail(order6, menu3));
+                        OrderDetail orderDetail9 = orderDetailRepository.save(newOrderDetail(order7, menu5));
+                        OrderDetail orderDetail10 = orderDetailRepository.save(newOrderDetail(order8, menu6));
+                        OrderDetail orderDetail11 = orderDetailRepository.save(newOrderDetail(order9, menu7));
+                        OrderDetail orderDetail12 = orderDetailRepository.save(newOrderDetail(order10, menu8));
+                        OrderDetail orderDetail13 = orderDetailRepository.save(newOrderDetail(order11, menu9));
+                        OrderDetail orderDetail14 = orderDetailRepository.save(newOrderDetail(order12, menu10));
+                        OrderDetail orderDetail15 = orderDetailRepository.save(newOrderDetail(order13, menu11));
                         CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
                         CustomerReview customerReview = customerReviewRepository
                                         .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
                         CustomerReview customerReview2 = customerReviewRepository
                                         .save(newCustomerReview(jinsa, order2, store2, null, 4.0));
+                        CustomerReview customerReview3 = customerReviewRepository
+                                        .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
                         Like like1 = likeRepository.save(newLike(jinsa, store2));
                         Like like2 = likeRepository.save(newLike(jinsa, store1));
+                        Like like3 = likeRepository.save(newLike(jinsa, store4));
                         ReportReview reportReview1 = reportReviewRepository
                                         .save(newReportReview(ssar, customerReview, ceoReview));
                         ReportReview reportReview2 = reportReviewRepository

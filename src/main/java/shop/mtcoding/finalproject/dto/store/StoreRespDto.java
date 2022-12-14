@@ -21,10 +21,71 @@ public class StoreRespDto {
 
     @Getter
     @Setter
+    public static class CategoryStoreListRespDto {
+        private List<StoreDto> stores = new ArrayList<>();
+
+        public CategoryStoreListRespDto(List<Store> storesPS,
+                List<CustomerReviewInterface> customerReviewInterfaceList) {
+            for (Store store : storesPS) {
+                for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
+                    if (customerReviewInterface.getReviewId() == null
+                            && customerReviewInterface.getStoreId() == store.getId()) {
+                        stores.add(new StoreDto(store));
+                    } else if (customerReviewInterface.getStoreId() == store.getId()) {
+                        stores.add(new StoreDto(store, customerReviewInterface));
+                    }
+                }
+            }
+        }
+
+        @Getter
+        @Setter
+        public class StoreDto {
+            private Long storeId;
+            private String storeName;
+            private int deliveryCost;
+            private String intro;
+            private String thumbnail;
+            private Long count;
+            private Double starPoint;
+
+            public StoreDto(Store store) {
+                this.storeId = store.getId();
+                this.storeName = store.getName();
+                this.deliveryCost = store.getDeliveryCost();
+                this.intro = store.getIntro();
+                this.thumbnail = store.getThumbnail();
+                this.count = 0L;
+                this.starPoint = 0.0;
+            }
+
+            public StoreDto(Store store, CustomerReviewInterface customerReviewInterfacePS) {
+                this.storeId = store.getId();
+                this.storeName = store.getName();
+                this.deliveryCost = store.getDeliveryCost();
+                this.intro = store.getIntro();
+                this.thumbnail = store.getThumbnail();
+                this.count = customerReviewInterfacePS.getCount();
+                this.starPoint = customerReviewInterfacePS.getStarPoint();
+            }
+
+        }
+
+    }
+
+    @Getter
+    @Setter
     public static class StoreNameRespDto {
+        private Long id;
         private String name;
 
         public StoreNameRespDto(Store store) {
+            if (store.getName() == null) {
+                this.id = store.getId();
+                this.name = "";
+                return;
+            }
+            this.id = store.getId();
             this.name = store.getName();
         }
 
@@ -38,7 +99,10 @@ public class StoreRespDto {
         public LikeStoreListRespDto(List<Like> likeList, List<CustomerReviewInterface> customerReviewInterfaceList) {
             for (Like like : likeList) {
                 for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
-                    if (customerReviewInterface.getStoreId() == like.getStore().getId()) {
+                    if (customerReviewInterface.getReviewId() == null
+                            && customerReviewInterface.getStoreId() == like.getStore().getId()) {
+                        likes.add(new LikeDto(like));
+                    } else if (customerReviewInterface.getStoreId() == like.getStore().getId()) {
                         likes.add(new LikeDto(like, customerReviewInterface));
                     }
                 }
@@ -56,12 +120,22 @@ public class StoreRespDto {
             private Long count;
             private Double starPoint;
 
+            public LikeDto(Like like) {
+                this.storeId = like.getStore().getId();
+                this.storeName = like.getStore().getName();
+                this.deliveryCost = like.getStore().getDeliveryCost();
+                this.intro = like.getStore().getIntro();
+                this.thumbnail = like.getStore().getThumbnail();
+                this.count = 0L;
+                this.starPoint = 0.0;
+            }
+
             public LikeDto(Like like, CustomerReviewInterface customerReviewInterfacePS) {
                 this.storeId = like.getStore().getId();
                 this.storeName = like.getStore().getName();
                 this.deliveryCost = like.getStore().getDeliveryCost();
                 this.intro = like.getStore().getIntro();
-                this.thumbnail = CustomBase64ConvertUtil.convertToString(like.getStore().getThumbnail());
+                this.thumbnail = like.getStore().getThumbnail();
                 this.count = customerReviewInterfacePS.getCount();
                 this.starPoint = customerReviewInterfacePS.getStarPoint();
             }
@@ -116,7 +190,7 @@ public class StoreRespDto {
             this.minAmount = store.getMinAmount();
             this.deliveryHour = store.getDeliveryHour();
             this.deliveryCost = store.getDeliveryCost();
-            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = store.getThumbnail();
             this.phone = store.getPhone();
             this.starPoint = customerReviewDto.getStarPoint();
             this.reviewCount = customerReviewDto.getCount();
@@ -155,7 +229,10 @@ public class StoreRespDto {
                 List<CustomerReviewInterface> customerReviewInterfaceList) {
             for (Store store : storesPS) {
                 for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
-                    if (customerReviewInterface.getStoreId() == store.getId()) {
+                    if (customerReviewInterface.getReviewId() == null
+                            && customerReviewInterface.getStoreId() == store.getId()) {
+                        stores.add(new StoreDto(store));
+                    } else if (customerReviewInterface.getStoreId() == store.getId()) {
                         stores.add(new StoreDto(store, customerReviewInterface));
                     }
                 }
@@ -173,12 +250,22 @@ public class StoreRespDto {
             private Long count;
             private Double starPoint;
 
+            public StoreDto(Store store) {
+                this.storeId = store.getId();
+                this.storeName = store.getName();
+                this.deliveryCost = store.getDeliveryCost();
+                this.intro = store.getIntro();
+                this.thumbnail = store.getThumbnail();
+                this.count = 0L;
+                this.starPoint = 0.0;
+            }
+
             public StoreDto(Store store, CustomerReviewInterface customerReviewInterfacePS) {
                 this.storeId = store.getId();
                 this.storeName = store.getName();
                 this.deliveryCost = store.getDeliveryCost();
                 this.intro = store.getIntro();
-                this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+                this.thumbnail = store.getThumbnail();
                 this.count = customerReviewInterfacePS.getCount();
                 this.starPoint = customerReviewInterfacePS.getStarPoint();
             }
@@ -292,7 +379,7 @@ public class StoreRespDto {
             this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = store.getThumbnail();
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();
@@ -329,7 +416,7 @@ public class StoreRespDto {
             this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = store.getThumbnail();
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();
@@ -366,7 +453,7 @@ public class StoreRespDto {
             this.category = store.getCategory().getCategory();
             this.name = store.getName();
             this.phone = store.getPhone();
-            this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
+            this.thumbnail = store.getThumbnail();
             this.ceoName = store.getCeoName();
             this.businessNumber = store.getBusinessNumber();
             this.businessAddress = store.getBusinessAddress();

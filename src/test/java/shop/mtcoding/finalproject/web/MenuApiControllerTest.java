@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.persistence.EntityManager;
-import javax.xml.bind.DatatypeConverter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +25,7 @@ import org.springframework.web.util.NestedServletException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
@@ -86,17 +86,26 @@ public class MenuApiControllerTest extends DummyEntity {
         @BeforeEach
         public void setUp() {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
+                User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
-                Store store1 = storeRepository.save(newStore(ssar));
-                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
-                Menu menu2 = menuRepository.save(newMenu(store1, "양념치킨"));
+                User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
+                User hoho = userRepository.save(newUser("hoho", UserEnum.CEO));
+                User haha = userRepository.save(newUser("haha", UserEnum.CEO));
+                Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN));
+                Store store2 = storeRepository.save(newStore(cos, "그린치킨", StoreCategoryEnum.CHICKEN));
+                Store store3 = storeRepository.save(newApplyStore(hoho));
+                Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA));
+                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
+                Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
+                Menu menu4 = menuRepository.save(newMenu(store1, "간장치킨"));
+                Menu menu3 = menuRepository.save(newMenu(store4, "페퍼로니피자"));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getDetailMenu_test() throws Exception {
                 // given
-                Long userId = 2L;
+                Long userId = 3L;
                 Long storeId = 1L;
                 Long menuId = 1L;
 
@@ -109,14 +118,14 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.name").value("후라이드치킨"));
+                resultActions.andExpect(jsonPath("$.data.name").value("후라이드"));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getMenuList_test() throws Exception {
                 // given
-                Long userId = 2L;
+                Long userId = 3L;
                 Long storeId = 1L;
                 // when
                 ResultActions resultActions = mvc
@@ -126,8 +135,8 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.menus[0].name").value("후라이드치킨"));
-                resultActions.andExpect(jsonPath("$.data.menus[1].name").value("양념치킨"));
+                resultActions.andExpect(jsonPath("$.data.menus[0].name").value("후라이드"));
+                resultActions.andExpect(jsonPath("$.data.menus[1].name").value("간장치킨"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -144,8 +153,8 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.[0].name").value("후라이드치킨"));
-                resultActions.andExpect(jsonPath("$.data.[1].name").value("양념치킨"));
+                resultActions.andExpect(jsonPath("$.data.[0].name").value("후라이드"));
+                resultActions.andExpect(jsonPath("$.data.[1].name").value("간장치킨"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -163,7 +172,7 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.name").value("양념치킨"));
+                resultActions.andExpect(jsonPath("$.data.name").value("간장치킨"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)

@@ -46,10 +46,8 @@ public class Store extends AudingTime {
     @Column(nullable = true, length = 11)
     private String phone;
 
-    @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(nullable = true, columnDefinition = "LONGBLOB")
-    private byte[] thumbnail; // 사진 타입
+    private String thumbnail; // 사진 타입
 
     @Column(nullable = false, length = 20)
     private String ceoName;
@@ -94,7 +92,7 @@ public class Store extends AudingTime {
     private User user;
 
     @Builder
-    public Store(Long id, StoreCategoryEnum category, String name, String phone, byte[] thumbnail, String ceoName,
+    public Store(Long id, StoreCategoryEnum category, String name, String phone, String thumbnail, String ceoName,
             String businessNumber, String businessAddress, String openTime, String closeTime, int minAmount,
             String deliveryHour, int deliveryCost, String intro, String notice, boolean isOpend, boolean isAccept,
             boolean isClosure, LocalDateTime createdAt, User user) {
