@@ -33,7 +33,8 @@ public class MenuApiController {
     public ResponseEntity<?> getDetailMenu(@PathVariable Long userId, @PathVariable Long storeId,
             @PathVariable Long menuId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "메뉴 상세보기 성공", menuService.detailMenu(menuId)), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "메뉴 상세보기 성공", menuService.detailMenu(menuId, storeId)),
+                HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/{storeId}/menu/list")
