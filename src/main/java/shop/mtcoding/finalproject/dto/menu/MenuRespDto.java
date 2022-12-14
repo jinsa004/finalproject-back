@@ -22,6 +22,7 @@ public class MenuRespDto {
         private String intro;
         private int price;
         private String deliveryHour;
+        private int deliveryCost;
         private String storeName;
         private int minAmount;
 
@@ -31,6 +32,7 @@ public class MenuRespDto {
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
             this.deliveryHour = store.getDeliveryHour();
+            this.deliveryCost = store.getDeliveryCost();
             this.storeName = store.getName();
             this.minAmount = store.getMinAmount();
         }
