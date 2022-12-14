@@ -36,10 +36,10 @@ public class DummyEntity {
         return user;
     }
 
-    protected Store newStore(User user, StoreCategoryEnum category) {
+    protected Store newStore(User user, String name, StoreCategoryEnum category) {
         Store store = Store.builder()
                 .category(category)
-                .name("그린치킨")
+                .name(name)
                 .phone("01011112222")
                 .minAmount(10000)
                 .thumbnail("assets/images/category/간장치킨.jpg")
