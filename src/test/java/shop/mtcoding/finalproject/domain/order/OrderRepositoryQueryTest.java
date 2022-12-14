@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -75,8 +76,8 @@ public class OrderRepositoryQueryTest extends DummyEntity {
                 // given
                 FindStatsReqDto findStatsReqDto = new FindStatsReqDto();
                 findStatsReqDto.setStoreId(1L);
-                findStatsReqDto.setStartTime("2022-12-13");
-                findStatsReqDto.setEndTime("2022-12-13");
+                findStatsReqDto.setStartTime("2022-12-14");
+                findStatsReqDto.setEndTime("2022-12-14");
 
                 // when
                 OrderStatsRespDto orderStatsRespDto = orderRepositoryQuery.findAllOrderStatsByStoreId(findStatsReqDto);
@@ -126,8 +127,8 @@ public class OrderRepositoryQueryTest extends DummyEntity {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                 User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
-                Store store1 = storeRepository.save(newStore(ssar));
-                Store store2 = storeRepository.save(newStore(cos));
+                Store store1 = storeRepository.save(newStore(ssar, StoreCategoryEnum.CHICKEN));
+                Store store2 = storeRepository.save(newStore(cos, StoreCategoryEnum.CHICKEN));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
                 Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
                 Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));

@@ -36,13 +36,13 @@ public class DummyEntity {
         return user;
     }
 
-    protected Store newStore(User user) {
+    protected Store newStore(User user, StoreCategoryEnum category) {
         Store store = Store.builder()
-                .category(StoreCategoryEnum.CHICKEN)
+                .category(category)
                 .name("그린치킨")
                 .phone("01011112222")
                 .minAmount(10000)
-                .thumbnail(null)
+                .thumbnail("assets/images/category/간장치킨.jpg")
                 .ceoName("cos")
                 .businessNumber("112233")
                 .businessAddress("부산시 진구 서면 17번 길")
@@ -62,21 +62,21 @@ public class DummyEntity {
     protected Store newApplyStore(User user) {
         Store store = Store.builder()
                 .category(StoreCategoryEnum.CHICKEN)
-                .name("")
-                .phone("01011112222")
-                .minAmount(10000)
+                .name(null)
+                .phone(null)
+                .minAmount(0)
                 .thumbnail(null)
                 .ceoName("cos")
                 .businessNumber("112233")
                 .businessAddress("부산시 진구 서면 17번 길")
-                .openTime("2")
-                .closeTime("4")
-                .deliveryHour("30")
+                .openTime(null)
+                .closeTime(null)
+                .deliveryHour(null)
                 .deliveryCost(2000)
-                .intro("그린 치킨입니다.")
-                .notice("리뷰 이벤트중입니다.")
-                .isOpend(true)
-                .isAccept(true)
+                .intro(null)
+                .notice(null)
+                .isOpend(false)
+                .isAccept(false)
                 .user(user)
                 .build();
         return store;

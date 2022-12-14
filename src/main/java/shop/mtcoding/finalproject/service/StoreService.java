@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewInterface;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -35,6 +36,7 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.AdminShowApplyStoreRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.CategoryStoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoApplyStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoDetailStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoInsertStoreRespDto;
@@ -59,16 +61,38 @@ public class StoreService {
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
 
+    public CategoryStoreListRespDto categoryStoreList(StoreCategoryEnum category) {
+        // 1. 가게정보 카테고리에 맞는 값을 셀렉
+        log.debug("디버그 : 카테고리 가게 셀렉 전");
+        List<Store> storeList = storeRepository.findAllByCategory(category);
+        log.debug("디버그 : 카테고리 가게 리스트 크기 : " + storeList.size());
+        log.debug("디버그 : 카테고리 가게 셀렉 후" + storeList.get(0).getId());
+        // 2. 가게 목록보기에 필요한 연산데이터(리뷰 개수, 평균 별점)
+        log.debug("디버그 : 연산데이터 전");
+        List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
+        log.debug("디버그 : 연산데이터 후 : 리뷰리스트 크기 : " + customerReviewList.size());
+        log.debug("디버그 : 연산데이터 후 : 가게아이디 : " + customerReviewList.get(3).getStoreId());
+        log.debug("디버그 : 연산데이터 후 : 리뷰아이디 : " + customerReviewList.get(3).getReviewId());
+        // 3. DTO 응답
+        log.debug("디버그 : DTO 응답 전");
+        CategoryStoreListRespDto categoryStoreListRespDto = new CategoryStoreListRespDto(storeList, customerReviewList);
+        log.debug("디버그 : DTO 응답 후" + categoryStoreListRespDto.getStores().get(0).getStarPoint());
+        return categoryStoreListRespDto;
+    }
+
     public StoreNameRespDto checkStoreName(Long userId, LoginUser loginUser) {
         // 1. 유저의 role이 CEO인지 체크
         if (loginUser.getUser().getRole().getValue() != "사업자 회원") {
             throw new CustomApiException("사업자 회원이 아닙니다.", HttpStatus.BAD_REQUEST);
         }
         // 2. 가게 셀렉
-        Store storePS = storeRepository.findByUserId(loginUser.getUser().getId())
+        Store storePS = storeRepository.findByUserIdToStoreCheck(loginUser.getUser().getId())
                 .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않습니다", HttpStatus.BAD_GATEWAY));
+        log.debug("디버그 : 가게 정보 들고오나? : " + storePS.getId());
+        log.debug("디버그 : 가게 정보 들고오나? : " + storePS.getName());
         // 3. DTO 응답
         StoreNameRespDto storeNameRespDto = new StoreNameRespDto(storePS);
+        log.debug("디버그 : DTO에 담겨서 들고오나? : " + storeNameRespDto.getName());
         return storeNameRespDto;
     }
 
@@ -116,7 +140,7 @@ public class StoreService {
 
     public CustomerStoreListRespDto customerStoreList() {
         // 1 가게 정보 1셀렉 가게리스트
-        List<Store> storeList = storeRepository.findAll();
+        List<Store> storeList = storeRepository.findAllToAcceptStoreList();
         log.debug("디버그 : 스토어리스트 : " + storeList);
         // 2 리뷰 별점 셀렉해서 평균내기(평균은 쿼리로 작성) 리뷰리스트
         log.debug("디버그 : 리뷰리스트 전");

@@ -29,4 +29,6 @@ public interface CustomerReviewInterface {
     Long getOrderId();
 
     Long getStoreId();
+
+    Long getReviewId();
 }
