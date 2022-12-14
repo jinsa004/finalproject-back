@@ -65,11 +65,18 @@ public class StoreService {
         // 1. 가게정보 카테고리에 맞는 값을 셀렉
         log.debug("디버그 : 카테고리 가게 셀렉 전");
         List<Store> storeList = storeRepository.findAllByCategory(category);
-        log.debug("디버그 : 카테고리 가게 셀렉 후" + storeList.get(0).getName());
+        log.debug("디버그 : 카테고리 가게 리스트 크기 : " + storeList.size());
+        log.debug("디버그 : 카테고리 가게 셀렉 후" + storeList.get(0).getId());
         // 2. 가게 목록보기에 필요한 연산데이터(리뷰 개수, 평균 별점)
+        log.debug("디버그 : 연산데이터 전");
         List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
+        log.debug("디버그 : 연산데이터 후 : 리뷰리스트 크기 : " + customerReviewList.size());
+        log.debug("디버그 : 연산데이터 후 : 가게아이디 : " + customerReviewList.get(3).getStoreId());
+        log.debug("디버그 : 연산데이터 후 : 리뷰아이디 : " + customerReviewList.get(3).getReviewId());
         // 3. DTO 응답
+        log.debug("디버그 : DTO 응답 전");
         CategoryStoreListRespDto categoryStoreListRespDto = new CategoryStoreListRespDto(storeList, customerReviewList);
+        log.debug("디버그 : DTO 응답 후" + categoryStoreListRespDto.getStores().get(0).getStarPoint());
         return categoryStoreListRespDto;
     }
 

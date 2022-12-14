@@ -30,6 +30,10 @@ public class StoreRespDto {
                 for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
                     if (customerReviewInterface.getStoreId() == store.getId()) {
                         stores.add(new StoreDto(store, customerReviewInterface));
+                    } else if (customerReviewInterface.getReviewId() != null
+                            && customerReviewInterface.getStoreId() == store.getId()) {
+                        stores.add(new StoreDto(store));
+                        return;
                     }
                 }
             }
@@ -45,6 +49,16 @@ public class StoreRespDto {
             private String thumbnail;
             private Long count;
             private Double starPoint;
+
+            public StoreDto(Store store) {
+                this.storeId = store.getId();
+                this.storeName = store.getName();
+                this.deliveryCost = store.getDeliveryCost();
+                this.intro = store.getIntro();
+                this.thumbnail = store.getThumbnail();
+                this.count = 0L;
+                this.starPoint = 0.0;
+            }
 
             public StoreDto(Store store, CustomerReviewInterface customerReviewInterfacePS) {
                 this.storeId = store.getId();
@@ -198,6 +212,10 @@ public class StoreRespDto {
                 for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
                     if (customerReviewInterface.getStoreId() == store.getId()) {
                         stores.add(new StoreDto(store, customerReviewInterface));
+                    } else if (customerReviewInterface.getReviewId() != null
+                            && customerReviewInterface.getStoreId() == store.getId()) {
+                        stores.add(new StoreDto(store));
+                        return;
                     }
                 }
             }
@@ -213,6 +231,16 @@ public class StoreRespDto {
             private String thumbnail;
             private Long count;
             private Double starPoint;
+
+            public StoreDto(Store store) {
+                this.storeId = store.getId();
+                this.storeName = store.getName();
+                this.deliveryCost = store.getDeliveryCost();
+                this.intro = store.getIntro();
+                this.thumbnail = store.getThumbnail();
+                this.count = 0L;
+                this.starPoint = 0.0;
+            }
 
             public StoreDto(Store store, CustomerReviewInterface customerReviewInterfacePS) {
                 this.storeId = store.getId();

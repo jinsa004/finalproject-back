@@ -11,6 +11,7 @@ import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
+    // 카테고리별 가게목록보기
     @Query("select s from Store s where category = :category and isClosure = false")
     List<Store> findAllByCategory(@Param("category") StoreCategoryEnum category);
 
