@@ -23,16 +23,18 @@ public class CustomerReviewRespDto {
 
         public StoreReviewListRespDto(List<CustomerReviewInterface> customerReviewDtos,
                 List<CustomerMenuInterface> customerMenuDtos) {
+
+            if (customerReviewDtos.size() == 0) {
+                return;
+            }
+
             for (CustomerReviewInterface customerReviewDto : customerReviewDtos) {
-
                 List<CustomerMenuInterface> tempReviews = new ArrayList<>();
-
                 for (CustomerMenuInterface customerMenuDto : customerMenuDtos) {
                     if (customerMenuDto.getOrderId() == customerReviewDto.getOrderId()) {
                         tempReviews.add(customerMenuDto);
                     }
                 }
-
                 customerReviewDtoList.add(new CustomerReviewDto(customerReviewDto, tempReviews));
             }
         }
