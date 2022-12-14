@@ -32,7 +32,6 @@ public class CustomerReviewRespDto {
                         tempReviews.add(customerMenuDto);
                     }
                 }
-
                 customerReviewDtoList.add(new CustomerReviewDto(customerReviewDto, tempReviews));
             }
         }

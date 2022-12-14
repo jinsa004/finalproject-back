@@ -45,7 +45,8 @@ public class CustomerReviewService {
                 log.debug("디버그 : 서비스 진입");
                 List<CustomerReviewInterface> customerReviewDtoList = customerReviewRepository
                                 .findByCustomerReviewToStoreId(storeId);
-                log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getContent());
+                log.debug("디버그 : 가게 리뷰 개수 : " + customerReviewDtoList.size());
+                log.debug("디버그 : 가게 리뷰 내용 : " + customerReviewDtoList.get(0).getContent());
                 // 2. 해당 리뷰에 맞는 메뉴명 뿌리기
                 List<CustomerMenuInterface> customerMenuDtoList = customerReviewRepository
                                 .findByMenuNameToStoreId(storeId);
@@ -55,7 +56,7 @@ public class CustomerReviewService {
                 StoreReviewListRespDto storeReviewListRespDto = new StoreReviewListRespDto(customerReviewDtoList,
                                 customerMenuDtoList);
                 log.debug("디버그 : DTO 매핑됐나? "
-                                + storeReviewListRespDto.getCustomerReviewDtoList().get(0).getCustomerMenuDtos().get(1)
+                                + storeReviewListRespDto.getCustomerReviewDtoList().get(0).getCustomerMenuDtos().get(0)
                                                 .getMenuName());
 
                 return storeReviewListRespDto;

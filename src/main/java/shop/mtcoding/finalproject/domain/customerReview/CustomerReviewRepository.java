@@ -32,9 +32,9 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
         // 가게 상세보기 리뷰 탭에서 뿌려지는 리뷰 데이터
         @Query(value = "select cru.nickname nickname, cru.uPhoto uPhoto, cru.crPhoto crPhoto, cru.content content, cru.star_point starPoint, cor.content comment, cru.order_id orderId "
                         +
-                        "from ceo_reviews cor inner join (select cr.order_id, cr.photo crphoto, cr.content, cr.star_point, u.nickname, u.photo uphoto from customer_reviews cr "
+                        "from ceo_reviews cor right join (select cr.order_id, cr.photo crphoto, cr.content, cr.star_point, u.nickname, u.photo uphoto from customer_reviews cr "
                         +
-                        "inner  join users u on cr.user_id = u.id where cr.store_id = :storeId) cru on cor.order_id = cru.order_id", nativeQuery = true)
+                        "right join users u on cr.user_id = u.id where cr.store_id = :storeId) cru on cor.order_id = cru.order_id", nativeQuery = true)
         List<CustomerReviewInterface> findByCustomerReviewToStoreId(@Param("storeId") Long storeId);
 
         // 가게 리뷰목록보기에서 오더 디테일 안의 메뉴명을 가져오는 것
