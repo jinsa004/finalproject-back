@@ -145,7 +145,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.customerReviewDtoList.[0].nickname").value("jinsa님"));
                 resultActions.andExpect(jsonPath("$.data.customerReviewDtoList.[0].customerMenuDtos.[0].menuName")
-                                .value("후라이드치킨"));
+                                .value("후라이드"));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)

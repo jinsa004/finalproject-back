@@ -132,7 +132,7 @@ public class ReportReviewControllerTest extends DummyEntity {
                                 .save(newReportReview(jinsa, customerReview2, ceoReview));
         }
 
-        @WithUserDetails(value = "jina", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void resolveReportReview_test() throws Exception {
                 // given
@@ -156,7 +156,7 @@ public class ReportReviewControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.resolve").value(true));
         }
 
-        @WithUserDetails(value = "jina", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getDetailReportReview_test() throws Exception {
                 // given
@@ -174,7 +174,7 @@ public class ReportReviewControllerTest extends DummyEntity {
 
         }
 
-        @WithUserDetails(value = "jina", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getReportReviewList_test() throws Exception {
                 // given
