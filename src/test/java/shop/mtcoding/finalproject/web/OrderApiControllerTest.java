@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
+import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
@@ -96,11 +97,16 @@ public class OrderApiControllerTest extends DummyEntity {
                 Store store2 = storeRepository.save(newStore(cos));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
                 Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
-                Order order1 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
-                Order order2 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.TAKEOUT));
-                Order order3 = orderRepository.save(newOrder(jinsa, store1, DeliveryStateEnum.DELIVERY));
-                Order order4 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.TAKEOUT));
-                Order order5 = orderRepository.save(newOrder(jinsa, store2, DeliveryStateEnum.DELIVERY));
+                Order order1 = orderRepository
+                                .save(newOrder(jinsa, store1, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                Order order2 = orderRepository
+                                .save(newOrder(jinsa, store1, OrderStateEnum.COMPLETE, DeliveryStateEnum.TAKEOUT));
+                Order order3 = orderRepository
+                                .save(newOrder(jinsa, store1, OrderStateEnum.CHECK, DeliveryStateEnum.DELIVERY));
+                Order order4 = orderRepository
+                                .save(newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.TAKEOUT));
+                Order order5 = orderRepository
+                                .save(newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
                 OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                 OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                 OrderDetail orderDetail3 = orderDetailRepository.save(newOrderDetail(order2, menu1));
@@ -219,11 +225,10 @@ public class OrderApiControllerTest extends DummyEntity {
                 ResultActions resultActions = mvc
                                 .perform(get("/api/user/" + userId + "/store/" + storeId + "/order"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : 응답데이터 : " + responseBody);
+                System.out.println("test : " + responseBody);
 
                 // then
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.[0].orderComment").value("젓가락 빼주세요"));
-
         }
 }

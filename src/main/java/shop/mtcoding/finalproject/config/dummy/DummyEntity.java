@@ -72,10 +72,11 @@ public class DummyEntity {
         return menu;
     }
 
-    protected Order newOrder(User user, Store store, DeliveryStateEnum deliveryStateEnum) {
+    protected Order newOrder(User user, Store store, OrderStateEnum orderStateEnum,
+            DeliveryStateEnum deliveryStateEnum) {
         Order order = Order.builder()
                 .comment("젓가락 빼주세요")
-                .state(OrderStateEnum.COMPLETE)
+                .state(orderStateEnum)
                 .reason(null)
                 .user(user)
                 .store(store)
