@@ -95,10 +95,10 @@ public class CeoReviewApiControllerTest extends DummyEntity {
                 User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
                 User hoho = userRepository.save(newUser("hoho", UserEnum.CEO));
                 User haha = userRepository.save(newUser("haha", UserEnum.CEO));
-                Store store1 = storeRepository.save(newStore(ssar, StoreCategoryEnum.CHICKEN));
-                Store store2 = storeRepository.save(newStore(cos, StoreCategoryEnum.CHICKEN));
+                Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN));
+                Store store2 = storeRepository.save(newStore(cos, "그린치킨", StoreCategoryEnum.CHICKEN));
                 Store store3 = storeRepository.save(newApplyStore(hoho));
-                Store store4 = storeRepository.save(newStore(haha, StoreCategoryEnum.PIZZA));
+                Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
                 Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
                 Menu menu3 = menuRepository.save(newMenu(store4, "페퍼로니피자"));
@@ -121,8 +121,8 @@ public class CeoReviewApiControllerTest extends DummyEntity {
                                 .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
                 CustomerReview customerReview2 = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order2, store2, null, 4.0));
-                // CustomerReview customerReview3 = customerReviewRepository
-                // .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
+                CustomerReview customerReview3 = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
                 ReportReview reportReview1 = reportReviewRepository
                                 .save(newReportReview(ssar, customerReview, ceoReview));
                 ReportReview reportReview2 = reportReviewRepository

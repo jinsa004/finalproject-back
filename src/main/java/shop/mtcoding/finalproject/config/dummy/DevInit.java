@@ -112,8 +112,8 @@ public class DevInit extends DummyEntity {
                                         .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
                         CustomerReview customerReview2 = customerReviewRepository
                                         .save(newCustomerReview(jinsa, order2, store2, null, 4.0));
-                        // CustomerReview customerReview3 = customerReviewRepository
-                        // .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
+                        CustomerReview customerReview3 = customerReviewRepository
+                                        .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
                         Like like1 = likeRepository.save(newLike(jinsa, store2));
                         Like like2 = likeRepository.save(newLike(jinsa, store1));
                         Like like3 = likeRepository.save(newLike(jinsa, store4));
