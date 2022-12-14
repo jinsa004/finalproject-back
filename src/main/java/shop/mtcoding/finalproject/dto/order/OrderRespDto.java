@@ -81,7 +81,7 @@ public class OrderRespDto {
             public OrderDto(Order order) {
                 this.name = order.getStore().getName();
                 this.intro = order.getStore().getIntro();
-                this.thumbnail = CustomBase64ConvertUtil.convertToString(order.getStore().getThumbnail());
+                this.thumbnail = order.getStore().getThumbnail();
                 this.deliveryState = order.getDeliveryStateEnum().getState();
                 this.createdAt = CustomDateUtil.toStringFormat(order.getCreatedAt());
             }

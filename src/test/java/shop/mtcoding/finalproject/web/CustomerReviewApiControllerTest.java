@@ -26,11 +26,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewRepository;
+import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -92,10 +94,16 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                 User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
-                Store store1 = storeRepository.save(newStore(ssar));
-                Store store2 = storeRepository.save(newStore(cos));
-                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
+                User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
+                User hoho = userRepository.save(newUser("hoho", UserEnum.CEO));
+                User haha = userRepository.save(newUser("haha", UserEnum.CEO));
+                Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN));
+                Store store2 = storeRepository.save(newStore(cos, "그린치킨", StoreCategoryEnum.CHICKEN));
+                Store store3 = storeRepository.save(newApplyStore(hoho));
+                Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA));
+                Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
                 Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
+                Menu menu3 = menuRepository.save(newMenu(store2, "간장치킨"));
                 Order order1 = orderRepository
                                 .save(newOrder(jinsa, store1, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
                 Order order2 = orderRepository
@@ -106,6 +114,8 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                                 .save(newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.TAKEOUT));
                 Order order5 = orderRepository
                                 .save(newOrder(jinsa, store2, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
+                Order order6 = orderRepository.save(
+                                newOrder(jinsa, store4, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
                 OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                 OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu1));
                 OrderDetail orderDetail3 = orderDetailRepository.save(newOrderDetail(order2, menu1));
@@ -113,15 +123,18 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 OrderDetail orderDetail5 = orderDetailRepository.save(newOrderDetail(order4, menu2));
                 OrderDetail orderDetail6 = orderDetailRepository.save(newOrderDetail(order5, menu2));
                 OrderDetail orderDetail7 = orderDetailRepository.save(newOrderDetail(order5, menu2));
+                OrderDetail orderDetail8 = orderDetailRepository.save(newOrderDetail(order6, menu3));
                 CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
                 CustomerReview customerReview = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
                 CustomerReview customerReview2 = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order2, store1, null, 4.0));
+                                .save(newCustomerReview(jinsa, order2, store2, null, 4.0));
+                CustomerReview customerReview3 = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
                 ReportReview reportReview1 = reportReviewRepository
                                 .save(newReportReview(ssar, customerReview, ceoReview));
                 ReportReview reportReview2 = reportReviewRepository
-                                .save(newReportReview(ssar, customerReview, ceoReview));
+                                .save(newReportReview(jinsa, customerReview2, ceoReview));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -139,7 +152,7 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.customerReviewDtoList.[0].nickname").value("jinsa님"));
                 resultActions.andExpect(jsonPath("$.data.customerReviewDtoList.[0].customerMenuDtos.[0].menuName")
-                                .value("후라이드치킨"));
+                                .value("후라이드"));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
