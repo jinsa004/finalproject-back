@@ -76,7 +76,7 @@ public class DummyEntity {
                 .intro("그린 치킨입니다.")
                 .notice("리뷰 이벤트중입니다.")
                 .isOpend(true)
-                .isAccept(true)
+                .isAccept(false)
                 .user(user)
                 .build();
         return store;
