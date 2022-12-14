@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
-import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomEnumUtil;
 
 public class StoreReqDto {
