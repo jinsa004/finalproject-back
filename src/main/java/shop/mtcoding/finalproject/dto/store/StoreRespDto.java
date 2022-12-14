@@ -28,12 +28,11 @@ public class StoreRespDto {
                 List<CustomerReviewInterface> customerReviewInterfaceList) {
             for (Store store : storesPS) {
                 for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
-                    if (customerReviewInterface.getStoreId() == store.getId()) {
-                        stores.add(new StoreDto(store, customerReviewInterface));
-                    } else if (customerReviewInterface.getReviewId() != null
+                    if (customerReviewInterface.getReviewId() == null
                             && customerReviewInterface.getStoreId() == store.getId()) {
                         stores.add(new StoreDto(store));
-                        return;
+                    } else if (customerReviewInterface.getStoreId() == store.getId()) {
+                        stores.add(new StoreDto(store, customerReviewInterface));
                     }
                 }
             }
@@ -93,7 +92,10 @@ public class StoreRespDto {
         public LikeStoreListRespDto(List<Like> likeList, List<CustomerReviewInterface> customerReviewInterfaceList) {
             for (Like like : likeList) {
                 for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
-                    if (customerReviewInterface.getStoreId() == like.getStore().getId()) {
+                    if (customerReviewInterface.getReviewId() == null
+                            && customerReviewInterface.getStoreId() == like.getStore().getId()) {
+                        likes.add(new LikeDto(like));
+                    } else if (customerReviewInterface.getStoreId() == like.getStore().getId()) {
                         likes.add(new LikeDto(like, customerReviewInterface));
                     }
                 }
@@ -110,6 +112,16 @@ public class StoreRespDto {
             private String thumbnail;
             private Long count;
             private Double starPoint;
+
+            public LikeDto(Like like) {
+                this.storeId = like.getStore().getId();
+                this.storeName = like.getStore().getName();
+                this.deliveryCost = like.getStore().getDeliveryCost();
+                this.intro = like.getStore().getIntro();
+                this.thumbnail = like.getStore().getThumbnail();
+                this.count = 0L;
+                this.starPoint = 0.0;
+            }
 
             public LikeDto(Like like, CustomerReviewInterface customerReviewInterfacePS) {
                 this.storeId = like.getStore().getId();
@@ -210,12 +222,11 @@ public class StoreRespDto {
                 List<CustomerReviewInterface> customerReviewInterfaceList) {
             for (Store store : storesPS) {
                 for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
-                    if (customerReviewInterface.getStoreId() == store.getId()) {
-                        stores.add(new StoreDto(store, customerReviewInterface));
-                    } else if (customerReviewInterface.getReviewId() != null
+                    if (customerReviewInterface.getReviewId() == null
                             && customerReviewInterface.getStoreId() == store.getId()) {
                         stores.add(new StoreDto(store));
-                        return;
+                    } else if (customerReviewInterface.getStoreId() == store.getId()) {
+                        stores.add(new StoreDto(store, customerReviewInterface));
                     }
                 }
             }
