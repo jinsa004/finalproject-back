@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -46,11 +47,11 @@ public class CustomerReviewService {
                 List<CustomerReviewInterface> customerReviewDtoList = customerReviewRepository
                                 .findByCustomerReviewToStoreId(storeId);
                 log.debug("디버그 : 가게 리뷰 개수 : " + customerReviewDtoList.size());
-                log.debug("디버그 : 가게 리뷰 내용 : " + customerReviewDtoList.get(0).getContent());
                 // 2. 해당 리뷰에 맞는 메뉴명 뿌리기
+                log.debug("디버그 : 메뉴 리스트 셀렉 전 : ");
                 List<CustomerMenuInterface> customerMenuDtoList = customerReviewRepository
                                 .findByMenuNameToStoreId(storeId);
-                log.debug("디버그 : 메뉴명 잘뜨남? : " + customerMenuDtoList.get(0).getMenuName());
+                log.debug("디버그 : 메뉴 리스트 크기 : " + customerMenuDtoList.size());
                 // 3. DTO 응답
                 log.debug("디버그 : DTO응답 진입전");
                 StoreReviewListRespDto storeReviewListRespDto = new StoreReviewListRespDto(customerReviewDtoList,
