@@ -62,8 +62,8 @@ public class OrderApiController {
             @RequestBody UpdateToCancleOrderReqDto updateToCancleOrderReqDto, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        String state = orderService.updatToState(updateToCancleOrderReqDto, userId, storeId, orderId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "주문상태 변경완료", state), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "주문상태 변경완료",
+                orderService.updatToState(updateToCancleOrderReqDto, userId, storeId, orderId)), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/{storeId}/order")
