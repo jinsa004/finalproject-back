@@ -76,13 +76,16 @@ public class StoreRespDto {
     @Getter
     @Setter
     public static class StoreNameRespDto {
+        private Long id;
         private String name;
 
         public StoreNameRespDto(Store store) {
             if (store.getName() == null) {
+                this.id = store.getId();
                 this.name = "";
                 return;
             }
+            this.id = store.getId();
             this.name = store.getName();
         }
 

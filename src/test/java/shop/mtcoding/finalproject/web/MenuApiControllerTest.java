@@ -91,10 +91,10 @@ public class MenuApiControllerTest extends DummyEntity {
                 User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
                 User hoho = userRepository.save(newUser("hoho", UserEnum.CEO));
                 User haha = userRepository.save(newUser("haha", UserEnum.CEO));
-                Store store1 = storeRepository.save(newStore(ssar, StoreCategoryEnum.CHICKEN));
-                Store store2 = storeRepository.save(newStore(cos, StoreCategoryEnum.CHICKEN));
+                Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN));
+                Store store2 = storeRepository.save(newStore(cos, "그린치킨", StoreCategoryEnum.CHICKEN));
                 Store store3 = storeRepository.save(newApplyStore(hoho));
-                Store store4 = storeRepository.save(newStore(haha, StoreCategoryEnum.PIZZA));
+                Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
                 Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
                 Menu menu4 = menuRepository.save(newMenu(store1, "간장치킨"));
