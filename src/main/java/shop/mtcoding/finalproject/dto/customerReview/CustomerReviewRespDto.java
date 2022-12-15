@@ -21,18 +21,20 @@ public class CustomerReviewRespDto {
     public static class StoreReviewListRespDto {// 가게 상세보기 -> 가게 리뷰탭 리뷰 목록보기
         private List<CustomerReviewDto> customerReviewDtoList = new ArrayList<>();
 
+        public StoreReviewListRespDto() {
+            this.customerReviewDtoList = new ArrayList<>();
+        }
+
         public StoreReviewListRespDto(List<CustomerReviewInterface> customerReviewDtos,
                 List<CustomerMenuInterface> customerMenuDtos) {
+
             for (CustomerReviewInterface customerReviewDto : customerReviewDtos) {
-
                 List<CustomerMenuInterface> tempReviews = new ArrayList<>();
-
                 for (CustomerMenuInterface customerMenuDto : customerMenuDtos) {
                     if (customerMenuDto.getOrderId() == customerReviewDto.getOrderId()) {
                         tempReviews.add(customerMenuDto);
                     }
                 }
-
                 customerReviewDtoList.add(new CustomerReviewDto(customerReviewDto, tempReviews));
             }
         }

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.domain.menu.Menu;
+import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 
 public class MenuRespDto {
@@ -16,16 +17,24 @@ public class MenuRespDto {
     @Getter
     @Setter
     public static class CustomerDetailMenuRespDto {
-        private String name;
+        private String menuName;
         private String thumbnail;
         private String intro;
         private int price;
+        private String deliveryHour;
+        private int deliveryCost;
+        private String storeName;
+        private int minAmount;
 
-        public CustomerDetailMenuRespDto(Menu menu) {
-            this.name = menu.getName();
+        public CustomerDetailMenuRespDto(Menu menu, Store store) {
+            this.menuName = menu.getName();
             this.thumbnail = CustomBase64ConvertUtil.convertToString(menu.getThumbnail());
             this.intro = menu.getIntro();
             this.price = menu.getPrice();
+            this.deliveryHour = store.getDeliveryHour();
+            this.deliveryCost = store.getDeliveryCost();
+            this.storeName = store.getName();
+            this.minAmount = store.getMinAmount();
         }
 
     }

@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -45,19 +46,21 @@ public class CustomerReviewService {
                 log.debug("디버그 : 서비스 진입");
                 List<CustomerReviewInterface> customerReviewDtoList = customerReviewRepository
                                 .findByCustomerReviewToStoreId(storeId);
-                log.debug("디버그 : 가게 리뷰 목록보기 잘 가져오나? :" + customerReviewDtoList.get(0).getContent());
+
+                log.debug("디버그 : 가게 리뷰 개수 : " + customerReviewDtoList.size());
                 // 2. 해당 리뷰에 맞는 메뉴명 뿌리기
+                log.debug("디버그 : 메뉴 리스트 셀렉 전 : ");
                 List<CustomerMenuInterface> customerMenuDtoList = customerReviewRepository
                                 .findByMenuNameToStoreId(storeId);
-                log.debug("디버그 : 메뉴명 잘뜨남? : " + customerMenuDtoList.get(0).getMenuName());
+                log.debug("디버그 : 메뉴 리스트 크기 : " + customerMenuDtoList.toArray());
+                if (customerReviewDtoList.size() == 0 && customerMenuDtoList.size() == 0) {
+                        throw new CustomApiException("리뷰가 없습니다", HttpStatus.BAD_REQUEST);
+                }
                 // 3. DTO 응답
                 log.debug("디버그 : DTO응답 진입전");
                 StoreReviewListRespDto storeReviewListRespDto = new StoreReviewListRespDto(customerReviewDtoList,
                                 customerMenuDtoList);
-                log.debug("디버그 : DTO 매핑됐나? "
-                                + storeReviewListRespDto.getCustomerReviewDtoList().get(0).getCustomerMenuDtos().get(1)
-                                                .getMenuName());
-
+                log.debug("디버그 : DTO응답 나왔냐 ");
                 return storeReviewListRespDto;
         }
 

@@ -118,7 +118,7 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.name").value("후라이드"));
+                resultActions.andExpect(jsonPath("$.data.menuName").value("후라이드"));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)

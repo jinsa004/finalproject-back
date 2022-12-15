@@ -107,13 +107,13 @@ public class DevInit extends DummyEntity {
                         Order order13 = orderRepository.save(
                                         newOrder(jinsa, store11, OrderStateEnum.COMPLETE, DeliveryStateEnum.DELIVERY));
                         OrderDetail orderDetail1 = orderDetailRepository.save(newOrderDetail(order1, menu1));
-                        OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu1));
+                        OrderDetail orderDetail2 = orderDetailRepository.save(newOrderDetail(order1, menu2));
                         OrderDetail orderDetail3 = orderDetailRepository.save(newOrderDetail(order2, menu1));
                         OrderDetail orderDetail4 = orderDetailRepository.save(newOrderDetail(order3, menu1));
-                        OrderDetail orderDetail5 = orderDetailRepository.save(newOrderDetail(order4, menu2));
-                        OrderDetail orderDetail6 = orderDetailRepository.save(newOrderDetail(order5, menu2));
+                        OrderDetail orderDetail5 = orderDetailRepository.save(newOrderDetail(order4, menu3));
+                        OrderDetail orderDetail6 = orderDetailRepository.save(newOrderDetail(order5, menu3));
                         OrderDetail orderDetail7 = orderDetailRepository.save(newOrderDetail(order5, menu2));
-                        OrderDetail orderDetail8 = orderDetailRepository.save(newOrderDetail(order6, menu3));
+                        OrderDetail orderDetail8 = orderDetailRepository.save(newOrderDetail(order6, menu4));
                         OrderDetail orderDetail9 = orderDetailRepository.save(newOrderDetail(order7, menu5));
                         OrderDetail orderDetail10 = orderDetailRepository.save(newOrderDetail(order8, menu6));
                         OrderDetail orderDetail11 = orderDetailRepository.save(newOrderDetail(order9, menu7));
@@ -121,20 +121,20 @@ public class DevInit extends DummyEntity {
                         OrderDetail orderDetail13 = orderDetailRepository.save(newOrderDetail(order11, menu9));
                         OrderDetail orderDetail14 = orderDetailRepository.save(newOrderDetail(order12, menu10));
                         OrderDetail orderDetail15 = orderDetailRepository.save(newOrderDetail(order13, menu11));
-                        CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
+                        // CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
                         CustomerReview customerReview = customerReviewRepository
-                                        .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
+                                        .save(newCustomerReview(jinsa, order1, store1, null, 5.0));
                         CustomerReview customerReview2 = customerReviewRepository
-                                        .save(newCustomerReview(jinsa, order2, store2, null, 4.0));
+                                        .save(newCustomerReview(jinsa, order4, store2, null, 4.0));
                         CustomerReview customerReview3 = customerReviewRepository
                                         .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
                         Like like1 = likeRepository.save(newLike(jinsa, store2));
                         Like like2 = likeRepository.save(newLike(jinsa, store1));
                         Like like3 = likeRepository.save(newLike(jinsa, store4));
-                        ReportReview reportReview1 = reportReviewRepository
-                                        .save(newReportReview(ssar, customerReview, ceoReview));
-                        ReportReview reportReview2 = reportReviewRepository
-                                        .save(newReportReview(jinsa, customerReview2, ceoReview));
+                        // ReportReview reportReview1 = reportReviewRepository
+                        // .save(newReportReview(ssar, customerReview, ceoReview));
+                        // ReportReview reportReview2 = reportReviewRepository
+                        // .save(newReportReview(jinsa, customerReview2, ceoReview));
                 };
         }
 }

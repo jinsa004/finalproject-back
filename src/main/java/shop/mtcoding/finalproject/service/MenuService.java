@@ -36,11 +36,14 @@ public class MenuService {
 
     /* 성진 작업 시작@@ */
     // 메뉴 상세보기(사용자 앱 입장)
-    public CustomerDetailMenuRespDto detailMenu(Long menuId) {
-        // 1. 해당 메뉴의 내용을 셀렉
+    public CustomerDetailMenuRespDto detailMenu(Long menuId, Long storeId) {
+        // 1. 해당 가게 셀렉(가게이름, 최소주문금액, 배달시간)
+        Store storePS = storeRepository.findById(storeId)
+                .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        // 2. 해당 메뉴의 내용을 셀렉
         Menu menuPS = menuRepository.findById(menuId).orElseThrow(
                 () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-        return new CustomerDetailMenuRespDto(menuPS);
+        return new CustomerDetailMenuRespDto(menuPS, storePS);
     }
 
     // 메뉴 목록보기(사용자 앱 입장)
