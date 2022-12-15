@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -44,6 +46,7 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.CeoUpdateStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerDetailStoreMainRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreInfoRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreListRespDto;
+import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailToSaveStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.LikeStoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreNameRespDto;
 
@@ -75,9 +78,14 @@ public class StoreService {
         log.debug("디버그 : 연산데이터 후 : 리뷰아이디 : " + customerReviewList.get(3).getReviewId());
         // 3. DTO 응답
         log.debug("디버그 : DTO 응답 전");
-        CategoryStoreListRespDto categoryStoreListRespDto = new CategoryStoreListRespDto(storeList, customerReviewList);
+        CategoryStoreListRespDto categoryStoreListRespDto = new CategoryStoreListRespDto(storeList,
+                customerReviewList);
         log.debug("디버그 : DTO 응답 후" + categoryStoreListRespDto.getStores().get(0).getStarPoint());
-        return categoryStoreListRespDto;
+        try {
+            return categoryStoreListRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public StoreNameRespDto checkStoreName(Long userId, LoginUser loginUser) {
@@ -93,7 +101,11 @@ public class StoreService {
         // 3. DTO 응답
         StoreNameRespDto storeNameRespDto = new StoreNameRespDto(storePS, loginUser.getUser());
         log.debug("디버그 : DTO에 담겨서 들고오나? : " + storeNameRespDto.getName());
-        return storeNameRespDto;
+        try {
+            return storeNameRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public LikeStoreListRespDto likeStoreList(Long userId) {
@@ -106,7 +118,11 @@ public class StoreService {
         // 3. DTO 응답
         LikeStoreListRespDto likeStoreListRespDto = new LikeStoreListRespDto(likeList, customerReviewList);
         log.debug("디버그 : " + likeStoreListRespDto);
-        return likeStoreListRespDto;
+        try {
+            return likeStoreListRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public CustomerStoreInfoRespDto customerStoreInfo(Long storeId) {
@@ -133,9 +149,12 @@ public class StoreService {
         // 5. 메뉴 테이블 데이터 셀렉(리스트)
         List<Menu> menuList = menuRepository.findAllByStoreId(storeId);
         log.debug("디버그 : 메뉴 정보 : " + menuList.get(0).getName());
-
-        // 6. DTO 응답
-        return new CustomerDetailStoreMainRespDto(storePS, customerReviewDto, ceoReviewDto, likeDto, menuList);
+        try {
+            // 6. DTO 응답
+            return new CustomerDetailStoreMainRespDto(storePS, customerReviewDto, ceoReviewDto, likeDto, menuList);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public CustomerStoreListRespDto customerStoreList() {
@@ -147,7 +166,11 @@ public class StoreService {
         List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
         log.debug("디버그 : 리뷰리스트 후: " + customerReviewList);
         // 3 DTO 응답
-        return new CustomerStoreListRespDto(storeList, customerReviewList);
+        try {
+            return new CustomerStoreListRespDto(storeList, customerReviewList);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Transactional
@@ -197,14 +220,22 @@ public class StoreService {
     public CeoApplyStoreRespDto findByUserIdToApply(Long userId) {
         Store storePS = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
-        return new CeoApplyStoreRespDto(storePS);
+        try {
+            return new CeoApplyStoreRespDto(storePS);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public CeoDetailStoreRespDto findByUserId(Long userId) {
         Store storePS = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
         storePS.checkStoreBusinessState();
-        return new CeoDetailStoreRespDto(storePS);
+        try {
+            return new CeoDetailStoreRespDto(storePS);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public OrderStatsRespDto findStatsByStoreId(FindStatsReqDto findStatsReqDto, Long userId) {
@@ -213,7 +244,11 @@ public class StoreService {
         storePS.checkStoreBusinessState();
         storePS.checkCeo(userId);
         findStatsReqDto.setStoreId(storePS.getId());
-        return orderRepositoryQuery.findAllOrderStatsByStoreId(findStatsReqDto);
+        try {
+            return orderRepositoryQuery.findAllOrderStatsByStoreId(findStatsReqDto);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Transactional
@@ -239,7 +274,11 @@ public class StoreService {
         for (int i = 0; i < stores.size(); i++) {
             adminShowApplyStoreRespDtos.add(i, new AdminShowApplyStoreRespDto(stores.get(i)));
         }
-        return adminShowApplyStoreRespDtos;
+        try {
+            return adminShowApplyStoreRespDtos;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Transactional
@@ -254,5 +293,17 @@ public class StoreService {
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
         userPS.updateRole(adminUpdateStoreApplyAcceptReqDto.isAccept());
         userRepository.save(userPS);
+    }
+
+    public DetailToSaveStoreRespDto findByIdToSave(Long userId) {
+        Store storePS = storeRepository.findByUserId(userId).orElseThrow(
+                () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+        storePS.checkStoreBusinessState();
+        storePS.checkCeo(userId);
+        try {
+            return new DetailToSaveStoreRespDto(storePS);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

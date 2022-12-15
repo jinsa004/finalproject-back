@@ -1,6 +1,7 @@
 package shop.mtcoding.finalproject.domain.order;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.qlrm.mapper.JpaResultMapper;
@@ -62,8 +63,11 @@ public class OrderRepositoryQuery {
                 .setParameter("endTime", findStatsReqDto.getEndTime() + " 23:59:59");
 
         JpaResultMapper result = new JpaResultMapper();
-
-        OrderStatsRespDto orderStatsRespDto = result.uniqueResult(query, OrderStatsRespDto.class);
-        return orderStatsRespDto;
+        try {
+            OrderStatsRespDto orderStatsRespDto = result.uniqueResult(query, OrderStatsRespDto.class);
+            return orderStatsRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }
