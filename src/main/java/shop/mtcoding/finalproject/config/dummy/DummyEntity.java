@@ -82,6 +82,29 @@ public class DummyEntity {
         return store;
     }
 
+    protected Store newSaveStore(User user) {
+        Store store = Store.builder()
+                .category(null)
+                .name(null)
+                .phone(null)
+                .minAmount(0)
+                .thumbnail(null)
+                .ceoName(user.getUsername())
+                .businessNumber("112233")
+                .businessAddress("부산시 진구 서면 17번 길")
+                .openTime(null)
+                .closeTime(null)
+                .deliveryHour(null)
+                .deliveryCost(0)
+                .intro(null)
+                .notice(null)
+                .isOpend(false)
+                .isAccept(true)
+                .user(user)
+                .build();
+        return store;
+    }
+
     protected Menu newMenu(Store store, String name) {
         Menu menu = Menu.builder()
                 .name(name)
