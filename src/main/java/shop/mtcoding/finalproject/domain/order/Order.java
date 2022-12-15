@@ -65,12 +65,12 @@ public class Order extends AudingTime {
     private LocalDateTime completeTime;
 
     @Column(nullable = false)
-    private String deliveryHour;
+    private String deliveryTime;
 
     @Builder
     public Order(Long id, String comment, OrderStateEnum state, String reason, boolean isClosure,
             DeliveryStateEnum deliveryStateEnum, User user, Store store, Payment payment, LocalDateTime completeTime,
-            LocalDateTime createdAt, String deliveryHour) {
+            LocalDateTime createdAt, String deliveryTime) {
         this.id = id;
         this.comment = comment;
         this.state = state;
@@ -82,7 +82,7 @@ public class Order extends AudingTime {
         this.payment = payment;
         this.completeTime = completeTime;
         this.createdAt = createdAt;
-        this.deliveryHour = deliveryHour;
+        this.deliveryTime = deliveryTime;
     }
 
     public Order update(Order order) {
@@ -98,7 +98,7 @@ public class Order extends AudingTime {
                 .payment(payment)
                 .completeTime(order.getCompleteTime())
                 .createdAt(createdAt)
-                .deliveryHour(order.getDeliveryHour())
+                .deliveryTime(order.getDeliveryTime())
                 .build();
     }
 
