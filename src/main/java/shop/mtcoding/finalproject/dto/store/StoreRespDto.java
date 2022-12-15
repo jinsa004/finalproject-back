@@ -77,20 +77,20 @@ public class StoreRespDto {
     @Getter
     @Setter
     public static class StoreNameRespDto {
-        private Long id;
+        private Long storeId;
         private String name;
         private String role;
         private boolean isAccept;
 
         public StoreNameRespDto(Store store, User user) {
             if (store.getName() == null) {
-                this.id = store.getId();
+                this.storeId = store.getId();
                 this.name = "";
                 this.role = user.getRole().getValue();
                 this.isAccept = store.isAccept();
                 return;
             }
-            this.id = store.getId();
+            this.storeId = store.getId();
             this.name = store.getName();
             this.role = user.getRole().getValue();
             this.isAccept = store.isAccept();

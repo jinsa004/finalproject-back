@@ -81,20 +81,16 @@ public class StoreService {
     }
 
     public StoreNameRespDto checkStoreName(Long userId, LoginUser loginUser) {
-        // 1. 유저의 role이 CEO인지 체크
-        if (loginUser.getUser().getRole().getValue() != "사업자 회원") {
-            throw new CustomApiException("입점미신청", HttpStatus.BAD_REQUEST);
-        }
-        // 2. 가게 셀렉
+        // 1. 가게 셀렉
         Store storePS = storeRepository.findByUserIdToStoreCheck(loginUser.getUser().getId())
-                .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않습니다", HttpStatus.BAD_GATEWAY));
+                .orElseThrow(() -> new CustomApiException("입점미신청", HttpStatus.BAD_GATEWAY));
         log.debug("디버그 : 가게 정보 들고오나? : " + storePS.getId());
         log.debug("디버그 : 가게 정보 들고오나? : " + storePS.getName());
-        // 3. 입점신청 대기유저를 위한 로직
+        // 2. 입점신청 대기유저를 위한 로직(신청이 됐으면 storeId는 있기때문에 입점신청을 구분하는 isAccept 컬럼사용)
         if (storePS.isAccept() == false) {
             throw new CustomApiException("입점대기", HttpStatus.BAD_REQUEST);
         }
-        // 4. DTO 응답
+        // 3. DTO 응답
         StoreNameRespDto storeNameRespDto = new StoreNameRespDto(storePS, loginUser.getUser());
         log.debug("디버그 : DTO에 담겨서 들고오나? : " + storeNameRespDto.getName());
         return storeNameRespDto;
