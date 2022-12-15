@@ -91,7 +91,7 @@ public class StoreService {
         log.debug("디버그 : 가게 정보 들고오나? : " + storePS.getId());
         log.debug("디버그 : 가게 정보 들고오나? : " + storePS.getName());
         // 3. DTO 응답
-        StoreNameRespDto storeNameRespDto = new StoreNameRespDto(storePS);
+        StoreNameRespDto storeNameRespDto = new StoreNameRespDto(storePS, loginUser.getUser());
         log.debug("디버그 : DTO에 담겨서 들고오나? : " + storeNameRespDto.getName());
         return storeNameRespDto;
     }

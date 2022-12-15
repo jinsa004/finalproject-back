@@ -12,6 +12,7 @@ import shop.mtcoding.finalproject.domain.like.Like;
 import shop.mtcoding.finalproject.domain.like.LikeInterface;
 import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.store.Store;
+import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
@@ -78,15 +79,18 @@ public class StoreRespDto {
     public static class StoreNameRespDto {
         private Long id;
         private String name;
+        private String role;
 
-        public StoreNameRespDto(Store store) {
+        public StoreNameRespDto(Store store, User user) {
             if (store.getName() == null) {
                 this.id = store.getId();
                 this.name = "";
+                this.role = user.getRole().getValue();
                 return;
             }
             this.id = store.getId();
             this.name = store.getName();
+            this.role = user.getRole().getValue();
         }
 
     }
