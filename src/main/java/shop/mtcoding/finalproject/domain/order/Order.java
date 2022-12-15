@@ -64,7 +64,7 @@ public class Order extends AudingTime {
     @Column(nullable = true)
     private LocalDateTime completeTime;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String deliveryTime;
 
     @Builder
