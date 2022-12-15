@@ -50,7 +50,7 @@ public class StoreApiController {
         loginUser.getUser().checkUser(userId);
         StoreNameRespDto storeNameRespDto = storeService.checkStoreName(userId, loginUser);
         if (storeNameRespDto.getName().equals("")) {
-            return new ResponseEntity<>(new ResponseDto<>(1, "가게없는 유저", null), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseDto<>(1, "가게없는 유저", storeNameRespDto), HttpStatus.OK);
         }
         return new ResponseEntity<>(new ResponseDto<>(1, "가게있는 유저", storeNameRespDto), HttpStatus.OK);
     }
