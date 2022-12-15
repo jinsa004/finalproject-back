@@ -3,6 +3,8 @@ package shop.mtcoding.finalproject.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -43,7 +45,11 @@ public class MenuService {
         // 2. 해당 메뉴의 내용을 셀렉
         Menu menuPS = menuRepository.findById(menuId).orElseThrow(
                 () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-        return new CustomerDetailMenuRespDto(menuPS, storePS);
+        try {
+            return new CustomerDetailMenuRespDto(menuPS, storePS);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     // 메뉴 목록보기(사용자 앱 입장)
@@ -54,7 +60,11 @@ public class MenuService {
         // 2. DTO 응답
         CustomerMenuListRespDto customerMenuListRespDto = new CustomerMenuListRespDto(menuList);
         log.debug("디버그 : DTO 응답 타나?");
-        return customerMenuListRespDto;
+        try {
+            return customerMenuListRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     /* 승현 작업 시작 */
@@ -98,7 +108,11 @@ public class MenuService {
         for (int i = 0; i < menuPS.size(); i++) {
             ceoShowMenuRespDtos.add(i, new CeoShowMenuRespDto(menuPS.get(i)));
         }
-        return ceoShowMenuRespDtos;
+        try {
+            return ceoShowMenuRespDtos;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     /* 승현 작업 종료 */

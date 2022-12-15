@@ -3,6 +3,8 @@ package shop.mtcoding.finalproject.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -56,7 +58,11 @@ public class ReportReviewService {
         reportReviewPS.resolve(resolveReportReviewReqDto);
         // 3. DTO 응답
         ResolveReportReviewRespDto resolveReportReviewRespDto = new ResolveReportReviewRespDto(reportReviewPS);
-        return resolveReportReviewRespDto;
+        try {
+            return resolveReportReviewRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public DetailReportReviewRespDto detailReportReview(Long reportReviewId) {
@@ -69,9 +75,14 @@ public class ReportReviewService {
         // 3. 해당 리뷰 관련자 셀렉
         ReportCeoInfoRespDto reportCeoReviewRespDto = reportRepositoryQuery.findByReportReviewIdToCeo(reportReviewId);
         // 4. DTO 응답
-        DetailReportReviewRespDto detailReportReviewRespDto = new DetailReportReviewRespDto(reportCustomerReviewRespDto,
+        DetailReportReviewRespDto detailReportReviewRespDto = new DetailReportReviewRespDto(
+                reportCustomerReviewRespDto,
                 reportCeoReviewRespDto);
-        return detailReportReviewRespDto;
+        try {
+            return detailReportReviewRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public ReportReviewListRespDto reportReviewList() {
@@ -80,7 +91,11 @@ public class ReportReviewService {
         reportReviewList = reportReviewRepository.findAllByUser();
         // 2. DTO 응답
         ReportReviewListRespDto reportReviewListRespDto = new ReportReviewListRespDto(reportReviewList);
-        return reportReviewListRespDto;
+        try {
+            return reportReviewListRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     /* 승현 작업 시작 */
@@ -92,11 +107,13 @@ public class ReportReviewService {
         if (!storePS.getUser().getId().equals(userId)) {
             throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
         }
-
-        // 2. 목록가져오기
         List<ReportCeoReviewRespDto> reviewRespDtos = reportRepositoryQuery.findAllByStoreId(storeId);
-
-        return reviewRespDtos;
+        // 2. 목록가져오기
+        try {
+            return reviewRespDtos;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Transactional

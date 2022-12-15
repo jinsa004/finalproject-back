@@ -153,6 +153,9 @@ public class StoreApiControllerTest extends DummyEntity {
         public void getStoreName_test() throws Exception {
                 // given
                 Long userId = 5L;
+                Store storePS = storeRepository.findByUserId(userId).get();
+                storePS.updateAccept(true);
+                storeRepository.save(storePS);
 
                 // when
                 ResultActions resultActions = mvc
@@ -330,6 +333,25 @@ public class StoreApiControllerTest extends DummyEntity {
                 // when
                 ResultActions resultActions = mvc
                                 .perform(get("/api/admin/store/apply/list"));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isOk());
+        }
+
+        @WithUserDetails(value = "hoho", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void findByIdToSave_test() throws Exception {
+                // given
+                Long userId = 5L;
+                Store storePS = storeRepository.findByUserId(userId).get();
+                storePS.updateAccept(true);
+                storeRepository.save(storePS);
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(get("/api/user/" + userId + "/store/save/info"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
 

@@ -1,7 +1,8 @@
 package shop.mtcoding.finalproject.service;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
-import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerMenuInterface;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReviewInterface;
@@ -38,7 +38,6 @@ public class CustomerReviewService {
         private final StoreRepository storeRepository;
         private final CustomerReviewRepository customerReviewRepository;
         private final OrderRepository orderRepository;
-        private final CeoReviewRepository ceoReviewRepository;
 
         // 가게상세보기 -> 가게리뷰 목록보기 기능
         public StoreReviewListRespDto storeCustomerReviewList(Long storeId) {
@@ -58,10 +57,15 @@ public class CustomerReviewService {
                 }
                 // 3. DTO 응답
                 log.debug("디버그 : DTO응답 진입전");
-                StoreReviewListRespDto storeReviewListRespDto = new StoreReviewListRespDto(customerReviewDtoList,
+                StoreReviewListRespDto storeReviewListRespDto = new StoreReviewListRespDto(
+                                customerReviewDtoList,
                                 customerMenuDtoList);
                 log.debug("디버그 : DTO응답 나왔냐 ");
-                return storeReviewListRespDto;
+                try {
+                        return storeReviewListRespDto;
+                } catch (NoResultException e) {
+                        return null;
+                }
         }
 
         @Transactional // 고객 리뷰 등록하기 기능
@@ -102,7 +106,11 @@ public class CustomerReviewService {
                 log.debug("디버그 : 리뷰에 담기는 내용 : " + customerReview.getContent());
                 CustomerReview customerReviewPS = customerReviewRepository.save(customerReview);
                 log.debug("디버그 : 리뷰에 저장되는 내용 : " + customerReviewPS.getContent());
-                return new InsertCustomerReviewRespDto(customerReviewPS);
+                try {
+                        return new InsertCustomerReviewRespDto(customerReviewPS);
+                } catch (NoResultException e) {
+                        return null;
+                }
         }
 
         // 내 리뷰 목록보기 기능(앱 사용자입장)
@@ -117,8 +125,12 @@ public class CustomerReviewService {
                 // 3 핵심로직 내 리뷰 목록보기
                 List<CustomerReview> customerReviewList = customerReviewRepository
                                 .findReviewListByUserId(userPS.getId());
-                // DTO 응답
-                return new CustomerReviewListRespDto(customerReviewList, orderPS, userPS);
+                try {
+                        // DTO 응답
+                        return new CustomerReviewListRespDto(customerReviewList, orderPS, userPS);
+                } catch (NoResultException e) {
+                        return null;
+                }
         }
 
         // 내 리뷰 삭제하기(앱 사용자 입장)

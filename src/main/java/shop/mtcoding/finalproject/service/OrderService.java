@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -59,10 +61,14 @@ public class OrderService {
         log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.size());
         log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(0).getMenu().getName());
         log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(1).getMenu().getName());
-        // 4. DTO 응답
         DetailOrderHistoryRespDto detailOrderHistoryRespDto = new DetailOrderHistoryRespDto(userPS, orderPS,
                 orderDetailList);
-        return detailOrderHistoryRespDto;
+        // 4. DTO 응답
+        try {
+            return detailOrderHistoryRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Transactional
@@ -94,7 +100,11 @@ public class OrderService {
         log.debug("디버그 : DTO응답 전");
         OrderHistoryListRespDto orderHistoryListRespDto = new OrderHistoryListRespDto(orderList);
         log.debug("디버그 : DTO응답 후");
-        return orderHistoryListRespDto;
+        try {
+            return orderHistoryListRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     // "/api/order/{userId}"
@@ -148,7 +158,11 @@ public class OrderService {
             showOrderListRespDtos.add(i, new ShowOrderListRespDto(orderPS.get(i), null, orderDetails));
             // log.debug("디버그 : " + showOrderListRespDtos.get(i).getOrderList().get(0));
         }
-        return showOrderListRespDtos;
+        try {
+            return showOrderListRespDtos;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     /* 승현 작업 종료 */
