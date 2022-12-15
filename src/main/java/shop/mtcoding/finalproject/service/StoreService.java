@@ -99,6 +99,8 @@ public class StoreService {
     public LikeStoreListRespDto likeStoreList(Long userId) {
         // 1. 찜한 가게 목록보기 join fetch를 이용한 기능
         List<Like> likeList = likeRepository.findByUserIdToLikeStore(userId);
+        if (likeList.size() == 0)
+            throw new CustomApiException("찜한 가게가 없습니다.", HttpStatus.BAD_REQUEST);
         log.debug("디버그 : 가게 목록보자 : " + likeList.get(0).getStore().getName());
         // 2. 평균별점, 리뷰개수 연산데이터
         List<CustomerReviewInterface> customerReviewList = customerReviewRepository.findAllByStoreReviewToStarPoint();
