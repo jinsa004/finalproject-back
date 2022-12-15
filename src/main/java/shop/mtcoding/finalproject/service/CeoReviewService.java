@@ -3,6 +3,8 @@ package shop.mtcoding.finalproject.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,7 +41,6 @@ public class CeoReviewService {
         Store storePS = storeRepository.findById(storeId).orElseThrow(
                 () -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
-        // 2. 리뷰 목록 가져오기
         List<CustomerReview> customerReviewPS = customerReviewRepository.findAllByStoreId(storeId);
 
         // 3. Dto로 바꾸기
@@ -47,8 +48,12 @@ public class CeoReviewService {
         for (int i = 0; i < customerReviewPS.size(); i++) {
             showReviewRespDtos.add(i, new ShowReviewRespDto(customerReviewPS.get(i)));
         }
-
-        return showReviewRespDtos;
+        // 2. 리뷰 목록 가져오기
+        try {
+            return showReviewRespDtos;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Transactional

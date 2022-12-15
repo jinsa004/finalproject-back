@@ -115,6 +115,13 @@ public class StoreApiController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/user/{userId}/store/save/info")
+    public ResponseEntity<?> findByIdToSave(@AuthenticationPrincipal LoginUser loginUser, @PathVariable Long userId) {
+        loginUser.getUser().checkUser(userId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "가게등록용 가게정보 가져오기 완료", storeService.findByIdToSave(userId)),
+                HttpStatus.OK);
+    }
+
     @PutMapping("/admin/store/{storeId}/apply/accept")
     public ResponseEntity<?> updateByStoreIdToAccept(@AuthenticationPrincipal LoginUser loginUser,
             @PathVariable Long storeId,

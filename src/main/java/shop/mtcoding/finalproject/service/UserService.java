@@ -2,6 +2,8 @@ package shop.mtcoding.finalproject.service;
 
 import java.util.Optional;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -64,7 +66,11 @@ public class UserService {
                 .orElseThrow(() -> new CustomApiException("회원정보가 없습니다", HttpStatus.BAD_REQUEST));
         // 2. DTO 응답
         DetailUserRespDto detailUserRespDto = new DetailUserRespDto(userPS);
-        return detailUserRespDto;
+        try {
+            return detailUserRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Transactional

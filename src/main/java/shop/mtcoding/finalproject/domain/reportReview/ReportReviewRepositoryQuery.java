@@ -3,6 +3,7 @@ package shop.mtcoding.finalproject.domain.reportReview;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.qlrm.mapper.JpaResultMapper;
@@ -42,11 +43,13 @@ public class ReportReviewRepositoryQuery {
                 JpaResultMapper result = new JpaResultMapper();
 
                 log.debug("디버그 : 통과?? ");
-
-                ReportCeoInfoRespDto reportCeoReviewRespDto = result.uniqueResult(query,
-                                ReportCeoInfoRespDto.class);
-
-                return reportCeoReviewRespDto;
+                try {
+                        ReportCeoInfoRespDto reportCeoReviewRespDto = result.uniqueResult(query,
+                                        ReportCeoInfoRespDto.class);
+                        return reportCeoReviewRespDto;
+                } catch (NoResultException e) {
+                        return null;
+                }
         }
 
         public ReportCustomerInfoRespDto findByReportReviewId(Long reportReviewId) {
@@ -69,10 +72,13 @@ public class ReportReviewRepositoryQuery {
 
                 log.debug("디버그 : 통과?? ");
 
-                ReportCustomerInfoRespDto reportCustomerReviewRespDto = result.uniqueResult(query,
-                                ReportCustomerInfoRespDto.class);
-
-                return reportCustomerReviewRespDto;
+                try {
+                        ReportCustomerInfoRespDto reportCustomerReviewRespDto = result.uniqueResult(query,
+                                        ReportCustomerInfoRespDto.class);
+                        return reportCustomerReviewRespDto;
+                } catch (NoResultException e) {
+                        return null;
+                }
         }
 
         public List<ReportCeoReviewRespDto> findAllByStoreId(Long storeId) {
@@ -97,13 +103,16 @@ public class ReportReviewRepositoryQuery {
 
                 log.debug("디버그 : 통과?? ");
 
-                List<ReportCeoReviewRespDto> reportReviewRespDtos = result.list(query,
-                                ReportCeoReviewRespDto.class);
-
-                log.debug("디버그 : 통과?? ");
-                log.debug("디버그 : " + reportReviewRespDtos.get(0).getReportReviewId());
-                log.debug("디버그 : " + reportReviewRespDtos.get(0).getStarPoint());
-                log.debug("디버그 : " + reportReviewRespDtos.get(0).getCreatedAt());
-                return reportReviewRespDtos;
+                try {
+                        List<ReportCeoReviewRespDto> reportReviewRespDtos = result.list(query,
+                                        ReportCeoReviewRespDto.class);
+                        log.debug("디버그 : 통과?? ");
+                        log.debug("디버그 : " + reportReviewRespDtos.get(0).getReportReviewId());
+                        log.debug("디버그 : " + reportReviewRespDtos.get(0).getStarPoint());
+                        log.debug("디버그 : " + reportReviewRespDtos.get(0).getCreatedAt());
+                        return reportReviewRespDtos;
+                } catch (NoResultException e) {
+                        return null;
+                }
         }
 }

@@ -348,6 +348,20 @@ public class StoreRespDto {
 
     @Getter
     @Setter
+    public static class DetailToSaveStoreRespDto {
+        private String ceoName;
+        private String businessNumber;
+        private String businessAddress;
+
+        public DetailToSaveStoreRespDto(Store store) {
+            this.ceoName = store.getCeoName();
+            this.businessNumber = store.getBusinessNumber();
+            this.businessAddress = store.getBusinessAddress();
+        }
+    }
+
+    @Getter
+    @Setter
     public static class AdminShowApplyStoreRespDto {
         private Long id;
         private String username;
