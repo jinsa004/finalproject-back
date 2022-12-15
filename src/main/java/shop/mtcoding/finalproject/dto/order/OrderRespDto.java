@@ -94,12 +94,12 @@ public class OrderRespDto {
     @Getter
     @Setter
     public static class DetailOrderStateRespDto {
-        private String deliveryHour;
+        private String deliveryTime;
         private String orderState;
         private String reason;
 
         public DetailOrderStateRespDto(Order order) {
-            this.deliveryHour = order.getDeliveryHour();
+            this.deliveryTime = order.getDeliveryTime();
             this.orderState = order.getState().getState();
             this.reason = order.getReason();
         }
@@ -119,7 +119,7 @@ public class OrderRespDto {
         private String userAddress;
         private String userPhone;
         private String orderTime;
-        private String deliveryHour;
+        private String deliveryTime;
         private String orderState;
         private String completeTime;
 
@@ -156,7 +156,7 @@ public class OrderRespDto {
             this.userAddress = order.getUser().getAddress();
             this.userPhone = order.getUser().getPhone();
             this.orderTime = order.getCreatedAt().toString();
-            this.deliveryHour = order.getDeliveryHour();
+            this.deliveryTime = order.getDeliveryTime();
             this.deliveryState = order.getDeliveryStateEnum().getState();
             this.orderState = order.getState().getState();
             if (order.getCompleteTime() == null) {
