@@ -62,7 +62,7 @@ public class OrderReqDto {
                     .state(CustomEnumUtil.toOrderStateEnumFormat(state))
                     .reason(reason)
                     .completeTime(localDateTime)
-                    .deliveryHour(deliveryTime)
+                    .deliveryTime(deliveryTime)
                     .build();
         }
     }
