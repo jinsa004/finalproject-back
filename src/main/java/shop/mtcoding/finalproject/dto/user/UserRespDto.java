@@ -73,7 +73,6 @@ public class UserRespDto {
     @Setter
     public static class DetailUserRespDto {
         private String username;
-        private String password;
         private String address;
         private String nickname;
         private String phone;
@@ -81,7 +80,6 @@ public class UserRespDto {
 
         public DetailUserRespDto(User user) {
             this.username = user.getUsername();
-            this.password = user.getPassword();
             this.address = user.getAddress();
             this.nickname = user.getNickname();
             this.phone = user.getPhone();

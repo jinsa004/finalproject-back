@@ -151,10 +151,29 @@ public class CustomerReviewRespDto {
                 this.photo = CustomBase64ConvertUtil.convertToString(customerReview.getPhoto());
                 this.starPoint = customerReview.getStarPoint();
                 this.createdAt = CustomDateUtil.toStringFormat(customerReview.getCreatedAt());
-                this.comment = customerReview.getCeoReview().getContent();
-                this.commentCreatedAt = CustomDateUtil.toStringFormat(customerReview.getCeoReview().getCreatedAt());
+                this.comment = setCommentData(customerReview);
+                this.commentCreatedAt = setCommentCreatedAtData(customerReview);
             }
 
+            public String setCommentData(CustomerReview customerReview) {
+                if (customerReview.getCeoReview() == null) {
+                    this.comment = "";
+                    return comment;
+                }
+                this.comment = customerReview.getCeoReview().getContent();
+                return comment;
+
+            }
+
+            public String setCommentCreatedAtData(CustomerReview customerReview) {
+                if (customerReview.getCeoReview() == null) {
+                    this.commentCreatedAt = "";
+                    return commentCreatedAt;
+                }
+                this.commentCreatedAt = CustomDateUtil.toStringFormat(customerReview.getCeoReview().getCreatedAt());
+                return commentCreatedAt;
+
+            }
         }
 
     }

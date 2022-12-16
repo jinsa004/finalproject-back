@@ -116,21 +116,25 @@ public class CustomerReviewService {
         // 내 리뷰 목록보기 기능(앱 사용자입장)
         public CustomerReviewListRespDto myCustomerReviewList(Long userId, LoginUser loginUser) {
                 // 1 해당 유저의 review가 있는지 체크
+                log.debug("디버그 : 유저정보 체크 전");
                 User userPS = userRepository.findById(userId)
                                 .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.",
                                                 HttpStatus.BAD_REQUEST));
                 // 2 주문 내역체크
-                Order orderPS = orderRepository.findById(userPS.getId())
+                log.debug("디버그 : 주문정보 체크 전");
+                Order orderPS = orderRepository.findById(userId)
                                 .orElseThrow(() -> new CustomApiException("주문내역이 없습니다.", HttpStatus.BAD_REQUEST));
                 // 3 핵심로직 내 리뷰 목록보기
+                log.debug("디버그 : 리뷰정보 체크 전");
                 List<CustomerReview> customerReviewList = customerReviewRepository
-                                .findReviewListByUserId(userPS.getId());
-                try {
-                        // DTO 응답
-                        return new CustomerReviewListRespDto(customerReviewList, orderPS, userPS);
-                } catch (NoResultException e) {
-                        return null;
-                }
+                                .findReviewListByUserId(userId);
+                log.debug("디버그 : 리뷰 목록리스트 개수 : " + customerReviewList.size());
+                log.debug("디버그 : DTO 응답 체크 전");
+                CustomerReviewListRespDto customerReviewListRespDto = new CustomerReviewListRespDto(customerReviewList,
+                                orderPS, userPS);
+                log.debug("디버그 : dto 정보 체크 : " + customerReviewListRespDto.getCustomerReviews().size());
+                return customerReviewListRespDto;
+
         }
 
         // 내 리뷰 삭제하기(앱 사용자 입장)
