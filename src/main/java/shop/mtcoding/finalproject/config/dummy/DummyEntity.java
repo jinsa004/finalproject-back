@@ -17,6 +17,7 @@ import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 
 public class DummyEntity {
 
@@ -42,7 +43,7 @@ public class DummyEntity {
                 .name(name)
                 .phone("01011112222")
                 .minAmount(10000)
-                .thumbnail("assets/images/category/간장치킨.jpg")
+                .thumbnail(CustomBase64ConvertUtil.convertToByte("assets/images/category/간장치킨.jpg"))
                 .ceoName("cos")
                 .businessNumber("112233")
                 .businessAddress("부산시 진구 서면 17번 길")
