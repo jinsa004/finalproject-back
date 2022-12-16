@@ -9,6 +9,7 @@ import lombok.Setter;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.util.CustomBase64ConvertUtil;
 import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 public class OrderRespDto {
@@ -80,7 +81,7 @@ public class OrderRespDto {
             public OrderDto(Order order) {
                 this.name = order.getStore().getName();
                 this.intro = order.getStore().getIntro();
-                this.thumbnail = order.getStore().getThumbnail();
+                this.thumbnail = CustomBase64ConvertUtil.convertToString(order.getStore().getThumbnail());
                 this.deliveryState = order.getDeliveryStateEnum().getState();
                 this.createdAt = CustomDateUtil.toStringFormat(order.getCreatedAt());
             }
