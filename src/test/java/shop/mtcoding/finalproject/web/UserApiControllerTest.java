@@ -98,7 +98,8 @@ public class UserApiControllerTest extends DummyEntity {
         // given
         Long userId = 1L;
         UpdateUserReqDto updateUserReqDto = new UpdateUserReqDto();
-        updateUserReqDto.setPassword("1234");
+        updateUserReqDto.setOldPassword("1234");
+        updateUserReqDto.setNewPassword("12345");
         updateUserReqDto.setPhone("01071649311");
         updateUserReqDto.setAddress("서면 분성로 72번길");
         updateUserReqDto.setNickname("mil");
@@ -113,7 +114,7 @@ public class UserApiControllerTest extends DummyEntity {
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 
-        // // then
+        // then
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.data.nickname").value("mil"));
     }
