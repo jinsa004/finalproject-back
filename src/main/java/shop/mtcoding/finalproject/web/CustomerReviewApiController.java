@@ -57,6 +57,7 @@ public class CustomerReviewApiController {
                 loginUser.getUser().checkUser(userId);
                 CustomerReviewListRespDto CustomerReviewListRespDto = customerReviewService.myCustomerReviewList(userId,
                                 loginUser);
+                log.debug("디버그 : 컨트롤러 타나?");
                 return new ResponseEntity<>(new ResponseDto<>(1, "내 리뷰 목록보기 성공", CustomerReviewListRespDto),
                                 HttpStatus.OK);
         }

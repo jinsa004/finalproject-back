@@ -77,7 +77,7 @@ public class User extends AudingTime {
     }
 
     public void 회원수정(UpdateUserReqDto updateUserReqDto) {
-        this.password = updateUserReqDto.getPassword();
+        this.password = updateUserReqDto.getNewPassword();
         this.address = updateUserReqDto.getAddress();
         this.nickname = updateUserReqDto.getNickname();
         this.phone = updateUserReqDto.getPhone();

@@ -52,7 +52,8 @@ public class UserReqDto {
     @Setter
     public static class UpdateUserReqDto {
         private Long id; // 서비스 로직
-        private String password;
+        private String oldPassword; // 현재 패스워드
+        private String newPassword; // 바꿀 패스워드
         private String address;
         private String nickname;
         private String phone;
