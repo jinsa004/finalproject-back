@@ -49,12 +49,17 @@ public class UserService {
             userRepository.findById(userId)
                     .orElseThrow(() -> (new CustomApiException("해당 id의 유저 정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST)));
         }
-        // 2. 비밀번호 암호화
-        String rawPassword = updateUserReqDto.getPassword();
-        String encPassword = passwordEncoder.encode(rawPassword);
-        updateUserReqDto.setPassword(encPassword);
-
-        // 3. 수정하기 핵심로직
+        // 2. 현재 비밀번호가 맞는지 검증하기 위해 받아온 비밀번호를 인코딩하여 비교하는 로직
+        String rawPassword = updateUserReqDto.getOldPassword();
+        String checkPassword = passwordEncoder.encode(rawPassword);
+        if (userOP.get().getPassword() != checkPassword) {
+            throw new CustomApiException("비밀번호가 다릅니다.", HttpStatus.BAD_REQUEST);
+        }
+        // 3. 새로운 비밀번호 암호화
+        String correctPassword = updateUserReqDto.getNewPassword();
+        String encPassword = passwordEncoder.encode(correctPassword);
+        updateUserReqDto.setNewPassword(encPassword);
+        // 4. 수정하기 핵심로직
         User userPS = userOP.get();
         userPS.회원수정(updateUserReqDto);
         return new UpdateUserRespDto(userPS);
