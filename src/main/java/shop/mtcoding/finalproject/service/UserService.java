@@ -49,10 +49,10 @@ public class UserService {
             userRepository.findById(userId)
                     .orElseThrow(() -> (new CustomApiException("해당 id의 유저 정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST)));
         }
-        // 2. 현재 비밀번호가 맞는지 검증하기 위해 받아온 비밀번호를 인코딩하여 비교하는 로직
-        String rawPassword = updateUserReqDto.getOldPassword();
-        String checkPassword = passwordEncoder.encode(rawPassword);
-        if (userOP.get().getPassword() != checkPassword) {
+        // 2. 현재 비밀번호가 맞는지 검증하기 위해 받아온 비밀번호를 비교하는 로직
+        log.debug("디버그 : 유저가 보낸 현재 비밀번호 : " + updateUserReqDto.getOldPassword());
+        log.debug("디버그 : db에 저장된 유저의 비밀번호 : " + userOP.get().getPassword());
+        if (!passwordEncoder.matches(updateUserReqDto.getOldPassword(), userOP.get().getPassword())) {
             throw new CustomApiException("비밀번호가 다릅니다.", HttpStatus.BAD_REQUEST);
         }
         // 3. 새로운 비밀번호 암호화
