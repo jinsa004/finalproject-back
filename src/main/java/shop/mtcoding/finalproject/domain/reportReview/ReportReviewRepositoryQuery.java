@@ -1,5 +1,6 @@
 package shop.mtcoding.finalproject.domain.reportReview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -48,7 +49,8 @@ public class ReportReviewRepositoryQuery {
                                         ReportCeoInfoRespDto.class);
                         return reportCeoReviewRespDto;
                 } catch (NoResultException e) {
-                        return null;
+                        ReportCeoInfoRespDto reportCeoReviewRespDto = new ReportCeoInfoRespDto();
+                        return reportCeoReviewRespDto;
                 }
         }
 
@@ -64,55 +66,41 @@ public class ReportReviewRepositoryQuery {
                 // 쿼리 완성
                 Query query = em.createNativeQuery(sb.toString()).setParameter("reportReviewId", reportReviewId);
 
-                log.debug("디버그 : 통과? ");
-                log.debug("디버그 : 쿼리완성 - ");
-
                 // 쿼리 실행 (qlrm 라이브러리 필요 = DTO에 DB결과를 매핑하기 위해서)
                 JpaResultMapper result = new JpaResultMapper();
-
-                log.debug("디버그 : 통과?? ");
 
                 try {
                         ReportCustomerInfoRespDto reportCustomerReviewRespDto = result.uniqueResult(query,
                                         ReportCustomerInfoRespDto.class);
                         return reportCustomerReviewRespDto;
                 } catch (NoResultException e) {
-                        return null;
+                        ReportCustomerInfoRespDto reportCustomerReviewRespDto = new ReportCustomerInfoRespDto();
+                        return reportCustomerReviewRespDto;
                 }
         }
 
         public List<ReportCeoReviewRespDto> findAllByStoreId(Long storeId) {
 
                 StringBuffer sb = new StringBuffer();
-                sb.append(
-                                "select repr.id report_review_id, cusr.star_point, cusr.photo, o.id order_id, o.created_at, cusr.is_closure, repr.is_resolve, repr.admin_comment from report_reviews repr ");
+                sb.append("select repr.id report_review_id, cusr.star_point, cusr.photo, o.id order_id, o.created_at, cusr.is_closure, repr.is_resolve, repr.admin_comment from report_reviews repr ");
                 sb.append("left outer join customer_reviews cusr on cusr.id = repr.customer_review_id ");
                 sb.append("left outer join orders o on o.id = cusr.order_id ");
                 sb.append("left outer join stores s on s.id = cusr.store_id ");
                 sb.append("where s.id = :storeId");
 
                 // 쿼리 완성
-                // Query query = em.createNativeQuery(sb, storeId);
                 Query query = em.createNativeQuery(sb.toString()).setParameter("storeId", storeId);
-
-                log.debug("디버그 : 통과? ");
-                log.debug("디버그 : 쿼리완성 - ");
 
                 // 쿼리 실행 (qlrm 라이브러리 필요 = DTO에 DB결과를 매핑하기 위해서)
                 JpaResultMapper result = new JpaResultMapper();
 
-                log.debug("디버그 : 통과?? ");
-
                 try {
                         List<ReportCeoReviewRespDto> reportReviewRespDtos = result.list(query,
                                         ReportCeoReviewRespDto.class);
-                        log.debug("디버그 : 통과?? ");
-                        log.debug("디버그 : " + reportReviewRespDtos.get(0).getReportReviewId());
-                        log.debug("디버그 : " + reportReviewRespDtos.get(0).getStarPoint());
-                        log.debug("디버그 : " + reportReviewRespDtos.get(0).getCreatedAt());
                         return reportReviewRespDtos;
                 } catch (NoResultException e) {
-                        return null;
+                        List<ReportCeoReviewRespDto> reportReviewRespDtos = new ArrayList<>();
+                        return reportReviewRespDtos;
                 }
         }
 }

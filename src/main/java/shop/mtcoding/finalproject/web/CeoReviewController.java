@@ -41,7 +41,7 @@ public class CeoReviewController {
     public ResponseEntity<?> findAllReviewByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        List<ShowReviewRespDto> showReviewRespDto = ceoReviewService.findAllReviewByStoreId(storeId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "가게별 리뷰목록보기 성공", showReviewRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new ResponseDto<>(1, "가게별 리뷰목록보기 성공", ceoReviewService.findAllReviewByStoreId(storeId)), HttpStatus.OK);
     }
 }

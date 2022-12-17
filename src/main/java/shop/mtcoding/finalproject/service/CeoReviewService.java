@@ -33,8 +33,6 @@ public class CeoReviewService {
     private final CeoReviewRepository ceoReviewsRepository;
     private final CustomerReviewRepository customerReviewRepository;
 
-    /* 승현 작업 시작 */
-
     public List<ShowReviewRespDto> findAllReviewByStoreId(Long storeId) {
 
         // 1. 가게 상태 확인하기
@@ -42,18 +40,11 @@ public class CeoReviewService {
                 () -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
 
         List<CustomerReview> customerReviewPS = customerReviewRepository.findAllByStoreId(storeId);
-
-        // 3. Dto로 바꾸기
         List<ShowReviewRespDto> showReviewRespDtos = new ArrayList<>();
         for (int i = 0; i < customerReviewPS.size(); i++) {
             showReviewRespDtos.add(i, new ShowReviewRespDto(customerReviewPS.get(i)));
         }
-        // 2. 리뷰 목록 가져오기
-        try {
-            return showReviewRespDtos;
-        } catch (NoResultException e) {
-            return null;
-        }
+        return showReviewRespDtos;
     }
 
     @Transactional
@@ -78,5 +69,4 @@ public class CeoReviewService {
         return new InsertCeoReviewRespDto(ceoReviewPS);
     }
 
-    /* 승현 작업 종료 */
 }
