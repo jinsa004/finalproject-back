@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReviewRepository;
@@ -91,11 +90,7 @@ public class ReportReviewService {
         reportReviewList = reportReviewRepository.findAllByUser();
         // 2. DTO 응답
         ReportReviewListRespDto reportReviewListRespDto = new ReportReviewListRespDto(reportReviewList);
-        try {
-            return reportReviewListRespDto;
-        } catch (NoResultException e) {
-            return null;
-        }
+        return reportReviewListRespDto;
     }
 
     /* 승현 작업 시작 */

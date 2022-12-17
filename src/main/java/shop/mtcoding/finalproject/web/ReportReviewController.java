@@ -59,9 +59,8 @@ public class ReportReviewController {
     public ResponseEntity<?> findAllByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        List<ReportCeoReviewRespDto> reportReviewRespDtos = reportReviewService.findAllByStoreId(storeId,
-                userId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "신고한 리뷰 목록보기 완료", reportReviewRespDtos), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "신고한 리뷰 목록보기 완료", reportReviewService.findAllByStoreId(storeId,
+                userId)), HttpStatus.OK);
     }
 
     // 해당 리뷰 신고하기
