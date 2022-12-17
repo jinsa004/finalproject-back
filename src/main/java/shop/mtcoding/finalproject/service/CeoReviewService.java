@@ -51,15 +51,12 @@ public class CeoReviewService {
     public InsertCeoReviewRespDto insertByCustomerReviewId(InsertCeoReviewReqDto insertCeoReviewReqDto, Long userId,
             Long customerReviewId) {
 
-        // 1. 리뷰상태 확인
         CustomerReview customerReviewPS = customerReviewRepository.findByCustomerReviewId(customerReviewId)
                 .orElseThrow(() -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-        System.out.println("디버그: " + customerReviewPS.getOrder().getId());
-
-        // 2. 주문한 가게 주인이 맞는지 확인
         if (!customerReviewPS.getOrder().getStore().getUser().getId().equals(userId)) {
             throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
         }
+        customerReviewPS.checkCeoReview();
 
         // 3. 리뷰등록
         CeoReview ceoReviewPS = ceoReviewsRepository.save(insertCeoReviewReqDto.toEntity(customerReviewPS));

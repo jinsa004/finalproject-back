@@ -51,7 +51,7 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
         @Query("select cr from CustomerReview cr join fetch cr.ceoReview c join fetch cr.store s join fetch cr.order o join fetch cr.user u where c.id = :ceoReviewId")
         Optional<CustomerReview> findByCeoReviewId(@Param("ceoReviewId") Long ceoReviewId);
 
-        @Query("select cr from CustomerReview cr join fetch cr.ceoReview c join fetch cr.store s join fetch cr.order o join fetch cr.user u where cr.id = :customerReviewId")
+        @Query("select cr from CustomerReview cr left join fetch cr.ceoReview c left join fetch cr.store s left join fetch cr.order o left join fetch cr.user u where cr.id = :customerReviewId")
         Optional<CustomerReview> findByCustomerReviewId(@Param("customerReviewId") Long customerReviewId);
 
 }

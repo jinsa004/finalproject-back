@@ -97,6 +97,12 @@ public class CustomerReview extends AudingTime {
                 .build();
     }
 
+    public void checkCeoReview() {
+        if (this.ceoReview != null) {
+            throw new CustomApiException("이미 답변된 리뷰입니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
 
 // 기존 테이블명 : reviews
