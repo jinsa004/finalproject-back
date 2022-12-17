@@ -65,7 +65,7 @@ public class ReportReviewController {
     }
 
     // 해당 리뷰 신고하기
-    @PostMapping("/user/{userId}/review/{customerReviewId}/report")
+    @PostMapping("/user/{userId}/store/review/{customerReviewId}/report")
     public ResponseEntity<?> insert(@PathVariable Long customerReviewId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser,
             @RequestBody InsertReportReviewReqDto insertReportReviewReqDto) {
