@@ -9,4 +9,5 @@ public interface ReportReviewRepository extends JpaRepository<ReportReview, Long
 
     @Query("select r from ReportReview r join fetch User u on r.user.id = u.id")
     List<ReportReview> findAllByUser();
+
 }

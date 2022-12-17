@@ -104,58 +104,23 @@ public class ReportReviewService {
         // 1. 가게주인이 맞는지 확인하기
         Store storePS = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-        if (!storePS.getUser().getId().equals(userId)) {
-            throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
-        }
-        List<ReportCeoReviewRespDto> reviewRespDtos = reportRepositoryQuery.findAllByStoreId(storeId);
-        // 2. 목록가져오기
-        try {
-            return reviewRespDtos;
-        } catch (NoResultException e) {
-            return null;
-        }
+        storePS.checkCeo(userId);
+        return reportRepositoryQuery.findAllByStoreId(storeId);
     }
 
     @Transactional
-    public void insertReportReview(InsertReportReviewReqDto insertReportReviewReqDto, Long reviewId, Long userId) {
+    public void insertReportReview(InsertReportReviewReqDto insertReportReviewReqDto, Long customerReviewId,
+            Long userId) {
 
-        // 1. 리뷰가 있는지 확인
-        CustomerReview customerReviewPS = null;
-        CeoReview ceoReviewPS = null;
-
-        if (insertReportReviewReqDto.getUserKind().equals(UserEnum.CUSTOMER.getValue())) {
-            customerReviewPS = customerReviewRepository.findById(reviewId).orElseThrow(
-                    () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-
-            // 2. 리뷰 작성자가 본인인지 확인
-            if (!customerReviewPS.getUser().getId().equals(userId)) {
-                throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
-            }
-
-            // 3. 상대 리뷰 가져오기
-            ceoReviewPS = customerReviewPS.getCeoReview();
-
-        } else {
-            ceoReviewPS = ceoReviewRepository.findById(reviewId).orElseThrow(
-                    () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-
-            // 2. 리뷰 작성자가 본인인지 확인
-            if (!ceoReviewPS.getStore().getUser().getId().equals(userId)) {
-                throw new CustomApiException("권한이 없습니다.", HttpStatus.BAD_REQUEST);
-            }
-
-            // 3. 상대 리뷰 가져오기
-            customerReviewPS = customerReviewRepository.findByCeoReviewId(ceoReviewPS.getId()).orElseThrow(
-                    () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-
-        }
-
-        // 4. 신고리뷰 생성
+        CustomerReview customerReviewPS = customerReviewRepository.findById(customerReviewId).orElseThrow(
+                () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        CeoReview ceoReviewPS = customerReviewPS.getCeoReview();
         User userPS = userRepository.findById(userId).orElseThrow(
                 () -> new CustomApiException("해당 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
         reportReviewRepository.save(insertReportReviewReqDto.toEntity(userPS, customerReviewPS, ceoReviewPS));
 
     }
+
     /* 승현 작업 종료 */
 
 }

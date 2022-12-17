@@ -20,9 +20,6 @@ public class ReportReviewReqDto {
     @Setter
     public static class InsertReportReviewReqDto {
 
-        private Long userId;
-        private Long reviewId;
-        private String userKind; // 일반 회원, 사업자 회원
         private String reason;
 
         public ReportReview toEntity(User user, CustomerReview customerReview, CeoReview ceoReview) {

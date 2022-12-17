@@ -53,6 +53,7 @@ public class ReportReviewController {
     }
 
     /* 승현 작업 시작 */
+
     // 내 신고리뷰 목록보기
     @GetMapping("/user/{userId}/store/{storeId}/review/report")
     public ResponseEntity<?> findAllByStoreId(@PathVariable Long storeId, @PathVariable Long userId,
@@ -64,12 +65,12 @@ public class ReportReviewController {
     }
 
     // 해당 리뷰 신고하기
-    @PostMapping("/user/{userId}/review/{reviewId}/report")
-    public ResponseEntity<?> insert(@PathVariable Long reviewId, @PathVariable Long userId,
+    @PostMapping("/user/{userId}/review/{customerReviewId}/report")
+    public ResponseEntity<?> insert(@PathVariable Long customerReviewId, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser,
             @RequestBody InsertReportReviewReqDto insertReportReviewReqDto) {
         loginUser.getUser().checkUser(userId);
-        reportReviewService.insertReportReview(insertReportReviewReqDto, reviewId, userId);
+        reportReviewService.insertReportReview(insertReportReviewReqDto, customerReviewId, userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "리뷰 신고 완료", null), HttpStatus.CREATED);
     }
 
