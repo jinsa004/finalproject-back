@@ -133,8 +133,10 @@ public class OrderRepositoryQueryTest extends DummyEntity {
                 User ssar = userRepository.save(newUser("ssar", UserEnum.CEO));
                 User cos = userRepository.save(newUser("cos", UserEnum.CEO));
                 User jinsa = userRepository.save(newUser("jinsa", UserEnum.CUSTOMER));
-                Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN));
-                Store store2 = storeRepository.save(newStore(cos, "그린치킨", StoreCategoryEnum.CHICKEN));
+                Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN,
+                                "assets/images/store_thumbnail/후라이드치킨.jpg"));
+                Store store2 = storeRepository.save(newStore(cos, "그린치킨", StoreCategoryEnum.CHICKEN,
+                                "assets/images/store_thumbnail/간장치킨.jpg"));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드치킨"));
                 Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
                 Order order1 = orderRepository

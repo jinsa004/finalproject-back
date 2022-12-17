@@ -22,6 +22,7 @@ import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
+import shop.mtcoding.finalproject.domain.reportReview.ReportReview;
 import shop.mtcoding.finalproject.domain.reportReview.ReportReviewRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
@@ -59,17 +60,27 @@ public class DevInit extends DummyEntity {
                         User pepe = userRepository.save(newUser("pepe", UserEnum.CEO));
                         User jina = userRepository.save(newUser("jina", UserEnum.CUSTOMER));
                         User pipi = userRepository.save(newUser("pipi", UserEnum.CEO));
-                        Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN));
-                        Store store2 = storeRepository.save(newStore(cos, "레드치킨", StoreCategoryEnum.CHICKEN));
+                        Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN,
+                                        "assets/images/store_thumbnail/후라이드치킨.jpg"));
+                        Store store2 = storeRepository.save(newStore(cos, "레드치킨", StoreCategoryEnum.CHICKEN,
+                                        "assets/images/store_thumbnail/간장치킨.jpg"));
                         Store store3 = storeRepository.save(newApplyStore(hoho));
-                        Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA));
-                        Store store5 = storeRepository.save(newStore(koko, "그린버거", StoreCategoryEnum.BURGER));
-                        Store store6 = storeRepository.save(newStore(kaka, "그린분식", StoreCategoryEnum.SCHOOLFOOD));
-                        Store store7 = storeRepository.save(newStore(hihi, "그린한식", StoreCategoryEnum.KRFOOD));
-                        Store store8 = storeRepository.save(newStore(kiki, "그린중식", StoreCategoryEnum.CNFOOD));
-                        Store store9 = storeRepository.save(newStore(papa, "그린일식", StoreCategoryEnum.JPFOOD));
-                        Store store10 = storeRepository.save(newStore(popo, "그린보쌈", StoreCategoryEnum.BOSSAM));
-                        Store store11 = storeRepository.save(newStore(pepe, "그린죽", StoreCategoryEnum.PORRIDGE));
+                        Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA,
+                                        "assets/images/store_thumbnail/피자.jpg"));
+                        Store store5 = storeRepository.save(newStore(koko, "그린버거", StoreCategoryEnum.BURGER,
+                                        "assets/images/store_thumbnail/버거.jpg"));
+                        Store store6 = storeRepository.save(newStore(kaka, "그린분식", StoreCategoryEnum.SCHOOLFOOD,
+                                        "assets/images/store_thumbnail/분식.jpg"));
+                        Store store7 = storeRepository.save(newStore(hihi, "그린한식", StoreCategoryEnum.KRFOOD,
+                                        "assets/images/store_thumbnail/한식.jpg"));
+                        Store store8 = storeRepository.save(newStore(kiki, "그린중식", StoreCategoryEnum.CNFOOD,
+                                        "assets/images/store_thumbnail/중식.jpg"));
+                        Store store9 = storeRepository.save(newStore(papa, "그린일식", StoreCategoryEnum.JPFOOD,
+                                        "assets/images/store_thumbnail/일식.jpg"));
+                        Store store10 = storeRepository.save(newStore(popo, "그린보쌈", StoreCategoryEnum.BOSSAM,
+                                        "assets/images/store_thumbnail/보쌈.jpg"));
+                        Store store11 = storeRepository.save(newStore(pepe, "그린죽", StoreCategoryEnum.PORRIDGE,
+                                        "assets/images/store_thumbnail/죽.jpg"));
                         Store store12 = storeRepository.save(newSaveStore(pipi));
                         Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
                         Menu menu2 = menuRepository.save(newMenu(store1, "간장치킨"));
@@ -130,13 +141,15 @@ public class DevInit extends DummyEntity {
                                         .save(newCustomerReview(jinsa, order4, store2, null, 4.0));
                         CustomerReview customerReview3 = customerReviewRepository
                                         .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
+                        CustomerReview customerReview4 = customerReviewRepository
+                                        .save(newCustomerReview(jinsa, order2, store1, ceoReview, 3.0));
                         Like like1 = likeRepository.save(newLike(jinsa, store2));
                         Like like2 = likeRepository.save(newLike(jinsa, store1));
                         Like like3 = likeRepository.save(newLike(jinsa, store4));
-                        // ReportReview reportReview1 = reportReviewRepository
-                        // .save(newReportReview(ssar, customerReview, ceoReview));
-                        // ReportReview reportReview2 = reportReviewRepository
-                        // .save(newReportReview(jinsa, customerReview2, ceoReview));
+                        ReportReview reportReview1 = reportReviewRepository
+                                        .save(newReportReview(ssar, customerReview, ceoReview));
+                        ReportReview reportReview2 = reportReviewRepository
+                                        .save(newReportReview(jinsa, customerReview2, ceoReview));
                 };
         }
 }
