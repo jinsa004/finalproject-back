@@ -159,8 +159,7 @@ public class CeoReviewApiControllerTest extends DummyEntity {
                 System.out.println("테스트 : 응답데이터 : " + responseBody);
 
                 // then
-                resultActions.andExpect(status().isCreated());
-                resultActions.andExpect(jsonPath("$.data.content").value("맛있게 드셨다니 다행입니다^^"));
+                resultActions.andExpect(status().isBadRequest());
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
