@@ -26,8 +26,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.finalproject.config.dummy.DummyEntity;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
-import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
+import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.enums.UserEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
@@ -99,10 +99,13 @@ public class ReportReviewControllerTest extends DummyEntity {
                 User admin = userRepository.save(newUser("admin", UserEnum.ADMIN));
                 User hoho = userRepository.save(newUser("hoho", UserEnum.CEO));
                 User haha = userRepository.save(newUser("haha", UserEnum.CEO));
-                Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN));
-                Store store2 = storeRepository.save(newStore(cos, "그린치킨", StoreCategoryEnum.CHICKEN));
+                Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN,
+                                "assets/images/store_thumbnail/후라이드치킨.jpg"));
+                Store store2 = storeRepository.save(newStore(cos, "그린치킨", StoreCategoryEnum.CHICKEN,
+                                "assets/images/store_thumbnail/간장치킨.jpg"));
                 Store store3 = storeRepository.save(newApplyStore(hoho));
-                Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA));
+                Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA,
+                                "assets/images/store_thumbnail/피자.jpg"));
                 Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
                 Menu menu2 = menuRepository.save(newMenu(store2, "간장치킨"));
                 Menu menu3 = menuRepository.save(newMenu(store4, "페퍼로니피자"));

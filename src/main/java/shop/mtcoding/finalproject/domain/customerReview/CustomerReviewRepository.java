@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface CustomerReviewRepository extends JpaRepository<CustomerReview, Long> {
 
+        @Query("select c from CustomerReview c where c.order.id = :orderId")
+        Optional<CustomerReview> findByOrderId(@Param("orderId") Long orderId);
+
         @Query(value = "select * from customer_reviews cr left join ceo_reviews cor on cr.order_id = cor.order_id where cr.user_id = :userId", nativeQuery = true)
         List<CustomerReview> findReviewListByUserId(@Param("userId") Long userId);
 
@@ -26,7 +29,7 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
         CustomerReviewInterface findByStoreId(@Param("storeId") Long storeId);
 
         // 별점평균, 리뷰갯수 연산데이터 쿼리(가게 목록보기에 사용)
-        @Query(value = "select count(cr.id) count, avg(cr.star_point) starPoint, s.id storeId, cr.id reviewId from customer_reviews cr right outer join stores s on cr.store_id =s.id group by s.id", nativeQuery = true)
+        @Query(value = "select count(cr.id) count, avg(cr.star_point) starPoint, s.id storeId from customer_reviews cr right outer join stores s on cr.store_id =s.id group by s.id", nativeQuery = true)
         List<CustomerReviewInterface> findAllByStoreReviewToStarPoint();
 
         // 가게 상세보기 리뷰 탭에서 뿌려지는 리뷰 데이터
