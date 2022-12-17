@@ -186,8 +186,6 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.likes.[0].starPoint").value(4.0));
-                resultActions.andExpect(jsonPath("$.data.likes.[1].starPoint").value(5.0));
         }
 
         @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)

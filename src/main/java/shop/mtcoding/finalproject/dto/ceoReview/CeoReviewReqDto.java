@@ -11,8 +11,6 @@ public class CeoReviewReqDto {
     @Setter
     public static class InsertCeoReviewReqDto {
 
-        private Long userId;
-        private Long customerReviewId;
         private String content;
 
         public CeoReview toEntity(CustomerReview customerReview) {
