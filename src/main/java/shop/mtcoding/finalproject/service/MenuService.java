@@ -17,6 +17,8 @@ import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
+import shop.mtcoding.finalproject.domain.user.User;
+import shop.mtcoding.finalproject.domain.user.UserRepository;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.CeoInsertMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.CeoUpdateMenuReqDto;
 import shop.mtcoding.finalproject.dto.menu.MenuReqDto.CeoUpdateMenuStateReqDto;
@@ -35,18 +37,22 @@ public class MenuService {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
+    private final UserRepository userRepository;
 
     /* 성진 작업 시작@@ */
     // 메뉴 상세보기(사용자 앱 입장)
-    public CustomerDetailMenuRespDto detailMenu(Long menuId, Long storeId) {
+    public CustomerDetailMenuRespDto detailMenu(Long menuId, Long storeId, Long userId) {
         // 1. 해당 가게 셀렉(가게이름, 최소주문금액, 배달시간)
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("해당 가게가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
         // 2. 해당 메뉴의 내용을 셀렉
         Menu menuPS = menuRepository.findById(menuId).orElseThrow(
                 () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        // 3. 해당 유저의 번호와 주소가 장바구니에서 필요하기 때문에 추가함
+        User userPS = userRepository.findById(userId).orElseThrow(
+                () -> new CustomApiException("해당 유저가 없습니다.", HttpStatus.BAD_REQUEST));
         try {
-            return new CustomerDetailMenuRespDto(menuPS, storePS);
+            return new CustomerDetailMenuRespDto(menuPS, storePS, userPS);
         } catch (NoResultException e) {
             return null;
         }
