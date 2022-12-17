@@ -131,11 +131,13 @@ public class ReportReviewControllerTest extends DummyEntity {
                 OrderDetail orderDetail8 = orderDetailRepository.save(newOrderDetail(order6, menu3));
                 CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
                 CustomerReview customerReview = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
+                                .save(newCustomerReview(jinsa, order1, store1, null, 5.0));
                 CustomerReview customerReview2 = customerReviewRepository
-                                .save(newCustomerReview(jinsa, order2, store2, null, 4.0));
+                                .save(newCustomerReview(jinsa, order4, store2, null, 4.0));
                 CustomerReview customerReview3 = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
+                CustomerReview customerReview4 = customerReviewRepository
+                                .save(newCustomerReview(jinsa, order2, store1, ceoReview, 3.0));
                 ReportReview reportReview1 = reportReviewRepository
                                 .save(newReportReview(ssar, customerReview, ceoReview));
                 ReportReview reportReview2 = reportReviewRepository
@@ -220,7 +222,7 @@ public class ReportReviewControllerTest extends DummyEntity {
         @Test
         public void insert_test() throws Exception {
                 // given
-                Long customerReviewId = 1L;
+                Long customerReviewId = 4L;
                 Long userId = 1L;
                 InsertReportReviewReqDto insertReportReviewReqDto = new InsertReportReviewReqDto();
                 insertReportReviewReqDto.setReason("명예훼손");

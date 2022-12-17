@@ -30,6 +30,7 @@ import shop.mtcoding.finalproject.dto.reportReview.ReportCustomerInfoRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.ResolveReportReviewReqDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.DetailReportReviewRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.InsertReportReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ReportReviewListRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ResolveReportReviewRespDto;
 
@@ -104,16 +105,22 @@ public class ReportReviewService {
     }
 
     @Transactional
-    public void insertReportReview(InsertReportReviewReqDto insertReportReviewReqDto, Long customerReviewId,
-            Long userId) {
-
+    public InsertReportReviewRespDto insertReportReview(InsertReportReviewReqDto insertReportReviewReqDto,
+            Long customerReviewId, Long userId) {
         CustomerReview customerReviewPS = customerReviewRepository.findById(customerReviewId).orElseThrow(
                 () -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+        customerReviewPS.getStore().checkCeo(userId);
+        ReportReview reportReviewPS = reportReviewRepository.findByCustomerReviewId(customerReviewId);
+        if (reportReviewPS != null) {
+            throw new CustomApiException("이미 신고된 리뷰입니다", HttpStatus.BAD_REQUEST);
+        }
+
         CeoReview ceoReviewPS = customerReviewPS.getCeoReview();
         User userPS = userRepository.findById(userId).orElseThrow(
                 () -> new CustomApiException("해당 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-        reportReviewRepository.save(insertReportReviewReqDto.toEntity(userPS, customerReviewPS, ceoReviewPS));
 
+        return new InsertReportReviewRespDto(reportReviewRepository
+                .save(insertReportReviewReqDto.toEntity(userPS, customerReviewPS, ceoReviewPS)));
     }
 
     /* 승현 작업 종료 */
