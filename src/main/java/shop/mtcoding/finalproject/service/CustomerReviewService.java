@@ -137,7 +137,7 @@ public class CustomerReviewService {
                 log.debug("디버그 : 리뷰 목록리스트 개수 : " + customerReviewList.size());
                 log.debug("디버그 : DTO 응답 체크 전");
                 CustomerReviewListRespDto customerReviewListRespDto = new CustomerReviewListRespDto(customerReviewList,
-                                orderPS, userPS);
+                                userPS);
                 log.debug("디버그 : dto 정보 체크 : " + customerReviewListRespDto.getCustomerReviews().size());
                 return customerReviewListRespDto;
 
