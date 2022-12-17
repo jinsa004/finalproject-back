@@ -61,14 +61,14 @@ public class DevInit extends DummyEntity {
                         User jina = userRepository.save(newUser("jina", UserEnum.CUSTOMER));
                         User pipi = userRepository.save(newUser("pipi", UserEnum.CEO));
                         Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN,
-                                        "assets/images/store_thumbnail/후라이드치킨.jpg"));
+                                        "assets/images/store_thumbnail/네네치킨.png"));
                         Store store2 = storeRepository.save(newStore(cos, "레드치킨", StoreCategoryEnum.CHICKEN,
-                                        "assets/images/store_thumbnail/간장치킨.jpg"));
+                                        "assets/images/store_thumbnail/희치킨.png"));
                         Store store3 = storeRepository.save(newApplyStore(hoho));
                         Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA,
                                         "assets/images/store_thumbnail/피자.jpg"));
                         Store store5 = storeRepository.save(newStore(koko, "그린버거", StoreCategoryEnum.BURGER,
-                                        "assets/images/store_thumbnail/버거.jpg"));
+                                        "assets/images/store_thumbnail/로고.png"));
                         Store store6 = storeRepository.save(newStore(kaka, "그린분식", StoreCategoryEnum.SCHOOLFOOD,
                                         "assets/images/store_thumbnail/분식.jpg"));
                         Store store7 = storeRepository.save(newStore(hihi, "그린한식", StoreCategoryEnum.KRFOOD,

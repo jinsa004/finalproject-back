@@ -236,7 +236,7 @@ public class StoreRespDto {
                 List<CustomerReviewInterface> customerReviewInterfaceList) {
             for (Store store : storesPS) {
                 for (CustomerReviewInterface customerReviewInterface : customerReviewInterfaceList) {
-                    if (customerReviewInterface.getReviewId() == null
+                    if (customerReviewInterface.getCount() == 0
                             && customerReviewInterface.getStoreId() == store.getId()) {
                         stores.add(new StoreDto(store));
                     } else if (customerReviewInterface.getStoreId() == store.getId()) {

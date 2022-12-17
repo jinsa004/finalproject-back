@@ -29,7 +29,7 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
         CustomerReviewInterface findByStoreId(@Param("storeId") Long storeId);
 
         // 별점평균, 리뷰갯수 연산데이터 쿼리(가게 목록보기에 사용)
-        @Query(value = "select count(cr.id) count, avg(cr.star_point) starPoint, s.id storeId, cr.id reviewId from customer_reviews cr right outer join stores s on cr.store_id =s.id group by s.id", nativeQuery = true)
+        @Query(value = "select count(cr.id) count, avg(cr.star_point) starPoint, s.id storeId from customer_reviews cr right outer join stores s on cr.store_id =s.id group by s.id", nativeQuery = true)
         List<CustomerReviewInterface> findAllByStoreReviewToStarPoint();
 
         // 가게 상세보기 리뷰 탭에서 뿌려지는 리뷰 데이터

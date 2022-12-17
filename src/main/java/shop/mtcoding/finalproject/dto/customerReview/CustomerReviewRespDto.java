@@ -98,15 +98,12 @@ public class CustomerReviewRespDto {
     @Setter
     public static class CustomerReviewListRespDto {
         private UserDto user;
-        private OrderDto order;
         private List<CustomerReviewDto> customerReviews;
 
-        public CustomerReviewListRespDto(List<CustomerReview> customerReviews, Order order,
-                User user) {
+        public CustomerReviewListRespDto(List<CustomerReview> customerReviews, User user) {
             this.customerReviews = customerReviews.stream()
                     .map((customerReview) -> new CustomerReviewDto(customerReview))
                     .collect(Collectors.toList());
-            this.order = new OrderDto(order);
             this.user = new UserDto(user);
         }
 
@@ -125,20 +122,9 @@ public class CustomerReviewRespDto {
 
         @Getter
         @Setter
-        public class OrderDto {
-            private Long id;
-            private String storeName; // 가게이름
-
-            public OrderDto(Order order) {
-                this.id = order.getId();
-                this.storeName = order.getStore().getName();
-            }
-
-        }
-
-        @Getter
-        @Setter
         public class CustomerReviewDto {
+            private Long orderId;
+            private String storeName; // 가게이름
             private String content;
             private String photo;
             private Double starPoint;
@@ -147,6 +133,8 @@ public class CustomerReviewRespDto {
             private String commentCreatedAt;
 
             public CustomerReviewDto(CustomerReview customerReview) {
+                this.orderId = customerReview.getOrder().getId();
+                this.storeName = customerReview.getStore().getName();
                 this.content = customerReview.getContent();
                 this.photo = CustomBase64ConvertUtil.convertToString(customerReview.getPhoto());
                 this.starPoint = customerReview.getStarPoint();
