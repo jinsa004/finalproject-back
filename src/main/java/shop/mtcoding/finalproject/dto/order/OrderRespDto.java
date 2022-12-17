@@ -72,6 +72,8 @@ public class OrderRespDto {
         @Getter
         @Setter
         public class OrderDto {
+            private Long storeId;
+            private Long orderId;
             private String name;
             private String intro;
             private String thumbnail;
@@ -79,6 +81,8 @@ public class OrderRespDto {
             private String createdAt;
 
             public OrderDto(Order order) {
+                this.storeId = order.getStore().getId();
+                this.orderId = order.getId();
                 this.name = order.getStore().getName();
                 this.intro = order.getStore().getIntro();
                 this.thumbnail = CustomBase64ConvertUtil.convertToString(order.getStore().getThumbnail());
