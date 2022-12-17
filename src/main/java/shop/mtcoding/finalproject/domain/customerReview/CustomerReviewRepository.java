@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import shop.mtcoding.finalproject.domain.store.Store;
+
 public interface CustomerReviewRepository extends JpaRepository<CustomerReview, Long> {
 
         @Query("select c from CustomerReview c where c.order.id = :orderId")
@@ -48,5 +50,8 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
 
         @Query("select cr from CustomerReview cr join fetch cr.ceoReview c join fetch cr.store s join fetch cr.order o join fetch cr.user u where c.id = :ceoReviewId")
         Optional<CustomerReview> findByCeoReviewId(@Param("ceoReviewId") Long ceoReviewId);
+
+        @Query("select cr from CustomerReview cr left join fetch cr.ceoReview c left join fetch cr.store s left join fetch cr.order o left join fetch cr.user u where cr.id = :customerReviewId")
+        Optional<CustomerReview> findByCustomerReviewId(@Param("customerReviewId") Long customerReviewId);
 
 }

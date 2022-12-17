@@ -143,20 +143,10 @@ public class CeoReviewApiControllerTest extends DummyEntity {
         @Test
         public void insertCeoReviewByCustomerId_test() throws Exception {
                 // given
-                User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
                 Long userId = 1L;
-                Long customerReviewId = 2L;
+                Long customerReviewId = 1L;
                 InsertCeoReviewReqDto insertCeoReviewReqDto = new InsertCeoReviewReqDto();
                 insertCeoReviewReqDto.setContent("맛있게 드셨다니 다행입니다^^");
-                insertCeoReviewReqDto.setUserId(userPS.getId());
-                insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
-
-                CustomerReview customerReviewPS = customerReviewRepository
-                                .findById(insertCeoReviewReqDto.getCustomerReviewId())
-                                .orElseThrow(() -> new CustomApiException("해당 리뷰가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
-                insertCeoReviewReqDto.setCustomerReviewId(customerReviewId);
-
                 String requestBody = om.writeValueAsString(insertCeoReviewReqDto);
                 System.out.println("테스트 : " + requestBody);
 
