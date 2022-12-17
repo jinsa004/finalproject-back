@@ -217,7 +217,7 @@ public class ReportReviewControllerTest extends DummyEntity {
         @Test
         public void insert_test() throws Exception {
                 // given
-                Long reviewId = 1L;
+                Long customerReviewId = 1L;
                 Long userId = 1L;
                 InsertReportReviewReqDto insertReportReviewReqDto = new InsertReportReviewReqDto();
                 insertReportReviewReqDto.setReason("명예훼손");
@@ -227,7 +227,7 @@ public class ReportReviewControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(post("/api/user/" + userId + "/review/" + reviewId + "/report")
+                                .perform(post("/api/user/" + userId + "/store/review/" + customerReviewId + "/report")
                                                 .content(requestBody).contentType(APPLICATION_JSON_UTF8));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
