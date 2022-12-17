@@ -75,4 +75,5 @@ public class ReportReview extends AudingTime {
         this.resolvedTime = createdAt;
         this.isResolve = true;
     }
+
 }

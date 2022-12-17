@@ -219,17 +219,8 @@ public class ReportReviewControllerTest extends DummyEntity {
                 // given
                 Long reviewId = 1L;
                 Long userId = 1L;
-                User userPS = userRepository.findByUsername("ssar")
-                                .orElseThrow(() -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
-                System.out.println("테스트 : " + userPS.getId());
-                System.out.println("테스트 : " + userPS.getUsername());
-                System.out.println("테스트 : " + userPS.getRole().getValue());
-
                 InsertReportReviewReqDto insertReportReviewReqDto = new InsertReportReviewReqDto();
                 insertReportReviewReqDto.setReason("명예훼손");
-                insertReportReviewReqDto.setUserKind("사업자 회원");
-                insertReportReviewReqDto.setUserId(userPS.getId());
-                insertReportReviewReqDto.setReviewId(reviewId);
 
                 String requestBody = om.writeValueAsString(insertReportReviewReqDto);
                 System.out.println("테스트 : " + requestBody);
