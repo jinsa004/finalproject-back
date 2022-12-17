@@ -1,6 +1,7 @@
 package shop.mtcoding.finalproject.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.NoResultException;
 
@@ -101,7 +102,12 @@ public class CustomerReviewService {
                         throw new CustomApiException("배달이 완료되지 않았습니다.", HttpStatus.FORBIDDEN);
                 }
                 log.debug("디버그 : 유저 배달 완료 체크 후");
-                // 5. 핵심로직
+                // 5. 해당 주문에 중복 리뷰 작성을 막는 로직
+                Optional<CustomerReview> customerReviewOP = customerReviewRepository.findByOrderId(orderPS.getId());
+                if (customerReviewOP.isPresent()) {
+                        throw new CustomApiException("리뷰를 중복해서 작성하실 수 없습니다.", HttpStatus.BAD_REQUEST);
+                }
+                // 6. 핵심로직
                 CustomerReview customerReview = insertCustomerReviewReqDto.toEntity(userPS, storePS, orderPS);
                 log.debug("디버그 : 리뷰에 담기는 내용 : " + customerReview.getContent());
                 CustomerReview customerReviewPS = customerReviewRepository.save(customerReview);

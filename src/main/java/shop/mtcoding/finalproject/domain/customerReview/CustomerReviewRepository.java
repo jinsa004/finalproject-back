@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface CustomerReviewRepository extends JpaRepository<CustomerReview, Long> {
 
+        @Query("select c from CustomerReview c where c.order.id = :orderId")
+        Optional<CustomerReview> findByOrderId(@Param("orderId") Long orderId);
+
         @Query(value = "select * from customer_reviews cr left join ceo_reviews cor on cr.order_id = cor.order_id where cr.user_id = :userId", nativeQuery = true)
         List<CustomerReview> findReviewListByUserId(@Param("userId") Long userId);
 
