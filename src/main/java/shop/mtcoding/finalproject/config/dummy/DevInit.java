@@ -61,14 +61,14 @@ public class DevInit extends DummyEntity {
                         User jina = userRepository.save(newUser("jina", UserEnum.CUSTOMER));
                         User pipi = userRepository.save(newUser("pipi", UserEnum.CEO));
                         Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN,
-                                        "assets/images/store_thumbnail/후라이드치킨.jpg"));
+                                        "assets/images/store_thumbnail/네네치킨.png"));
                         Store store2 = storeRepository.save(newStore(cos, "레드치킨", StoreCategoryEnum.CHICKEN,
-                                        "assets/images/store_thumbnail/간장치킨.jpg"));
+                                        "assets/images/store_thumbnail/희치킨.png"));
                         Store store3 = storeRepository.save(newApplyStore(hoho));
                         Store store4 = storeRepository.save(newStore(haha, "그린피자", StoreCategoryEnum.PIZZA,
                                         "assets/images/store_thumbnail/피자.jpg"));
                         Store store5 = storeRepository.save(newStore(koko, "그린버거", StoreCategoryEnum.BURGER,
-                                        "assets/images/store_thumbnail/버거.jpg"));
+                                        "assets/images/store_thumbnail/로고.png"));
                         Store store6 = storeRepository.save(newStore(kaka, "그린분식", StoreCategoryEnum.SCHOOLFOOD,
                                         "assets/images/store_thumbnail/분식.jpg"));
                         Store store7 = storeRepository.save(newStore(hihi, "그린한식", StoreCategoryEnum.KRFOOD,
@@ -137,7 +137,7 @@ public class DevInit extends DummyEntity {
                         CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
                         CeoReview ceoReview2 = ceoReviewRepository.save(newCeoReview(store1, order2));
                         CustomerReview customerReview = customerReviewRepository
-                                        .save(newCustomerReview(jinsa, order1, store1, ceoReview, 5.0));
+                                        .save(newCustomerReview(jinsa, order1, store1, null, 5.0));
                         CustomerReview customerReview2 = customerReviewRepository
                                         .save(newCustomerReview(jinsa, order4, store2, null, 4.0));
                         CustomerReview customerReview3 = customerReviewRepository
@@ -148,9 +148,9 @@ public class DevInit extends DummyEntity {
                         Like like2 = likeRepository.save(newLike(jinsa, store1));
                         Like like3 = likeRepository.save(newLike(jinsa, store4));
                         ReportReview reportReview1 = reportReviewRepository
-                                        .save(newReportReview(ssar, customerReview, ceoReview));
+                                        .save(newReportReview(ssar, customerReview, ceoReview, null));
                         ReportReview reportReview2 = reportReviewRepository
-                                        .save(newReportReview(jinsa, customerReview2, ceoReview2));
+                                        .save(newReportReview(jinsa, customerReview2, ceoReview2, null));
                 };
         }
 }

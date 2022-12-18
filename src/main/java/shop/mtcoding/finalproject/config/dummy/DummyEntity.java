@@ -188,9 +188,11 @@ public class DummyEntity {
         return like;
     }
 
-    protected ReportReview newReportReview(User user, CustomerReview customerReview, CeoReview ceoReview) {
+    protected ReportReview newReportReview(User user, CustomerReview customerReview, CeoReview ceoReview,
+            String adminComment) {
         ReportReview reportReview = ReportReview.builder()
                 .user(user)
+                .adminComment(adminComment)
                 .customerReview(customerReview)
                 .ceoReview(ceoReview)
                 .reason(ReportReasonEnum.HONOR)

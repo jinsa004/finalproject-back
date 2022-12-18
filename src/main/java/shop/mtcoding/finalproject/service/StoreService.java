@@ -289,8 +289,7 @@ public class StoreService {
         Store storePS = storeRepository.findById(storeId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
         storePS.updateAccept(adminUpdateStoreApplyAcceptReqDto.isAccept());
-        storeRepository.save(storePS);
-
+        Store store = storeRepository.save(storePS);
         User userPS = userRepository.findById(storePS.getUser().getId()).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
         userPS.updateRole(adminUpdateStoreApplyAcceptReqDto.isAccept());

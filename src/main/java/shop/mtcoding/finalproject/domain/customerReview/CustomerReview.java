@@ -4,23 +4,23 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.mtcoding.finalproject.config.exception.CustomApiException;
 import shop.mtcoding.finalproject.domain.AudingTime;
 import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.order.Order;
@@ -82,7 +82,6 @@ public class CustomerReview extends AudingTime {
         this.isClosure = true;
     }
 
-    /* 승현 작업 시작 */
     public CustomerReview updateCeoReview(CeoReview ceoReviewPS) {
         return CustomerReview.builder()
                 .id(id)
@@ -92,11 +91,17 @@ public class CustomerReview extends AudingTime {
                 .isClosure(isClosure)
                 .user(user)
                 .store(store)
+                .order(order)
                 .ceoReview(ceoReviewPS)
                 .createdAt(createdAt)
                 .build();
     }
-    /* 승현 작업 종료 */
+
+    public void checkCeoReview() {
+        if (this.ceoReview != null) {
+            throw new CustomApiException("이미 답변된 리뷰입니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
 

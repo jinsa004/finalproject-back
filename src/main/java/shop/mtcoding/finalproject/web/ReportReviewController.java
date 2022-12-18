@@ -75,8 +75,10 @@ public class ReportReviewController {
             @AuthenticationPrincipal LoginUser loginUser,
             @RequestBody InsertReportReviewReqDto insertReportReviewReqDto) {
         loginUser.getUser().checkUser(userId);
-        reportReviewService.insertReportReview(insertReportReviewReqDto, customerReviewId, userId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "리뷰 신고 완료", null), HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                new ResponseDto<>(1, "리뷰 신고 완료",
+                        reportReviewService.insertReportReview(insertReportReviewReqDto, customerReviewId, userId)),
+                HttpStatus.CREATED);
     }
 
     /* 승현 작업 종료 */

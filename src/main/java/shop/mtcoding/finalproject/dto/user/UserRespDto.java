@@ -24,12 +24,14 @@ public class UserRespDto {
     @Getter
     public static class LoginRespDto {
         private Long id;
-        private String username;
+        private String nickname;
+        private String role;
         private String createdAt;
 
         public LoginRespDto(User user) {
             this.id = user.getId();
-            this.username = user.getUsername();
+            this.nickname = user.getNickname();
+            this.role = user.getRole().getValue();
             this.createdAt = user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
 

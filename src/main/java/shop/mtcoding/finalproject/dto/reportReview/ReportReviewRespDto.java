@@ -45,6 +45,16 @@ public class ReportReviewRespDto {
 
     @Getter
     @Setter
+    public static class InsertReportReviewRespDto {
+        private String reason;
+
+        public InsertReportReviewRespDto(ReportReview reportReview) {
+            this.reason = reportReview.getReason().getReason();
+        }
+    }
+
+    @Getter
+    @Setter
     public static class DetailReportReviewRespDto {
         private BigInteger reportReviewId;
         private String nickname;
