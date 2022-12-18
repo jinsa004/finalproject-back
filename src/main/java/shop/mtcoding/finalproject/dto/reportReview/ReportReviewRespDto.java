@@ -13,15 +13,33 @@ public class ReportReviewRespDto {
 
     @Getter
     @Setter
-    public static class ResolveReportReviewRespDto {
+    public static class ResolveRefuseReportReviewRespDto {
         private String adminComment;
         private boolean isResolve;
         private String resolvedTime;
+        private boolean isAccept;
 
-        public ResolveReportReviewRespDto(ReportReview reportReviewPS) {
+        public ResolveRefuseReportReviewRespDto(ReportReview reportReviewPS) {
             this.adminComment = reportReviewPS.getAdminComment();
             this.isResolve = reportReviewPS.isResolve();
-            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getResolvedTime());
+            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getCreatedAt());
+            this.isAccept = reportReviewPS.isAccept();
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class ResolveAcceptReportReviewRespDto {
+        private String adminComment;
+        private boolean isResolve;
+        private String resolvedTime;
+        private boolean isAccept;
+
+        public ResolveAcceptReportReviewRespDto(ReportReview reportReviewPS) {
+            this.adminComment = reportReviewPS.getAdminComment();
+            this.isResolve = reportReviewPS.isResolve();
+            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getCreatedAt());
+            this.isAccept = reportReviewPS.isAccept();
         }
     }
 
