@@ -174,8 +174,8 @@ public class Store extends AudingTime {
         this.isClosure = isClosure;
     }
 
-    public void updateAccept(Boolean isAccept) {
-        this.isAccept = isAccept;
+    public void updateAccept(Boolean accept) {
+        this.isAccept = accept;
     }
 
     public void checkCeo(Long userId) {
