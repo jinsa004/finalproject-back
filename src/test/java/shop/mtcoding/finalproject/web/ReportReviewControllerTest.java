@@ -146,7 +146,7 @@ public class ReportReviewControllerTest extends DummyEntity {
 
         @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
-        public void resolveReportReview_test() throws Exception {
+        public void resolveRefuseReportReview_test() throws Exception {
                 // given
                 Long reportReviewId = 1L;
                 ResolveReportReviewReqDto resolveReportReviewReqDto = new ResolveReportReviewReqDto();
@@ -157,7 +157,7 @@ public class ReportReviewControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(put("/api/admin/review/" + reportReviewId + "/resolve").content(requestBody)
+                                .perform(put("/api/admin/review/" + reportReviewId + "/refuse").content(requestBody)
                                                 .contentType(APPLICATION_JSON_UTF8));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 System.out.println("테스트 : " + responseBody);
@@ -165,7 +165,31 @@ public class ReportReviewControllerTest extends DummyEntity {
                 // // then
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.data.adminComment").value("쌍방 욕설로 인한 기각처리"));
-                resultActions.andExpect(jsonPath("$.data.resolve").value(true));
+                resultActions.andExpect(jsonPath("$.data.accept").value(false));
+        }
+
+        @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void resolveAcceptReportReview_test() throws Exception {
+                // given
+                Long reportReviewId = 1L;
+                ResolveReportReviewReqDto resolveReportReviewReqDto = new ResolveReportReviewReqDto();
+                resolveReportReviewReqDto.setAdminComment("쌍방 욕설로 인한 기각처리");
+
+                String requestBody = om.writeValueAsString(resolveReportReviewReqDto);
+                System.out.println("테스트 : " + requestBody);
+
+                // when
+                ResultActions resultActions = mvc
+                                .perform(put("/api/admin/review/" + reportReviewId + "/accept").content(requestBody)
+                                                .contentType(APPLICATION_JSON_UTF8));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : " + responseBody);
+
+                // // then
+                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(jsonPath("$.data.adminComment").value("쌍방 욕설로 인한 기각처리"));
+                resultActions.andExpect(jsonPath("$.data.accept").value(true));
         }
 
         @WithUserDetails(value = "admin", setupBefore = TestExecutionEvent.TEST_EXECUTION)

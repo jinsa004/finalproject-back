@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +25,7 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.ResolveReportReviewReqDto;
+import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -54,11 +57,15 @@ public class ReportReview extends AudingTime {
     private boolean isResolve;
 
     @Column(nullable = true)
+    private boolean isAccept;
+
+    @Column(nullable = true)
     private LocalDateTime resolvedTime;
 
     @Builder
     public ReportReview(Long id, User user, CustomerReview customerReview, CeoReview ceoReview, ReportReasonEnum reason,
-            String adminComment, boolean isResolve, LocalDateTime resolvedTime, LocalDateTime createdAt) {
+            String adminComment, boolean isResolve, boolean isAccept, LocalDateTime resolvedTime,
+            LocalDateTime createdAt) {
         this.id = id;
         this.user = user;
         this.customerReview = customerReview;
@@ -66,14 +73,23 @@ public class ReportReview extends AudingTime {
         this.reason = reason;
         this.adminComment = adminComment;
         this.isResolve = isResolve;
+        this.isAccept = isAccept;
         this.resolvedTime = resolvedTime;
         this.createdAt = createdAt;
     }
 
-    public void resolve(ResolveReportReviewReqDto resolveReportReviewReqDto) {
+    public void acceptResolve(ResolveReportReviewReqDto resolveReportReviewReqDto) {
         this.adminComment = resolveReportReviewReqDto.getAdminComment();
-        this.resolvedTime = createdAt;
         this.isResolve = true;
+        this.isAccept = true;
+        this.resolvedTime = createdAt;
+    }
+
+    public void refuseResolve(ResolveReportReviewReqDto resolveReportReviewReqDto) {
+        this.adminComment = resolveReportReviewReqDto.getAdminComment();
+        this.isResolve = true;
+        this.isAccept = false;
+        this.resolvedTime = createdAt;
     }
 
 }

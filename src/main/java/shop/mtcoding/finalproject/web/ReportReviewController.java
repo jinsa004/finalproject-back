@@ -1,7 +1,5 @@
 package shop.mtcoding.finalproject.web;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
-import shop.mtcoding.finalproject.dto.reportReview.ReportCeoReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertReportReviewReqDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.ResolveReportReviewReqDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.DetailReportReviewRespDto;
-import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ResolveReportReviewRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ResolveAcceptReportReviewRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ResolveRefuseReportReviewRespDto;
 import shop.mtcoding.finalproject.service.ReportReviewService;
 
 @RequiredArgsConstructor
@@ -32,12 +30,20 @@ public class ReportReviewController {
 
     /* 성진 작업 시작@ */
 
-    @PutMapping("/admin/review/{reportReviewId}/resolve")
-    public ResponseEntity<?> resolveReportReview(@RequestBody ResolveReportReviewReqDto resolveReportReviewReqDto,
+    @PutMapping("/admin/review/{reportReviewId}/refuse")
+    public ResponseEntity<?> resolveRefuseReportReview(@RequestBody ResolveReportReviewReqDto resolveReportReviewReqDto,
             @PathVariable Long reportReviewId) {
-        ResolveReportReviewRespDto resolveReportReviewRespDto = reportReviewService
-                .resolveReportReview(resolveReportReviewReqDto, reportReviewId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "신고리뷰 처리하기 기능 성공", resolveReportReviewRespDto), HttpStatus.OK);
+        ResolveRefuseReportReviewRespDto resolveReportReviewRespDto = reportReviewService
+                .resolveRefuseReportReview(resolveReportReviewReqDto, reportReviewId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "신고리뷰 기각하기 기능 성공", resolveReportReviewRespDto), HttpStatus.OK);
+    }
+
+    @PutMapping("/admin/review/{reportReviewId}/accept")
+    public ResponseEntity<?> resolveAcceptReportReview(@RequestBody ResolveReportReviewReqDto resolveReportReviewReqDto,
+            @PathVariable Long reportReviewId) {
+        ResolveAcceptReportReviewRespDto resolveReportReviewRespDto = reportReviewService
+                .resolveAcceptReportReview(resolveReportReviewReqDto, reportReviewId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "신고리뷰 수용하기 기능 성공", resolveReportReviewRespDto), HttpStatus.OK);
     }
 
     @GetMapping("/admin/review/{reportReviewId}/report/detail")
