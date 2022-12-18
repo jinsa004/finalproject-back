@@ -14,15 +14,7 @@ public class MenuReqDto {
     @Getter
     @Setter
     public static class CeoUpdateMenuStateReqDto {
-
         private boolean isClosure;
-
-        public Menu toEntity() {
-            return Menu.builder()
-                    .isClosure(this.isClosure)
-                    .build();
-        }
-
     }
 
     @Getter
