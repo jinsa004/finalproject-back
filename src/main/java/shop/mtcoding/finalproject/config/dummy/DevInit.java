@@ -135,6 +135,7 @@ public class DevInit extends DummyEntity {
                         OrderDetail orderDetail14 = orderDetailRepository.save(newOrderDetail(order12, menu10));
                         OrderDetail orderDetail15 = orderDetailRepository.save(newOrderDetail(order13, menu11));
                         CeoReview ceoReview = ceoReviewRepository.save(newCeoReview(store1, order1));
+                        CeoReview ceoReview2 = ceoReviewRepository.save(newCeoReview(store1, order2));
                         CustomerReview customerReview = customerReviewRepository
                                         .save(newCustomerReview(jinsa, order1, store1, null, 5.0));
                         CustomerReview customerReview2 = customerReviewRepository
@@ -147,9 +148,10 @@ public class DevInit extends DummyEntity {
                         Like like2 = likeRepository.save(newLike(jinsa, store1));
                         Like like3 = likeRepository.save(newLike(jinsa, store4));
                         ReportReview reportReview1 = reportReviewRepository
-                                        .save(newReportReview(ssar, customerReview, ceoReview, "욕설확인으로 인한 신고처리"));
+                                        .save(newReportReview(ssar, customerReview, ceoReview, null));
                         ReportReview reportReview2 = reportReviewRepository
-                                        .save(newReportReview(jinsa, customerReview2, ceoReview, null));
+                                        .save(newReportReview(jinsa, customerReview2, ceoReview2, null));
+
                 };
         }
 }
