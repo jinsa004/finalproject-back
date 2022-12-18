@@ -32,9 +32,8 @@ public class CeoReviewController {
             @RequestBody InsertCeoReviewReqDto insertCeoReviewReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        InsertCeoReviewRespDto insertCeoReviewRespDto = ceoReviewService
-                .insertByCustomerReviewId(insertCeoReviewReqDto, userId, customerReviewId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "사장님 리뷰달기 성공", insertCeoReviewRespDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseDto<>(1, "사장님 리뷰달기 성공", ceoReviewService
+                .insertByCustomerReviewId(insertCeoReviewReqDto, userId, customerReviewId)), HttpStatus.CREATED);
     }
 
     @GetMapping("/user/{userId}/store/{storeId}/review")

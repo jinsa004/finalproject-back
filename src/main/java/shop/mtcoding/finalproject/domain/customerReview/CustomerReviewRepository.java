@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import shop.mtcoding.finalproject.domain.store.Store;
+
 public interface CustomerReviewRepository extends JpaRepository<CustomerReview, Long> {
 
         @Query("select c from CustomerReview c where c.order.id = :orderId")
@@ -29,7 +31,7 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
         CustomerReviewInterface findByStoreId(@Param("storeId") Long storeId);
 
         // 별점평균, 리뷰갯수 연산데이터 쿼리(가게 목록보기에 사용)
-        @Query(value = "select count(cr.id) count, avg(cr.star_point) starPoint, s.id storeId, cr.id reviewId from customer_reviews cr right outer join stores s on cr.store_id =s.id group by s.id", nativeQuery = true)
+        @Query(value = "select count(cr.id) count, avg(cr.star_point) starPoint, s.id storeId from customer_reviews cr right join stores s on cr.store_id = s.id group by s.id", nativeQuery = true)
         List<CustomerReviewInterface> findAllByStoreReviewToStarPoint();
 
         // 가게 상세보기 리뷰 탭에서 뿌려지는 리뷰 데이터
@@ -48,5 +50,8 @@ public interface CustomerReviewRepository extends JpaRepository<CustomerReview, 
 
         @Query("select cr from CustomerReview cr join fetch cr.ceoReview c join fetch cr.store s join fetch cr.order o join fetch cr.user u where c.id = :ceoReviewId")
         Optional<CustomerReview> findByCeoReviewId(@Param("ceoReviewId") Long ceoReviewId);
+
+        @Query("select cr from CustomerReview cr left join fetch cr.ceoReview c left join fetch cr.store s left join fetch cr.order o left join fetch cr.user u where cr.id = :customerReviewId")
+        Optional<CustomerReview> findByCustomerReviewId(@Param("customerReviewId") Long customerReviewId);
 
 }

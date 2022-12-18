@@ -135,9 +135,9 @@ public class OrderApiControllerTest extends DummyEntity {
                 CustomerReview customerReview3 = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order6, store4, null, 5.0));
                 ReportReview reportReview1 = reportReviewRepository
-                                .save(newReportReview(ssar, customerReview, ceoReview));
+                                .save(newReportReview(ssar, customerReview, ceoReview, "욕설확인으로 인한 신고처리"));
                 ReportReview reportReview2 = reportReviewRepository
-                                .save(newReportReview(jinsa, customerReview2, ceoReview));
+                                .save(newReportReview(jinsa, customerReview2, ceoReview, null));
         }
 
         @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)

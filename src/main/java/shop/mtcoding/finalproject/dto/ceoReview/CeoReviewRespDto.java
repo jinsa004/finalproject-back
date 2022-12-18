@@ -13,6 +13,7 @@ public class CeoReviewRespDto {
     public static class ShowReviewRespDto {
 
         private Long id;
+        private Long orderId;
         private Double starPoint;
         private String orderCreatedAt;
         private boolean isClosure;
@@ -21,6 +22,7 @@ public class CeoReviewRespDto {
 
         public ShowReviewRespDto(CustomerReview customerReview) {
             this.id = customerReview.getId();
+            this.orderId = customerReview.getOrder().getId();
             this.starPoint = customerReview.getStarPoint();
             this.orderCreatedAt = CustomDateUtil.toStringFormat(customerReview.getOrder().getCreatedAt());
             this.isClosure = customerReview.isClosure();
