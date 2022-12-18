@@ -31,7 +31,8 @@ import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.InsertRepo
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.ResolveReportReviewReqDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.DetailReportReviewRespDto;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ReportReviewListRespDto;
-import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ResolveReportReviewRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ResolveAcceptReportReviewRespDto;
+import shop.mtcoding.finalproject.dto.reportReview.ReportReviewRespDto.ResolveRefuseReportReviewRespDto;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -41,22 +42,45 @@ public class ReportReviewService {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final ReportReviewRepository reportReviewRepository;
     private final CustomerReviewRepository customerReviewRepository;
-    private final CeoReviewRepository ceoReviewRepository;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReportReviewRepositoryQuery reportRepositoryQuery;
 
     /* 성진 작업 시작 */
 
-    public ResolveReportReviewRespDto resolveReportReview(ResolveReportReviewReqDto resolveReportReviewReqDto,
+    @Transactional
+    public ResolveRefuseReportReviewRespDto resolveRefuseReportReview(
+            ResolveReportReviewReqDto resolveReportReviewReqDto,
             Long reportReviewId) {
         // 1. 해당 신고 리뷰가 존재하는지 체크
         ReportReview reportReviewPS = reportReviewRepository.findById(reportReviewId)
                 .orElseThrow(() -> new CustomApiException("신고 리뷰가 없습니다", HttpStatus.BAD_REQUEST));
         // 2. 해당 신고 리뷰 처분
-        reportReviewPS.resolve(resolveReportReviewReqDto);
+        reportReviewPS.refuseResolve(resolveReportReviewReqDto);
+        reportReviewRepository.save(reportReviewPS);
         // 3. DTO 응답
-        ResolveReportReviewRespDto resolveReportReviewRespDto = new ResolveReportReviewRespDto(reportReviewPS);
+        ResolveRefuseReportReviewRespDto resolveReportReviewRespDto = new ResolveRefuseReportReviewRespDto(
+                reportReviewPS);
+        try {
+            return resolveReportReviewRespDto;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Transactional
+    public ResolveAcceptReportReviewRespDto resolveAcceptReportReview(
+            ResolveReportReviewReqDto resolveReportReviewReqDto,
+            Long reportReviewId) {
+        // 1. 해당 신고 리뷰가 존재하는지 체크
+        ReportReview reportReviewPS = reportReviewRepository.findById(reportReviewId)
+                .orElseThrow(() -> new CustomApiException("신고 리뷰가 없습니다", HttpStatus.BAD_REQUEST));
+        // 2. 해당 신고 리뷰 처분
+        reportReviewPS.acceptResolve(resolveReportReviewReqDto);
+        reportReviewRepository.save(reportReviewPS);
+        // 3. DTO 응답
+        ResolveAcceptReportReviewRespDto resolveReportReviewRespDto = new ResolveAcceptReportReviewRespDto(
+                reportReviewPS);
         try {
             return resolveReportReviewRespDto;
         } catch (NoResultException e) {
