@@ -80,7 +80,8 @@ public class MenuService {
         Menu menuPS = menuRepository.findByMenuId(menuId).orElseThrow(
                 () -> new CustomApiException("해당 메뉴가 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
         menuPS.checkWriter(userId);
-        menuRepository.save(menuPS.close(ceoUpdateMenuStateReqDto.toEntity()));
+        menuPS.updateClosure(ceoUpdateMenuStateReqDto.isClosure());
+        menuRepository.save(menuPS);
     }
 
     @Transactional

@@ -112,4 +112,8 @@ public class Menu {
         }
     }
 
+    public void updateClosure(Boolean closure) {
+        this.isClosure = closure;
+    }
+
 }
