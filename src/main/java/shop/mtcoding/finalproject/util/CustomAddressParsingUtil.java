@@ -10,10 +10,10 @@ public class CustomAddressParsingUtil {
     public static String AddressParsingToArea(String address) {
 
         String result;
-        String city = address.substring(0, 3);
+        String city = address.substring(0, 4);
         result = city.trim();
 
-        if (city == "경상남도") {
+        if (city.equals("경상남도")) {
             String ward = address.substring(5, 7);
             result = result + " " + ward.trim();
         } else {
@@ -21,6 +21,6 @@ public class CustomAddressParsingUtil {
             result = result + " " + ward.trim();
         }
 
-        return result;
+        return result + '%';
     }
 }
