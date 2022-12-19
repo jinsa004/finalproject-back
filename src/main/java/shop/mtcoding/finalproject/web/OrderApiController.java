@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
+import shop.mtcoding.finalproject.dto.order.OrderReqDto.InsertOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.OrderHistoryListRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
@@ -28,6 +30,13 @@ import shop.mtcoding.finalproject.service.OrderService;
 public class OrderApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final OrderService orderService;
+
+    @PostMapping("/user/{userId}/store/{storeId}/order/insert")
+    public ResponseEntity<?> getOrder(@RequestBody InsertOrderReqDto insertOrderReqDto, @PathVariable Long userId,
+            @PathVariable Long storeId, @AuthenticationPrincipal LoginUser loginUser) {
+        orderService.주문하기(insertOrderReqDto, loginUser, storeId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "주문하기 성공", null), HttpStatus.CREATED);
+    }
 
     @GetMapping("/user/{userId}/order/{orderId}/history/detail")
     public ResponseEntity<?> getOrderHistoryDetail(@PathVariable Long orderId, @PathVariable Long userId,

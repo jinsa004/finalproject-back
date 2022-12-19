@@ -108,12 +108,12 @@ public class OrderService {
 
     // 주문하기 기능 => 오더 인서트, 오더 디테일 인서트, 페이먼트 인서트 3인서트 후 오더에 update 쳐줘야함
     @Transactional
-    public void 주문하기(InsertOrderReqDto insertOrderReqDto, LoginUser loginUser, Long storeId, Payment payment) {
+    public void 주문하기(InsertOrderReqDto insertOrderReqDto, LoginUser loginUser, Long storeId) {
         // 1. 해당 가게가 존재하는지 검증
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("가게 정보가 없습니다.", HttpStatus.BAD_REQUEST));
         // 2. 오더 테이블 저장하기(주문)
-        orderRepository.save(insertOrderReqDto.toEntity(loginUser.getUser(), storePS, payment));
+        orderRepository.save(insertOrderReqDto.toEntity(loginUser.getUser(), storePS));
         // 3. 오더 디테일 저장하기(오더아이디에 맞춰서)
 
         // 4. 페이먼트 테이블 저장하기(결제수단 및 결제금액, 오더아이디에 맞춰서)

@@ -70,7 +70,7 @@ public class Order extends AudingTime {
     @Builder
     public Order(Long id, String comment, OrderStateEnum state, String reason, boolean isClosure,
             DeliveryStateEnum deliveryStateEnum, User user, Store store, Payment payment, LocalDateTime completeTime,
-            LocalDateTime createdAt, String deliveryTime) {
+            String deliveryTime) {
         this.id = id;
         this.comment = comment;
         this.state = state;
@@ -81,7 +81,6 @@ public class Order extends AudingTime {
         this.store = store;
         this.payment = payment;
         this.completeTime = completeTime;
-        this.createdAt = createdAt;
         this.deliveryTime = deliveryTime;
     }
 
@@ -97,7 +96,6 @@ public class Order extends AudingTime {
                 .store(store)
                 .payment(payment)
                 .completeTime(order.getCompleteTime())
-                .createdAt(createdAt)
                 .deliveryTime(order.getDeliveryTime())
                 .build();
     }

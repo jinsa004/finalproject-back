@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
@@ -21,17 +22,17 @@ public class OrderReqDto {
     public static class InsertOrderReqDto {
         // 결제수단 1(카카오페이), 메뉴/수량(오더디테일리스트),
         private String comment;
-        private String paymentName;
+        private String deliveryStateEnum;
         private List<OrderDetail> orderDetailList;
 
-        public Order toEntity(User user, Store store, Payment payment) {
+        public Order toEntity(User user, Store store) {
             return Order.builder()
                     .comment(comment)
                     .state(OrderStateEnum.ORDER)
                     .reason(null)
+                    .deliveryStateEnum(DeliveryStateEnum.valueOf(deliveryStateEnum))
                     .user(user)
                     .store(store)
-                    .payment(payment)
                     .build();
         }
 
