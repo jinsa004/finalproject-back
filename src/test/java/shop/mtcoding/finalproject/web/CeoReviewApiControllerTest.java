@@ -180,111 +180,111 @@ public class CeoReviewApiControllerTest extends DummyEntity {
                 Menu menu1 = menuRepository.save(
                                 newMenu(store1, "레드마블치킨", "assets/images/store_thumbnail/레드마블치킨.jpg",
                                                 "알싸한 매운 양념에 마블소스를 듬뿍!!",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 20000));
                 Menu menu2 = menuRepository.save(
                                 newMenu(store1, "청양마요치킨", "assets/images/store_thumbnail/청양마요치킨.jpg",
                                                 "청양고추의 알싸함과 마요네즈소스!",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 20000));
                 Menu menu3 = menuRepository.save(
                                 newMenu(store1, "치즈스틱", "assets/images/store_thumbnail/치즈스틱.jpg",
                                                 "겉은 바삭 속은 치즈?~!",
-                                                MenuCategoryEnum.SIDE));
+                                                MenuCategoryEnum.SIDE, 2500));
                 Menu menu4 = menuRepository.save(
                                 newMenu(store2, "후라이드치킨", "assets/images/store_thumbnail/후라이드치킨.jpg",
                                                 "바삭한 튀김 옷으로 승부한다!",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 18000));
                 Menu menu5 = menuRepository.save(
                                 newMenu(store2, "마늘순살샐러드", "assets/images/store_thumbnail/마늘순살샐러드.jpg",
-                                                "드레싱 소스가 듬뿍", MenuCategoryEnum.SIDE));
+                                                "드레싱 소스가 듬뿍", MenuCategoryEnum.SIDE, 10000));
                 Menu menu6 = menuRepository
                                 .save(newMenu(store2, "콜라", "assets/images/store_thumbnail/콜라.jpg", "코카콜라",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 2000));
                 Menu menu7 = menuRepository.save(
                                 newMenu(store3, "돈마호크", "assets/images/store_thumbnail/돈마호크.png",
                                                 "돈마호크 고기를 사용한 피자",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 25000));
                 Menu menu8 = menuRepository.save(
                                 newMenu(store3, "치즈오븐스파게티", "assets/images/store_thumbnail/치즈오븐스파게티.jpg",
                                                 "180도 오븐에 5분간 스윽~",
-                                                MenuCategoryEnum.SIDE));
+                                                MenuCategoryEnum.SIDE, 5000));
                 Menu menu9 = menuRepository
                                 .save(newMenu(store3, "콜라", "assets/images/store_thumbnail/콜라.jpg", "코카콜라",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 2000));
                 Menu menu10 = menuRepository.save(
                                 newMenu(store4, "기네스와퍼", "assets/images/store_thumbnail/기네스와퍼.png",
                                                 "기네스 맥주를 이용한 번에 와퍼를?!",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 10200));
                 Menu menu11 = menuRepository.save(
                                 newMenu(store4, "치즈프라이", "assets/images/store_thumbnail/치즈프라이.png",
                                                 "감자튀김과 치즈의 만남",
-                                                MenuCategoryEnum.SIDE));
+                                                MenuCategoryEnum.SIDE, 2800));
                 Menu menu12 = menuRepository
                                 .save(newMenu(store4, "콜라", "assets/images/store_thumbnail/콜라.png", "코카콜라",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 2000));
                 Menu menu14 = menuRepository
                                 .save(newMenu(store5, "떡볶이", "assets/images/store_thumbnail/떡볶이.jpg",
                                                 "한국인은 먹을 수 밖에 없는 맛",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 8000));
                 Menu menu15 = menuRepository.save(
                                 newMenu(store5, "쥬시쿨", "assets/images/store_thumbnail/쥬시쿨.jpg", "맛있는 자두맛 쥬시쿨",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 1500));
                 Menu menu16 = menuRepository
                                 .save(newMenu(store6, "비빔밥", "assets/images/store_thumbnail/비빔밥.jpg",
                                                 "비빔밥을 비벼봐요~",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 6500));
                 Menu menu17 = menuRepository.save(
                                 newMenu(store6, "해물파전", "assets/images/store_thumbnail/해물파전.jpg",
                                                 "각종 야채와 해물 만남의 전",
-                                                MenuCategoryEnum.SIDE));
+                                                MenuCategoryEnum.SIDE, 10000));
                 Menu menu18 = menuRepository
                                 .save(newMenu(store6, "콜라", "assets/images/store_thumbnail/콜라.jpg", "코카콜라",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 2000));
                 Menu menu19 = menuRepository
                                 .save(newMenu(store7, "짜장면", "assets/images/store_thumbnail/짜장면.jpg",
                                                 "달콤짭짤 춘장과 면의 만남",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 5000));
                 Menu menu20 = menuRepository
                                 .save(newMenu(store7, "짬뽕", "assets/images/store_thumbnail/짬뽕.jpg",
                                                 "시원한 해물육수 베이스의 짬뽕!!",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 6000));
                 Menu menu21 = menuRepository
                                 .save(newMenu(store7, "콜라", "assets/images/store_thumbnail/콜라.jpg", "코카콜라",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 2000));
                 Menu menu22 = menuRepository
                                 .save(newMenu(store8, "돈까스", "assets/images/store_thumbnail/돈까스.jpg",
                                                 "깨끗한 기름으로 깔끔하게",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 7000));
                 Menu menu23 = menuRepository.save(
                                 newMenu(store8, "야끼만두", "assets/images/store_thumbnail/야끼만두.jpg", "야끼만두는 인정이지~",
-                                                MenuCategoryEnum.SIDE));
+                                                MenuCategoryEnum.SIDE, 4000));
                 Menu menu24 = menuRepository
                                 .save(newMenu(store8, "콜라", "assets/images/store_thumbnail/콜라.jpg", "코카콜라",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 2000));
                 Menu menu25 = menuRepository
                                 .save(newMenu(store9, "보쌈", "assets/images/store_thumbnail/보쌈.png",
                                                 "보쌈을 쌈에 싸서 드셔보아요",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 50000));
                 Menu menu26 = menuRepository
                                 .save(newMenu(store9, "막국수", "assets/images/store_thumbnail/막국수.jpg",
                                                 "시원한 막국수와 보쌈을 함께!",
-                                                MenuCategoryEnum.SIDE));
+                                                MenuCategoryEnum.SIDE, 12000));
                 Menu menu27 = menuRepository
                                 .save(newMenu(store9, "소주", "assets/images/store_thumbnail/소주.jpg", "어른의 음료",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 4000));
                 Menu menu28 = menuRepository.save(
                                 newMenu(store10, "전복죽", "assets/images/store_thumbnail/전복죽.jpg",
                                                 "아픈 사람에게 영양만점 전복죽",
-                                                MenuCategoryEnum.MAIN));
+                                                MenuCategoryEnum.MAIN, 10500));
                 Menu menu29 = menuRepository.save(
                                 newMenu(store10, "소고기장조림", "assets/images/store_thumbnail/소고기장조림.jpg",
                                                 "죽이 더 맛있어지는 비결",
-                                                MenuCategoryEnum.SIDE));
+                                                MenuCategoryEnum.SIDE, 4000));
                 Menu menu30 = menuRepository.save(
                                 newMenu(store10, "콜라", "assets/images/store_thumbnail/콜라.jpg", "코카콜라",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 2000));
                 Menu menu31 = menuRepository
                                 .save(newMenu(store1, "콜라", "assets/images/store_thumbnail/콜라.jpg", "코카콜라",
-                                                MenuCategoryEnum.DRINK));
+                                                MenuCategoryEnum.DRINK, 2000));
                 Order order1 = orderRepository.save(
                                 newOrder(busan, store1, OrderStateEnum.ORDER, DeliveryStateEnum.DELIVERY));
                 Order order2 = orderRepository.save(
