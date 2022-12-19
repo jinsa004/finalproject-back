@@ -150,12 +150,13 @@ public class DummyEntity {
                 return store;
         }
 
-        protected Menu newMenu(Store store, String name, String thumbnail, String intro, MenuCategoryEnum category) {
+        protected Menu newMenu(Store store, String name, String thumbnail, String intro, MenuCategoryEnum category,
+                        int price) {
                 Menu menu = Menu.builder()
                                 .name(name)
                                 .thumbnail(CustomBase64ConvertUtil.convertToByte(thumbnail))
                                 .intro(intro)
-                                .price(18000)
+                                .price(price)
                                 .category(category)
                                 .isClosure(false)
                                 .store(store)
