@@ -53,21 +53,21 @@ public class DummyEntity {
                 return user;
         }
 
-        protected Store newStore(User user, String name, StoreCategoryEnum category, String thumbnail) {
+        protected Store newStore(User user, String name, StoreCategoryEnum category, String thumbnail, String intro) {
                 Store store = Store.builder()
                                 .category(category)
                                 .name(name)
                                 .phone("01011112222")
                                 .minAmount(10000)
                                 .thumbnail(CustomBase64ConvertUtil.convertToByte(thumbnail))
-                                .ceoName("cos")
+                                .ceoName(name + "님")
                                 .businessNumber("112233")
                                 .businessAddress("부산시 진구 서면 17번 길")
                                 .openTime("2시")
                                 .closeTime("4시")
                                 .deliveryHour("30분")
                                 .deliveryCost(2000)
-                                .intro("그린 치킨입니다.")
+                                .intro(intro)
                                 .notice("리뷰 이벤트중입니다.")
                                 .isClosure(false)
                                 .isOpend(true)
@@ -77,21 +77,22 @@ public class DummyEntity {
                 return store;
         }
 
-        protected Store newGimehaeStore(User user, String name, StoreCategoryEnum category, String thumbnail) {
+        protected Store newGimehaeStore(User user, String name, StoreCategoryEnum category, String thumbnail,
+                        String intro) {
                 Store store = Store.builder()
                                 .category(category)
                                 .name(name)
                                 .phone("01011112222")
                                 .minAmount(10000)
                                 .thumbnail(CustomBase64ConvertUtil.convertToByte(thumbnail))
-                                .ceoName("cos")
+                                .ceoName(name + "님")
                                 .businessNumber("112233")
                                 .businessAddress("경상남도 김해시 향교길 9")
                                 .openTime("2시")
                                 .closeTime("4시")
                                 .deliveryHour("30분")
                                 .deliveryCost(2000)
-                                .intro("김해 맛집입니다.")
+                                .intro(intro)
                                 .notice("리뷰 이벤트중입니다.")
                                 .isClosure(false)
                                 .isOpend(true)
@@ -108,7 +109,7 @@ public class DummyEntity {
                                 .phone(null)
                                 .minAmount(0)
                                 .thumbnail(null)
-                                .ceoName("hoho")
+                                .ceoName(user.getNickname())
                                 .businessNumber("112233")
                                 .businessAddress("부산시 진구 서면 17번 길")
                                 .openTime(null)
@@ -149,13 +150,13 @@ public class DummyEntity {
                 return store;
         }
 
-        protected Menu newMenu(Store store, String name) {
+        protected Menu newMenu(Store store, String name, String thumbnail, String intro, MenuCategoryEnum category) {
                 Menu menu = Menu.builder()
                                 .name(name)
-                                .thumbnail(null)
-                                .intro("깨끗한 기름으로 튀겼습니다.")
+                                .thumbnail(CustomBase64ConvertUtil.convertToByte(thumbnail))
+                                .intro(intro)
                                 .price(18000)
-                                .category(MenuCategoryEnum.MAIN)
+                                .category(category)
                                 .isClosure(false)
                                 .store(store)
                                 .build();
@@ -229,12 +230,13 @@ public class DummyEntity {
         }
 
         protected ReportReview newReportReview(User user, CustomerReview customerReview, CeoReview ceoReview,
-                        String adminComment) {
+                        String adminComment, boolean accept) {
                 ReportReview reportReview = ReportReview.builder()
                                 .user(user)
                                 .adminComment(adminComment)
                                 .customerReview(customerReview)
                                 .ceoReview(ceoReview)
+                                .isAccept(accept)
                                 .reason(ReportReasonEnum.HONOR)
                                 .build();
                 return reportReview;
