@@ -101,11 +101,11 @@ public class MenuApiControllerTest extends DummyEntity {
                 dummy_init();
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getDetailMenu_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 14L;
                 Long storeId = 1L;
                 Long menuId = 1L;
 
@@ -118,14 +118,14 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.menuName").value("후라이드"));
+                resultActions.andExpect(jsonPath("$.data.menuName").value("레드마블치킨"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getMenuList_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 14L;
                 Long storeId = 1L;
                 // when
                 ResultActions resultActions = mvc
@@ -135,8 +135,8 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.menus[0].name").value("후라이드"));
-                resultActions.andExpect(jsonPath("$.data.menus[1].name").value("간장치킨"));
+                resultActions.andExpect(jsonPath("$.data.menus[0].name").value("레드마블치킨"));
+                resultActions.andExpect(jsonPath("$.data.menus[1].name").value("청양마요치킨"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -153,8 +153,8 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.[0].name").value("후라이드"));
-                resultActions.andExpect(jsonPath("$.data.[1].name").value("간장치킨"));
+                resultActions.andExpect(jsonPath("$.data.[0].name").value("레드마블치킨"));
+                resultActions.andExpect(jsonPath("$.data.[1].name").value("청양마요치킨"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -172,7 +172,7 @@ public class MenuApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.name").value("간장치킨"));
+                resultActions.andExpect(jsonPath("$.data.name").value("청양마요치킨"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)

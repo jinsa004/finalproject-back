@@ -92,7 +92,7 @@ public class ReportReviewRepositoryQueryTest extends DummyEntity {
                                 .findByReportReviewIdToCeo(reportReviewId);
 
                 // then
-                Assertions.assertThat(reportCeoReviewRespDto.getStoreName()).isEqualTo("그린치킨");
+                Assertions.assertThat(reportCeoReviewRespDto.getStoreName()).isEqualTo("네네치킨");
                 Assertions.assertThat(reportCeoReviewRespDto.getComment()).isEqualTo("고 마워 요");
         }
 
@@ -106,7 +106,7 @@ public class ReportReviewRepositoryQueryTest extends DummyEntity {
                                 .findByReportReviewId(reportReviewId);
 
                 // then
-                Assertions.assertThat(reportCustomerReviewRespDto.getNickname()).isEqualTo("jinsa님");
+                Assertions.assertThat(reportCustomerReviewRespDto.getNickname()).isEqualTo("busan님");
         }
 
         @Test

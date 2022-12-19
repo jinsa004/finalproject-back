@@ -99,12 +99,12 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 dummy_init();
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getCustomerReviewToStore_test() throws Exception {
                 // given
                 Long storeId = 1L;
-                Long userId = 3L;
+                Long userId = 14L;
                 // when
                 ResultActions resultActions = mvc
                                 .perform(get("/api/user/" + userId + "/store/" + storeId + "/review/list"));
@@ -112,16 +112,16 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 System.out.println("테스트 : " + responseBody);
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.customerReviewDtoList.[0].nickname").value("jinsa님"));
+                resultActions.andExpect(jsonPath("$.data.customerReviewDtoList.[0].nickname").value("busan님"));
                 resultActions.andExpect(jsonPath("$.data.customerReviewDtoList.[0].customerMenuDtos.[0].menuName")
-                                .value("후라이드"));
+                                .value("레드마블치킨"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void insertCustomerReview_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 14L;
                 Long storeId = 1L;
                 Long orderId = 3L;
                 InsertCustomerReviewReqDto insertCustomerReviewReqDto = new InsertCustomerReviewReqDto();
@@ -145,11 +145,11 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.content").value("맛잇어용"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void findByUserIdToCustomerReview_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 14L;
                 // when
                 ResultActions resultActions = mvc
                                 .perform(get("/api/user/" + userId + "/review/list"));
@@ -157,14 +157,14 @@ public class CustomerReviewApiControllerTest extends DummyEntity {
                 System.out.println("테스트 : " + responseBody);
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.user.nickname").value("jinsa님"));
+                resultActions.andExpect(jsonPath("$.data.user.nickname").value("busan님"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void deleteByUserId_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 14L;
                 Long reviewId = 1L;
                 // when
                 ResultActions resultActions = mvc

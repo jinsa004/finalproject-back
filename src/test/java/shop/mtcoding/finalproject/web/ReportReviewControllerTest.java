@@ -198,12 +198,12 @@ public class ReportReviewControllerTest extends DummyEntity {
                 resultActions.andExpect(status().isOk());
         }
 
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void insert_test() throws Exception {
                 // given
-                Long customerReviewId = 4L;
-                Long userId = 1L;
+                Long customerReviewId = 3L;
+                Long userId = 2L;
                 InsertReportReviewReqDto insertReportReviewReqDto = new InsertReportReviewReqDto();
                 insertReportReviewReqDto.setReason("명예훼손");
 

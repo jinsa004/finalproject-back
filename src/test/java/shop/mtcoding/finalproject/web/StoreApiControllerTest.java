@@ -125,7 +125,7 @@ public class StoreApiControllerTest extends DummyEntity {
         @Test
         public void getStoreName_test() throws Exception {
                 // given
-                Long userId = 5L;
+                Long userId = 3L;
                 Store storePS = storeRepository.findByUserId(userId).get();
                 storePS.updateAccept(true);
                 storeRepository.save(storePS);
@@ -139,14 +139,14 @@ public class StoreApiControllerTest extends DummyEntity {
                 // then
                 resultActions.andExpect(status().isOk());
                 resultActions.andExpect(jsonPath("$.code").value(1));
-                resultActions.andExpect(jsonPath("$.msg").value("가게없는 유저"));
+                resultActions.andExpect(jsonPath("$.msg").value("가게있는 유저"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getLikeStroeList_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 14L;
 
                 // when
                 ResultActions resultActions = mvc
@@ -191,8 +191,8 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.starPoint").value(5.0));
-                resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("후라이드"));
+                resultActions.andExpect(jsonPath("$.data.starPoint").value(4.0));
+                resultActions.andExpect(jsonPath("$.data.menuList[0].name").value("레드마블치킨"));
         }
 
         @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -211,7 +211,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.stores.[0].storeName").value("그린치킨"));
+                resultActions.andExpect(jsonPath("$.data.stores.[0].storeName").value("네네치킨"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -245,7 +245,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.ceoName").value("cos"));
+                resultActions.andExpect(jsonPath("$.data.ceoName").value("네네치킨님"));
         }
 
         @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -315,7 +315,7 @@ public class StoreApiControllerTest extends DummyEntity {
         @Test
         public void findByIdToSave_test() throws Exception {
                 // given
-                Long userId = 5L;
+                Long userId = 3L;
                 Store storePS = storeRepository.findByUserId(userId).get();
                 storePS.updateAccept(true);
                 storeRepository.save(storePS);
@@ -404,15 +404,15 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.thumbnail")
                                 .value("AAAAGElEQVQoU2NkYGD4z0AEYBxViC+UqB88AKk6CgERnGWPAAAAAElFTkSuQmCC"));
                 resultActions.andExpect(jsonPath("$.data.intro").value("맛있는 치킨집"));
-                resultActions.andExpect(jsonPath("$.data.ceoName").value("cos"));
+                resultActions.andExpect(jsonPath("$.data.ceoName").value("네네치킨님"));
                 resultActions.andExpect(jsonPath("$.data.businessNumber").value("112233"));
         }
 
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "hoho", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void update_test() throws Exception {
                 // given
-                Long userId = 1L;
+                Long userId = 3L;
                 CeoUpdateStoreReqDto ceoUpdateStoreReqDto = new CeoUpdateStoreReqDto();
                 ceoUpdateStoreReqDto.setName("맛좋은 피자집");
                 ceoUpdateStoreReqDto.setCategory("피자");
@@ -441,7 +441,7 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.data.category").value("피자"));
                 resultActions.andExpect(jsonPath("$.data.name").value("맛좋은 피자집"));
                 resultActions.andExpect(jsonPath("$.data.intro").value("치즈가 쭉쭉 늘어나는 맛좋은 피자집"));
-                resultActions.andExpect(jsonPath("$.data.ceoName").value("cos"));
+                resultActions.andExpect(jsonPath("$.data.ceoName").value("피자헛님"));
                 resultActions.andExpect(jsonPath("$.data.businessNumber").value("112233"));
         }
 
@@ -449,7 +449,7 @@ public class StoreApiControllerTest extends DummyEntity {
         @Test
         public void apply_test() throws Exception {
                 // given
-                Long userId = 4L;
+                Long userId = 15L;
                 CeoApplyStoreReqDto ceoApplyStoreReqDto = new CeoApplyStoreReqDto();
                 ceoApplyStoreReqDto.setCeoName("admin");
                 ceoApplyStoreReqDto.setBusinessAddress("부산시 부산진구 혜도빌딩 4층 423호");

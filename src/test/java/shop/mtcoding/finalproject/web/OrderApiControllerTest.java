@@ -100,11 +100,11 @@ public class OrderApiControllerTest extends DummyEntity {
                 dummy_init();
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getOrderHistoryDetail_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 14L;
                 Long orderId = 1L;
                 // when
                 ResultActions resultActions = mvc
@@ -114,15 +114,15 @@ public class OrderApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.storeName").value("그린치킨"));
-                resultActions.andExpect(jsonPath("$.data.orderDetailDtos.[0].orderState").value("배달완료"));
+                resultActions.andExpect(jsonPath("$.data.storeName").value("네네치킨"));
+                resultActions.andExpect(jsonPath("$.data.orderDetailDtos.[0].orderState").value("주문완료"));
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void deleteOrderHistory_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 14L;
                 Long orderId = 1L;
                 // when
                 ResultActions resultActions = mvc
@@ -136,11 +136,11 @@ public class OrderApiControllerTest extends DummyEntity {
 
         }
 
-        @WithUserDetails(value = "jinsa", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getOrderHistoryList_test() throws Exception {
                 // given
-                Long userId = 3L;
+                Long userId = 14L;
                 // when
                 ResultActions resultActions = mvc
                                 .perform(get("/api/user/" + userId + "/order/history/list"));
@@ -149,7 +149,7 @@ public class OrderApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.orders.[0].name").value("그린치킨"));
+                resultActions.andExpect(jsonPath("$.data.orders.[0].name").value("네네치킨"));
                 resultActions.andExpect(jsonPath("$.data.orders.[0].deliveryState").value("배달"));
         }
 
