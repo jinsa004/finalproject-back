@@ -162,9 +162,11 @@ public class StoreService {
         }
     }
 
-    public CustomerStoreListRespDto customerStoreList() {
+    public CustomerStoreListRespDto customerStoreList(Long userId) {
+        User userPS = userRepository.findById(userId).get();
         // 1 가게 정보 1셀렉 가게리스트
-        List<Store> storeList = storeRepository.findAllToAcceptStoreList();
+        List<Store> storeList = storeRepository
+                .findAllToAcceptStoreList(CustomAddressParsingUtil.AddressParsingToArea(userPS.getAddress()));
         log.debug("디버그 : 스토어리스트 : " + storeList);
         // 2 리뷰 별점 셀렉해서 평균내기(평균은 쿼리로 작성) 리뷰리스트
         log.debug("디버그 : 리뷰리스트 전");
