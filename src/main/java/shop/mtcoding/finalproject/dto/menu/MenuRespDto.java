@@ -102,7 +102,7 @@ public class MenuRespDto {
     @Getter
     @Setter
     public static class CeoDetailMenuRespDto {
-
+        private Long menuId;
         private String category;
         private String name;
         private String intro;
@@ -111,6 +111,7 @@ public class MenuRespDto {
         private boolean isClosure;
 
         public CeoDetailMenuRespDto(Menu menu) {
+            this.menuId = menu.getId();
             this.category = menu.getCategory().getCategory();
             this.name = menu.getName();
             this.intro = menu.getIntro();
