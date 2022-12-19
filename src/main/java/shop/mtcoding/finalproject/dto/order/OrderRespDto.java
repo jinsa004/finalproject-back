@@ -149,7 +149,7 @@ public class OrderRespDto {
             if (order.getPayment() == null) {
                 this.payment = "";
             } else {
-                this.payment = order.getPayment().getContent();
+                this.payment = order.getPayment().getPayMethod();
             }
             List<orderDetailRespDto> detailRespDtos = new ArrayList<>();
             for (int i = 0; i < orderDetailPS.size(); i++) {

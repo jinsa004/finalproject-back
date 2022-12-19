@@ -60,7 +60,6 @@ public class OrderService {
         List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrderIdToOrderHistory(orderPS.getId());
         log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.size());
         log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(0).getMenu().getName());
-        log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(1).getMenu().getName());
         DetailOrderHistoryRespDto detailOrderHistoryRespDto = new DetailOrderHistoryRespDto(userPS, orderPS,
                 orderDetailList);
         // 4. DTO 응답

@@ -89,15 +89,15 @@ public class DevInit extends DummyEntity {
                         Menu menu1 = menuRepository.save(
                                         newMenu(store1, "레드마블치킨", "assets/images/store_thumbnail/레드마블치킨.jpg",
                                                         "알싸한 매운 양념에 마블소스를 듬뿍!!",
-                                                        MenuCategoryEnum.MAIN, 20000));
+                                                        MenuCategoryEnum.MAIN, 100));
                         Menu menu2 = menuRepository.save(
                                         newMenu(store1, "청양마요치킨", "assets/images/store_thumbnail/청양마요치킨.jpg",
                                                         "청양고추의 알싸함과 마요네즈소스!",
-                                                        MenuCategoryEnum.MAIN, 20000));
+                                                        MenuCategoryEnum.MAIN, 100));
                         Menu menu3 = menuRepository.save(
                                         newMenu(store1, "치즈스틱", "assets/images/store_thumbnail/치즈스틱.jpg",
                                                         "겉은 바삭 속은 치즈?~!",
-                                                        MenuCategoryEnum.SIDE, 2500));
+                                                        MenuCategoryEnum.SIDE, 100));
                         Menu menu4 = menuRepository.save(
                                         newMenu(store2, "후라이드치킨", "assets/images/store_thumbnail/후라이드치킨.jpg",
                                                         "바삭한 튀김 옷으로 승부한다!",
@@ -193,7 +193,7 @@ public class DevInit extends DummyEntity {
                                                         MenuCategoryEnum.DRINK, 2000));
                         Menu menu31 = menuRepository
                                         .save(newMenu(store1, "콜라", "assets/images/store_thumbnail/콜라.jpg", "코카콜라",
-                                                        MenuCategoryEnum.DRINK, 2000));
+                                                        MenuCategoryEnum.DRINK, 100));
                         Order order1 = orderRepository.save(
                                         newOrder(busan, store1, OrderStateEnum.ORDER, DeliveryStateEnum.DELIVERY));
                         Order order2 = orderRepository.save(
