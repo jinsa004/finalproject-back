@@ -23,7 +23,6 @@ import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoApplyStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoInsertStoreReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreBusinessStateReqDto;
 import shop.mtcoding.finalproject.dto.store.StoreReqDto.CeoUpdateStoreReqDto;
-import shop.mtcoding.finalproject.dto.store.StoreRespDto.CategoryStoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.LikeStoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreNameRespDto;
 import shop.mtcoding.finalproject.service.StoreService;
@@ -40,8 +39,9 @@ public class StoreApiController {
     public ResponseEntity<?> getCategoryStoreList(@PathVariable StoreCategoryEnum category, @PathVariable Long userId,
             @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
-        CategoryStoreListRespDto categoryStoreListRespDto = storeService.categoryStoreList(category);
-        return new ResponseEntity<>(new ResponseDto<>(1, "카테고리별 가게 목록보기 성공", categoryStoreListRespDto), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new ResponseDto<>(1, "카테고리별 가게 목록보기 성공", storeService.categoryStoreList(category, userId)),
+                HttpStatus.OK);
     }
 
     // 사업자 회원이 로그인 시 자신의 가게가 등록되어있다면 메인페이지, 없다면 가게등록 페이지로 보내기 위한 기능
@@ -100,7 +100,7 @@ public class StoreApiController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userId}/store/info/stats")
+    @PostMapping("/user/{userId}/store/info/stats")
     public ResponseEntity<?> findStatsByStoreId(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser,
             @RequestBody FindStatsReqDto findStatsReqDto) {
         loginUser.getUser().checkUser(userId);

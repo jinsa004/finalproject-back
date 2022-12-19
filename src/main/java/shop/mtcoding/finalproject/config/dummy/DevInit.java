@@ -60,6 +60,8 @@ public class DevInit extends DummyEntity {
                         User pepe = userRepository.save(newUser("pepe", UserEnum.CEO));
                         User jina = userRepository.save(newUser("jina", UserEnum.CUSTOMER));
                         User pipi = userRepository.save(newUser("pipi", UserEnum.CEO));
+                        User gimhae1 = userRepository.save(newGimhaeUser("gimhae1", UserEnum.CUSTOMER));
+                        User gimhae2 = userRepository.save(newGimhaeUser("gimhae2", UserEnum.CUSTOMER));
                         Store store1 = storeRepository.save(newStore(ssar, "그린치킨", StoreCategoryEnum.CHICKEN,
                                         "assets/images/store_thumbnail/네네치킨.png"));
                         Store store2 = storeRepository.save(newStore(cos, "레드치킨", StoreCategoryEnum.CHICKEN,
@@ -82,6 +84,9 @@ public class DevInit extends DummyEntity {
                         Store store11 = storeRepository.save(newStore(pepe, "그린죽", StoreCategoryEnum.PORRIDGE,
                                         "assets/images/store_thumbnail/죽.jpg"));
                         Store store12 = storeRepository.save(newSaveStore(pipi));
+                        Store storeG1 = storeRepository
+                                        .save(newGimehaeStore(gimhae2, "김해맛집", StoreCategoryEnum.PIZZA,
+                                                        "assets/images/store_thumbnail/피자.jpg"));
                         Menu menu1 = menuRepository.save(newMenu(store1, "후라이드"));
                         Menu menu2 = menuRepository.save(newMenu(store1, "간장치킨"));
                         Menu menu3 = menuRepository.save(newMenu(store2, "간장치킨"));
