@@ -311,7 +311,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc
-                                .perform(get("/api/user/" + userId + "/store/info/stats")
+                                .perform(post("/api/user/" + userId + "/store/info/stats")
                                                 .content(requestBody)
                                                 .contentType(APPLICATION_JSON_UTF8));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();

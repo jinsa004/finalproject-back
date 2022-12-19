@@ -100,7 +100,7 @@ public class StoreApiController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userId}/store/info/stats")
+    @PostMapping("/user/{userId}/store/info/stats")
     public ResponseEntity<?> findStatsByStoreId(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser,
             @RequestBody FindStatsReqDto findStatsReqDto) {
         loginUser.getUser().checkUser(userId);
