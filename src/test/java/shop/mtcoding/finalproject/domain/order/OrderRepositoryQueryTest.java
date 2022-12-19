@@ -162,8 +162,8 @@ public class OrderRepositoryQueryTest extends DummyEntity {
                 CustomerReview customerReview2 = customerReviewRepository
                                 .save(newCustomerReview(jinsa, order2, store1, null, 4.0));
                 ReportReview reportReview1 = reportReviewRepository
-                                .save(newReportReview(ssar, customerReview, ceoReview, "욕설확인으로 인한 신고처리"));
+                                .save(newReportReview(ssar, customerReview, ceoReview, "욕설확인으로 인한 신고처리", true));
                 ReportReview reportReview2 = reportReviewRepository
-                                .save(newReportReview(jinsa, customerReview2, ceoReview, null));
+                                .save(newReportReview(jinsa, customerReview2, ceoReview, null, false));
         }
 }
