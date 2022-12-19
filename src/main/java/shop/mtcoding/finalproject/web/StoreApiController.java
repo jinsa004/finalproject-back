@@ -82,7 +82,7 @@ public class StoreApiController {
     public ResponseEntity<?> findStoreList(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         loginUser.getUser().checkUser(userId);
         return new ResponseEntity<>(new ResponseDto<>(1, "가게 목록보기 기능 완료",
-                storeService.customerStoreList()), HttpStatus.OK);
+                storeService.customerStoreList(userId)), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}/store/apply")

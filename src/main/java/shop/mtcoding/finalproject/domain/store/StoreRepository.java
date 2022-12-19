@@ -15,8 +15,8 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> findByUserIdToStoreCheck(@Param("userId") Long userId);
 
     // 실제 사용자가 가게 목록보기에 사용되는 가게 목록보기 기능 (가게 셀렉)
-    @Query("select s from Store s where isClosure = false and isAccept = true and isOpend = true")
-    List<Store> findAllToAcceptStoreList();
+    @Query("select s from Store s where isClosure = false and isAccept = true and isOpend = true and s.businessAddress like :address")
+    List<Store> findAllToAcceptStoreList(@Param("address") String adress);
 
     // 카테고리별 가게목록보기 - 원본
     // @Query("select s from Store s where category = :category and isClosure =
