@@ -22,7 +22,7 @@ public class ReportReviewRespDto {
         public ResolveRefuseReportReviewRespDto(ReportReview reportReviewPS) {
             this.adminComment = reportReviewPS.getAdminComment();
             this.isResolve = reportReviewPS.isResolve();
-            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getCreatedAt());
+            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getUpdateAt());
             this.isAccept = reportReviewPS.isAccept();
         }
     }
@@ -38,7 +38,7 @@ public class ReportReviewRespDto {
         public ResolveAcceptReportReviewRespDto(ReportReview reportReviewPS) {
             this.adminComment = reportReviewPS.getAdminComment();
             this.isResolve = reportReviewPS.isResolve();
-            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getCreatedAt());
+            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getUpdateAt());
             this.isAccept = reportReviewPS.isAccept();
         }
     }
