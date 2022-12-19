@@ -1,7 +1,5 @@
 package shop.mtcoding.finalproject.web;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.ceoReview.CeoReviewReqDto.InsertCeoReviewReqDto;
-import shop.mtcoding.finalproject.dto.ceoReview.CeoReviewRespDto.InsertCeoReviewRespDto;
-import shop.mtcoding.finalproject.dto.ceoReview.CeoReviewRespDto.ShowReviewRespDto;
 import shop.mtcoding.finalproject.service.CeoReviewService;
 
 @RequiredArgsConstructor
