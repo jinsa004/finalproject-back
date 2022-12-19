@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-import shop.mtcoding.finalproject.util.CustomDateUtil;
-
 public class CustomDateUtilTest {
 
     @Test

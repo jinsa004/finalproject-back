@@ -49,6 +49,7 @@ import shop.mtcoding.finalproject.dto.store.StoreRespDto.CustomerStoreListRespDt
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.DetailToSaveStoreRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.LikeStoreListRespDto;
 import shop.mtcoding.finalproject.dto.store.StoreRespDto.StoreNameRespDto;
+import shop.mtcoding.finalproject.util.CustomAddressParsingUtil;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -64,10 +65,12 @@ public class StoreService {
     private final MenuRepository menuRepository;
     private final OrderRepositoryQuery orderRepositoryQuery;
 
-    public CategoryStoreListRespDto categoryStoreList(StoreCategoryEnum category) {
+    public CategoryStoreListRespDto categoryStoreList(StoreCategoryEnum category, Long userId) {
+        User userPS = userRepository.findById(userId).get();
         // 1. 가게정보 카테고리에 맞는 값을 셀렉
         log.debug("디버그 : 카테고리 가게 셀렉 전");
-        List<Store> storeList = storeRepository.findAllByCategory(category);
+        List<Store> storeList = storeRepository.findAllByCategory(category,
+                CustomAddressParsingUtil.AddressParsingToArea(userPS.getAddress()));
         log.debug("디버그 : 카테고리 가게 리스트 크기 : " + storeList.size());
         log.debug("디버그 : 카테고리 가게 셀렉 후" + storeList.get(0).getId());
         // 2. 가게 목록보기에 필요한 연산데이터(리뷰 개수, 평균 별점)
@@ -159,9 +162,11 @@ public class StoreService {
         }
     }
 
-    public CustomerStoreListRespDto customerStoreList() {
+    public CustomerStoreListRespDto customerStoreList(Long userId) {
+        User userPS = userRepository.findById(userId).get();
         // 1 가게 정보 1셀렉 가게리스트
-        List<Store> storeList = storeRepository.findAllToAcceptStoreList();
+        List<Store> storeList = storeRepository
+                .findAllToAcceptStoreList(CustomAddressParsingUtil.AddressParsingToArea(userPS.getAddress()));
         log.debug("디버그 : 스토어리스트 : " + storeList);
         // 2 리뷰 별점 셀렉해서 평균내기(평균은 쿼리로 작성) 리뷰리스트
         log.debug("디버그 : 리뷰리스트 전");

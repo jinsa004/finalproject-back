@@ -199,10 +199,10 @@ public class StoreRespDto {
             this.deliveryCost = store.getDeliveryCost();
             this.thumbnail = CustomBase64ConvertUtil.convertToString(store.getThumbnail());
             this.phone = store.getPhone();
-            this.starPoint = customerReviewDto.getStarPoint();
-            this.reviewCount = customerReviewDto.getCount();
-            this.commentCount = ceoReviewDto.getCount();
-            this.likeCount = likeDto.getCount();
+            this.starPoint = setStarPointData(customerReviewDto);
+            this.reviewCount = setCustomReviewCount(customerReviewDto);
+            this.commentCount = setCeoReviewCount(ceoReviewDto);
+            this.likeCount = setLikeCount(likeDto);
             this.menuList = menus.stream().map(MenuDto::new).collect(Collectors.toList());
         }
 
@@ -222,6 +222,46 @@ public class StoreRespDto {
                 this.price = menu.getPrice();
                 this.category = menu.getCategory().getCategory();
             }
+
+        }
+
+        public Double setStarPointData(CustomerReviewInterface customerReviewDto) {
+            if (customerReviewDto.getStarPoint() == null) {
+                this.starPoint = 0.0;
+                return starPoint;
+            }
+            this.starPoint = customerReviewDto.getStarPoint();
+            return starPoint;
+
+        }
+
+        public Long setCustomReviewCount(CustomerReviewInterface customerReviewDto) {
+            if (customerReviewDto.getCount() == 0) {
+                this.reviewCount = 0L;
+                return reviewCount;
+            }
+            this.reviewCount = customerReviewDto.getCount();
+            return reviewCount;
+
+        }
+
+        public Long setCeoReviewCount(CeoReviewInterface ceoReviewDto) {
+            if (ceoReviewDto.getCount() == 0) {
+                this.commentCount = 0L;
+                return commentCount;
+            }
+            this.commentCount = ceoReviewDto.getCount();
+            return commentCount;
+
+        }
+
+        public Long setLikeCount(LikeInterface likeDto) {
+            if (likeDto.getCount() == 0) {
+                this.likeCount = 0L;
+                return likeCount;
+            }
+            this.likeCount = likeDto.getCount();
+            return likeCount;
 
         }
 

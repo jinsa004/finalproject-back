@@ -126,11 +126,7 @@ public class CustomerReviewService {
                 User userPS = userRepository.findById(userId)
                                 .orElseThrow(() -> new CustomApiException("유저정보가 없습니다.",
                                                 HttpStatus.BAD_REQUEST));
-                // 2 주문 내역체크
-                log.debug("디버그 : 주문정보 체크 전");
-                Order orderPS = orderRepository.findById(userId)
-                                .orElseThrow(() -> new CustomApiException("주문내역이 없습니다.", HttpStatus.BAD_REQUEST));
-                // 3 핵심로직 내 리뷰 목록보기
+                // 2 핵심로직 내 리뷰 목록보기
                 log.debug("디버그 : 리뷰정보 체크 전");
                 List<CustomerReview> customerReviewList = customerReviewRepository
                                 .findReviewListByUserId(userId);
