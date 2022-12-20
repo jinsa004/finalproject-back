@@ -1,14 +1,3 @@
-DROP TABLE users;
-DROP TABLE stores;
-DROP TABLE menus;
-DROP TABLE orders;
-DROP TABLE order_details;
-DROP TABLE ceo_reviews;
-DROP TABLE customer_reviews;
-DROP TABLE likes;
-DROP TABLE report_reviews;
-DROP TABLE payments;
-
 CREATE TABLE users (
    id BIGINT PRIMARY KEY AUTO_INCREMENT,
    address VARCHAR(60),
@@ -18,7 +7,9 @@ CREATE TABLE users (
    phone VARCHAR(20),
    photo LONGBLOB,
    role VARCHAR(20) DEFAULT 'CUSTOMER',
-   is_active BOOLEAN
+   is_active BOOLEAN,
+   created_at timestamp,
+   update_at timestamp
 );
 
 CREATE TABLE stores(
@@ -40,7 +31,9 @@ CREATE TABLE stores(
    is_opend BOOLEAN,
    is_accept BOOLEAN,
    is_closure BOOLEAN,
-   user_id BIGINT
+   user_id BIGINT,
+   created_at timestamp,
+   update_at timestamp
 );
 
 CREATE TABLE menus(
@@ -65,7 +58,9 @@ CREATE TABLE orders(
    store_id BIGINT,
    payment_id BIGINT,
    complete_time VARCHAR(20),
-   delivery_time VARCHAR(20)
+   delivery_time VARCHAR(20),
+   created_at timestamp,
+   update_at timestamp
 );
 
 CREATE TABLE order_details(
@@ -79,7 +74,9 @@ CREATE TABLE ceo_reviews(
    id BIGINT PRIMARY KEY AUTO_INCREMENT,
    content VARCHAR(100),
    store_id BIGINT,
-   order_id BIGINT
+   order_id BIGINT,
+   created_at timestamp,
+   update_at timestamp
 );
 
 CREATE TABLE customer_reviews(
@@ -91,7 +88,9 @@ CREATE TABLE customer_reviews(
    user_id BIGINT,
    store_id BIGINT,
    oreder_id BIGINT,
-   ceo_review_id BIGINT
+   ceo_review_id BIGINT,
+   created_at timestamp,
+   update_at timestamp
 );
 
 CREATE TABLE likes(
@@ -109,75 +108,85 @@ CREATE TABLE report_reviews(
    admin_comment VARCHAR(80),
    is_resolve BOOLEAN,
    is_accept BOOLEAN,
-   resolved_time VARCHAR(20)
+   resolved_time VARCHAR(20),
+   created_at timestamp,
+   update_at timestamp
 );
 
 CREATE TABLE payments(
    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-   content VARCHAR(30)
+   merchant_uid VARCHAR(40),
+   imp_uid VARCHAR(40),
+   amount int,
+   nickname VARCHAR(40),
+   menu_name VARCHAR(40),
+   pay_method VARCHAR(40),
+   is_canceled boolean,
+   created_at timestamp,
+   update_at timestamp
 );
 
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'ssar', '1234', 'ssar님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'cos', '1234', 'cos님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'hoho', '1234', 'hoho님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'haha', '1234', 'haha님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'koko', '1234', 'koko님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'kaka', '1234', 'kaka님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'hihi', '1234', 'hihi님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'kiki', '1234', 'kiki님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'papa', '1234', 'papa님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'popo', '1234', 'popo님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'pepe', '1234', 'pepe님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'pipi', '1234', 'pipi님', '01011112222', NULL, 'CEO', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'gimhae', '1234', 'gimhae님', '01011112222', NULL, 'CUSTOMER', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'busan', '1234', 'busan님', '01011112222', NULL, 'CUSTOMER', TRUE);
-INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active)
-VALUES('부산시 진구 서면 17번 길', 'admin', '1234', 'admin님', '01011112222', NULL, 'ADMIN', TRUE);
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'ssar', '1234', 'ssar님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'cos', '1234', 'cos님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'hoho', '1234', 'hoho님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'haha', '1234', 'haha님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'koko', '1234', 'koko님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'kaka', '1234', 'kaka님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'hihi', '1234', 'hihi님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'kiki', '1234', 'kiki님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'papa', '1234', 'papa님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'popo', '1234', 'popo님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'pepe', '1234', 'pepe님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'pipi', '1234', 'pipi님', '01011112222', NULL, 'CEO', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'gimhae', '1234', 'gimhae님', '01011112222', NULL, 'CUSTOMER', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'busan', '1234', 'busan님', '01011112222', NULL, 'CUSTOMER', TRUE,now(),now());
+INSERT INTO users(address, username, password, nickname, phone, photo, role, is_active, created_at, update_at)
+VALUES('부산시 진구 서면 17번 길', 'admin', '1234', 'admin님', '01011112222', NULL, 'ADMIN', TRUE, now(), now());
 
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('CHICKEN', '네네치킨', '01011112222', 'assets/images/store_thumbnail/네네치킨.png', '네네치킨님', '112233', '부산시 진구 서면 17번 길', '2시', '4시', 10000, '30', 3000, '부산 네네치킨입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 1);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('CHICKEN', '네네치킨', '01011112222', 'assets/images/store_thumbnail/네네치킨.png', '네네치킨님', '112233', '부산시 진구 서면 17번 길', '2시', '4시', 10000, '30', 3000, '부산 네네치킨입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 1, now(), now());
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('CHICKEN', '희치킨', '01011112222', 'assets/images/store_thumbnail/희치킨.png', '희치킨님', '112234', '부산시 진구 서면 18번 길', '2시', '4시', 10000, '30', 3000, '부산 희치킨입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 2);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('CHICKEN', '희치킨', '01011112222', 'assets/images/store_thumbnail/희치킨.png', '희치킨님', '112234', '부산시 진구 서면 18번 길', '2시', '4시', 10000, '30', 3000, '부산 희치킨입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 2, now(), now());
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('PIZZA', '피자헛', '01011112222', 'assets/images/store_thumbnail/피자.jpg', '피자헛님', '112235', '부산시 진구 서면 19번 길', '2시', '4시', 10000, '30', 3000, '부산 피자헛입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 3);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('PIZZA', '피자헛', '01011112222', 'assets/images/store_thumbnail/피자.jpg', '피자헛님', '112235', '부산시 진구 서면 19번 길', '2시', '4시', 10000, '30', 3000, '부산 피자헛입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 3, now(), now());
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('BURGER','버거킹', '01011112222', 'assets/images/store_thumbnail/로고.png', '버거킹님', '112236', '부산시 진구 서면 20번 길', '2시', '4시', 10000, '30', 3000, '부산 버거킹입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 4);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('BURGER','버거킹', '01011112222', 'assets/images/store_thumbnail/로고.png', '버거킹님', '112236', '부산시 진구 서면 20번 길', '2시', '4시', 10000, '30', 3000, '부산 버거킹입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 4, now(), now());
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('SCHOOLFOOD', '조아분식', '01011112222', 'assets/images/store_thumbnail/분식.jpg', '조아분식님', '112237', '부산시 진구 서면 21번 길', '2시', '4시', 10000, '30', 3000, '부산 조아분식입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 5);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('SCHOOLFOOD', '조아분식', '01011112222', 'assets/images/store_thumbnail/분식.jpg', '조아분식님', '112237', '부산시 진구 서면 21번 길', '2시', '4시', 10000, '30', 3000, '부산 조아분식입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 5, now(), now());
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('KRFOOD', '모던한식당', '01011112222', 'assets/images/store_thumbnail/한식.jpg', '모던한식당님', '112238', '부산시 진구 서면 22번 길', '2시', '4시', 10000, '30', 3000, '부산 모던한식당입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 6);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('KRFOOD', '모던한식당', '01011112222', 'assets/images/store_thumbnail/한식.jpg', '모던한식당님', '112238', '부산시 진구 서면 22번 길', '2시', '4시', 10000, '30', 3000, '부산 모던한식당입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 6, now(), now());
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('CNFOOD', '라이친', '01011112222', 'assets/images/store_thumbnail/중식.jpg', '라이친님', '112239', '부산시 진구 서면 23번 길', '2시', '4시', 10000, '30', 3000, '부산 라이친입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 7);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('CNFOOD', '라이친', '01011112222', 'assets/images/store_thumbnail/중식.jpg', '라이친님', '112239', '부산시 진구 서면 23번 길', '2시', '4시', 10000, '30', 3000, '부산 라이친입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 7, now(), now());
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('JPFOOD', '카츠오우', '01011112222', 'assets/images/store_thumbnail/일식.jpg', '카츠오우님', '112240', '부산시 진구 서면 24번 길', '2시', '4시', 10000, '30', 3000, '부산 카츠오우입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 8);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('JPFOOD', '카츠오우', '01011112222', 'assets/images/store_thumbnail/일식.jpg', '카츠오우님', '112240', '부산시 진구 서면 24번 길', '2시', '4시', 10000, '30', 3000, '부산 카츠오우입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 8, now(), now());
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('BOSSAM', '진짜보쌈', '01011112222', 'assets/images/store_thumbnail/보쌈.jpg', '진짜보쌈님', '112241', '부산시 진구 서면 25번 길', '2시', '4시', 10000, '30', 3000, '부산 진짜보쌈입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 9);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('BOSSAM', '진짜보쌈', '01011112222', 'assets/images/store_thumbnail/보쌈.jpg', '진짜보쌈님', '112241', '부산시 진구 서면 25번 길', '2시', '4시', 10000, '30', 3000, '부산 진짜보쌈입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 9, now(), now());
 
-INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id)
-VALUES('PORRIDGE', '본죽', '01011112222', 'assets/images/store_thumbnail/죽.jpg', '본죽님', '112242', '부산시 진구 서면 26번 길', '2시', '4시', 10000, '30', 3000, '부산 본죽입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 10);
+INSERT INTO stores(category, name, phone, thumbnail, ceo_name, business_number, business_address, open_time, close_time, min_amount, delivery_hour, delivery_cost, intro, notice, is_opend, is_accept, is_closure, user_id, created_at, update_at)
+VALUES('PORRIDGE', '본죽', '01011112222', 'assets/images/store_thumbnail/죽.jpg', '본죽님', '112242', '부산시 진구 서면 26번 길', '2시', '4시', 10000, '30', 3000, '부산 본죽입니다.', '리뷰 이벤트중입니다.', TRUE, TRUE, FALSE, 10, now(), now());
 
 INSERT INTO menus(name, thumbnail, intro, price, category, is_closure, store_id)
 VALUES('레드마블치킨', 'assets/images/store_thumbnail/레드마블치킨.jpg', '알싸한 매운 양념에 마블소스를 듬뿍!!', 20000, 'MAIN', FALSE, 1);
@@ -249,44 +258,44 @@ VALUES('콜라', 'assets/images/store_thumbnail/콜라.jpg', '코카콜라', 200
 INSERT INTO menus(name, thumbnail, intro, price, category, is_closure, store_id)
 VALUES('콜라', 'assets/images/store_thumbnail/콜라.jpg', '코카콜라', 2000, 'DRINK', FALSE, 1);
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'ORDER', NULL, FALSE, 'DELIVERY', 14, 1, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'ORDER', NULL, FALSE, 'DELIVERY', 14, 1, 1, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'TAKEOUT', 14, 1, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'TAKEOUT', 14, 1, 2, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 1, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 1, 3, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'TAKEOUT', 14, 2, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'TAKEOUT', 14, 2, 4, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 3, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 3, 5, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 4, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 4, 6, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 5, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 5, 7, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 6, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 6, 8, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 7, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 7, 9, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 8, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 8, 10, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 9, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 9, 11, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 10, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 10, 12, NULL, '30분', now(), now());
 
-INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time)
-VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 10, NULL, NULL, '30분');
+INSERT INTO orders(comment, state, reason, is_closure, delivery_state_enum, user_id, store_id, payment_id, complete_time, delivery_time, created_at, update_at)
+VALUES('젓가락 빼주세요', 'COMPLETE', NULL, FALSE, 'DELIVERY', 14, 10, 13, NULL, '30분', now(), now());
 
 INSERT INTO order_details(count, order_id, menu_id) VALUES( 1, 1, 1);
 INSERT INTO order_details(count, order_id, menu_id) VALUES( 1, 1, 3);
@@ -304,29 +313,68 @@ INSERT INTO order_details(count, order_id, menu_id) VALUES( 1, 11, 24);
 INSERT INTO order_details(count, order_id, menu_id) VALUES( 1, 12, 27);
 INSERT INTO order_details(count, order_id, menu_id) VALUES( 1, 13, 28);
 
-INSERT INTO ceo_reviews(content, store_id, order_id) VALUES('고 마워 요', 1, 1);
-INSERT INTO ceo_reviews(content, store_id, order_id) VALUES('고 마워 요', 2, 4);
+INSERT INTO ceo_reviews(content, store_id, order_id, created_at, update_at) VALUES('고 마워 요', 1, 1, now(), now());
+INSERT INTO ceo_reviews(content, store_id, order_id, created_at, update_at) VALUES('고 마워 요', 2, 4, now(), now());
 
-INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id)
-VALUES('맛있어요', 5.0, NULL, FALSE, 14, 1, 1, 1);
+INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id, created_at, update_at)
+VALUES('맛있어요', 5.0, NULL, FALSE, 14, 1, 1, 1, now(), now());
 
-INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id)
-VALUES('맛있어요', 3.0, NULL, FALSE, 14, 1, 2, NULL);
+INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id, created_at, update_at)
+VALUES('맛있어요', 3.0, NULL, FALSE, 14, 1, 2, NULL, now(), now());
 
-INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id)
-VALUES('맛있어요', 4.0, NULL, FALSE, 14, 2, 4, 2);
+INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id, created_at, update_at)
+VALUES('맛있어요', 4.0, NULL, FALSE, 14, 2, 4, 2, now(), now());
 
-INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id)
-VALUES('맛있어요', 3.0, NULL, FALSE, 14, 3, 5, NULL);
+INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id, created_at, update_at)
+VALUES('맛있어요', 3.0, NULL, FALSE, 14, 3, 5, NULL, now(), now());
 
-INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id)
-VALUES('맛있어요', 5.0, NULL, FALSE, 14, 4, 6, NULL);
+INSERT INTO customer_reviews(content, star_point, photo, is_closure, user_id, store_id, oreder_id, ceo_review_id, created_at, update_at)
+VALUES('맛있어요', 5.0, NULL, FALSE, 14, 4, 6, NULL, now(), now());
 
 INSERT INTO likes(user_id, store_id) VALUES(14 ,1 );
 INSERT INTO likes(user_id, store_id) VALUES(14 ,2 );
 INSERT INTO likes(user_id, store_id) VALUES(14 ,4 );
 
-INSERT INTO report_reviews(user_id, customer_review_id, ceo_review_id, reason, admin_comment, is_resolve, is_accept, resolved_time)
-VALUES(1, 1, 1, 'HONOR', '명예훼손으로 인한 수용처리', FALSE, TRUE, 2022-12-19 17:17:17.258301);
-INSERT INTO report_reviews(user_id, customer_review_id, ceo_review_id, reason, admin_comment, is_resolve, is_accept, resolved_time)
-VALUES(14, 2, 2, 'HONOR', NULL, FALSE, FALSE, 2022-12-19 17:17:17.270307);
+INSERT INTO report_reviews(user_id, customer_review_id, ceo_review_id, reason, admin_comment, is_resolve, is_accept, resolved_time, created_at, update_at)
+VALUES(1, 1, 1, 'HONOR', '명예훼손으로 인한 수용처리', FALSE, TRUE, null, now(), now());
+INSERT INTO report_reviews(user_id, customer_review_id, ceo_review_id, reason, admin_comment, is_resolve, is_accept, resolved_time, created_at, update_at)
+VALUES(14, 2, 2, 'HONOR', NULL, FALSE, FALSE, null, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), now());
+
+INSERT INTO payments(merchant_uid, imp_uid, amount, nickname, menu_name, pay_method, is_canceled, created_at, update_at)
+VALUES('asdf1234', 'zxcv1234', 10000, 'busan님', '레드마블치킨', '카카오페이', false, now(), NOW());
