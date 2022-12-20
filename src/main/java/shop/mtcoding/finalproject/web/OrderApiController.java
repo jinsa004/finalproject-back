@@ -35,7 +35,9 @@ public class OrderApiController {
     @PostMapping("/user/{userId}/store/{storeId}/order/insert")
     public ResponseEntity<?> getOrder(@RequestBody InsertOrderReqDto insertOrderReqDto, @PathVariable Long userId,
             @PathVariable Long storeId, @AuthenticationPrincipal LoginUser loginUser) {
+        log.debug("디버그 : 컨트롤러 타냐? ");
         InsertOrderRespDto inserOrderRespDto = orderService.주문하기(insertOrderReqDto, loginUser, storeId);
+        log.debug("디버그 : 컨트롤러 나갔냐?");
         return new ResponseEntity<>(new ResponseDto<>(1, "주문하기 성공", inserOrderRespDto), HttpStatus.CREATED);
     }
 
