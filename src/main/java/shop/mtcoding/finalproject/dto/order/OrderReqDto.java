@@ -22,7 +22,6 @@ public class OrderReqDto {
     public static class InsertOrderReqDto {
         private String comment;
         private String deliveryStateEnum;
-        private String deliveryTime;
         private List<OrderDetailDto> orderDetailList;
 
         public Order toEntity(User user, Store store) {
@@ -31,7 +30,7 @@ public class OrderReqDto {
                     .state(OrderStateEnum.ORDER)
                     .reason(null)
                     .deliveryStateEnum(DeliveryStateEnum.valueOf(deliveryStateEnum))
-                    .deliveryTime(deliveryTime)
+                    .deliveryTime(store.getDeliveryHour())
                     .user(user)
                     .store(store)
                     .build();
@@ -39,7 +38,7 @@ public class OrderReqDto {
 
         @Getter
         @Setter
-        public class OrderDetailDto {
+        public static class OrderDetailDto {
             private Long menuId;
             private int count;
 
