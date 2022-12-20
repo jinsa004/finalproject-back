@@ -15,6 +15,12 @@ spring:
     hibernate:
       ddl-auto: none
 
+  sql:
+    init:
+      encoding: utf-8
+      schema-locations: classpath:db/dummyData.sql
+      mode: always
+
 logging:
   level:
     '[shop.mtcoding.finalproject]': INFO
