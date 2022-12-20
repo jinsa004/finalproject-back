@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.TypeCache.Sort;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.StoreCategoryEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
@@ -185,8 +186,10 @@ public class StoreService {
             Long userId) {
         Store store = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+        store.checkCeo(userId);
         store.checkStoreBusinessState();
-        storeRepository.save(store.update(ceoUpdateStoreBusinessStateReqDto.toEntity()));
+        store.updateOpen(ceoUpdateStoreBusinessStateReqDto.isOpend());
+        storeRepository.save(store);
     }
 
     @Transactional
@@ -206,9 +209,10 @@ public class StoreService {
     }
 
     @Transactional
-    public void updateByUserIdToClose(Long id) {
-        Store store = storeRepository.findByUserId(id).orElseThrow(
+    public void updateByUserIdToClose(Long userId) {
+        Store store = storeRepository.findByUserId(userId).orElseThrow(
                 () -> new CustomApiException("해당 아이디로 신청한 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+        store.checkCeo(userId);
         store.checkStoreBusinessState();
         storeRepository.save(store.close(store));
     }

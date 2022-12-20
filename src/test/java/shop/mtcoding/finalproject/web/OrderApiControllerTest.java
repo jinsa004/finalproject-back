@@ -192,11 +192,9 @@ public class OrderApiControllerTest extends DummyEntity {
         public void UpdateOrderByUserIdToComplete_test() throws Exception {
 
                 // given
-                User userPS = userRepository.findByUsername("ssar").orElseThrow(
-                                () -> new CustomApiException("해당 유저의 아이디가 없습니다.", HttpStatus.BAD_REQUEST));
                 Long storeId = 1L;
                 Long userId = 1L;
-                Long orderId = 1L;
+                Long orderId = 3L;
                 UpdateToCancleOrderReqDto updateToCancleOrderReqDto = new UpdateToCancleOrderReqDto();
                 updateToCancleOrderReqDto.setReason("재고소진");
                 updateToCancleOrderReqDto.setState("주문취소");

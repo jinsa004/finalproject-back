@@ -240,7 +240,7 @@ public class DevInit extends DummyEntity {
                         CustomerReview customerReview = customerReviewRepository
                                         .save(newCustomerReview(busan, order1, store1, ceoReview, 5.0));
                         CustomerReview customerReview2 = customerReviewRepository
-                                        .save(newCustomerReview(busan, order2, store1, null, 3.0));
+                                        .save(newCustomerReview(busan, order2, store1, null, 4.0));
                         CustomerReview customerReview3 = customerReviewRepository
                                         .save(newCustomerReview(busan, order4, store2, ceoReview2, 4.0));
                         CustomerReview customerReview4 = customerReviewRepository

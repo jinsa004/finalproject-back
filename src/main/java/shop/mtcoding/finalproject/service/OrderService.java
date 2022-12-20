@@ -110,8 +110,9 @@ public class OrderService {
     }
 
     // 주문하기 기능 => 오더 인서트, 오더 디테일 인서트, 페이먼트 인서트 3인서트 후 오더에 update 쳐줘야함
+    // 주문하기 기능 => 오더 인서트, 오더 디테일 인서트, 페이먼트 인서트 3인서트 후 오더에 update 쳐줘야함
     @Transactional
-    public InsertOrderRespDto 주문하기(InsertOrderReqDto insertOrderReqDto, LoginUser loginUser, Long storeId) {
+    public InsertOrderRespDto insertOrder(InsertOrderReqDto insertOrderReqDto, LoginUser loginUser, Long storeId) {
         // 1. 해당 가게가 존재하는지 검증
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("가게 정보가 없습니다.", HttpStatus.BAD_REQUEST));

@@ -66,7 +66,7 @@ public class DummyEntity {
                                 .openTime("2시")
                                 .closeTime("4시")
                                 .deliveryHour("30분")
-                                .deliveryCost(100)
+                                .deliveryCost(3000)
                                 .intro(intro)
                                 .notice("리뷰 이벤트중입니다.")
                                 .isClosure(false)
