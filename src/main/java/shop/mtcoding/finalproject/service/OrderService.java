@@ -17,11 +17,12 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
 import shop.mtcoding.finalproject.config.exception.CustomApiException;
+import shop.mtcoding.finalproject.domain.menu.Menu;
+import shop.mtcoding.finalproject.domain.menu.MenuRepository;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.order.OrderRepository;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetailRepository;
-import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
@@ -30,6 +31,7 @@ import shop.mtcoding.finalproject.dto.order.OrderReqDto.InsertOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.DetailOrderHistoryRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.DetailOrderStateRespDto;
+import shop.mtcoding.finalproject.dto.order.OrderRespDto.InsertOrderRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.OrderHistoryListRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
 
@@ -43,6 +45,7 @@ public class OrderService {
     private final OrderDetailRepository orderDetailRepository;
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
+    private final MenuRepository menuRepository;
 
     /* 성진 작업 시작 */
     public DetailOrderHistoryRespDto detailOrderHistory(Long orderId, Long userId) {
@@ -60,7 +63,6 @@ public class OrderService {
         List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrderIdToOrderHistory(orderPS.getId());
         log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.size());
         log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(0).getMenu().getName());
-        log.debug("디버그 : 오더디테일 셀렉 후" + orderDetailList.get(1).getMenu().getName());
         DetailOrderHistoryRespDto detailOrderHistoryRespDto = new DetailOrderHistoryRespDto(userPS, orderPS,
                 orderDetailList);
         // 4. DTO 응답
@@ -107,12 +109,24 @@ public class OrderService {
         }
     }
 
-    // "/api/order/{userId}"
+    // 주문하기 기능 => 오더 인서트, 오더 디테일 인서트, 페이먼트 인서트 3인서트 후 오더에 update 쳐줘야함
     @Transactional
-    public void 주문하기(InsertOrderReqDto insertOrderReqDto, LoginUser loginUser, Long storeId, Payment payment) {
+    public InsertOrderRespDto 주문하기(InsertOrderReqDto insertOrderReqDto, LoginUser loginUser, Long storeId) {
+        // 1. 해당 가게가 존재하는지 검증
         Store storePS = storeRepository.findById(storeId)
                 .orElseThrow(() -> new CustomApiException("가게 정보가 없습니다.", HttpStatus.BAD_REQUEST));
-        orderRepository.save(insertOrderReqDto.toEntity(loginUser.getUser(), storePS, payment));
+        // 2. 오더 테이블 저장하기(주문)
+        Order orderPS = orderRepository.save(insertOrderReqDto.toEntity(loginUser.getUser(), storePS));
+        // 3. 오더 디테일 저장하기(오더아이디에 맞춰서)
+        for (int i = 0; i < insertOrderReqDto.getOrderDetailList().size(); i++) {
+            Menu menuPS = menuRepository.findById(insertOrderReqDto.getOrderDetailList().get(i).getMenuId())
+                    .orElseThrow(() -> new CustomApiException("메뉴 내역이 없습니다.", HttpStatus.BAD_REQUEST));
+            OrderDetail orderDetailPS = orderDetailRepository
+                    .save(insertOrderReqDto.getOrderDetailList().get(i).toEntity(orderPS, menuPS));
+        }
+        // 4. DTO 응답
+        InsertOrderRespDto inserOrderRespDto = new InsertOrderRespDto(orderPS);
+        return inserOrderRespDto;
     }
 
     /* 승현 작업 시작 */

@@ -44,4 +44,11 @@ public class OrderDetail {
         this.menu = menu;
     }
 
+    public OrderDetail toEntity(Order order, Menu menu, int count) {
+        return OrderDetail.builder()
+                .count(count)
+                .order(order)
+                .menu(menu)
+                .build();
+    }
 }
