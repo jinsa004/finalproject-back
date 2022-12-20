@@ -1,9 +1,13 @@
 package shop.mtcoding.finalproject.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -48,7 +52,9 @@ import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.store.StoreRepository;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.domain.user.UserRepository;
+import shop.mtcoding.finalproject.dto.order.OrderReqDto.InsertOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
+import shop.mtcoding.finalproject.dto.order.OrderReqDto.InsertOrderReqDto.OrderDetailDto;
 
 @Sql("classpath:db/truncate.sql") // 롤백 대신 사용 (auto_increment 초기화 + 데이터 비우기)
 @ActiveProfiles("test")
@@ -98,6 +104,34 @@ public class OrderApiControllerTest extends DummyEntity {
         @BeforeEach
         public void setUp() {
                 dummy_init();
+        }
+
+        @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        @Test
+        public void getOrder_test() throws Exception {
+                // given
+                Long userId = 14L;
+                Long storeId = 1L;
+                List<OrderDetailDto> orderDetailList = new ArrayList<>();
+
+                InsertOrderReqDto insertOrderReqDto = new InsertOrderReqDto();
+                insertOrderReqDto.setComment("일회용품 안주셔도 됩니다.");
+                insertOrderReqDto.setDeliveryStateEnum("DELIVERY");
+                insertOrderReqDto.setOrderDetailList(orderDetailList);
+
+                String requestBody = om.writeValueAsString(insertOrderReqDto);
+                System.out.println("테스트 : " + requestBody);
+                // when
+                ResultActions resultActions = mvc
+                                .perform(post("/api/user/" + userId + "/store/" + storeId + "/order/insert")
+                                                .content(requestBody)
+                                                .contentType(APPLICATION_JSON_UTF8));
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                System.out.println("테스트 : 응답데이터 : " + responseBody);
+
+                // then
+                resultActions.andExpect(status().isCreated());
+                resultActions.andExpect(jsonPath("$.msg").value("주문하기 성공"));
         }
 
         @WithUserDetails(value = "busan", setupBefore = TestExecutionEvent.TEST_EXECUTION)

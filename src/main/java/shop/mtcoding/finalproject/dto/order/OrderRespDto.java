@@ -18,6 +18,16 @@ public class OrderRespDto {
 
     @Getter
     @Setter
+    public static class InsertOrderRespDto {// 나중에 페이먼트 필요함
+        private Long orderId;
+
+        public InsertOrderRespDto(Order order) {
+            this.orderId = order.getId();
+        }
+    }
+
+    @Getter
+    @Setter
     public static class DetailOrderHistoryRespDto {// 나중에 페이먼트 필요함
         private String customerAddress;
         private String customerPhone;
@@ -149,7 +159,7 @@ public class OrderRespDto {
             if (order.getPayment() == null) {
                 this.payment = "";
             } else {
-                this.payment = order.getPayment().getContent();
+                this.payment = order.getPayment().getPayMethod();
             }
             List<orderDetailRespDto> detailRespDtos = new ArrayList<>();
             for (int i = 0; i < orderDetailPS.size(); i++) {
