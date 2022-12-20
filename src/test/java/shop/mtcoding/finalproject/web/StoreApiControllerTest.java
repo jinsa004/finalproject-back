@@ -173,7 +173,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.minAmount").value("100"));
+                resultActions.andExpect(jsonPath("$.data.name").value("네네치킨"));
         }
 
         @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)

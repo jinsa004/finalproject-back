@@ -22,8 +22,6 @@ public class Payment extends AudingTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = true)
-    private Long orderId;
     @Column(nullable = false)
     private String merchantUid;
     @Column(nullable = false)
@@ -40,10 +38,9 @@ public class Payment extends AudingTime {
     private boolean isCanceled;
 
     @Builder
-    public Payment(Long id, Long orderId, String merchantUid, String impUid, int amount, String nickname,
+    public Payment(Long id, String merchantUid, String impUid, int amount, String nickname,
             String menuName, String payMethod, boolean isCanceled) {
         this.id = id;
-        this.orderId = orderId;
         this.merchantUid = merchantUid;
         this.impUid = impUid;
         this.amount = amount;

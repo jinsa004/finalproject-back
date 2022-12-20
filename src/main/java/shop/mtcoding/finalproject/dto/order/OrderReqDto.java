@@ -38,7 +38,7 @@ public class OrderReqDto {
 
         @Getter
         @Setter
-        public class OrderDetailDto {
+        public static class OrderDetailDto {
             private Long menuId;
             private int count;
 
