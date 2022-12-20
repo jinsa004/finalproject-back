@@ -13,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +23,6 @@ import shop.mtcoding.finalproject.domain.ceoReview.CeoReview;
 import shop.mtcoding.finalproject.domain.customerReview.CustomerReview;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.dto.reportReview.ReportReviewReqDto.ResolveReportReviewReqDto;
-import shop.mtcoding.finalproject.util.CustomDateUtil;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
