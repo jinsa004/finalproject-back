@@ -20,6 +20,7 @@ import shop.mtcoding.finalproject.config.auth.LoginUser;
 import shop.mtcoding.finalproject.dto.ResponseDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.InsertOrderReqDto;
 import shop.mtcoding.finalproject.dto.order.OrderReqDto.UpdateToCancleOrderReqDto;
+import shop.mtcoding.finalproject.dto.order.OrderRespDto.InsertOrderRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.OrderHistoryListRespDto;
 import shop.mtcoding.finalproject.dto.order.OrderRespDto.ShowOrderListRespDto;
 import shop.mtcoding.finalproject.service.OrderService;
@@ -34,8 +35,8 @@ public class OrderApiController {
     @PostMapping("/user/{userId}/store/{storeId}/order/insert")
     public ResponseEntity<?> getOrder(@RequestBody InsertOrderReqDto insertOrderReqDto, @PathVariable Long userId,
             @PathVariable Long storeId, @AuthenticationPrincipal LoginUser loginUser) {
-        orderService.주문하기(insertOrderReqDto, loginUser, storeId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "주문하기 성공", null), HttpStatus.CREATED);
+        InsertOrderRespDto inserOrderRespDto = orderService.주문하기(insertOrderReqDto, loginUser, storeId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "주문하기 성공", inserOrderRespDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/user/{userId}/order/{orderId}/history/detail")

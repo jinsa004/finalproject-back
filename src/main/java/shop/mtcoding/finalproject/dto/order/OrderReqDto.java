@@ -7,9 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.finalproject.config.enums.DeliveryStateEnum;
 import shop.mtcoding.finalproject.config.enums.OrderStateEnum;
+import shop.mtcoding.finalproject.domain.menu.Menu;
 import shop.mtcoding.finalproject.domain.order.Order;
 import shop.mtcoding.finalproject.domain.orderDetail.OrderDetail;
-import shop.mtcoding.finalproject.domain.payment.Payment;
 import shop.mtcoding.finalproject.domain.store.Store;
 import shop.mtcoding.finalproject.domain.user.User;
 import shop.mtcoding.finalproject.util.CustomEnumUtil;
@@ -20,10 +20,9 @@ public class OrderReqDto {
     @Getter
     @Setter
     public static class InsertOrderReqDto {
-        // 결제수단 1(카카오페이), 메뉴/수량(오더디테일리스트),
         private String comment;
         private String deliveryStateEnum;
-        private List<OrderDetail> orderDetailList;
+        private List<OrderDetailDto> orderDetailList;
 
         public Order toEntity(User user, Store store) {
             return Order.builder()
@@ -31,9 +30,21 @@ public class OrderReqDto {
                     .state(OrderStateEnum.ORDER)
                     .reason(null)
                     .deliveryStateEnum(DeliveryStateEnum.valueOf(deliveryStateEnum))
+                    .deliveryTime(store.getDeliveryHour())
                     .user(user)
                     .store(store)
                     .build();
+        }
+
+        @Getter
+        @Setter
+        public static class OrderDetailDto {
+            private Long menuId;
+            private int count;
+
+            public Object toEntity(Order orderPS, Menu menuPS, int count2) {
+                return null;
+            }
         }
 
     }
