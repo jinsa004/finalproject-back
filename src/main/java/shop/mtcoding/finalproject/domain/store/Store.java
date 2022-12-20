@@ -170,8 +170,12 @@ public class Store extends AudingTime {
                 .build();
     }
 
-    public void updateClosure(Boolean isClosure) {
-        this.isClosure = isClosure;
+    public void updateOpen(Boolean opened) {
+        this.isOpend = opened;
+    }
+
+    public void updateClosure(Boolean closure) {
+        this.isClosure = closure;
     }
 
     public void updateAccept(Boolean accept) {

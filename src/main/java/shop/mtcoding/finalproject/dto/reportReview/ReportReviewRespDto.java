@@ -22,7 +22,7 @@ public class ReportReviewRespDto {
         public ResolveRefuseReportReviewRespDto(ReportReview reportReviewPS) {
             this.adminComment = reportReviewPS.getAdminComment();
             this.isResolve = reportReviewPS.isResolve();
-            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getCreatedAt());
+            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getUpdateAt());
             this.isAccept = reportReviewPS.isAccept();
         }
     }
@@ -38,7 +38,7 @@ public class ReportReviewRespDto {
         public ResolveAcceptReportReviewRespDto(ReportReview reportReviewPS) {
             this.adminComment = reportReviewPS.getAdminComment();
             this.isResolve = reportReviewPS.isResolve();
-            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getCreatedAt());
+            this.resolvedTime = CustomDateUtil.toStringFormat(reportReviewPS.getUpdateAt());
             this.isAccept = reportReviewPS.isAccept();
         }
     }
@@ -92,13 +92,15 @@ public class ReportReviewRespDto {
             private String role;
             private String username;
             private String reason;
-            private Boolean isResolved;
+            private boolean isAccept;
+            private boolean isResolved;
 
             public ReportReviewDto(ReportReview reportReview) {
                 this.id = reportReview.getId();
                 this.role = reportReview.getUser().getRole().getValue();
                 this.username = reportReview.getUser().getUsername();
                 this.reason = reportReview.getReason().getReason();
+                this.isAccept = reportReview.isAccept();
                 this.isResolved = reportReview.isResolve();
             }
 
