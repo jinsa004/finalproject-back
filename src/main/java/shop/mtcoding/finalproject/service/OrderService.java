@@ -118,14 +118,11 @@ public class OrderService {
         // 2. 오더 테이블 저장하기(주문)
         Order orderPS = orderRepository.save(insertOrderReqDto.toEntity(loginUser.getUser(), storePS));
         // 3. 오더 디테일 저장하기(오더아이디에 맞춰서)
-        log.debug("디버그 : 메뉴 정보 확인 : " + insertOrderReqDto.getOrderDetailList().get(1).getMenuId());
         for (int i = 0; i < insertOrderReqDto.getOrderDetailList().size(); i++) {
             Menu menuPS = menuRepository.findById(insertOrderReqDto.getOrderDetailList().get(i).getMenuId())
-                    .orElseThrow(() -> new CustomApiException("메뉴 내역이 없습니다.",
-                            HttpStatus.BAD_REQUEST));
+                    .orElseThrow(() -> new CustomApiException("메뉴 내역이 없습니다.", HttpStatus.BAD_REQUEST));
             OrderDetail orderDetailPS = orderDetailRepository
-                    .save(insertOrderReqDto.getOrderDetailList().get(i).toEntity(orderPS,
-                            menuPS, insertOrderReqDto.getOrderDetailList().get(i).getCount()));
+                    .save(insertOrderReqDto.getOrderDetailList().get(i).toEntity(orderPS, menuPS));
         }
         // 4. DTO 응답
         InsertOrderRespDto inserOrderRespDto = new InsertOrderRespDto(orderPS);

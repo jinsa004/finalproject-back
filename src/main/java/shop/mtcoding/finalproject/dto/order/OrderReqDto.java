@@ -38,13 +38,18 @@ public class OrderReqDto {
 
         @Getter
         @Setter
-        public static class OrderDetailDto {
+        public class OrderDetailDto {
             private Long menuId;
             private int count;
 
-            public Object toEntity(Order orderPS, Menu menuPS, int count2) {
-                return null;
+            public OrderDetail toEntity(Order order, Menu menu) {
+                return OrderDetail.builder()
+                        .count(count)
+                        .order(order)
+                        .menu(menu)
+                        .build();
             }
+
         }
 
     }
