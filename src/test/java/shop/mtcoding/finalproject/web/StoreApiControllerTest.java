@@ -121,24 +121,6 @@ public class StoreApiControllerTest extends DummyEntity {
                 resultActions.andExpect(jsonPath("$.code").value(1));
         }
 
-        @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-        @Test
-        public void getCategoryStoreList_test() throws Exception {
-                // given
-                Long userId = 1L;
-                String category = "CHICKEN";
-
-                // when
-                ResultActions resultActions = mvc
-                                .perform(get("/api/user/" + userId + "/store/" + category + "/list"));
-                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-                System.out.println("테스트 : " + responseBody);
-
-                // then
-                resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.code").value(1));
-        }
-
         @WithUserDetails(value = "hoho", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         @Test
         public void getStoreName_test() throws Exception {
@@ -191,7 +173,7 @@ public class StoreApiControllerTest extends DummyEntity {
 
                 // then
                 resultActions.andExpect(status().isOk());
-                resultActions.andExpect(jsonPath("$.data.minAmount").value("10000"));
+                resultActions.andExpect(jsonPath("$.data.minAmount").value("100"));
         }
 
         @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
