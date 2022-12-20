@@ -238,6 +238,7 @@ public class DummyEntity {
                                 .customerReview(customerReview)
                                 .ceoReview(ceoReview)
                                 .isAccept(accept)
+                                .isResolve(false)
                                 .reason(ReportReasonEnum.HONOR)
                                 .build();
                 return reportReview;

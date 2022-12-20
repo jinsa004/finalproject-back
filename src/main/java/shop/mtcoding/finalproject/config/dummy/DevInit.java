@@ -251,7 +251,7 @@ public class DevInit extends DummyEntity {
                         Like like2 = likeRepository.save(newLike(busan, store2));
                         Like like3 = likeRepository.save(newLike(busan, store4));
                         ReportReview reportReview1 = reportReviewRepository
-                                        .save(newReportReview(ssar, customerReview, ceoReview, "명예훼손으로 인한 수용처리", true));
+                                        .save(newReportReview(ssar, customerReview, ceoReview, null, false));
                         ReportReview reportReview2 = reportReviewRepository
                                         .save(newReportReview(busan, customerReview2, ceoReview2, null, false));
                 };
