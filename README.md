@@ -1,4 +1,23 @@
-# 테이블 생성
+# 프로젝트 땡기는 민족
+![image](https://user-images.githubusercontent.com/112357294/210491674-e24eb8a2-fb94-446a-8b7d-ed4abec8c128.png)
+
+### 1. 프로젝트 개발이유
+![image](https://user-images.githubusercontent.com/112357294/210491711-3bf78a2e-0568-4930-a097-d17334d0bf6f.png)
+
+### 2. 사용언어 및 개발환경
+- ![VS Code Insiders](https://img.shields.io/badge/VS%20Code%20Insiders-35b393.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) ![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=for-the-badge&logo=android-studio&logoColor=white)
+- ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white) ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white) 
+- ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white) ![Apache Tomcat](https://img.shields.io/badge/apache%20tomcat-%23F8DC75.svg?style=for-the-badge&logo=apache-tomcat&logoColor=black) ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens) ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white) 
+- ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) 	![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white) ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+- H2 database / Junit / BCrypt Hash
+
+### 3. 시연영상 및 PPT
+https://www.notion.so/getinthere/PPT-0aec3737c253488aa1608726403bc093
+
+### 4. 백엔드 아키텍쳐 Rest Api
+![image](https://user-images.githubusercontent.com/112357294/210492988-08ffd128-3634-4e3a-a759-5234638c7de0.png)
+
+# 프로젝트 테이블 더미데이터 생성
 
 ### table수정사항
 - reviews 이름 수정 > customer_review로 수정
